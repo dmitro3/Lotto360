@@ -1,0 +1,211 @@
+.big-logo {
+    font-size: xx-large;
+}
+
+.logo-main {
+    font-size: 65px;
+}
+
+.nav-link {
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.max-content {
+    width: max-content !important;
+}
+
+.bg-white-gradient {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.divider-blue {
+    height: 40px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-image: linear-gradient(to top, #04befe 0%, #04befe 100%);
+    border-radius: 100% 100% 0 0;
+}
+
+.divider-history {
+    height: 40px;
+    border-radius: 100% 100% 0 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.prizepot {
+    background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+}
+
+.text-green {
+    color: #38ff00;
+    text-shadow: #000 1px 1px 3px;
+}
+
+.text-shadow {
+    text-shadow: #000 1px 1px 3px;
+}
+
+.ticket {
+    background-image: url(../svgs/ticket2.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 150px;
+    width: 150px;
+    letter-spacing: 5px;
+}
+
+.ticket > span {
+    position: relative;
+    top: -4px;
+}
+
+.dashed {
+    border-top: 2px dashed #ccc;
+}
+
+.text-blur {
+    color: transparent;
+    text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    transition: 0.3s ease-in-out;
+}
+
+.bg-game-info {
+    background-image: linear-gradient(to top, #b224ef 0%, #7579ff 100%);
+}
+
+.divider-history {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #7579ff;
+}
+
+.border-transparent {
+    border: 1px solid transparent;
+}
+
+.max-width-rule {
+    max-width: 800px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.min-height {
+    min-height: 700px;
+}
+
+.cl-gold {
+    color: #ff7700;
+}
+
+.round-input,
+.round-input:focus {
+    border-width: 0px;
+    border: none;
+    outline: none !important;
+    -webkit-appearance: none;
+}
+
+.px-75 {
+    max-width: 75px !important;
+}
+
+.hover-icon:hover {
+    transition: 0.3s ease-in-out;
+    color: var(--bs-cyan);
+    background-color: var(--bs-secondary);
+}
+
+.history-divide {
+    border-bottom: 2px dashed #ccc;
+}
+
+.divider1 {
+    background: url(../images/dollar.png) no-repeat;
+    -webkit-animation: move2 3s ease-in-out 0.2s infinite normal none running;
+    animation: move2 3s ease-in-out 0.2s infinite normal none running;
+}
+
+.divider2 {
+    background: url(../images/dollar.png) no-repeat;
+    -webkit-animation: move1 3s ease-in-out 0.2s infinite normal none running;
+    animation: move1 3s ease-in-out 0.2s infinite normal none running;
+}
+
+.main-side-pic {
+    height: 300px;
+    width: 300px;
+    background-position: center;
+    background-size: contain;
+}
+
+@-webkit-keyframes move1 {
+    0% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+    50% {
+        -webkit-transform: translate(10px, -10px);
+        transform: translate(10px, -10px);
+    }
+    100% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+}
+
+@keyframes move1 {
+    0% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+    50% {
+        -webkit-transform: translate(10px, -10px);
+        transform: translate(10px, -10px);
+    }
+    100% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+}
+
+@-webkit-keyframes move2 {
+    0% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+    50% {
+        -webkit-transform: translate(10px, 10px);
+        transform: translate(10px, 10px);
+    }
+    100% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+}
+
+@keyframes move2 {
+    0% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+    50% {
+        -webkit-transform: translate(10px, 10px);
+        transform: translate(10px, 10px);
+    }
+    100% {
+        -webkit-transform: translate(0px);
+        transform: translate(0px);
+    }
+}
