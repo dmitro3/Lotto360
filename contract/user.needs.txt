@@ -1,0 +1,2 @@
+getCurrentRound() => including his tickets
+buyTickets() => after successful purchase call getCurrentRound again
