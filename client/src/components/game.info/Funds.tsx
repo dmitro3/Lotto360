@@ -78,7 +78,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 </p>
             </div>
 
-            <div className="alert alert-warning">
+            <div className="alert alert-warning mb-0">
                 <h4 className="alert-heading">Warning</h4>
                 <p className="mb-0">
                     Lottery may cause addiction. Play on your responsibility. for more
