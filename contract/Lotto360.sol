@@ -27,7 +27,7 @@ contract Lotto360 {
     address private owner;
     IERC20 private bnbToken;
 
-    uint256 private currentRoundId = 1;
+    uint256 private currentRoundId = 0;
     uint256 private currentTicketId = 1;
     uint256 private maxNumberTicketsPerBuyOrClaim = 50;
 
@@ -40,6 +40,7 @@ contract Lotto360 {
 
     struct Round {
         Status status;
+        uint256 id;
         uint256 startTime;
         uint256 endTime;
         uint256 ticketPrice;
@@ -48,17 +49,17 @@ contract Lotto360 {
         uint256 totalBnbAmount;
         uint256 bonusBnbAmount;
         uint256 bnbAddedFromLastRound;
-        string finalNumber;
+        uint256 finalNumber;
     }
 
     struct Ticket {
-        uint32 number;
+        uint256 number;
         address owner;
     }
 
     struct Pool {
-        string name;
-        uint256 percentage;
+        string name; // ie 6match
+        uint256 percentage; // ie 50
     }
 
     mapping(uint256 => Round) private rounds;
@@ -84,16 +85,24 @@ contract Lotto360 {
      **************************************************************************************************/
     event TicketsPurchase(
         address indexed buyer,
-        uint256 indexed lotteryId,
+        uint256 indexed roundId,
         uint256 numberTickets
     );
+    event RoundOpen(
+        uint256 id,
+        uint256 endTime,
+        uint256 ticketPrice,
+        uint256 bonusBnbAmount,
+        uint256 bnbAddedFromLastRound
+    );
+    event RoundNumberDrawn(uint256 indexed currentRoundId, uint256 finalNumber);
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     /**************************************************************************************************
      * @dev these are functions for user
      **************************************************************************************************/
-    function buyTickets(uint256 _roundId, uint32[] calldata _ticketNumbers)
+    function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers)
         external
         nonContract
     {
@@ -157,6 +166,86 @@ contract Lotto360 {
         address oldOwner = owner;
         owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function startNewRound(
+        uint256 _endTime,
+        uint256 _ticketPrice,
+        uint256 _bonusBnbAmount,
+        uint256 _bnbAddedFromLastRound,
+        Pool[] calldata _pools
+    ) external onlyOwner nonContract {
+        require(
+            rounds[currentRoundId].status == Status.Close,
+            "Current round is not finished"
+        );
+
+        require(_pools.length == 7, "Pool data is not correct");
+
+        require(_endTime > block.timestamp, "Round endTime passed");
+
+        currentRoundId++;
+
+        poolsInEachRound[currentRoundId] = _pools;
+        rounds[currentRoundId] = Round({
+            id: currentRoundId,
+            status: Status.Open,
+            startTime: block.timestamp,
+            endTime: _endTime,
+            ticketPrice: _ticketPrice,
+            firstTicketId: currentTicketId,
+            firstTicketIdNextRound: currentTicketId,
+            totalBnbAmount: 0,
+            bonusBnbAmount: _bonusBnbAmount,
+            bnbAddedFromLastRound: _bnbAddedFromLastRound,
+            finalNumber: 1000000
+        });
+
+        emit RoundOpen(
+            currentRoundId,
+            _endTime,
+            _ticketPrice,
+            _bonusBnbAmount,
+            _bnbAddedFromLastRound
+        );
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function closeRoundAndPickWinningNumber(uint256 _seedNumber)
+        external
+        onlyOwner
+        nonContract
+    {
+        // todo implement
+        require(
+            rounds[currentRoundId].endTime < block.timestamp,
+            "Round is not finished"
+        );
+
+        rounds[currentRoundId].status = Status.Close;
+        rounds[currentRoundId].firstTicketIdNextRound = currentTicketId;
+        uint256 finalNumber = generateRandomNumber(_seedNumber);
+        rounds[currentRoundId].finalNumber = finalNumber;
+
+        emit RoundNumberDrawn(currentRoundId, finalNumber);
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function generateRandomNumber(uint256 _seedNumber) private view returns (uint256) {
+        uint256 number = uint256(
+            keccak256(
+                abi.encodePacked(
+                    currentRoundId,
+                    currentTicketId,
+                    blockhash(block.number - 1),
+                    block.timestamp,
+                    _seedNumber
+                )
+            )
+        );
+
+        return 1000000 + (number % 1000000);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
