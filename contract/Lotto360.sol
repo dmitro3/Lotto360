@@ -88,6 +88,8 @@ contract Lotto360 {
         uint256 numberTickets
     );
 
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
     /**************************************************************************************************
      * @dev these are functions for user
      **************************************************************************************************/
@@ -122,9 +124,41 @@ contract Lotto360 {
         emit TicketsPurchase(msg.sender, _roundId, _ticketNumbers.length);
     }
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function getCurrentRoundForUser()
+        external
+        view
+        nonContract
+        returns (
+            Round memory,
+            Ticket[] memory,
+            Pool[] memory
+        )
+    {
+        Ticket[] memory ticketArray;
+        uint256 ticketCount = ticketCountInEachRound[currentRoundId];
+        uint256 arrayIndex = 0;
+
+        for (uint256 i = 0; i < ticketCount; i++) {
+            Ticket memory ticket = ticketsInEachRound[currentRoundId][i];
+            if (ticket.owner == msg.sender) {
+                ticketArray[arrayIndex] = ticket;
+                arrayIndex++;
+            }
+        }
+
+        return (rounds[currentRoundId], ticketArray, poolsInEachRound[currentRoundId]);
+    }
+
     /**************************************************************************************************
      * @dev these are functions for owner
      **************************************************************************************************/
+    function transferOwnership(address newOwner) external onlyOwner nonContract {
+        address oldOwner = owner;
+        owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getRounds() external view onlyOwner nonContract returns (Round[] memory) {
         uint256 length = currentRoundId;
