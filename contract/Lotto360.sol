@@ -53,6 +53,7 @@ contract Lotto360 {
     }
 
     struct Ticket {
+        uint256 id;
         uint256 number;
         address owner;
     }
@@ -96,6 +97,11 @@ contract Lotto360 {
         uint256 bnbAddedFromLastRound
     );
     event RoundNumberDrawn(uint256 indexed currentRoundId, uint256 finalNumber);
+    event RoundUpdated(
+        uint256 indexed currentRoundId,
+        uint256 endTime,
+        uint256 bonusBnbAmount
+    );
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
@@ -212,12 +218,32 @@ contract Lotto360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function updateCurrentRound(
+        uint256 _endTime,
+        uint256 _bonusBnbAmount,
+        Pool[] calldata _pools
+    ) external onlyOwner nonContract {
+        require(
+            rounds[currentRoundId].status == Status.Open,
+            "Current round is not open"
+        );
+        require(_pools.length == 7, "Pool data is not correct");
+        require(_endTime > block.timestamp, "Round endTime passed");
+
+        poolsInEachRound[currentRoundId] = _pools;
+
+        rounds[currentRoundId].endTime = _endTime;
+        rounds[currentRoundId].bonusBnbAmount = _bonusBnbAmount;
+
+        emit RoundUpdated(currentRoundId, _endTime, _bonusBnbAmount);
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function closeRoundAndPickWinningNumber(uint256 _seedNumber)
         external
         onlyOwner
         nonContract
     {
-        // todo implement
         require(
             rounds[currentRoundId].endTime < block.timestamp,
             "Round is not finished"
@@ -298,6 +324,27 @@ contract Lotto360 {
         }
 
         return tickets;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function getAllTickets()
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (Ticket[] memory)
+    {
+        Ticket[] memory ticketsArray;
+
+        for (uint256 i = 0; i < currentRoundId; i++) {
+            mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];
+            for (uint256 j = 0; j < ticketCountInEachRound[i]; j++) {
+                Ticket memory ticket = tickets[j];
+                ticketsArray[ticket.id] = ticket;
+            }
+        }
+
+        return ticketsArray;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
