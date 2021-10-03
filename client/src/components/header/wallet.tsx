@@ -15,7 +15,7 @@ const Wallet: FunctionComponent<WalletProps> = ({ address, dispatch }) => {
     return (
         <button
             className={
-                address ? "btn my-2 my-sm-0 btn-success" : "btn my-2 my-sm-0 btn-warning"
+                address ? "btn my-2 my-sm-0 btn-primary" : "btn my-2 my-sm-0 btn-warning"
             }
             type="button"
             onClick={() => getAccount()}

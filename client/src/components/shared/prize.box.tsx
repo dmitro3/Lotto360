@@ -44,7 +44,7 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = () => {
                     </div>
                     <div className="card-body d-flex justify-content-left align-items-center">
                         <span className="fw-bold fs-6 me-2">450 BNB</span>
-                        <span className="text-muted fw-bold">~ $145,550</span>
+                        <span className="text-muted">~ $145,550</span>
                     </div>
                 </div>
             ))}

@@ -1,2 +1,18 @@
-getCurrentRound() => including his tickets
-buyTickets() => after successful purchase call getCurrentRound again
+chain: getCurrentRound() => including his tickets including price pools
+chain: buyTickets() => after successful purchase call getCurrentRound again
+chain: getRoundById() => including his tickets including price pools & total participate
+
+server: checkForWin()
+server: userHistory()
+
+getRounds()
+getRoundById(id)
+getTicketsInRound(id)
+getCurrentRound()
+
+addRound()
+updateRound()
+drawWinningNumber(_randomSeed)
+
+userHistory()
+transferOwnership(address)

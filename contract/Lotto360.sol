@@ -29,7 +29,7 @@ contract Lotto360 {
 
     uint256 private currentRoundId = 1;
     uint256 private currentTicketId = 1;
-    uint256 public maxNumberTicketsPerBuyOrClaim = 100;
+    uint256 private maxNumberTicketsPerBuyOrClaim = 50;
 
     enum Status {
         Pending,
@@ -47,7 +47,8 @@ contract Lotto360 {
         uint256 firstTicketIdNextRound;
         uint256 totalBnbAmount;
         uint256 bonusBnbAmount;
-        uint32 finalNumber;
+        uint256 bnbAddedFromLastRound;
+        string finalNumber;
     }
 
     struct Ticket {
@@ -55,10 +56,19 @@ contract Lotto360 {
         address owner;
     }
 
+    struct Pool {
+        string name;
+        uint256 percentage;
+    }
+
     mapping(uint256 => Round) private rounds;
+    mapping(uint256 => Pool[]) private poolsInEachRound;
     mapping(uint256 => uint256) private ticketCountInEachRound;
     mapping(uint256 => mapping(uint256 => Ticket)) private ticketsInEachRound;
 
+    /**************************************************************************************************
+     * @dev these are modifiers
+     **************************************************************************************************/
     modifier nonContract() {
         require(tx.origin == msg.sender, "Contract not allowed");
         _;
@@ -69,8 +79,54 @@ contract Lotto360 {
         _;
     }
 
+    /**************************************************************************************************
+     * @dev these are events
+     **************************************************************************************************/
+    event TicketsPurchase(
+        address indexed buyer,
+        uint256 indexed lotteryId,
+        uint256 numberTickets
+    );
+
+    /**************************************************************************************************
+     * @dev these are functions for user
+     **************************************************************************************************/
+    function buyTickets(uint256 _roundId, uint32[] calldata _ticketNumbers)
+        external
+        nonContract
+    {
+        require(_ticketNumbers.length != 0, "No ticket specified");
+        require(
+            _ticketNumbers.length <= maxNumberTicketsPerBuyOrClaim,
+            "Too many tickets"
+        );
+
+        require(rounds[_roundId].status == Status.Open, "Round is not open");
+        require(block.timestamp < rounds[_roundId].endTime, "Round is over");
+
+        // calculate number of bnb user should pay
+        // check users wallet for bnb amount
+        // transfer tokens to this contract
+        // increment this round BNB amount
+        // start for loop to add tickets
+        /**
+        * 1 check this:
+        require(
+                (thisTicketNumber >= 1000000) && (thisTicketNumber <= 1999999),
+                "Outside range"
+            );
+            * 2 add new ticket to ticketsInEachRound then in crement current ticket id
+
+         */
+        // done
+        emit TicketsPurchase(msg.sender, _roundId, _ticketNumbers.length);
+    }
+
+    /**************************************************************************************************
+     * @dev these are functions for owner
+     **************************************************************************************************/
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getRounds() public view onlyOwner nonContract returns (Round[] memory) {
+    function getRounds() external view onlyOwner nonContract returns (Round[] memory) {
         uint256 length = currentRoundId;
         Round[] memory roundArray = new Round[](length);
 
@@ -83,7 +139,7 @@ contract Lotto360 {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getRoundById(uint256 _roundId)
-        public
+        external
         view
         onlyOwner
         nonContract
@@ -93,13 +149,19 @@ contract Lotto360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getCurrentRound() public view onlyOwner nonContract returns (Round memory) {
+    function getCurrentRound()
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (Round memory)
+    {
         return rounds[currentRoundId];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getTicketsInRound(uint256 _roundId)
-        public
+        external
         view
         onlyOwner
         nonContract
@@ -117,7 +179,7 @@ contract Lotto360 {
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getSettings()
-        public
+        external
         view
         onlyOwner
         nonContract

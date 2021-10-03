@@ -17,11 +17,11 @@ const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
                     Total amount:{" "}
                     <span className="text-dark">{`${totalAmount} BNB`}</span>
                 </span>
-                <span className="fs-5 fw-bold text-success">~ $134,789</span>
+                <span className="fs-5 text-success">~ $134,789</span>
             </div>
 
             <div className={flexItemsCenter}>
-                <i className="fa-duotone fa-alarm-clock ms-4 me-2 fa-lg"></i>
+                <i className="fa-duotone fa-alarm-clock me-2 fa-lg"></i>
                 <div className="fs-5">Draw: Sep 14, 2021, 3:30 pm</div>
             </div>
         </div>
