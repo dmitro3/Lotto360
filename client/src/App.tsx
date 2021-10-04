@@ -5,7 +5,7 @@ import Main from "./components/main/main";
 import PrizePot from "./components/current.round/prize.pot";
 import RoundsHistory from "./components/rounds.history/rounds.history";
 import lottoReducer, { initialState } from "./reducer/reducer";
-import { getWeb3 } from "./utilities/web3";
+import { getWeb3 } from "./provider/web3";
 import GameInfo from "./components/game.info/game.info";
 
 function App() {

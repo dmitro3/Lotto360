@@ -2,8 +2,8 @@ import Web3 from "web3";
 import { Dispatch } from "react";
 import { ActionModel, LottoActions } from "../reducer/reducer";
 
+let web3: Web3;
 const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
-    let web3: Web3;
     // @ts-ignore
     if (window.ethereum) {
         // @ts-ignore
@@ -13,10 +13,21 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
             // @ts-ignore
             window.ethereum.enable().then(async () => {
                 console.info("connected to metamask");
+                web3.eth.net.getId((_err, id) => console.info(id));
                 // @ts-ignore
                 const account = window.ethereum.selectedAddress;
                 dispatch({ type: LottoActions.SET_WEB3, payload: web3 });
                 dispatch({ type: LottoActions.SET_ADDRESS, payload: account });
+            });
+
+            // @ts-ignore - detect Metamask account change
+            window.ethereum.on("accountsChanged", function (accounts: string[]) {
+                console.log("account changed:", accounts);
+            });
+
+            // @ts-ignore - detect Network account change
+            window.ethereum.on("networkChanged", function (networkId) {
+                console.log(`network changed: networkId ${networkId}`);
             });
 
             // @ts-ignore
@@ -39,4 +50,4 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
     }
 };
 
-export { getWeb3 };
+export { getWeb3, web3 };
