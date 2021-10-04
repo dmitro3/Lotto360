@@ -9,7 +9,7 @@ export const ChainMethods = {
             const result = await bnbTokenContract(web3)
                 .methods.approve(
                     lotto360ContractAddress,
-                    web3.utils.toWei("0.01", "ether")
+                    web3.utils.toWei("0.02", "ether")
                 )
                 .send({ from: spenderAddress });
             return result;
