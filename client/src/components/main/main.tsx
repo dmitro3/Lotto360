@@ -14,9 +14,9 @@ const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD 
             >
                 <div className="main-side-pic divider1"></div>
                 <div className="max-content">
-                    <h1 className="d-flex justify-content-center align-items-center mt-3 text-success">
+                    <h1 className="d-flex justify-content-center align-items-center mt-3 megering">
                         <b className="me-3 logo-main">LOTTO</b>
-                        <i className="fa-duotone fa-360-degrees fa-xl"></i>
+                        <i className="fa-solid fa-360-degrees fa-xl"></i>
                     </h1>
                     <div
                         className="my-3 max-content px-3 py-1 d-flex flex-column

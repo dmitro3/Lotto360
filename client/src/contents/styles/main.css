@@ -6,6 +6,13 @@
     font-size: 65px;
 }
 
+.megering {
+    background-image: linear-gradient(135deg, #51c451 10%, #338f19 100%);
+    background-clip: border-box;
+    -webkit-background-clip: text;
+    color: transparent !important;
+}
+
 .nav-link {
     font-weight: 600;
     cursor: pointer;

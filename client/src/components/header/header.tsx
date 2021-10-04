@@ -13,11 +13,11 @@ const Header: FunctionComponent<HeaderProps> = ({ address, dispatch }) => {
         <nav className="navbar navbar-expand-lg navbar-light">
             <div className="container-fluid">
                 <a
-                    className="navbar-brand text-success d-flex justify-content-between align-items-center"
+                    className="navbar-brand megering d-flex justify-content-between align-items-center"
                     href="/"
                 >
                     <b className="big-logo me-2">LOTTO</b>
-                    <i className="fa-duotone fa-360-degrees fa-xl"></i>
+                    <i className="fa-solid fa-360-degrees fa-xl"></i>
                 </a>
                 <button
                     className="navbar-toggler"

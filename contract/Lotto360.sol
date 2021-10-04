@@ -40,7 +40,7 @@ contract Lotto360 {
 
     struct Round {
         Status status;
-        uint256 id;
+        uint256 cid;
         uint256 startTime;
         uint256 endTime;
         uint256 ticketPrice;
@@ -53,7 +53,7 @@ contract Lotto360 {
     }
 
     struct Ticket {
-        uint256 id;
+        uint256 cid;
         uint256 number;
         address owner;
     }
@@ -195,7 +195,7 @@ contract Lotto360 {
 
         poolsInEachRound[currentRoundId] = _pools;
         rounds[currentRoundId] = Round({
-            id: currentRoundId,
+            cid: currentRoundId,
             status: Status.Open,
             startTime: block.timestamp,
             endTime: _endTime,
@@ -340,7 +340,7 @@ contract Lotto360 {
             mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];
             for (uint256 j = 0; j < ticketCountInEachRound[i]; j++) {
                 Ticket memory ticket = tickets[j];
-                ticketsArray[ticket.id] = ticket;
+                ticketsArray[ticket.cid] = ticket;
             }
         }
 
