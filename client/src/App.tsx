@@ -1,12 +1,9 @@
 import { useEffect, useReducer } from "react";
-import CheckWin from "./components/check.win/checkwin";
-import Header from "./components/header/header";
-import Main from "./components/main/main";
-import PrizePot from "./components/current.round/prize.pot";
-import RoundsHistory from "./components/rounds.history/rounds.history";
 import lottoReducer, { initialState } from "./reducer/reducer";
 import { getWeb3 } from "./provider/web3";
-import GameInfo from "./components/game.info/game.info";
+import { Route, Switch } from "react-router";
+import MainSite from "./components/site/main.site";
+import AdminPanel from "./components/admin/admin.panel";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
@@ -16,17 +13,13 @@ function App() {
     }, []);
 
     return (
-        <div>
-            <Header address={state.address} dispatch={dispatch} />
-            <Main
-                bnbPriceInUSD={state.bnbPrice}
-                currentPrizeAmount={state.currentPrize}
+        <Switch>
+            <Route path="/admin" render={() => <AdminPanel />} />
+            <Route
+                path="/"
+                render={() => <MainSite dispatch={dispatch} state={state} />}
             />
-            <PrizePot currentPrizeAmount={state.currentPrize} />
-            <CheckWin />
-            <RoundsHistory historyAmount={state.historyAmount} />
-            <GameInfo />
-        </div>
+        </Switch>
     );
 }
 

@@ -1,5 +1,5 @@
 import { Dispatch, FunctionComponent } from "react";
-import { ActionModel, LottoActions } from "../../reducer/reducer";
+import { ActionModel, LottoActions } from "../../../reducer/reducer";
 import Menu from "./menu";
 import Wallet from "./wallet";
 
