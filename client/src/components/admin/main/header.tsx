@@ -6,9 +6,12 @@ const MyHeader: React.FC = (): ReactElement => {
     const history = useHistory();
 
     return (
-        <header className="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 shadow justify-content-start">
-            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">
-                My Admin Dashboard
+        <header
+            className="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 
+        shadow justify-content-start"
+        >
+            <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fw-bold fs-4" href="/">
+                LOTTO 360
             </a>
             <ul className="navbar-nav px-3 ms-auto">
                 <li className="nav-item text-nowrap position-relative dropdown">
@@ -22,13 +25,14 @@ const MyHeader: React.FC = (): ReactElement => {
                         Armin Eslami
                     </span>
                     <div
-                        className="user-submenu bg-white shadow text-start dropdown-menu dropdown-menu-end scale-in-ver-top"
+                        className="user-submenu bg-white shadow text-start dropdown-menu 
+                        dropdown-menu-end scale-in-ver-top position-absolute"
                         aria-labelledby="bd-versions"
                         data-bs-popper="static"
                     >
-                        <span className="d-block px-3 py-2 pe-5">Profile</span>
+                        <span className="d-block px-3 py-2 pe-5 pointer">Profile</span>
                         <span
-                            className="d-block px-3 py-2 pe-5"
+                            className="d-block px-3 py-2 pe-5 pointer"
                             onClick={() => {
                                 localStorage.removeItem(ACCESS_TOKEN_KEY);
                                 history.replace("/account/login");

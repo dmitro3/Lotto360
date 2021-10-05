@@ -21,8 +21,8 @@ export class SideBarItem {
 const dashboardItems: SideBarItem[] = [
     new SideBarItem("Dashboard", "home"),
     new SideBarItem("Users", "user"),
-    new SideBarItem("Rounds", "id-badge"),
-    new SideBarItem("Settings", "building"),
+    new SideBarItem("Rounds", "pool-8-ball"),
+    new SideBarItem("Settings", "gear"),
 ];
 
 const SideBar: React.FC<SideBarProps> = () => {

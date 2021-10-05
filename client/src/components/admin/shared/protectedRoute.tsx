@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { AuthenticationService } from "./auth";
+import { AuthenticationService } from "../security/auth";
 
 interface ProtectedRouteProps {
     path: string;
@@ -8,8 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component, path, ...rest }) => {
-    // todo remove false
-    if (!AuthenticationService.getCurrentUser() && false)
+    if (!AuthenticationService.getCurrentUser())
         return (
             <Redirect
                 to={{

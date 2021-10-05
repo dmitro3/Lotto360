@@ -23,9 +23,11 @@ const SideBarItems: React.FC<SideBarItemsProps> = ({
                 >
                     <NavLink
                         className={
-                            item.name === selectedItem ? "nav-link active" : "nav-link"
+                            item.name === selectedItem
+                                ? "admin nav-link active"
+                                : "admin nav-link"
                         }
-                        to={`/${item.name.replaceAll(" ", "").toLowerCase()}`}
+                        to={`/admin/${item.name.replaceAll(" ", "").toLowerCase()}`}
                     >
                         <i className={`fas fa-${item.icon} me-2`}></i>
                         {item.name}
