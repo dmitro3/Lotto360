@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import Funds from "./Funds";
+import Funds from "./funds";
 import HowtoPlay from "./how.to.play";
 import Rules from "./rule";
 

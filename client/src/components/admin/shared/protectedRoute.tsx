@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { AuthenticationService } from "../security/auth";
+import { AuthenticationService } from "../../security/auth";
 
 interface ProtectedRouteProps {
     path: string;

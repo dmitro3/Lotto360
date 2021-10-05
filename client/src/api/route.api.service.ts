@@ -40,7 +40,9 @@ export default class RoundApiService {
         return httpService.post(`${baseUrl}/user`, userData);
     }
 
-    UpdateRound(userData: GetRoundApiModel) {
+    UpdateRound(
+        userData: GetRoundApiModel
+    ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
         return httpService.put(`${baseUrl}/user`, userData);
     }
 

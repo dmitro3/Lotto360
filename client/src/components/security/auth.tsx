@@ -1,5 +1,5 @@
 import { decode } from "jsonwebtoken";
-import { ACCESS_TOKEN_KEY } from "../../../config/config";
+import { ACCESS_TOKEN_KEY } from "../../config/config";
 
 export const AuthenticationService = {
     getCurrentUser: (): CurrentUser | null => {

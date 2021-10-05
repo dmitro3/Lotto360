@@ -1,81 +1,130 @@
-import { FunctionComponent, useReducer } from "react";
-import SortColumn from "../../models/sort.column";
-import ListHeader from "../shared/listHeader";
-import SearchBox from "../shared/searchBox";
-import Pagination from "../shared/table/pagination";
-import TableLoader from "../shared/table/tableLoader";
-import roundListReducer, {
-    RoundListAction,
-    roundListInitialState,
-} from "./reducer/round.list.reducer";
-import RoundsTable from "./rounds.table";
+import { FunctionComponent, useState } from "react";
+import { Table } from "react-bootstrap";
+import {
+    defaultPools,
+    GetRoundApiModel,
+    RoundStatus,
+} from "../../../api/models/round.model";
+import RoundModal from "./round.modal";
 
 interface RoundsProps {}
 
 const Rounds: FunctionComponent<RoundsProps> = () => {
-    const [state, dispatch] = useReducer(roundListReducer, roundListInitialState);
+    const [showModalAddRound, setShowModalAddround] = useState(false);
+    const [showModalUpdateRound, setShowModalUpdateRound] = useState(false);
 
-    const {
-        searchQuery,
-        sortColumn,
-        isLoading,
-        rounds,
-        totalCount,
-        pageSize,
-        currentPage,
-    } = state;
+    const handleModalClose = () => {
+        setShowModalAddround(false);
+        setShowModalUpdateRound(false);
+    };
+    const handleAddRound = () => alert("Submited");
+    const handleUpdateRound = () => alert("Submited 2");
+
+    const round: GetRoundApiModel = {
+        cid: 1,
+        bnbAddedFromLastRound: 0,
+        bonusBnbAmount: 0,
+        endTime: 1633457517,
+        finalNumber: 1000009,
+        firstTicketId: 1,
+        firstTicketIdNextRound: 2,
+        startTime: 1633457518,
+        status: RoundStatus.Open,
+        ticketPrice: 0.02,
+        totalBnbAmount: 40,
+        pools: defaultPools,
+    };
 
     return (
         <>
-            <ListHeader
-                formRoute="/admin/rounds/add"
-                title="Round"
-                buttonTitle="Add Round"
-            />
-            <div className="mt-5 d-flex justify-content-between">
-                <SearchBox
-                    onPageSizeChange={(size: number) =>
-                        dispatch({ type: RoundListAction.UPDATE_PAGESIZE, payload: size })
-                    }
-                    value={searchQuery}
-                    onChange={(text: string) =>
-                        dispatch({ type: RoundListAction.UPDATE_SEARCH, payload: text })
-                    }
-                    selectedSize={pageSize}
-                />
+            <div className="d-flex">
+                <button
+                    className="btn btn-primary ms-auto"
+                    onClick={() => setShowModalAddround(true)}
+                >
+                    create round
+                </button>
             </div>
-            {isLoading ? (
-                <TableLoader />
-            ) : (
-                <>
-                    <RoundsTable
-                        rounds={rounds}
-                        sortColumn={sortColumn}
-                        onDelete={
-                            // todo: think about it
-                            () => null
-                        }
-                        onSort={(sort: SortColumn) =>
-                            dispatch({
-                                type: RoundListAction.UPDATE_SORT,
-                                payload: sort,
-                            })
-                        }
-                        itemsCount={totalCount}
-                    />
-                    <Pagination
-                        itemsCount={totalCount}
-                        pageSize={pageSize}
-                        currentPage={currentPage}
-                        onPageChange={(pageNumber: number) =>
-                            dispatch({
-                                type: RoundListAction.UPDATE_PAGE,
-                                payload: pageNumber,
-                            })
-                        }
-                    />
-                </>
-            )}
+
+            <RoundModal
+                formValues={round}
+                handleModalClose={handleModalClose}
+                handleModalSubmit={handleAddRound}
+                showModal={showModalAddRound}
+            />
+
+            <RoundModal
+                formValues={round}
+                handleModalClose={handleModalClose}
+                handleModalSubmit={handleUpdateRound}
+                showModal={showModalUpdateRound}
+            />
+
+            <h4 className="mt-5">Rounds</h4>
+            <Table striped bordered hover responsive>
+                <thead className="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                        <td>
+                            <button
+                                className="btn btn-sm btn-info"
+                                type="button"
+                                onClick={() => {
+                                    alert(1);
+                                }}
+                            >
+                                detail
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                        <td>
+                            <button
+                                className="btn btn-sm btn-info"
+                                type="button"
+                                onClick={() => {
+                                    alert(2);
+                                }}
+                            >
+                                detail
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>3</td>
+                        <td>Thornton</td>
+                        <td>@twitter</td>
+                        <td>
+                            <button
+                                className="btn btn-sm btn-info"
+                                type="button"
+                                onClick={() => {
+                                    alert(3);
+                                }}
+                            >
+                                detail
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </Table>
         </>
     );
 };

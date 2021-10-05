@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
 import Rounds from "../rounds/rounds";
-import ProtectedRoute from "../security/protected.route";
+import ProtectedRoute from "../../security/protected.route";
 import SideBar from "../sidebar/sideBar";
 
 interface MainContainerProps {}
