@@ -1,10 +1,11 @@
-import moment, { Moment } from "moment";
-import { FunctionComponent, useState } from "react";
+import moment from "moment";
+import { FunctionComponent } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
-import { GetRoundApiModel } from "../../../api/models/round.model";
+import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
 
 interface RoundModalProps {
+    changeRoundValues: Function;
     formValues: GetRoundApiModel;
     handleModalClose: Function;
     handleModalSubmit: Function;
@@ -12,19 +13,13 @@ interface RoundModalProps {
 }
 
 const RoundModal: FunctionComponent<RoundModalProps> = ({
+    changeRoundValues,
     formValues,
     handleModalClose,
     handleModalSubmit,
     showModal,
 }) => {
-    const [state, setstate] = useState(formValues);
-
     const { endTime, bnbAddedFromLastRound, ticketPrice, pools } = formValues;
-
-    const setTime = (value: string | Moment) => {
-        if (typeof value === "string") return;
-        console.info(value.unix());
-    };
 
     return (
         <Modal
@@ -48,7 +43,13 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             dateFormat="dddd, MMM Do, YYYY"
                             value={moment.unix(endTime)}
                             utc={true}
-                            onChange={(value) => setTime(value)}
+                            onChange={(value) => {
+                                if (typeof value === "string") return;
+                                changeRoundValues({
+                                    ...formValues,
+                                    endTime: value.unix(),
+                                });
+                            }}
                         />
                     </Col>
                 </Form.Group>
@@ -63,6 +64,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="Ticket price in bnb"
                             value={ticketPrice}
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    ticketPrice: e.target.value,
+                                });
+                            }}
                         />
                     </Col>
                 </Form.Group>
@@ -77,6 +84,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="Bnb add from last round"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    bnbAddedFromLastRound: e.target.value,
+                                });
+                            }}
                         />
                     </Col>
                     <Col sm="2">
@@ -99,6 +112,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 0),
+                                });
+                            }}
                         />
                     </Col>
                     <Form.Label column sm="2">
@@ -110,6 +129,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 1),
+                                });
+                            }}
                         />
                     </Col>
                     <Form.Label column sm="2">
@@ -121,6 +146,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 2),
+                                });
+                            }}
                         />
                     </Col>
                 </Form.Group>
@@ -135,6 +166,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 3),
+                                });
+                            }}
                         />
                     </Col>
                     <Form.Label column sm="2">
@@ -146,6 +183,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 4),
+                                });
+                            }}
                         />
                     </Col>
                     <Form.Label column sm="2">
@@ -157,6 +200,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 5),
+                                });
+                            }}
                         />
                     </Col>
                 </Form.Group>
@@ -170,7 +219,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             type="number"
                             min={0}
                             placeholder="%"
-                            onChange={(e) => console.info(e.target.value)}
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    pools: generatePool(formValues, e.target.value, 6),
+                                });
+                            }}
                         />
                     </Col>
                 </Form.Group>
@@ -179,7 +233,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                 <Button variant="secondary" onClick={() => handleModalClose()}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleModalSubmit()}>
+                <Button variant="primary" onClick={() => handleModalSubmit(formValues)}>
                     submit
                 </Button>
             </Modal.Footer>
@@ -188,3 +242,10 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
 };
 
 export default RoundModal;
+function generatePool(formValues: GetRoundApiModel, value: string, index: number) {
+    let pl: PoolAttrs[] = [];
+    if (formValues.pools) pl = [...formValues.pools];
+    if (value) pl[index].percentage = parseFloat(value);
+    else pl[index].percentage = 0;
+    return pl;
+}

@@ -9,4 +9,4 @@ export const REFRESH_TOKEN_KEY = "refresh_token";
 export const ACCESS_TOKEN_KEY = "access_token";
 
 // backend
-export const baseUrl: string = "http://localhost:9000/api";
+export const baseUrl: string = "http://localhost:3001/api";

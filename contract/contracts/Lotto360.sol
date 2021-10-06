@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.7;
+pragma experimental ABIEncoderV2;
 
 interface IERC20 {
     function totalSupply() external view returns (uint256);
@@ -31,6 +32,10 @@ contract Lotto360 {
     uint256 private currentTicketId = 1;
     uint256 private maxNumberTicketsPerBuyOrClaim = 50;
 
+    constructor() {
+        owner = msg.sender;
+    }
+
     enum Status {
         Pending,
         Open,
@@ -58,13 +63,8 @@ contract Lotto360 {
         address owner;
     }
 
-    struct Pool {
-        string name; // ie 6match
-        uint256 percentage; // ie 50
-    }
-
     mapping(uint256 => Round) private rounds;
-    mapping(uint256 => Pool[]) private poolsInEachRound;
+    mapping(uint256 => uint256[]) private poolsInEachRound;
     mapping(uint256 => uint256) private ticketCountInEachRound;
     mapping(uint256 => mapping(uint256 => Ticket)) private ticketsInEachRound;
 
@@ -147,7 +147,7 @@ contract Lotto360 {
         returns (
             Round memory,
             Ticket[] memory,
-            Pool[] memory
+            uint256[] memory
         )
     {
         Ticket[] memory ticketArray;
@@ -180,7 +180,7 @@ contract Lotto360 {
         uint256 _ticketPrice,
         uint256 _bonusBnbAmount,
         uint256 _bnbAddedFromLastRound,
-        Pool[] calldata _pools
+        uint256[] calldata _pools
     ) external onlyOwner nonContract {
         require(
             rounds[currentRoundId].status == Status.Close,
@@ -221,7 +221,7 @@ contract Lotto360 {
     function updateCurrentRound(
         uint256 _endTime,
         uint256 _bonusBnbAmount,
-        Pool[] calldata _pools
+        uint256[] calldata _pools
     ) external onlyOwner nonContract {
         require(
             rounds[currentRoundId].status == Status.Open,
@@ -246,8 +246,10 @@ contract Lotto360 {
     {
         require(
             rounds[currentRoundId].endTime < block.timestamp,
-            "Round is not finished"
+            "Round time is not finished"
         );
+
+        require(rounds[currentRoundId].status == Status.Open, "Round is not open");
 
         rounds[currentRoundId].status = Status.Close;
         rounds[currentRoundId].firstTicketIdNextRound = currentTicketId;

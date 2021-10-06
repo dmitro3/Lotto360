@@ -5,34 +5,43 @@ import {
     GetRoundApiModel,
     RoundStatus,
 } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 import RoundModal from "./round.modal";
 
 interface RoundsProps {}
 
+let round: GetRoundApiModel = {
+    cid: 1,
+    bnbAddedFromLastRound: 0,
+    bonusBnbAmount: 0,
+    endTime: 1633457517,
+    finalNumber: 1000009,
+    firstTicketId: 1,
+    firstTicketIdNextRound: 2,
+    startTime: 1633457518,
+    status: RoundStatus.Open,
+    ticketPrice: 0.02,
+    totalBnbAmount: 40,
+    pools: defaultPools,
+};
+
 const Rounds: FunctionComponent<RoundsProps> = () => {
     const [showModalAddRound, setShowModalAddround] = useState(false);
     const [showModalUpdateRound, setShowModalUpdateRound] = useState(false);
+    const [roundInfo, setRoundInfo] = useState(round);
 
     const handleModalClose = () => {
         setShowModalAddround(false);
         setShowModalUpdateRound(false);
     };
-    const handleAddRound = () => alert("Submited");
-    const handleUpdateRound = () => alert("Submited 2");
+    const handleAddRound = async (state: GetRoundApiModel) => {
+        const result = await RoundApiService.addRound(state);
+        handleModalClose();
+    };
 
-    const round: GetRoundApiModel = {
-        cid: 1,
-        bnbAddedFromLastRound: 0,
-        bonusBnbAmount: 0,
-        endTime: 1633457517,
-        finalNumber: 1000009,
-        firstTicketId: 1,
-        firstTicketIdNextRound: 2,
-        startTime: 1633457518,
-        status: RoundStatus.Open,
-        ticketPrice: 0.02,
-        totalBnbAmount: 40,
-        pools: defaultPools,
+    const handleUpdateRound = (state: GetRoundApiModel) => console.info;
+    const changeRoundValues = (roundValues: GetRoundApiModel) => {
+        setRoundInfo(roundValues);
     };
 
     return (
@@ -47,14 +56,16 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             </div>
 
             <RoundModal
-                formValues={round}
+                changeRoundValues={changeRoundValues}
+                formValues={roundInfo}
                 handleModalClose={handleModalClose}
                 handleModalSubmit={handleAddRound}
                 showModal={showModalAddRound}
             />
 
             <RoundModal
-                formValues={round}
+                changeRoundValues={changeRoundValues}
+                formValues={roundInfo}
                 handleModalClose={handleModalClose}
                 handleModalSubmit={handleUpdateRound}
                 showModal={showModalUpdateRound}

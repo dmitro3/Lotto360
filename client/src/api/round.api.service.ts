@@ -5,10 +5,10 @@ import { httpService } from "./api.service";
 import ApiResponseResult, { ListResult } from "./models/response.model";
 import { GetRoundApiModel, GetRoundListViewModel } from "./models/round.model";
 
-export default class RoundApiService {
+export const RoundApiService = {
     getAllRounds(): Promise<AxiosResponse<ApiResponseResult<GetRoundListViewModel>>> {
         return httpService.get(`${baseUrl}/user`);
-    }
+    },
 
     getRoundsPaginated(
         currentPage: number,
@@ -26,25 +26,31 @@ export default class RoundApiService {
                 order,
             },
         });
-    }
+    },
 
     getRoundById(
         userId: number | null
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
         return httpService.get(`${baseUrl}/user/${userId}`);
-    }
+    },
 
     addRound(
-        userData: GetRoundApiModel
+        roundData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
-        return httpService.post(`${baseUrl}/user`, userData);
-    }
+        return httpService.post(`${baseUrl}/round`, {
+            endTime: roundData.endTime,
+            ticketPrice: roundData.ticketPrice,
+            bonusBnbAmount: roundData.bonusBnbAmount,
+            bnbAddedFromLastRound: roundData.bnbAddedFromLastRound,
+            pools: roundData.pools,
+        });
+    },
 
     UpdateRound(
         userData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
         return httpService.put(`${baseUrl}/user`, userData);
-    }
+    },
 
     uploadImage(
         file: File | null,
@@ -64,5 +70,5 @@ export default class RoundApiService {
             },
             onUploadProgress,
         });
-    }
-}
+    },
+};

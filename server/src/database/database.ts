@@ -8,7 +8,7 @@ export const connectToMongodb = () => {
         .then(() => {
             console.clear();
             console.log("✅ Connected to MongoDb");
-            app.listen(3000, () => console.log("✅ Listening on port 3000"));
+            app.listen(3001, () => console.log("✅ Listening on port 3001"));
         })
         .catch((err) => console.log(err));
 };
