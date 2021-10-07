@@ -58,6 +58,6 @@ export interface GetRoundApiModel {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
-    tickets?: TicketAttrs;
+    tickets?: TicketAttrs[];
     pools?: PoolAttrs[];
 }

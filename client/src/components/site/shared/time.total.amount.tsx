@@ -1,3 +1,4 @@
+import moment from "moment";
 import { FunctionComponent } from "react";
 import { flexItemsCenter } from "../constants/classes";
 
@@ -22,7 +23,9 @@ const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
 
             <div className={flexItemsCenter}>
                 <i className="fa-duotone fa-alarm-clock me-2 fa-lg"></i>
-                <div className="fs-5">Draw: Sep 14, 2021, 3:30 pm</div>
+                <div className="fs-5">
+                    {moment(time * 1000).format("MMMM Do YYYY, h:mm a")}
+                </div>
             </div>
         </div>
     );

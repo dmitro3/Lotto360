@@ -183,7 +183,7 @@ contract Lotto360 {
         uint256[] calldata _pools
     ) external onlyOwner nonContract {
         require(
-            rounds[currentRoundId].status == Status.Close,
+            currentRoundId == 0 || rounds[currentRoundId].status == Status.Close,
             "Current round is not finished"
         );
 

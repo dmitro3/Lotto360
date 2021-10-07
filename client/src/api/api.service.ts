@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ACCESS_TOKEN_KEY } from "../config/config";
+import { CustomToastWithLink } from "../utilities/toastLink";
 import ApiResponseResult, {
     ResponseMessage,
     ResponseMessageType,
@@ -23,11 +24,7 @@ axios.interceptors.response.use(
             const data: ApiResponseResult<any> = response.data;
             if (data.messages) {
                 data.messages?.forEach((mes) => {
-                    if (
-                        !mes.message.includes("not found") &&
-                        !mes.message.includes("CHATS-")
-                    )
-                        toastMessage(mes);
+                    if (!mes.message.includes("not found")) toastMessage(mes);
                 });
             }
         }
@@ -42,7 +39,25 @@ axios.interceptors.response.use(
             const message = error.response.data.messages[0];
             toastMessage(message);
             if (error.response.data.exception) console.log(error.response.data.exception);
-            return error;
+            return null;
+        }
+
+        if (
+            error.response &&
+            error.response.data &&
+            // @ts-ignore
+            error.response.data.errors &&
+            // @ts-ignore
+            error.response.data.errors.messages.length > 0
+        ) {
+            // @ts-ignore
+            const message: ResponseMessage = error.response.data.errors.messages[0];
+            if (message.type !== ResponseMessageType.TRANSACTION) toastMessage(message);
+            else {
+                toast.error(CustomToastWithLink(message.message));
+            }
+            if (error.response.data.exception) console.log(error.response.data.exception);
+            return null;
         }
 
         if (error.response) {
@@ -50,7 +65,7 @@ axios.interceptors.response.use(
             const status = error.response.status;
             const statusText = error.response.statusText;
             toast.error(`${status}(${statusText}): ${message}`);
-            return error;
+            return null;
         }
     }
 );

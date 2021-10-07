@@ -15,6 +15,7 @@ export enum ResponseMessageType {
     WARNING,
     INFO,
     SUCCESS,
+    TRANSACTION,
 }
 
 export interface ListResult<T> {

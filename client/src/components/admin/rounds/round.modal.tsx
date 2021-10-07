@@ -9,6 +9,7 @@ interface RoundModalProps {
     formValues: GetRoundApiModel;
     handleModalClose: Function;
     handleModalSubmit: Function;
+    isWaiting: boolean;
     showModal: boolean;
 }
 
@@ -17,6 +18,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
     formValues,
     handleModalClose,
     handleModalSubmit,
+    isWaiting,
     showModal,
 }) => {
     const { endTime, bnbAddedFromLastRound, ticketPrice, pools } = formValues;
@@ -233,8 +235,19 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                 <Button variant="secondary" onClick={() => handleModalClose()}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={() => handleModalSubmit(formValues)}>
-                    submit
+                <Button
+                    variant="primary"
+                    disabled={isWaiting}
+                    onClick={() => handleModalSubmit(formValues)}
+                >
+                    {isWaiting ? (
+                        <>
+                            <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>{" "}
+                            waiting
+                        </>
+                    ) : (
+                        "submit"
+                    )}
                 </Button>
             </Modal.Footer>
         </Modal>

@@ -10,3 +10,6 @@ export const ACCESS_TOKEN_KEY = "access_token";
 
 // backend
 export const baseUrl: string = "http://localhost:3001/api";
+
+// chainscan link
+export const rinkebyScan = "https://rinkeby.etherscan.io/";
