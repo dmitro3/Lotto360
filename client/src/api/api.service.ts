@@ -54,7 +54,12 @@ axios.interceptors.response.use(
             const message: ResponseMessage = error.response.data.errors.messages[0];
             if (message.type !== ResponseMessageType.TRANSACTION) toastMessage(message);
             else {
-                toast.error(CustomToastWithLink(message.message));
+                toast.error(
+                    CustomToastWithLink(
+                        message.message,
+                        "transaction failed click link for detail"
+                    )
+                );
             }
             if (error.response.data.exception) console.log(error.response.data.exception);
             return null;

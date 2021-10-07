@@ -21,8 +21,8 @@ interface RoundAttrs {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
-    tickets: TicketAttrs[];
-    pools: PoolAttrs[];
+    tickets?: TicketAttrs[];
+    pools?: PoolAttrs[];
 }
 
 interface RoundDoc extends Document {

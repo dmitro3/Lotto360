@@ -1,9 +1,10 @@
 import { FunctionComponent } from "react";
+import { PoolAttrs } from "../../../api/models/round.model";
 import PrizeBox from "./prize.box";
 
 interface PrizePerMatchProps {
     amount: number;
-    percentages: number[];
+    percentages?: PoolAttrs[];
 }
 
 const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
@@ -17,7 +18,7 @@ const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
             </h4>
 
             <div className="d-flex flex-wrap justify-content-center mt-4">
-                <PrizeBox />
+                <PrizeBox amount={amount} pools={percentages!} />
             </div>
         </>
     );

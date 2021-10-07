@@ -11,6 +11,7 @@ import { NotFoundError } from "./errors/not-found-error";
 import { errorHandler } from "./middlewares/error-handler";
 import { createRoundRouter } from "./routes/admin/round/add.routes";
 import { currentUser } from "./middlewares/current-user";
+import { getCurrentRoundRouter } from "./routes/admin/round/get.current.routes";
 
 const app = express();
 
@@ -36,10 +37,11 @@ app.use(limiter);
 
 // register routes
 app.use(createRoundRouter);
+app.use(getCurrentRoundRouter);
 
 // error handler
 app.all("*", async () => {
-    throw new NotFoundError();
+    throw new NotFoundError("route not found");
 });
 
 app.use(errorHandler);

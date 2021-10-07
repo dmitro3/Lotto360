@@ -19,6 +19,7 @@
         "express-validator": "^6.12.2",
         "helmet": "^4.6.0",
         "jsonwebtoken": "^8.5.1",
+        "lodash": "^4.17.21",
         "mongoose": "^6.0.8",
         "ts-node-dev": "^1.1.8",
         "typescript": "^4.4.3"

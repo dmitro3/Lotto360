@@ -358,6 +358,49 @@ export const Lotto360Abi = [
         type: "function",
     },
     {
+        inputs: [],
+        name: "getCurrentRoundPools",
+        outputs: [
+            {
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getCurrentRoundTickets",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "cid",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "number",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "address",
+                        name: "owner",
+                        type: "address",
+                    },
+                ],
+                internalType: "struct Lotto360.Ticket[]",
+                name: "",
+                type: "tuple[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "uint256",

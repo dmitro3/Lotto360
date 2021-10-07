@@ -34,6 +34,10 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/user/${userId}`);
     },
 
+    getCurrentRound(): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
+        return httpService.get(`${baseUrl}/round`);
+    },
+
     addRound(
         roundData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {

@@ -1,3 +1,4 @@
+import ApiResponseResult, { ResponseMessageType } from "../middlewares/error-handler";
 import { CustomError } from "./custom-error";
 
 export class NotAuthorizedError extends CustomError {
@@ -8,6 +9,10 @@ export class NotAuthorizedError extends CustomError {
         Object.setPrototypeOf(this, NotAuthorizedError.prototype);
     }
     serializeErrors() {
-        return [{ message: "Not Authorized" }];
+        const response: ApiResponseResult = {
+            success: false,
+            messages: [{ message: "Not Authorized", type: ResponseMessageType.ERROR }],
+        };
+        return response;
     }
 }

@@ -1,61 +1,70 @@
-import { FunctionComponent, useState } from "react";
+import moment from "moment";
+import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { toast } from "react-toastify";
 import {
     defaultPools,
     GetRoundApiModel,
     RoundStatus,
-    TicketStatus,
 } from "../../../api/models/round.model";
 import { RoundApiService } from "../../../api/round.api.service";
-import RoundDetailModal from "./round.detail.modal";
+import { CustomToastWithLink } from "../../../utilities/toastLink";
+import CurrentRound from "./current.round";
 import RoundModal from "./round.modal";
 
 interface RoundsProps {}
 
 let round: GetRoundApiModel = {
-    cid: 1,
+    cid: 0,
     bnbAddedFromLastRound: 0,
     bonusBnbAmount: 0,
-    endTime: 1633537501,
-    finalNumber: 1000009,
-    firstTicketId: 1,
-    firstTicketIdNextRound: 2,
-    startTime: 1633457518,
+    endTime: moment().unix(),
+    finalNumber: 0,
+    firstTicketId: 0,
+    firstTicketIdNextRound: 0,
+    startTime: 0,
     status: RoundStatus.Open,
     ticketPrice: 0.02,
-    totalBnbAmount: 40,
+    totalBnbAmount: 0,
     pools: defaultPools,
-    tickets: [
-        {
-            cid: 1,
-            number: 1345678,
-            owner: "0x4trg4t34r",
-            prizeClaimed: false,
-            ticketStatus: TicketStatus.Unknown,
-        },
-    ],
 };
 
 const Rounds: FunctionComponent<RoundsProps> = () => {
-    const [showModalAddRound, setShowModalAddround] = useState(false);
+    const [showModalAddRound, setShowModalAddRound] = useState(false);
     const [showModalUpdateRound, setShowModalUpdateRound] = useState(false);
     const [roundFormInfo, setRoundFormInfo] = useState(round);
-    const [roundDetail, setRoundDetail] = useState(round);
+    const [currentRound, setCurrentRound] = useState<GetRoundApiModel | undefined>(
+        undefined
+    );
     const [showDetail, setShowDetail] = useState(false);
     const [showTransactionWaiting, setShowTransactionWaiting] = useState(false);
 
-    const handleModalClose = () => {
-        setShowModalAddround(false);
+    useEffect(() => {
+        RoundApiService.getCurrentRound().then((res) => setCurrentRound(res.data.result));
+    }, []);
+
+    const handleMainModalClose = () => {
+        setShowModalAddRound(false);
         setShowModalUpdateRound(false);
     };
+
     const handleAddRound = async (state: GetRoundApiModel) => {
         setShowTransactionWaiting(true);
         const result = await RoundApiService.addRound(state);
-        if (result) handleModalClose();
+        if (result) {
+            handleMainModalClose();
+            toast.success(
+                CustomToastWithLink(result.data.messages![0].message, "round added")
+            );
+        }
         setShowTransactionWaiting(false);
     };
 
+    const handleUpdateRoundButton = () => {
+        setShowModalUpdateRound(true);
+    };
     const handleUpdateRound = (state: GetRoundApiModel) => console.info;
+
     const changeRoundValues = (roundValues: GetRoundApiModel) => {
         setRoundFormInfo(roundValues);
     };
@@ -71,7 +80,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             <div className="d-flex">
                 <button
                     className="btn btn-primary ms-auto"
-                    onClick={() => setShowModalAddround(true)}
+                    onClick={() => setShowModalAddRound(true)}
                 >
                     create round
                 </button>
@@ -80,25 +89,32 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             <RoundModal
                 changeRoundValues={changeRoundValues}
                 formValues={roundFormInfo}
-                handleModalClose={handleModalClose}
+                handleModalClose={handleMainModalClose}
                 handleModalSubmit={handleAddRound}
                 isWaiting={showTransactionWaiting}
                 showModal={showModalAddRound}
             />
 
-            <RoundModal
-                changeRoundValues={changeRoundValues}
-                formValues={roundFormInfo}
-                handleModalClose={handleModalClose}
-                handleModalSubmit={handleUpdateRound}
-                isWaiting={showTransactionWaiting}
-                showModal={showModalUpdateRound}
-            />
+            {currentRound && (
+                <RoundModal
+                    changeRoundValues={changeRoundValues}
+                    formValues={currentRound}
+                    handleModalClose={handleMainModalClose}
+                    handleModalSubmit={handleUpdateRound}
+                    isWaiting={showTransactionWaiting}
+                    showModal={showModalUpdateRound}
+                />
+            )}
 
-            <RoundDetailModal
+            {/* <RoundDetailModal
                 roundInfo={roundDetail}
                 showModal={showDetail}
                 handleClose={handleCloseDetailModal}
+            /> */}
+
+            <CurrentRound
+                handleUpdateButton={handleUpdateRoundButton}
+                currentRound={currentRound}
             />
 
             <h4 className="mt-5">Rounds</h4>

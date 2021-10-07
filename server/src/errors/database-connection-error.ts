@@ -1,3 +1,4 @@
+import ApiResponseResult, { ResponseMessageType } from "../middlewares/error-handler";
 import { CustomError } from "./custom-error";
 
 export class DatabaseConnectionError extends CustomError {
@@ -11,6 +12,10 @@ export class DatabaseConnectionError extends CustomError {
     }
 
     serializeErrors() {
-        return [{ message: this.reason }];
+        const response: ApiResponseResult = {
+            success: false,
+            messages: [{ message: this.message, type: ResponseMessageType.ERROR }],
+        };
+        return response;
     }
 }

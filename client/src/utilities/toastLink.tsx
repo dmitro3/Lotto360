@@ -1,8 +1,8 @@
 import { rinkebyScan } from "../config/config";
 
-export const CustomToastWithLink = (hash: string) => (
+export const CustomToastWithLink = (hash: string, message: string) => (
     <div>
-        transaction failed click link for detail
+        {message}
         <a href={`${rinkebyScan}tx/${hash}`} target="_blank" rel="noreferrer">
             {" "}
             link

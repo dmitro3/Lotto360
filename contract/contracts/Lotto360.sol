@@ -310,6 +310,34 @@ contract Lotto360 {
         return rounds[currentRoundId];
     }
 
+    function getCurrentRoundTickets()
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (Ticket[] memory)
+    {
+        Ticket[] memory ticketArray = new Ticket[](
+            ticketCountInEachRound[currentRoundId]
+        );
+
+        for (uint256 i = 0; i < ticketCountInEachRound[currentRoundId]; i++) {
+            ticketArray[i] = ticketsInEachRound[currentRoundId][i];
+        }
+
+        return (ticketArray);
+    }
+
+    function getCurrentRoundPools()
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (uint256[] memory)
+    {
+        return poolsInEachRound[currentRoundId];
+    }
+
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getTicketsInRound(uint256 _roundId)
         external

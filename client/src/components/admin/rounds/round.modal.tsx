@@ -3,6 +3,7 @@ import { FunctionComponent } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
+import { web3 } from "../../../provider/web3";
 
 interface RoundModalProps {
     changeRoundValues: Function;
@@ -21,7 +22,8 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
     isWaiting,
     showModal,
 }) => {
-    const { endTime, bnbAddedFromLastRound, ticketPrice, pools } = formValues;
+    const { endTime, bonusBnbAmount, bnbAddedFromLastRound, ticketPrice, pools } =
+        formValues;
 
     return (
         <Modal
@@ -98,6 +100,25 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                         <Button variant="warning" type="button">
                             Calculate
                         </Button>
+                    </Col>
+                </Form.Group>
+                <Form.Group as={Row} className="mb-3" controlId="BonusBnbAmount">
+                    <Form.Label column sm="2">
+                        Bonus bnb added
+                    </Form.Label>
+                    <Col sm="10">
+                        <Form.Control
+                            value={bonusBnbAmount}
+                            type="number"
+                            min={0}
+                            placeholder="Bonus bnb to add"
+                            onChange={(e) => {
+                                changeRoundValues({
+                                    ...formValues,
+                                    bonusBnbAmount: e.target.value,
+                                });
+                            }}
+                        />
                     </Col>
                 </Form.Group>
                 {/* pools - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */}

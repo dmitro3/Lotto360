@@ -175,6 +175,12 @@ body {
     background-size: contain;
 }
 
+.modal,
+.modal-backdrop {
+    position: sticky !important;
+    bottom: 0;
+}
+
 .detail-modal {
     position: fixed;
     left: 0;

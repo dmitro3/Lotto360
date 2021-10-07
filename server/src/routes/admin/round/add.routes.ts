@@ -6,6 +6,7 @@ import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { validateRequest } from "../../../middlewares/validate-request";
 import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { bnToNumber } from "../../../utils/ethers";
 import { responseMaker } from "../../response.maker";
 import { addRoundValidatorSchema } from "../../validation/schemas";
 
@@ -28,7 +29,7 @@ router.post(
 
         // make pools array
         const poolsArray: number[] = [];
-        pools.forEach((pool, i) => (poolsArray[i] = pool.percentage));
+        pools?.forEach((pool, i) => (poolsArray[i] = pool.percentage));
 
         let transactionHash: string = "";
 
@@ -36,9 +37,9 @@ router.post(
         try {
             const tx = await lotto360Contract.startNewRound(
                 endTime,
-                ethers.utils.parseEther(ticketPrice.toString()),
-                bonusBnbAmount,
-                bnbAddedFromLastRound,
+                ethers.utils.parseEther(`${ticketPrice}`),
+                ethers.utils.parseEther(`${bonusBnbAmount}`),
+                ethers.utils.parseEther(`${bnbAddedFromLastRound}`),
                 poolsArray,
                 {
                     gasLimit: 1000000,

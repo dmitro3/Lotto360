@@ -1,4 +1,5 @@
 import { ValidationError } from "express-validator";
+import ApiResponseResult, { ResponseMessageType } from "../middlewares/error-handler";
 import { CustomError } from "./custom-error";
 
 export class RequestValidationError extends CustomError {
@@ -11,8 +12,11 @@ export class RequestValidationError extends CustomError {
     }
 
     serializeErrors() {
-        return this.errors.map((e) => {
-            return { message: e.msg, field: e.param };
-        });
+        const response: ApiResponseResult = {
+            success: false,
+            messages: [{ message: this.message, type: ResponseMessageType.ERROR }],
+            result: this.errors,
+        };
+        return response;
     }
 }
