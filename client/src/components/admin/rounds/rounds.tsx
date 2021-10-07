@@ -1,108 +1,84 @@
-import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
-import {
-    defaultPools,
-    GetRoundApiModel,
-    RoundStatus,
-} from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
+import { GetRoundApiModel } from "../../../api/models/round.model";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
+import { RoundApiService } from "../../../api/round.api.service";
+import { initialRound } from "./reducer/round.list.reducer";
+import AddRoundButton from "./button.add.round";
 import CurrentRound from "./current.round";
 import RoundModal from "./round.modal";
 
 interface RoundsProps {}
 
-let round: GetRoundApiModel = {
-    cid: 0,
-    bnbAddedFromLastRound: 0,
-    bonusBnbAmount: 0,
-    endTime: moment().unix(),
-    finalNumber: 0,
-    firstTicketId: 0,
-    firstTicketIdNextRound: 0,
-    startTime: 0,
-    status: RoundStatus.Open,
-    ticketPrice: 0.02,
-    totalBnbAmount: 0,
-    pools: defaultPools,
-};
-
 const Rounds: FunctionComponent<RoundsProps> = () => {
-    const [showModalAddRound, setShowModalAddRound] = useState(false);
-    const [showModalUpdateRound, setShowModalUpdateRound] = useState(false);
-    const [roundFormInfo, setRoundFormInfo] = useState(round);
-    const [currentRound, setCurrentRound] = useState<GetRoundApiModel | undefined>(
-        undefined
-    );
-    const [showDetail, setShowDetail] = useState(false);
-    const [showTransactionWaiting, setShowTransactionWaiting] = useState(false);
+    const [showUpdateRoundModal, setShowUpdateRoundModal] = useState(false);
+    const [submitButtonWaiting, setSubmitButtonWaiting] = useState(false);
+    const [roundFormValues, setRoundFormValues] = useState(initialRound);
+    const [showAddRoundModal, setShowAddRoundModal] = useState(false);
+    const [currentRound, setCurrentRound] = useState(initialRound);
+    const [showRoundDetail, setShowRoundDetail] = useState(false);
 
     useEffect(() => {
-        RoundApiService.getCurrentRound().then((res) => setCurrentRound(res.data.result));
+        RoundApiService.getCurrentRound().then((res) => {
+            if (res.data.result) setCurrentRound(res.data.result);
+        });
     }, []);
 
-    const handleMainModalClose = () => {
-        setShowModalAddRound(false);
-        setShowModalUpdateRound(false);
+    const closeFormModal = () => {
+        setShowAddRoundModal(false);
+        setShowUpdateRoundModal(false);
     };
 
-    const handleAddRound = async (state: GetRoundApiModel) => {
-        setShowTransactionWaiting(true);
+    const addRound = async (state: GetRoundApiModel) => {
+        setSubmitButtonWaiting(true);
         const result = await RoundApiService.addRound(state);
         if (result) {
-            handleMainModalClose();
+            closeFormModal();
             toast.success(
                 CustomToastWithLink(result.data.messages![0].message, "round added")
             );
         }
-        setShowTransactionWaiting(false);
+        setSubmitButtonWaiting(false);
     };
 
-    const handleUpdateRoundButton = () => {
-        setShowModalUpdateRound(true);
-    };
-    const handleUpdateRound = (state: GetRoundApiModel) => console.info;
+    const updateRound = (state: GetRoundApiModel) => console.info;
 
     const changeRoundValues = (roundValues: GetRoundApiModel) => {
-        setRoundFormInfo(roundValues);
+        setRoundFormValues(roundValues);
     };
 
-    const handleShowDetail = () => {
-        setShowDetail(true);
+    const showDetail = () => {
+        setShowRoundDetail(true);
     };
 
-    const handleCloseDetailModal = () => setShowDetail(false);
+    const closeDetailModal = () => setShowRoundDetail(false);
 
     return (
         <>
-            <div className="d-flex">
-                <button
-                    className="btn btn-primary ms-auto"
-                    onClick={() => setShowModalAddRound(true)}
-                >
-                    create round
-                </button>
-            </div>
+            <AddRoundButton setShowModalAddRound={setShowAddRoundModal} />
 
+            {/* add round */}
             <RoundModal
+                title={"Add round"}
                 changeRoundValues={changeRoundValues}
-                formValues={roundFormInfo}
-                handleModalClose={handleMainModalClose}
-                handleModalSubmit={handleAddRound}
-                isWaiting={showTransactionWaiting}
-                showModal={showModalAddRound}
+                handleModalClose={closeFormModal}
+                handleModalSubmit={addRound}
+                formValues={roundFormValues}
+                isWaiting={submitButtonWaiting}
+                showModal={showAddRoundModal}
             />
 
+            {/* update round */}
             {currentRound && (
                 <RoundModal
+                    title={"Update round"}
                     changeRoundValues={changeRoundValues}
+                    handleModalClose={closeFormModal}
+                    handleModalSubmit={updateRound}
                     formValues={currentRound}
-                    handleModalClose={handleMainModalClose}
-                    handleModalSubmit={handleUpdateRound}
-                    isWaiting={showTransactionWaiting}
-                    showModal={showModalUpdateRound}
+                    isWaiting={submitButtonWaiting}
+                    showModal={showUpdateRoundModal}
                 />
             )}
 
@@ -113,7 +89,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             /> */}
 
             <CurrentRound
-                handleUpdateButton={handleUpdateRoundButton}
+                handleUpdateButton={setShowUpdateRoundModal}
                 currentRound={currentRound}
             />
 
@@ -139,7 +115,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
                                 className="btn btn-sm btn-info"
                                 type="button"
                                 onClick={() => {
-                                    handleShowDetail();
+                                    showDetail();
                                 }}
                             >
                                 detail
@@ -156,7 +132,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
                                 className="btn btn-sm btn-info"
                                 type="button"
                                 onClick={() => {
-                                    handleShowDetail();
+                                    showDetail();
                                 }}
                             >
                                 detail
@@ -173,7 +149,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
                                 className="btn btn-sm btn-info"
                                 type="button"
                                 onClick={() => {
-                                    handleShowDetail();
+                                    showDetail();
                                 }}
                             >
                                 detail

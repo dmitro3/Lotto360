@@ -3,7 +3,6 @@ import { FunctionComponent } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
-import { web3 } from "../../../provider/web3";
 
 interface RoundModalProps {
     changeRoundValues: Function;
@@ -12,6 +11,7 @@ interface RoundModalProps {
     handleModalSubmit: Function;
     isWaiting: boolean;
     showModal: boolean;
+    title: string;
 }
 
 const RoundModal: FunctionComponent<RoundModalProps> = ({
@@ -21,6 +21,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
     handleModalSubmit,
     isWaiting,
     showModal,
+    title,
 }) => {
     const { endTime, bonusBnbAmount, bnbAddedFromLastRound, ticketPrice, pools } =
         formValues;
@@ -34,7 +35,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
             onHide={handleModalClose}
         >
             <Modal.Header closeButton>
-                <Modal.Title>Create Round</Modal.Title>
+                <Modal.Title>{title}</Modal.Title>
             </Modal.Header>
             <Modal.Body className="vh-50">
                 {/* end time */}

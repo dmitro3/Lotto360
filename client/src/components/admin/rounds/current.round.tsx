@@ -53,7 +53,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         <button className="btn btn-primary mt-5">Load tickets</button>
                         <button
                             className="btn btn-warning mt-5 ms-3"
-                            onClick={() => handleUpdateButton()}
+                            onClick={() => handleUpdateButton(true)}
                         >
                             edit round
                         </button>
