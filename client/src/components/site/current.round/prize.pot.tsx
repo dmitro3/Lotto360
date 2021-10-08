@@ -1,28 +1,46 @@
 import { FunctionComponent } from "react";
-import PrizePerMatch from "../shared/prize.per.match";
-import RoundNumber from "./round.number";
+import { GetRoundApiModel } from "../../../api/models/round.model";
 import TimeAndTotalAmount from "../shared/time.total.amount";
+import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
+import RoundNumber from "./round.number";
 import PrizeBoxHeader from "./header";
+import { ticketNumToStr } from "../../../utilities/stringUtil";
 
 interface PrizePotProps {
-    currentPrizeAmount: number;
+    currentRound: GetRoundApiModel;
+    bnbPrice: number;
 }
-// todo remove this
-const fakeNumberArray = ["456787", "889356", "342267", "009988", "567894"];
 
-const PrizePot: FunctionComponent<PrizePotProps> = ({ currentPrizeAmount }) => {
+const PrizePot: FunctionComponent<PrizePotProps> = ({ bnbPrice, currentRound }) => {
+    const { cid, endTime, bnbAddedFromLastRound, bonusBnbAmount, totalBnbAmount, pools } =
+        currentRound;
+    const totalPrice = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
+
+    let userTickets: string[] = [];
+    if (currentRound.tickets) {
+        userTickets = currentRound.tickets.map((num) => ticketNumToStr(num.number));
+    }
+
     return (
         <div className="prizepot p-5 position-relative">
-            <PrizeBoxHeader endTime={563646262646} />
+            <PrizeBoxHeader endTime={endTime} />
 
             <div className="container bg-white rounded shadow p-4 mt-4 mb-5">
-                <TimeAndTotalAmount time={5555555} totalAmount={6767676} />
-                <RoundNumber number={690} />
-                <PrizePerMatch amount={currentPrizeAmount} percentages={[]} />
+                <TimeAndTotalAmount
+                    time={endTime}
+                    bnbPrice={bnbPrice}
+                    totalAmount={totalPrice}
+                />
+                <RoundNumber number={cid} />
+                <PrizePerMatch
+                    amount={totalPrice}
+                    bnbPrice={bnbPrice}
+                    percentages={pools}
+                />
 
                 <div className="dashed my-5"></div>
-                <UserTickets ticketNumbers={fakeNumberArray} />
+                <UserTickets ticketNumbers={userTickets} />
 
                 <div
                     className="max-content px-3 py-1 d-flex flex-column mb-3 mt-5

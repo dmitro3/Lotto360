@@ -4,11 +4,13 @@ import { currencyFormat } from "../../../utilities/stringUtil";
 import { flexItemsCenter } from "../constants/classes";
 
 interface TimeAndTotalAmountProps {
+    bnbPrice: number;
     time: number;
     totalAmount: number;
 }
 
 const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
+    bnbPrice,
     time,
     totalAmount,
 }) => {
@@ -21,7 +23,9 @@ const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
                         {currencyFormat(totalAmount, "BNB")}
                     </span>
                 </span>
-                <span className="fs-5 text-success">~ $134,789</span>
+                <span className="fs-5 text-success">
+                    {currencyFormat(bnbPrice * totalAmount, "$")}
+                </span>
             </div>
 
             <div className={flexItemsCenter}>

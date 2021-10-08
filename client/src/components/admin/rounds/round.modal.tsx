@@ -9,6 +9,7 @@ interface RoundModalProps {
     formValues: GetRoundApiModel;
     handleModalClose: Function;
     handleModalSubmit: Function;
+    isUpdate?: boolean;
     isWaiting: boolean;
     showModal: boolean;
     title: string;
@@ -19,6 +20,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
     formValues,
     handleModalClose,
     handleModalSubmit,
+    isUpdate = false,
     isWaiting,
     showModal,
     title,
@@ -65,6 +67,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="10">
                         <Form.Control
+                            disabled={isUpdate}
                             type="number"
                             min={0}
                             placeholder="Ticket price in bnb"
@@ -83,25 +86,37 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     <Form.Label column sm="2">
                         Last round bnb
                     </Form.Label>
-                    <Col sm="8">
-                        <Form.Control
-                            value={bnbAddedFromLastRound}
-                            type="number"
-                            min={0}
-                            placeholder="Bnb add from last round"
-                            onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    bnbAddedFromLastRound: e.target.value,
-                                });
-                            }}
-                        />
-                    </Col>
-                    <Col sm="2">
-                        <Button variant="warning" type="button">
-                            Calculate
-                        </Button>
-                    </Col>
+                    {isUpdate ? (
+                        <Col sm="10">
+                            <Form.Control
+                                disabled
+                                value={bnbAddedFromLastRound}
+                                type="number"
+                            />
+                        </Col>
+                    ) : (
+                        <>
+                            <Col sm="8">
+                                <Form.Control
+                                    value={bnbAddedFromLastRound}
+                                    type="number"
+                                    min={0}
+                                    placeholder="Bnb add from last round"
+                                    onChange={(e) => {
+                                        changeRoundValues({
+                                            ...formValues,
+                                            bnbAddedFromLastRound: e.target.value,
+                                        });
+                                    }}
+                                />
+                            </Col>
+                            <Col sm="2">
+                                <Button variant="warning" type="button">
+                                    Calculate
+                                </Button>
+                            </Col>
+                        </>
+                    )}
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3" controlId="BonusBnbAmount">
                     <Form.Label column sm="2">

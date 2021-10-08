@@ -1,3 +1,4 @@
+import moment from "moment";
 import { FunctionComponent } from "react";
 import { flexItemsCenter } from "../constants/classes";
 
@@ -13,8 +14,10 @@ const PrizeBoxHeader: FunctionComponent<PrizeBoxHeaderProps> = ({ endTime }) => 
             </h2>
 
             <div className={`text-center text-white mt-3 ${flexItemsCenter}`}>
-                <span className="me-3 fw-bold fs-3 text-green">5h 45m</span>
-                <span className="fs-5 fw-bold text-shadow">until next draw</span>
+                <span className="fs-4 fw-bold text-shadow">Next draw</span>
+                <span className="ms-2 fw-bold fs-4 text-green">
+                    {moment(endTime * 1000).fromNow()}
+                </span>
             </div>
         </>
     );

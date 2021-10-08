@@ -4,11 +4,13 @@ import PrizeBox from "./prize.box";
 
 interface PrizePerMatchProps {
     amount: number;
+    bnbPrice: number;
     percentages?: PoolAttrs[];
 }
 
 const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
     amount,
+    bnbPrice,
     percentages,
 }) => {
     return (
@@ -18,7 +20,7 @@ const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
             </h4>
 
             <div className="d-flex flex-wrap justify-content-center mt-4">
-                <PrizeBox amount={amount} pools={percentages!} />
+                <PrizeBox amount={amount} bnbPrice={bnbPrice} pools={percentages!} />
             </div>
         </>
     );

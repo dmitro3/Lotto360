@@ -326,33 +326,6 @@ export const Lotto360Abi = [
                 name: "",
                 type: "tuple",
             },
-            {
-                components: [
-                    {
-                        internalType: "uint256",
-                        name: "cid",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "number",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "address",
-                        name: "owner",
-                        type: "address",
-                    },
-                ],
-                internalType: "struct Lotto360.Ticket[]",
-                name: "",
-                type: "tuple[]",
-            },
-            {
-                internalType: "uint256[]",
-                name: "",
-                type: "uint256[]",
-            },
         ],
         stateMutability: "view",
         type: "function",
@@ -401,6 +374,57 @@ export const Lotto360Abi = [
         type: "function",
     },
     {
+        inputs: [],
+        name: "getPoolsInCurrentRoundForUser",
+        outputs: [
+            {
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_roundId",
+                type: "uint256",
+            },
+        ],
+        name: "getPoolsInRound",
+        outputs: [
+            {
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_roundId",
+                type: "uint256",
+            },
+        ],
+        name: "getPoolsInRoundForUser",
+        outputs: [
+            {
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "uint256",
@@ -409,6 +433,82 @@ export const Lotto360Abi = [
             },
         ],
         name: "getRoundById",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "enum Lotto360.Status",
+                        name: "status",
+                        type: "uint8",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "cid",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "startTime",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "endTime",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "ticketPrice",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "firstTicketId",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "firstTicketIdNextRound",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "totalBnbAmount",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "bonusBnbAmount",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "bnbAddedFromLastRound",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "finalNumber",
+                        type: "uint256",
+                    },
+                ],
+                internalType: "struct Lotto360.Round",
+                name: "",
+                type: "tuple",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_roundId",
+                type: "uint256",
+            },
+        ],
+        name: "getRoundByIdForUser",
         outputs: [
             {
                 components: [
@@ -583,6 +683,72 @@ export const Lotto360Abi = [
             },
         ],
         name: "getTicketsInRound",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "cid",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "number",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "address",
+                        name: "owner",
+                        type: "address",
+                    },
+                ],
+                internalType: "struct Lotto360.Ticket[]",
+                name: "",
+                type: "tuple[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
+        name: "getUserTicketsInCurrentRound",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "cid",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "number",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "address",
+                        name: "owner",
+                        type: "address",
+                    },
+                ],
+                internalType: "struct Lotto360.Ticket[]",
+                name: "",
+                type: "tuple[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "_roundId",
+                type: "uint256",
+            },
+        ],
+        name: "getUserTicketsInRound",
         outputs: [
             {
                 components: [

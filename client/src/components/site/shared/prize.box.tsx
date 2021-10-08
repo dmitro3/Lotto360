@@ -4,10 +4,11 @@ import { currencyFormat } from "../../../utilities/stringUtil";
 
 interface PrizeBoxProps {
     amount: number;
+    bnbPrice: number;
     pools: PoolAttrs[];
 }
 
-const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, pools }) => {
+const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, bnbPrice, pools }) => {
     const runCallback = (cb: any) => {
         return cb();
     };
@@ -23,22 +24,29 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, pools }) => {
                         <div className="d-flex">
                             {runCallback(() => {
                                 const row = [];
-                                for (let i = 0; i < pools.length; i++) {
+                                for (let j = 0; j <= pool.name && i < 6; j++) {
                                     row.push(
                                         <i
-                                            key={pools.length * i + 30}
+                                            key={pools.length * j + 30}
                                             className="fa-solid fa-square text-success mx-1"
                                         ></i>
                                     );
                                 }
+                                if (i === 6)
+                                    row.push(
+                                        <i
+                                            key={pools.length * 98 + 30}
+                                            className="fa-duotone fa-box-dollar text-warning mx-1"
+                                        ></i>
+                                    );
                                 return row;
                             })}
                             {runCallback(() => {
                                 const row = [];
-                                for (let i = 0; i < 6 - pools.length; i++) {
+                                for (let j = 0; j < 5 - pool.name; j++) {
                                     row.push(
                                         <i
-                                            key={pools.length * i + 30}
+                                            key={pools.length * j + 30}
                                             className="fa-duotone fa-xmark text-danger mx-1"
                                         ></i>
                                     );
@@ -47,11 +55,16 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, pools }) => {
                             })}
                         </div>
                     </div>
-                    <div className="card-body d-flex justify-content-left align-items-center">
-                        <span className="fw-bold fs-6 me-2">
+                    <div className="card-body d-flex flex-column justify-content-left align-items-center">
+                        <span className="fw-bold fs-6">
                             {currencyFormat((pool.percentage * amount) / 100, "BNB")}
                         </span>
-                        <span className="text-muted">~ $145,550</span>
+                        <span className="text-muted">
+                            {currencyFormat(
+                                (pool.percentage * amount * bnbPrice) / 100,
+                                "$"
+                            )}
+                        </span>
                     </div>
                 </div>
             ))}

@@ -5,12 +5,14 @@ import PrizePerMatch from "../../site/shared/prize.per.match";
 import TimeAndTotalAmount from "../../site/shared/time.total.amount";
 
 interface RoundDetailModalProps {
+    bnbPrice: number;
     handleClose: Function;
     roundInfo: GetRoundApiModel;
     showModal: boolean;
 }
 
 const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
+    bnbPrice,
     handleClose,
     roundInfo,
     showModal,
@@ -29,10 +31,15 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
 
             <div className="container rounded shadow bg-white py-3">
                 <TimeAndTotalAmount
+                    bnbPrice={bnbPrice}
                     time={roundInfo.endTime}
                     totalAmount={roundInfo.totalBnbAmount}
                 />
-                <PrizePerMatch amount={roundInfo.totalBnbAmount} percentages={[]} />
+                <PrizePerMatch
+                    amount={roundInfo.totalBnbAmount}
+                    bnbPrice={bnbPrice}
+                    percentages={roundInfo.pools}
+                />
 
                 <div className={`${flexItemsCenter}`}>
                     <div className={`${flexItemsCenter} mt-3 me-5`}>

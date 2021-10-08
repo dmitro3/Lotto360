@@ -1,12 +1,12 @@
 import { FunctionComponent } from "react";
+import { currencyFormat } from "../../../utilities/stringUtil";
 
 interface MainProps {
-    currentPrizeAmount: number;
-    bnbPriceInUSD: number;
+    currentPrizeAmount?: number;
+    bnbPriceInUSD?: number;
 }
 
 const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD }) => {
-    console.info(currentPrizeAmount, bnbPriceInUSD);
     return (
         <>
             <div
@@ -24,15 +24,21 @@ const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD 
                     >
                         <div>
                             <span className="fs-2 fw-bold">Prize:</span>
-                            <span className="ms-2 me-1 fs-2 fw-bold">
-                                {currentPrizeAmount}
+                            <span className="ms-2 fs-2 fw-bold">
+                                {currentPrizeAmount
+                                    ? currencyFormat(currentPrizeAmount, "BNB")
+                                    : "0 BNB"}
                             </span>
-                            <span className="fs-2 fw-bold">BNB</span>
                         </div>
                         <div className="pb-2 d-flex justify-content-center align-items-center mt-3">
-                            <span className="fs-3 fw-bold">{`$${
-                                currentPrizeAmount * bnbPriceInUSD
-                            }`}</span>
+                            <span className="fs-3 fw-bold">
+                                {currentPrizeAmount && bnbPriceInUSD
+                                    ? currencyFormat(
+                                          currentPrizeAmount * bnbPriceInUSD,
+                                          "$"
+                                      )
+                                    : "$ 0"}
+                            </span>
                         </div>
                     </div>
                     <div

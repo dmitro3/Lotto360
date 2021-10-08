@@ -7,11 +7,13 @@ import PrizePerMatch from "../../site/shared/prize.per.match";
 import moment from "moment";
 
 interface CurrentRoundProps {
+    bnbPrice: number;
     currentRound?: GetRoundApiModel;
     handleUpdateButton: Function;
 }
 
 const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
+    bnbPrice,
     currentRound,
     handleUpdateButton,
 }) => {
@@ -47,8 +49,16 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                             {moment(startTime * 1000).format("MMMM Do YYYY, h:mm a")}
                         </div>
                     </div>
-                    <TimeAndTotalAmount time={endTime} totalAmount={totalBnb} />
-                    <PrizePerMatch amount={totalBnb} percentages={pools} />
+                    <TimeAndTotalAmount
+                        time={endTime}
+                        bnbPrice={bnbPrice}
+                        totalAmount={totalBnb}
+                    />
+                    <PrizePerMatch
+                        amount={totalBnb}
+                        bnbPrice={bnbPrice}
+                        percentages={pools}
+                    />
                     <div className={`${flexItemsCenter}`}>
                         <div className={`${flexItemsCenter} mt-3 me-5`}>
                             <i className="fa-duotone fa-users me-2 fa-lg"></i>

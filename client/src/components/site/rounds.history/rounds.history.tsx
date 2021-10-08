@@ -8,12 +8,16 @@ import RoundNumberSelector from "./round.number.selector";
 import UserHistory from "./user.history";
 
 interface RoundsHistoryProps {
+    bnbPrice: number;
     historyAmount: number;
 }
 
 const fakeNumberArray = ["456787", "889356", "342267", "009988", "567894"];
 
-const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ historyAmount }) => {
+const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
+    bnbPrice,
+    historyAmount,
+}) => {
     return (
         <div className="bg-dark p-5 position-relative">
             <HistoryHeader lastRound={1087} />
@@ -27,8 +31,16 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ historyAmount })
                 </div>
 
                 <RoundNumberSelector number={900} />
-                <TimeAndTotalAmount totalAmount={800} time={566666666} />
-                <PrizePerMatch amount={historyAmount} percentages={[]} />
+                <TimeAndTotalAmount
+                    totalAmount={800}
+                    bnbPrice={bnbPrice}
+                    time={566666666}
+                />
+                <PrizePerMatch
+                    amount={historyAmount}
+                    bnbPrice={bnbPrice}
+                    percentages={[]}
+                />
 
                 <div className={`${flexItemsCenter} mt-3`}>
                     <i className="fa-duotone fa-users me-2 fa-lg"></i>

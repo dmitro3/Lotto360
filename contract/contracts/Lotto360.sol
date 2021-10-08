@@ -239,7 +239,7 @@ contract Lotto360 {
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 
-    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function startNewRound(
         uint256 _endTime,
         uint256 _ticketPrice,
@@ -282,7 +282,7 @@ contract Lotto360 {
         );
     }
 
-    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function updateCurrentRound(
         uint256 _endTime,
         uint256 _bonusBnbAmount,
@@ -393,7 +393,7 @@ contract Lotto360 {
         return poolsInEachRound[_roundId];
     }
 
-    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getCurrentRound()
         external
         view
@@ -404,7 +404,7 @@ contract Lotto360 {
         return rounds[currentRoundId];
     }
 
-    // #
+    // ✅
     function getCurrentRoundTickets()
         external
         view
@@ -423,7 +423,7 @@ contract Lotto360 {
         return (ticketArray);
     }
 
-    // #
+    // ✅
     function getCurrentRoundPools()
         external
         view
@@ -455,7 +455,7 @@ contract Lotto360 {
         return ticketsArray;
     }
 
-    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getSettings()
         external
         view

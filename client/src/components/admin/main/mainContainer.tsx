@@ -5,9 +5,11 @@ import Rounds from "../rounds/rounds";
 import ProtectedRoute from "../../security/protected.route";
 import SideBar from "../sidebar/sideBar";
 
-interface MainContainerProps {}
+interface MainContainerProps {
+    bnbPrice: number;
+}
 
-const MainContainer: React.FC<MainContainerProps> = () => {
+const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
     return (
         <div className="fluid-container admin-fl">
             <div className="container-fluid admin-fl">
@@ -20,7 +22,10 @@ const MainContainer: React.FC<MainContainerProps> = () => {
                                 component={Dashboard}
                             />
                             <ProtectedRoute path="/admin/users" component={Dashboard} />
-                            <ProtectedRoute path="/admin/rounds" component={Rounds} />
+                            <ProtectedRoute
+                                path="/admin/rounds"
+                                render={() => <Rounds bnbPrice={bnbPrice} />}
+                            />
                             <ProtectedRoute path="/admin/setting" component={Dashboard} />
                             <ProtectedRoute path="/admin" component={Dashboard} />
                             {/*  <ProtectedRoute path="/roles/:id" component={RoleForm} />

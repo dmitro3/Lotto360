@@ -9,11 +9,11 @@ import ApiResponseResult, {
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ApiResponseResult<any>>) => {
-        console.info(response);
+        console.debug(response);
         if (response && response.status === 401)
             localStorage.removeItem(ACCESS_TOKEN_KEY);
 
-        if (response.status === 200 && response.data.success) {
+        if (response && response.status === 200 && response.data.success) {
             const { headers } = response;
             if (headers["x-access-token"] && headers["x-refresh-token"]) {
                 setJwt(headers["x-access-token"], headers["x-refresh-token"]);
@@ -21,7 +21,7 @@ axios.interceptors.response.use(
             }
         }
 
-        if (response.data && response.status) {
+        if (response && response.data && response.status) {
             const data: ApiResponseResult<any> = response.data;
             if (data.messages) {
                 data.messages?.forEach((mes) => {
@@ -33,11 +33,16 @@ axios.interceptors.response.use(
         return response;
     },
     (error: AxiosError<ApiResponseResult<any>>) => {
-        console.info(error);
+        console.debug(error);
         if (error && error.response?.status === 401)
             localStorage.removeItem(ACCESS_TOKEN_KEY);
 
-        if (error.response && error.response.data && error.response.data.messages) {
+        if (
+            error &&
+            error.response &&
+            error.response.data &&
+            error.response.data.messages
+        ) {
             const message = error.response.data.messages[0];
             toastMessage(message);
             if (error.response.data.exception) console.log(error.response.data.exception);
@@ -45,6 +50,7 @@ axios.interceptors.response.use(
         }
 
         if (
+            error &&
             error.response &&
             error.response.data &&
             // @ts-ignore

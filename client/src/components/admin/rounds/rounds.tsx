@@ -10,20 +10,22 @@ import AddRoundButton from "./button.add.round";
 import CurrentRound from "./current.round";
 import RoundModal from "./round.modal";
 
-interface RoundsProps {}
+interface RoundsProps {
+    bnbPrice: number;
+}
 
-const Rounds: FunctionComponent<RoundsProps> = () => {
+const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
+    const [roundUpdateFormValues, setRoundUpdateFormValues] = useState(initialRound);
+    const [roundFormValues, setRoundFormValues] = useState(initialRound);
+    const [currentRound, setCurrentRound] = useState<GetRoundApiModel>();
     const [showUpdateRoundModal, setShowUpdateRoundModal] = useState(false);
     const [submitButtonWaiting, setSubmitButtonWaiting] = useState(false);
-    const [roundFormValues, setRoundFormValues] = useState(initialRound);
-    const [roundUpdateFormValues, setRoundUpdateFormValues] = useState(initialRound);
     const [showAddRoundModal, setShowAddRoundModal] = useState(false);
-    const [currentRound, setCurrentRound] = useState(initialRound);
     const [showRoundDetail, setShowRoundDetail] = useState(false);
 
     useEffect(() => {
         RoundApiService.getCurrentRound().then((res) => {
-            if (res.data.result) {
+            if (res && res.data && res.data.result) {
                 setCurrentRound(res.data.result);
                 setRoundUpdateFormValues(cloneDeep(res.data.result));
             }
@@ -39,6 +41,9 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
         setSubmitButtonWaiting(true);
         const result = await RoundApiService.addRound(state);
         if (result) {
+            const res = await RoundApiService.getCurrentRound();
+            if (res.data.result) setCurrentRound(cloneDeep(res.data.result));
+
             closeFormModal();
             toast.success(
                 CustomToastWithLink(result.data.messages![0].message, "round added")
@@ -93,8 +98,9 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             />
 
             {/* update round */}
-            {currentRound && (
+            {currentRound && currentRound.cid > 0 && (
                 <RoundModal
+                    isUpdate={true}
                     title={"Edit round"}
                     changeRoundValues={changeRoundUpdateFormValues}
                     handleModalClose={closeFormModal}
@@ -112,8 +118,9 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             /> */}
 
             <CurrentRound
-                handleUpdateButton={setShowUpdateRoundModal}
+                bnbPrice={bnbPrice}
                 currentRound={currentRound}
+                handleUpdateButton={setShowUpdateRoundModal}
             />
 
             <h4 className="mt-5 fw-bold">Rounds</h4>

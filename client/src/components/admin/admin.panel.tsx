@@ -3,13 +3,15 @@ import MyHeader from "./main/header";
 import MainContainer from "./main/mainContainer";
 import "react-datetime/css/react-datetime.css";
 
-interface AdminPanelProps {}
+interface AdminPanelProps {
+    bnbPrice: number;
+}
 
-const AdminPanel: FunctionComponent<AdminPanelProps> = () => {
+const AdminPanel: FunctionComponent<AdminPanelProps> = ({ bnbPrice }) => {
     return (
         <div>
             <MyHeader />
-            <MainContainer />
+            <MainContainer bnbPrice={bnbPrice} />
         </div>
     );
 };

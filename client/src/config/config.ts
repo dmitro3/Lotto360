@@ -1,4 +1,5 @@
 export const bnbTokenAddress = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
+export const coinGeckoBnbPriceApi = "https://api.coingecko.com/api/v3/coins/binancecoin";
 
 export const lotto360ContractAddress = "";
 

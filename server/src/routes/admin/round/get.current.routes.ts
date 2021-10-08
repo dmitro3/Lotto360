@@ -18,36 +18,33 @@ router.get(
     async (req: Request, res: Response) => {
         // send transaction to blockchain
         try {
-            const result = await lotto360Contract.getCurrentRound({
-                gasLimit: 1000000,
-            });
-            const tickets = await lotto360Contract.getCurrentRoundTickets({
-                gasLimit: 1000000,
-            });
-            const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools({
-                gasLimit: 1000000,
-            });
+            const roundResult = await lotto360Contract.getCurrentRound();
+            const tickets = await lotto360Contract.getCurrentRoundTickets();
+            const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
 
-            const pools: PoolAttrs[] = poolsBn.map((bn, i) => {
+            let pools: PoolAttrs[] = [];
+            pools = poolsBn.map((bn, i) => {
                 return { name: i, percentage: bn.toNumber() };
             });
 
             const round: RoundAttrs = {
-                status: result.status,
-                cid: result.cid.toNumber(),
-                startTime: result.startTime.toNumber(),
-                endTime: result.endTime.toNumber(),
-                ticketPrice: bnToNumber(result.ticketPrice),
-                firstTicketId: result.firstTicketId.toNumber(),
-                firstTicketIdNextRound: result.firstTicketIdNextRound.toNumber(),
-                totalBnbAmount: bnToNumber(result.totalBnbAmount),
-                bonusBnbAmount: bnToNumber(result.bonusBnbAmount),
-                bnbAddedFromLastRound: bnToNumber(result.bnbAddedFromLastRound),
-                finalNumber: result.finalNumber.toNumber(),
+                status: roundResult.status,
+                cid: roundResult.cid.toNumber(),
+                startTime: roundResult.startTime.toNumber(),
+                endTime: roundResult.endTime.toNumber(),
+                ticketPrice: bnToNumber(roundResult.ticketPrice),
+                firstTicketId: roundResult.firstTicketId.toNumber(),
+                firstTicketIdNextRound: roundResult.firstTicketIdNextRound.toNumber(),
+                totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
+                bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
+                bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
+                finalNumber: roundResult.finalNumber.toNumber(),
                 pools: pools,
+                tickets: tickets,
             };
 
-            if (!result || !result.length) throw new NotFoundError("round not found");
+            if (!roundResult || !roundResult.length)
+                throw new NotFoundError("round not found");
 
             res.status(200).send(
                 responseMaker({

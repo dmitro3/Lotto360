@@ -13,6 +13,8 @@ const stringUtils = {
 const currencyFormat = (num: number, prefix: string) =>
     `${prefix} ` + num.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
+const ticketNumToStr = (num: number) => num.toString().substring(1);
+
 const getTicketCount = (tickets?: TicketAttrs[]) =>
     tickets && tickets?.length > 0 ? tickets.length : 0;
 
@@ -27,4 +29,4 @@ const getPlayersCount = (tickets?: TicketAttrs[]) => {
     return counter;
 };
 
-export { currencyFormat, getPlayersCount, getTicketCount, stringUtils };
+export { currencyFormat, getPlayersCount, getTicketCount, stringUtils, ticketNumToStr };

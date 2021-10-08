@@ -1,13 +1,19 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { Redirect, Route } from "react-router-dom";
 import { AuthenticationService } from "./auth";
 
 interface ProtectedRouteProps {
     path: string;
-    component: FunctionComponent<any>;
+    component?: FunctionComponent<any>;
+    render?: any;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component, path, ...rest }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+    component,
+    render,
+    path,
+    ...rest
+}) => {
     // todo remove false
     if (!AuthenticationService.getCurrentUser() && false)
         return (
@@ -17,8 +23,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ component, path, ...res
                 }}
             />
         );
-
-    return <Route {...rest} component={component} />;
+    if (component) return <Route {...rest} component={component} />;
+    else return <Route {...rest} render={render} />;
 };
 
 export default ProtectedRoute;
