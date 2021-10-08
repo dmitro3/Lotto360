@@ -34,6 +34,7 @@ contract Lotto360 {
 
     constructor() {
         owner = msg.sender;
+        bnbToken = IERC20(address(0x030b0a08eCaDdE5Ac33859a48d87416946C966A1));
     }
 
     enum Status {
@@ -122,33 +123,49 @@ contract Lotto360 {
         require(block.timestamp < rounds[_roundId].endTime, "Round is over");
 
         // calculate number of bnb user should pay
-        // check users wallet for bnb amount
-        // transfer tokens to this contract
-        // increment this round BNB amount
-        // start for loop to add tickets
-        /**
-        * 1 check this:
-        require(
-                (thisTicketNumber >= 1000000) && (thisTicketNumber <= 1999999),
-                "Outside range"
-            );
-            * 2 add new ticket to ticketsInEachRound then in crement current ticket id
+        uint256 amountToPay = _ticketNumbers.length * rounds[_roundId].ticketPrice;
 
-         */
-        // done
+        // check users wallet for bnb amount
+        uint256 userBnbSupply = bnbToken.balanceOf(address(msg.sender));
+        require(userBnbSupply > amountToPay, "Balance too low");
+
+        // transfer tokens to this contract
+        bnbToken.transferFrom(address(msg.sender), address(this), amountToPay);
+
+        // increment this round BNB amount
+        rounds[_roundId].totalBnbAmount += amountToPay;
+
+        // start for loop to add tickets
+        for (uint256 i = 0; i < _ticketNumbers.length; i++) {
+            uint256 ticketNumber = _ticketNumbers[i];
+            require(
+                (ticketNumber <= 1999999) && (ticketNumber >= 1000000),
+                "Ticket number is not valid"
+            );
+
+            ticketsInEachRound[_roundId][currentTicketId] = Ticket({
+                cid: currentTicketId,
+                number: ticketNumber,
+                owner: msg.sender
+            });
+
+            ticketCountInEachRound[_roundId]++;
+            currentTicketId++;
+        }
+
         emit TicketsPurchase(msg.sender, _roundId, _ticketNumbers.length);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getCurrentRoundForUser()
+    function getCurrentRoundForUser() external view nonContract returns (Round memory) {
+        return rounds[currentRoundId];
+    }
+
+    function getUserTicketsInCurrentRound()
         external
         view
         nonContract
-        returns (
-            Round memory,
-            Ticket[] memory,
-            uint256[] memory
-        )
+        returns (Ticket[] memory)
     {
         Ticket[] memory ticketArray;
         uint256 ticketCount = ticketCountInEachRound[currentRoundId];
@@ -162,7 +179,55 @@ contract Lotto360 {
             }
         }
 
-        return (rounds[currentRoundId], ticketArray, poolsInEachRound[currentRoundId]);
+        return ticketArray;
+    }
+
+    function getPoolsInCurrentRoundForUser()
+        external
+        view
+        nonContract
+        returns (uint256[] memory)
+    {
+        return poolsInEachRound[currentRoundId];
+    }
+
+    function getRoundByIdForUser(uint256 _roundId)
+        external
+        view
+        nonContract
+        returns (Round memory)
+    {
+        return rounds[_roundId];
+    }
+
+    function getUserTicketsInRound(uint256 _roundId)
+        external
+        view
+        nonContract
+        returns (Ticket[] memory)
+    {
+        Ticket[] memory ticketArray;
+        uint256 ticketCount = ticketCountInEachRound[_roundId];
+        uint256 arrayIndex = 0;
+
+        for (uint256 i = 0; i < ticketCount; i++) {
+            Ticket memory ticket = ticketsInEachRound[_roundId][i];
+            if (ticket.owner == msg.sender) {
+                ticketArray[arrayIndex] = ticket;
+                arrayIndex++;
+            }
+        }
+
+        return ticketArray;
+    }
+
+    function getPoolsInRoundForUser(uint256 _roundId)
+        external
+        view
+        nonContract
+        returns (uint256[] memory)
+    {
+        return poolsInEachRound[_roundId];
     }
 
     /**************************************************************************************************
@@ -174,7 +239,7 @@ contract Lotto360 {
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function startNewRound(
         uint256 _endTime,
         uint256 _ticketPrice,
@@ -217,7 +282,7 @@ contract Lotto360 {
         );
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function updateCurrentRound(
         uint256 _endTime,
         uint256 _bonusBnbAmount,
@@ -300,6 +365,35 @@ contract Lotto360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function getTicketsInRound(uint256 _roundId)
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (Ticket[] memory)
+    {
+        uint256 ticketCounts = ticketCountInEachRound[_roundId];
+        Ticket[] memory tickets = new Ticket[](ticketCounts);
+
+        for (uint256 i = 0; i < ticketCounts; i++) {
+            tickets[i] = ticketsInEachRound[_roundId][i];
+        }
+
+        return tickets;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function getPoolsInRound(uint256 _roundId)
+        external
+        view
+        onlyOwner
+        nonContract
+        returns (uint256[] memory)
+    {
+        return poolsInEachRound[_roundId];
+    }
+
+    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getCurrentRound()
         external
         view
@@ -310,6 +404,7 @@ contract Lotto360 {
         return rounds[currentRoundId];
     }
 
+    // #
     function getCurrentRoundTickets()
         external
         view
@@ -328,6 +423,7 @@ contract Lotto360 {
         return (ticketArray);
     }
 
+    // #
     function getCurrentRoundPools()
         external
         view
@@ -336,24 +432,6 @@ contract Lotto360 {
         returns (uint256[] memory)
     {
         return poolsInEachRound[currentRoundId];
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getTicketsInRound(uint256 _roundId)
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (Ticket[] memory)
-    {
-        uint256 ticketCounts = ticketCountInEachRound[_roundId];
-        Ticket[] memory tickets = new Ticket[](ticketCounts);
-
-        for (uint256 i = 0; i < ticketCounts; i++) {
-            tickets[i] = ticketsInEachRound[_roundId][i];
-        }
-
-        return tickets;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -377,7 +455,7 @@ contract Lotto360 {
         return ticketsArray;
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getSettings()
         external
         view
