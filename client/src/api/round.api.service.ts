@@ -50,10 +50,14 @@ export const RoundApiService = {
         });
     },
 
-    UpdateRound(
-        userData: GetRoundApiModel
+    updateRound(
+        roundData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
-        return httpService.put(`${baseUrl}/user`, userData);
+        return httpService.put(`${baseUrl}/round`, {
+            endTime: roundData.endTime,
+            bonusBnbAmount: roundData.bonusBnbAmount,
+            pools: roundData.pools,
+        });
     },
 
     uploadImage(

@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { cloneDeep } from "lodash";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { RoundApiService } from "../../../api/round.api.service";
@@ -15,13 +16,17 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
     const [showUpdateRoundModal, setShowUpdateRoundModal] = useState(false);
     const [submitButtonWaiting, setSubmitButtonWaiting] = useState(false);
     const [roundFormValues, setRoundFormValues] = useState(initialRound);
+    const [roundUpdateFormValues, setRoundUpdateFormValues] = useState(initialRound);
     const [showAddRoundModal, setShowAddRoundModal] = useState(false);
     const [currentRound, setCurrentRound] = useState(initialRound);
     const [showRoundDetail, setShowRoundDetail] = useState(false);
 
     useEffect(() => {
         RoundApiService.getCurrentRound().then((res) => {
-            if (res.data.result) setCurrentRound(res.data.result);
+            if (res.data.result) {
+                setCurrentRound(res.data.result);
+                setRoundUpdateFormValues(cloneDeep(res.data.result));
+            }
         });
     }, []);
 
@@ -40,12 +45,30 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             );
         }
         setSubmitButtonWaiting(false);
+        closeFormModal();
     };
 
-    const updateRound = (state: GetRoundApiModel) => console.info;
+    const updateRound = async (state: GetRoundApiModel) => {
+        setSubmitButtonWaiting(true);
+        const result = await RoundApiService.updateRound(state);
+        if (result) {
+            const res = await RoundApiService.getCurrentRound();
+            if (res.data.result) setCurrentRound(cloneDeep(res.data.result));
 
-    const changeRoundValues = (roundValues: GetRoundApiModel) => {
+            closeFormModal();
+            toast.success(
+                CustomToastWithLink(result.data.messages![0].message, "round updated")
+            );
+        }
+        setSubmitButtonWaiting(false);
+        closeFormModal();
+    };
+
+    const changeRoundFormValues = (roundValues: GetRoundApiModel) => {
         setRoundFormValues(roundValues);
+    };
+    const changeRoundUpdateFormValues = (roundValues: GetRoundApiModel) => {
+        setRoundUpdateFormValues(roundValues);
     };
 
     const showDetail = () => {
@@ -61,7 +84,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             {/* add round */}
             <RoundModal
                 title={"Add round"}
-                changeRoundValues={changeRoundValues}
+                changeRoundValues={changeRoundFormValues}
                 handleModalClose={closeFormModal}
                 handleModalSubmit={addRound}
                 formValues={roundFormValues}
@@ -72,11 +95,11 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
             {/* update round */}
             {currentRound && (
                 <RoundModal
-                    title={"Update round"}
-                    changeRoundValues={changeRoundValues}
+                    title={"Edit round"}
+                    changeRoundValues={changeRoundUpdateFormValues}
                     handleModalClose={closeFormModal}
                     handleModalSubmit={updateRound}
-                    formValues={currentRound}
+                    formValues={roundUpdateFormValues}
                     isWaiting={submitButtonWaiting}
                     showModal={showUpdateRoundModal}
                 />
@@ -93,7 +116,7 @@ const Rounds: FunctionComponent<RoundsProps> = () => {
                 currentRound={currentRound}
             />
 
-            <h4 className="mt-5">Rounds</h4>
+            <h4 className="mt-5 fw-bold">Rounds</h4>
             <Table striped bordered hover responsive>
                 <thead className="table-dark">
                     <tr>

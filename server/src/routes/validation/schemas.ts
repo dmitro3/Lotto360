@@ -23,3 +23,17 @@ export const addRoundValidatorSchema = [
         .isArray({ max: 7, min: 7 })
         .withMessage("Pool should be exist with length of 7"),
 ];
+
+export const updateRoundValidatorSchema = [
+    body("endTime").not().isEmpty().withMessage("Title is required"),
+    body("bonusBnbAmount")
+        .isFloat({ min: 0 })
+        .not()
+        .isEmpty()
+        .withMessage("Bonus bnb amount price must be greater than 0"),
+    body("pools")
+        .not()
+        .isEmpty()
+        .isArray({ max: 7, min: 7 })
+        .withMessage("Pool should be exist with length of 7"),
+];

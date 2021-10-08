@@ -30,7 +30,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
         <Modal
             size="lg"
             scrollable
-            backdrop="static"
+            // backdrop="static"
             show={showModal}
             onHide={handleModalClose}
         >
@@ -137,10 +137,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 0),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 0)
+                                );
                             }}
                         />
                     </Col>
@@ -154,10 +153,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 1),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 1)
+                                );
                             }}
                         />
                     </Col>
@@ -171,10 +169,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 2),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 2)
+                                );
                             }}
                         />
                     </Col>
@@ -191,10 +188,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 3),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 3)
+                                );
                             }}
                         />
                     </Col>
@@ -208,10 +204,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 4),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 4)
+                                );
                             }}
                         />
                     </Col>
@@ -225,10 +220,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 5),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 5)
+                                );
                             }}
                         />
                     </Col>
@@ -244,10 +238,9 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues({
-                                    ...formValues,
-                                    pools: generatePool(formValues, e.target.value, 6),
-                                });
+                                changeRoundValues(
+                                    generatePool(formValues, e.target.value, 6)
+                                );
                             }}
                         />
                     </Col>
@@ -277,10 +270,12 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
 };
 
 export default RoundModal;
+
 function generatePool(formValues: GetRoundApiModel, value: string, index: number) {
     let pl: PoolAttrs[] = [];
-    if (formValues.pools) pl = [...formValues.pools];
+    if (formValues.pools) pl = formValues.pools;
     if (value) pl[index].percentage = parseFloat(value);
     else pl[index].percentage = 0;
-    return pl;
+    const newState = { ...formValues, pools: pl };
+    return newState;
 }

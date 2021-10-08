@@ -1,5 +1,6 @@
 body {
     perspective: 900px;
+    overflow-x: hidden;
 }
 
 .big-logo {
@@ -175,12 +176,24 @@ body {
     background-size: contain;
 }
 
-.modal,
-.modal-backdrop {
-    position: sticky !important;
-    bottom: 0;
+#root {
+    position: relative;
 }
 
+.Toastify__toast-container {
+    position: sticky !important;
+    top: 0;
+    right: 20px;
+    left: auto;
+    margin-left: auto;
+}
+.Toastify {
+    position: sticky;
+    bottom: 0;
+    left: auto;
+    right: 50px;
+    z-index: 40000;
+}
 .detail-modal {
     position: fixed;
     left: 0;

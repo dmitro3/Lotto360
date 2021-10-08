@@ -7,24 +7,18 @@ import { requireAuth } from "../../../middlewares/require-auth";
 import { validateRequest } from "../../../middlewares/validate-request";
 import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
 import { responseMaker } from "../../response.maker";
-import { addRoundValidatorSchema } from "../../validation/schemas";
+import { updateRoundValidatorSchema } from "../../validation/schemas";
 
 const router = express.Router();
 
-router.post(
+router.put(
     "/api/round",
     // requireAuth,
-    addRoundValidatorSchema,
+    updateRoundValidatorSchema,
     validateRequest,
     async (req: Request, res: Response) => {
         // extract body
-        const {
-            endTime,
-            ticketPrice,
-            bonusBnbAmount,
-            bnbAddedFromLastRound,
-            pools,
-        }: RoundAttrs = req.body;
+        const { endTime, bonusBnbAmount, pools }: RoundAttrs = req.body;
 
         // make pools array
         const poolsArray: number[] = [];
@@ -34,19 +28,21 @@ router.post(
 
         // send transaction to blockchain
         try {
-            const tx = await lotto360Contract.startNewRound(
+            const tx = await lotto360Contract.updateCurrentRound(
                 endTime,
-                ethers.utils.parseEther(`${ticketPrice}`),
                 ethers.utils.parseEther(`${bonusBnbAmount}`),
-                ethers.utils.parseEther(`${bnbAddedFromLastRound}`),
                 poolsArray,
                 {
                     gasLimit: 1000000,
                 }
             );
-
+            console.info(
+                endTime,
+                ethers.utils.parseEther(`${bonusBnbAmount}`),
+                poolsArray
+            );
             // get tx hash
-            console.info("add round transaction hash:", tx.hash);
+            console.info("update round transaction hash:", tx.hash);
             transactionHash = tx.hash;
 
             // get tx result
@@ -82,4 +78,4 @@ router.post(
     }
 );
 
-export { router as createRoundRouter };
+export { router as updateCurrentRoundRouter };

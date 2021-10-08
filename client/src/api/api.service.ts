@@ -9,6 +9,7 @@ import ApiResponseResult, {
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ApiResponseResult<any>>) => {
+        console.info(response);
         if (response && response.status === 401)
             localStorage.removeItem(ACCESS_TOKEN_KEY);
 
@@ -32,6 +33,7 @@ axios.interceptors.response.use(
         return response;
     },
     (error: AxiosError<ApiResponseResult<any>>) => {
+        console.info(error);
         if (error && error.response?.status === 401)
             localStorage.removeItem(ACCESS_TOKEN_KEY);
 

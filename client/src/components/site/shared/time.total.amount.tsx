@@ -1,5 +1,6 @@
 import moment from "moment";
 import { FunctionComponent } from "react";
+import { currencyFormat } from "../../../utilities/stringUtil";
 import { flexItemsCenter } from "../constants/classes";
 
 interface TimeAndTotalAmountProps {
@@ -16,7 +17,9 @@ const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
             <div className={flexItemsCenter}>
                 <span className="fs-5 fw-bold me-2">
                     Total amount:{" "}
-                    <span className="text-dark">{`${totalAmount} BNB`}</span>
+                    <span className="text-dark">
+                        {currencyFormat(totalAmount, "BNB")}
+                    </span>
                 </span>
                 <span className="fs-5 text-success">~ $134,789</span>
             </div>

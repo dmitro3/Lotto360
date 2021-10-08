@@ -23,7 +23,7 @@ function App() {
                     render={() => <MainSite dispatch={dispatch} state={state} />}
                 />
             </Switch>
-            <ToastContainer position="top-right" limit={1} transition={Slide} />
+            <ToastContainer autoClose={false} position="top-right" transition={Slide} />
         </>
     );
 }
