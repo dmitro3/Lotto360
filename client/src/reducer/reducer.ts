@@ -8,13 +8,16 @@ export interface ActionModel<T> {
 }
 
 export enum LottoActions {
-    SET_WEB3,
     SET_ADDRESS,
-    SET_CURRENT_ROUND,
     SET_BNB_PRICE,
+    SET_CURRENT_ROUND,
+    SET_NETWORK_ID,
+    SET_WEB3,
 }
 
 export interface LottoState {
+    ticketPrice: number;
+    networkId: number;
     currentRound?: GetRoundApiModel;
     bnbPrice: number;
     historyAmount: number;
@@ -25,11 +28,12 @@ export interface LottoState {
 }
 
 export const initialState: LottoState = {
-    // todo remove this add 0
-    currentPrize: 800,
-    historyRound: 800,
-    historyAmount: 1800,
+    ticketPrice: 0,
     bnbPrice: 0,
+    currentPrize: 0,
+    historyRound: 0,
+    historyAmount: 0,
+    networkId: 0,
 };
 
 export default function lottoReducer(
@@ -43,16 +47,26 @@ export default function lottoReducer(
             newState.address = action.payload;
             return newState;
 
-        case LottoActions.SET_WEB3:
-            newState.web3 = action.payload;
+        case LottoActions.SET_BNB_PRICE:
+            newState.bnbPrice = action.payload;
             return newState;
 
         case LottoActions.SET_CURRENT_ROUND:
             newState.currentRound = cloneDeep(action.payload);
+            if (
+                newState.currentRound &&
+                newState.ticketPrice !== newState.currentRound?.ticketPrice
+            ) {
+                newState.ticketPrice = newState.currentRound.ticketPrice;
+            }
             return newState;
 
-        case LottoActions.SET_BNB_PRICE:
-            newState.bnbPrice = action.payload;
+        case LottoActions.SET_NETWORK_ID:
+            newState.networkId = action.payload;
+            return newState;
+
+        case LottoActions.SET_WEB3:
+            newState.web3 = action.payload;
             return newState;
 
         default:

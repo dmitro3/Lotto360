@@ -1,26 +1,31 @@
 import { FunctionComponent } from "react";
+import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import TimeAndTotalAmount from "../shared/time.total.amount";
+import BuyTicketButton from "../shared/buy.ticket.button";
 import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
 import RoundNumber from "./round.number";
 import PrizeBoxHeader from "./header";
-import { ticketNumToStr } from "../../../utilities/stringUtil";
 
 interface PrizePotProps {
-    currentRound: GetRoundApiModel;
     bnbPrice: number;
+    currentRound: GetRoundApiModel;
+    networkId: number;
 }
 
-const PrizePot: FunctionComponent<PrizePotProps> = ({ bnbPrice, currentRound }) => {
+const PrizePot: FunctionComponent<PrizePotProps> = ({
+    bnbPrice,
+    currentRound,
+    networkId,
+}) => {
     const { cid, endTime, bnbAddedFromLastRound, bonusBnbAmount, totalBnbAmount, pools } =
         currentRound;
     const totalPrice = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
 
     let userTickets: string[] = [];
-    if (currentRound.tickets) {
+    if (currentRound.tickets)
         userTickets = currentRound.tickets.map((num) => ticketNumToStr(num.number));
-    }
 
     return (
         <div className="prizepot p-5 position-relative">
@@ -47,10 +52,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({ bnbPrice, currentRound }) 
                 justify-content-center align-items-center mx-auto rounded text-black"
                 >
                     <i className="fa-duotone fa-chevrons-down fa-xl fa-flash text-success"></i>
-                    <button type="button" className="btn btn-lg btn-success mx-3 mt-4">
-                        <i className="fa-duotone fa-ticket fa-xl me-2"></i>
-                        Buy Ticket
-                    </button>
+                    <BuyTicketButton networkId={networkId} />
                 </div>
             </div>
         </div>

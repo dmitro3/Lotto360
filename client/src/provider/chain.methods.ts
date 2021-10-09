@@ -1,5 +1,7 @@
 import Web3 from "web3";
+import { GetRoundApiModel, PoolAttrs } from "../api/models/round.model";
 import { bnbTokenAddress, lotto360ContractAddress } from "../config/config";
+import { bnToNumber } from "../utilities/string.numbers.util";
 import { bnbTokenContract, lotto360Contract } from "./contracts";
 
 export const ChainMethods = {
@@ -31,12 +33,44 @@ export const ChainMethods = {
         }
     },
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    getCurrentRoundForUser: async (userAddress: string, web3: Web3) => {
+    getCurrentRoundForUser: async (web3: Web3) => {
         try {
             const roundResult = await lotto360Contract(web3)
                 .methods.getCurrentRoundForUser()
                 .call();
-            return roundResult;
+
+            const tickets = await lotto360Contract(web3)
+                .methods.getUserTicketsInCurrentRound()
+                .call();
+
+            const poolsBn: any[] = await lotto360Contract(web3)
+                .methods.getPoolsInCurrentRoundForUser()
+                .call();
+
+            let pools: PoolAttrs[] = [];
+            pools = poolsBn.map((bn, i) => {
+                return { name: i, percentage: bn };
+            });
+
+            const round: GetRoundApiModel = {
+                status: roundResult.status,
+                cid: roundResult.cid,
+                startTime: roundResult.startTime,
+                endTime: roundResult.endTime,
+                ticketPrice: bnToNumber(roundResult.ticketPrice),
+                firstTicketId: roundResult.firstTicketId,
+                firstTicketIdNextRound: roundResult.firstTicketIdNextRound,
+                totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
+                bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
+                bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
+                finalNumber: roundResult.finalNumber,
+                pools: pools,
+                tickets: tickets,
+            };
+
+            if (!roundResult || !roundResult.length) return null;
+
+            return round;
         } catch (err) {
             console.error("Error get current round:", err);
             return null;

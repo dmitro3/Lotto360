@@ -1,4 +1,6 @@
 import { groupBy, forOwn } from "lodash";
+import { BigNumber } from "@ethersproject/bignumber";
+import { ethers } from "ethers";
 import { TicketAttrs } from "../api/models/round.model";
 
 const stringUtils = {
@@ -27,6 +29,19 @@ const getPlayersCount = (tickets?: TicketAttrs[]) => {
     });
 
     return counter;
+};
+
+const rnd = () => Math.floor(Math.random() * (9 + 1));
+
+export const get6DigitsRandomString = () =>
+    `${rnd()}${rnd()}${rnd()}${rnd()}${rnd()}${rnd()}`;
+
+export const bnToNumber = (bn: BigNumber) => {
+    try {
+        return parseFloat(ethers.utils.formatEther(bn));
+    } catch {
+        return 0;
+    }
 };
 
 export { currencyFormat, getPlayersCount, getTicketCount, stringUtils, ticketNumToStr };

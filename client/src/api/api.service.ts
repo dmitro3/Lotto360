@@ -2,16 +2,12 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { ACCESS_TOKEN_KEY } from "../config/config";
 import { CustomToastWithLink } from "../utilities/toastLink";
-import ApiResponseResult, {
-    ResponseMessage,
-    ResponseMessageType,
-} from "./models/response.model";
+import ApiResponseResult, { ResponseMessage, ResponseMessageType } from "./models/response.model";
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ApiResponseResult<any>>) => {
-        console.debug(response);
-        if (response && response.status === 401)
-            localStorage.removeItem(ACCESS_TOKEN_KEY);
+        // console.debug(response);
+        if (response && response.status === 401) localStorage.removeItem(ACCESS_TOKEN_KEY);
 
         if (response && response.status === 200 && response.data.success) {
             const { headers } = response;
@@ -33,16 +29,10 @@ axios.interceptors.response.use(
         return response;
     },
     (error: AxiosError<ApiResponseResult<any>>) => {
-        console.debug(error);
-        if (error && error.response?.status === 401)
-            localStorage.removeItem(ACCESS_TOKEN_KEY);
+        // console.debug(error);
+        if (error && error.response?.status === 401) localStorage.removeItem(ACCESS_TOKEN_KEY);
 
-        if (
-            error &&
-            error.response &&
-            error.response.data &&
-            error.response.data.messages
-        ) {
+        if (error && error.response && error.response.data && error.response.data.messages) {
             const message = error.response.data.messages[0];
             toastMessage(message);
             if (error.response.data.exception) console.log(error.response.data.exception);
@@ -63,10 +53,7 @@ axios.interceptors.response.use(
             if (message.type !== ResponseMessageType.TRANSACTION) toastMessage(message);
             else {
                 toast.error(
-                    CustomToastWithLink(
-                        message.message,
-                        "transaction failed click link for detail"
-                    )
+                    CustomToastWithLink(message.message, "transaction failed click link for detail")
                 );
             }
             if (error.response.data.exception) console.log(error.response.data.exception);

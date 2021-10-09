@@ -13,7 +13,6 @@ import { createRoundRouter } from "./routes/admin/round/add.routes";
 import { currentUser } from "./middlewares/current-user";
 import { getCurrentRoundRouter } from "./routes/admin/round/get.current.routes";
 import { updateCurrentRoundRouter } from "./routes/admin/round/update.routes";
-import { userGetCurrentRoundRouter } from "./routes/admin/round/user.get.current.round.routes";
 
 const app = express();
 
@@ -41,7 +40,6 @@ app.use(limiter);
 app.use(createRoundRouter);
 app.use(getCurrentRoundRouter);
 app.use(updateCurrentRoundRouter);
-app.use(userGetCurrentRoundRouter);
 
 // error handler
 app.all("*", async () => {

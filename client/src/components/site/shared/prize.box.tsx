@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { PoolAttrs } from "../../../api/models/round.model";
-import { currencyFormat } from "../../../utilities/stringUtil";
+import { currencyFormat } from "../../../utilities/string.numbers.util";
 
 interface PrizeBoxProps {
     amount: number;

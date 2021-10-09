@@ -14,6 +14,7 @@ interface MainSiteProps {
 
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
     let totalBnb = 0;
+    const networkId = state.networkId;
     if (state.currentRound) {
         const { bnbAddedFromLastRound, bonusBnbAmount, totalBnbAmount } =
             state.currentRound;
@@ -25,9 +26,17 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
     return (
         <div>
             <Header address={state.address} dispatch={dispatch} />
-            <Main bnbPriceInUSD={state.bnbPrice} currentPrizeAmount={totalBnb} />
+            <Main
+                bnbPriceInUSD={state.bnbPrice}
+                currentPrizeAmount={totalBnb}
+                networkId={networkId}
+            />
             {state.currentRound && state.bnbPrice && (
-                <PrizePot bnbPrice={state.bnbPrice} currentRound={state.currentRound} />
+                <PrizePot
+                    bnbPrice={state.bnbPrice}
+                    currentRound={state.currentRound}
+                    networkId={networkId}
+                />
             )}
             <CheckWin />
             <RoundsHistory

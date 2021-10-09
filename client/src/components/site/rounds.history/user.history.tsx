@@ -33,7 +33,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = () => {
                         </thead>
                         <tbody>
                             {[...Array(100)].map((_num, i) => (
-                                <tr className="table-active">
+                                <tr key={i} className="table-active">
                                     <th scope="row">{`# ${i + 1}`}</th>
                                     <td>
                                         {moment(1633242758504).format(

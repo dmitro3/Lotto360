@@ -6,20 +6,34 @@ import MainSite from "./components/site/main.site";
 import AdminPanel from "./components/admin/admin.panel";
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { RoundApiService } from "./api/round.api.service";
 import axios, { AxiosResponse } from "axios";
-import { coinGeckoBnbPriceApi } from "./config/config";
+import { coinGeckoBnbPriceApi, targetNetworkId } from "./config/config";
+import { ChainMethods } from "./provider/chain.methods";
+import Web3 from "web3";
+import BuyTicketModal from "./components/site/shared/buy.ticket.modal";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
 
     useEffect(() => {
-        getWeb3(dispatch);
-        getCurrentRoundAndBnbPrice(dispatch);
-        setInterval(() => {
-            getCurrentRoundAndBnbPrice(dispatch);
-        }, 20000);
-    }, []);
+        getWeb3(dispatch)
+            .then((web3) => {
+                if (!web3) return;
+                web3.eth.net.getId((err, networkId) => {
+                    if (!err) {
+                        dispatch({
+                            type: LottoActions.SET_NETWORK_ID,
+                            payload: networkId,
+                        });
+                    }
+                });
+                getCurrentRoundAndBnbPrice(dispatch, state.networkId, web3);
+                setInterval(() => {
+                    getCurrentRoundAndBnbPrice(dispatch, state.networkId, web3);
+                }, 20000);
+            })
+            .catch((err) => console.log(err));
+    }, [state.networkId]);
 
     return (
         <>
@@ -33,28 +47,47 @@ function App() {
                     render={() => <MainSite dispatch={dispatch} state={state} />}
                 />
             </Switch>
-            <ToastContainer autoClose={false} position="top-right" transition={Slide} />
+            <ToastContainer
+                autoClose={10000}
+                theme={"colored"}
+                limit={1}
+                position="top-right"
+                transition={Slide}
+            />
+
+            {state.currentRound && <BuyTicketModal ticketPrice={state.ticketPrice} />}
         </>
     );
 }
 
 export default App;
 
-function getCurrentRoundAndBnbPrice(dispatch: Dispatch<ActionModel<LottoActions>>) {
-    RoundApiService.getCurrentRoundForUser().then((res) => {
-        if (res && res.data && res.data.result) {
-            dispatch({
-                type: LottoActions.SET_CURRENT_ROUND,
-                payload: res.data.result,
-            });
-        }
+// ........................................................................................
+const getCurrentRoundAndBnbPrice = (
+    dispatch: Dispatch<ActionModel<LottoActions>>,
+    networkId: number,
+    web3: Web3
+) => {
+    if (networkId !== targetNetworkId) return;
+    ChainMethods.getCurrentRoundForUser(web3).then((res) => {
+        if (!res) return;
+        dispatch({
+            type: LottoActions.SET_CURRENT_ROUND,
+            payload: res,
+        });
     });
+
     axios.get(coinGeckoBnbPriceApi).then((res: AxiosResponse<any>) => {
-        if (res.data.market_data && res.data.market_data.current_price.usd) {
+        if (
+            res &&
+            res.data &&
+            res.data.market_data &&
+            res.data.market_data.current_price.usd
+        ) {
             dispatch({
                 type: LottoActions.SET_BNB_PRICE,
                 payload: res.data.market_data.current_price.usd,
             });
         }
     });
-}
+};

@@ -1,16 +1,22 @@
 import { FunctionComponent } from "react";
-import { currencyFormat } from "../../../utilities/stringUtil";
+import { currencyFormat } from "../../../utilities/string.numbers.util";
+import BuyTicketButton from "../shared/buy.ticket.button";
 
 interface MainProps {
     currentPrizeAmount?: number;
     bnbPriceInUSD?: number;
+    networkId: number;
 }
 
-const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD }) => {
+const Main: FunctionComponent<MainProps> = ({
+    currentPrizeAmount,
+    bnbPriceInUSD,
+    networkId,
+}) => {
     return (
         <>
             <div
-                className={`p-4 pb-5 bg4 position-relative d-flex flex-wrap justify-content-around align-items-center`}
+                className={`p-4 pb-5 bg4 d-flex position-relative flex-wrap justify-content-around align-items-center`}
             >
                 <div className="main-side-pic divider1"></div>
                 <div className="max-content">
@@ -25,19 +31,12 @@ const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD 
                         <div>
                             <span className="fs-2 fw-bold">Prize:</span>
                             <span className="ms-2 fs-2 fw-bold">
-                                {currentPrizeAmount
-                                    ? currencyFormat(currentPrizeAmount, "BNB")
-                                    : "0 BNB"}
+                                {calcPrize(currentPrizeAmount)}
                             </span>
                         </div>
                         <div className="pb-2 d-flex justify-content-center align-items-center mt-3">
                             <span className="fs-3 fw-bold">
-                                {currentPrizeAmount && bnbPriceInUSD
-                                    ? currencyFormat(
-                                          currentPrizeAmount * bnbPriceInUSD,
-                                          "$"
-                                      )
-                                    : "$ 0"}
+                                {calcPrizeinUsd(currentPrizeAmount, bnbPriceInUSD)}
                             </span>
                         </div>
                     </div>
@@ -46,10 +45,7 @@ const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD 
                     justify-content-center align-items-center mx-auto rounded text-black"
                     >
                         <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
-                        <button type="button" className="btn btn-lg btn-success mx-3">
-                            <i className="fa-duotone fa-ticket fa-xl me-2"></i>
-                            Buy Ticket
-                        </button>
+                        <BuyTicketButton networkId={networkId} />
                         <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
                     </div>
                 </div>
@@ -62,3 +58,18 @@ const Main: FunctionComponent<MainProps> = ({ currentPrizeAmount, bnbPriceInUSD 
 };
 
 export default Main;
+
+// ........................................................................................
+const calcPrizeinUsd = (
+    currentPrizeAmount: number | undefined,
+    bnbPriceInUSD: number | undefined
+) => {
+    return currentPrizeAmount && bnbPriceInUSD
+        ? currencyFormat(currentPrizeAmount * bnbPriceInUSD, "$")
+        : "$ 0";
+};
+
+// ........................................................................................
+const calcPrize = (currentPrizeAmount: number | undefined) => {
+    return currentPrizeAmount ? currencyFormat(currentPrizeAmount, "BNB") : "0 BNB";
+};

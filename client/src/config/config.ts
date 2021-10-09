@@ -1,7 +1,10 @@
 export const bnbTokenAddress = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
 export const coinGeckoBnbPriceApi = "https://api.coingecko.com/api/v3/coins/binancecoin";
 
-export const lotto360ContractAddress = "";
+export const lotto360ContractAddress = "0x57A3Afb76de11fba3de5089785157f19153959C0";
+
+// rinkeby change to bnb
+export const targetNetworkId = 4;
 
 export const PageSize = { SMALL: 10, MEDIUM: 25, BIG: 50 };
 
@@ -14,3 +17,5 @@ export const baseUrl: string = "http://localhost:3001/api";
 
 // chainscan link
 export const rinkebyScan = "https://rinkeby.etherscan.io/";
+
+export const maxTicketsEachBuy = 50;

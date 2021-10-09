@@ -1,6 +1,6 @@
 import { Dispatch, FunctionComponent } from "react";
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import { stringUtils } from "../../../utilities/stringUtil";
+import { stringUtils } from "../../../utilities/string.numbers.util";
 import { getWeb3 } from "../../../provider/web3";
 
 interface WalletProps {

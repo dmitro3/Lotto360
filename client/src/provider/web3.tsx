@@ -1,46 +1,64 @@
 import Web3 from "web3";
 import { Dispatch } from "react";
 import { ActionModel, LottoActions } from "../reducer/reducer";
+import { targetNetworkId } from "../config/config";
+import { toast } from "react-toastify";
 
 let web3: Web3;
+
+declare global {
+    interface Window {
+        ethereum: any;
+        web3: any;
+    }
+}
+
 const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
-    // @ts-ignore
     if (window.ethereum) {
-        // @ts-ignore
         web3 = new Web3(window.ethereum);
 
         try {
-            // @ts-ignore
             window.ethereum.enable().then(async () => {
                 console.info("connected to metamask");
-                web3.eth.net.getId((_err, id) => console.info(id));
-                // @ts-ignore
+                web3.eth.net.getId((_err, id) => {
+                    console.info("network id:", id);
+                    if (id !== targetNetworkId)
+                        toast.info("Change your network to binance smart chain");
+                });
                 const account = window.ethereum.selectedAddress;
                 dispatch({ type: LottoActions.SET_WEB3, payload: web3 });
                 dispatch({ type: LottoActions.SET_ADDRESS, payload: account });
             });
 
-            // @ts-ignore - detect Metamask account change
+            // detect Metamask account change
             window.ethereum.on("accountsChanged", function (accounts: string[]) {
                 console.log("account changed:", accounts);
+                const account = window.ethereum.selectedAddress;
+                dispatch({
+                    type: LottoActions.SET_ADDRESS,
+                    payload: account,
+                });
             });
 
-            // @ts-ignore - detect Network account change
-            window.ethereum.on("networkChanged", function (networkId) {
+            // detect Network account change
+            window.ethereum.on("networkChanged", function (networkId: number) {
                 console.log(`network changed: networkId ${networkId}`);
+                if (networkId !== targetNetworkId)
+                    toast.info("Change your network to binance smart chain");
+                dispatch({
+                    type: LottoActions.SET_NETWORK_ID,
+                    payload: networkId,
+                });
             });
 
-            // @ts-ignore
-            window.ethereum.handleDisconnect((i) => console.info(i));
+            window.ethereum.handleDisconnect((i: any) => console.info(i));
         } catch (e) {
             console.error("can't connect to metamask");
         }
         return web3;
     }
     // Legacy DApp Browsers
-    // @ts-ignore
     else if (window.web3) {
-        // @ts-ignore
         web3 = new Web3(window.web3.currentProvider);
         return web3;
     }

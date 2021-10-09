@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { getPlayersCount, getTicketCount } from "../../../utilities/stringUtil";
+import { getPlayersCount, getTicketCount } from "../../../utilities/string.numbers.util";
 import TimeAndTotalAmount from "../../site/shared/time.total.amount";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { flexItemsCenter } from "../../site/constants/classes";
