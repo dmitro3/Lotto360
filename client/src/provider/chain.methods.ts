@@ -1,19 +1,24 @@
 import Web3 from "web3";
 import { GetRoundApiModel, PoolAttrs } from "../api/models/round.model";
-import { bnbTokenAddress, lotto360ContractAddress } from "../config/config";
-import { bnToNumber } from "../utilities/string.numbers.util";
 import { bnbTokenContract, lotto360Contract } from "./contracts";
+import { bnToNumber } from "../utilities/string.numbers.util";
+import { lotto360ContractAddress } from "../config/config";
 
 export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    approveSpendBnbOnLottoContract: async (spenderAddress: string, web3: Web3) => {
+    approveSpendBnbOnLottoContract: async (
+        spenderAddress: string,
+        amount: number,
+        web3: Web3
+    ) => {
         try {
             const result = await bnbTokenContract(web3)
                 .methods.approve(
                     lotto360ContractAddress,
-                    web3.utils.toWei("0.02", "ether")
+                    web3.utils.toWei(`${amount}`, "ether")
                 )
                 .send({ from: spenderAddress });
+            console.info(result);
             return result;
         } catch (err) {
             console.error("Error approving approve contract spend:", err);
@@ -24,7 +29,7 @@ export const ChainMethods = {
     checkAllowance: async (spenderAddress: string, web3: Web3) => {
         try {
             const amount = await bnbTokenContract(web3)
-                .methods.allowance(bnbTokenAddress, spenderAddress)
+                .methods.allowance(lotto360ContractAddress, spenderAddress)
                 .call();
             return amount;
         } catch (err) {

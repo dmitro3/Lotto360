@@ -1,16 +1,16 @@
 import { Dispatch, useEffect, useReducer } from "react";
-import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
-import { getWeb3 } from "./provider/web3";
-import { Route, Switch } from "react-router";
-import MainSite from "./components/site/main.site";
-import AdminPanel from "./components/admin/admin.panel";
 import { Slide, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Route, Switch } from "react-router";
 import axios, { AxiosResponse } from "axios";
+import Web3 from "web3";
+
+import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
 import { coinGeckoBnbPriceApi, targetNetworkId } from "./config/config";
 import { ChainMethods } from "./provider/chain.methods";
-import Web3 from "web3";
-import BuyTicketModal from "./components/site/shared/buy.ticket.modal";
+import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
+import AdminPanel from "./components/admin/admin.panel";
+import MainSite from "./components/site/main.site";
+import { getWeb3 } from "./provider/web3";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
@@ -33,7 +33,7 @@ function App() {
                 }, 20000);
             })
             .catch((err) => console.log(err));
-    }, [state.networkId]);
+    }, [state.networkId, state.address]);
 
     return (
         <>
@@ -55,7 +55,9 @@ function App() {
                 transition={Slide}
             />
 
-            {state.currentRound && <BuyTicketModal ticketPrice={state.ticketPrice} />}
+            {state.currentRound && state.showModal && (
+                <BuyTicketModal ticketPrice={state.ticketPrice} />
+            )}
         </>
     );
 }

@@ -6,6 +6,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import "bootstrap/dist/js/bootstrap.min";
+import "react-toastify/dist/ReactToastify.css";
 import "./contents/styles/bootstrap.min.css";
 import "./contents/plugins/fontawesome6/css/all.min.css";
 import "./contents/styles/main.css";

@@ -16,6 +16,7 @@ export enum LottoActions {
 }
 
 export interface LottoState {
+    showModal: boolean;
     ticketPrice: number;
     networkId: number;
     currentRound?: GetRoundApiModel;
@@ -28,6 +29,7 @@ export interface LottoState {
 }
 
 export const initialState: LottoState = {
+    showModal: false,
     ticketPrice: 0,
     bnbPrice: 0,
     currentPrize: 0,

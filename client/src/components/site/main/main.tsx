@@ -1,17 +1,20 @@
 import { FunctionComponent } from "react";
+import { LottoState } from "../../../reducer/reducer";
 import { currencyFormat } from "../../../utilities/string.numbers.util";
 import BuyTicketButton from "../shared/buy.ticket.button";
 
 interface MainProps {
+    changeIsApproved: (val: boolean) => void;
     currentPrizeAmount?: number;
-    bnbPriceInUSD?: number;
-    networkId: number;
+    isApproved: boolean;
+    state: LottoState;
 }
 
 const Main: FunctionComponent<MainProps> = ({
+    changeIsApproved,
     currentPrizeAmount,
-    bnbPriceInUSD,
-    networkId,
+    isApproved,
+    state,
 }) => {
     return (
         <>
@@ -36,7 +39,7 @@ const Main: FunctionComponent<MainProps> = ({
                         </div>
                         <div className="pb-2 d-flex justify-content-center align-items-center mt-3">
                             <span className="fs-3 fw-bold">
-                                {calcPrizeinUsd(currentPrizeAmount, bnbPriceInUSD)}
+                                {calcPrizeinUsd(currentPrizeAmount, state.bnbPrice)}
                             </span>
                         </div>
                     </div>
@@ -45,7 +48,11 @@ const Main: FunctionComponent<MainProps> = ({
                     justify-content-center align-items-center mx-auto rounded text-black"
                     >
                         <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
-                        <BuyTicketButton networkId={networkId} />
+                        <BuyTicketButton
+                            changeIsApproved={changeIsApproved}
+                            isApproved={isApproved}
+                            state={state}
+                        />
                         <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
                     </div>
                 </div>
