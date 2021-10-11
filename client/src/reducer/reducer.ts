@@ -1,6 +1,7 @@
 import Web3 from "web3";
 import { cloneDeep } from "lodash";
 import { GetRoundApiModel } from "../api/models/round.model";
+import { initialRound } from "../components/admin/rounds/reducer/round.list.reducer";
 
 export interface ActionModel<T> {
     type: T;
@@ -12,6 +13,7 @@ export enum LottoActions {
     SET_BNB_PRICE,
     SET_CURRENT_ROUND,
     SET_NETWORK_ID,
+    SET_SHOW_MODAL,
     SET_WEB3,
 }
 
@@ -19,7 +21,7 @@ export interface LottoState {
     showModal: boolean;
     ticketPrice: number;
     networkId: number;
-    currentRound?: GetRoundApiModel;
+    currentRound: GetRoundApiModel;
     bnbPrice: number;
     historyAmount: number;
     currentPrize: number;
@@ -36,6 +38,7 @@ export const initialState: LottoState = {
     historyRound: 0,
     historyAmount: 0,
     networkId: 0,
+    currentRound: initialRound,
 };
 
 export default function lottoReducer(
@@ -65,6 +68,10 @@ export default function lottoReducer(
 
         case LottoActions.SET_NETWORK_ID:
             newState.networkId = action.payload;
+            return newState;
+
+        case LottoActions.SET_SHOW_MODAL:
+            newState.showModal = action.payload;
             return newState;
 
         case LottoActions.SET_WEB3:

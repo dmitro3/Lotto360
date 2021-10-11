@@ -1,4 +1,4 @@
-export const bnbTokenAddress = "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c";
+export const bnbTokenAddress = "0xc778417e063141139fce010982780140aa0cd5ab";
 export const coinGeckoBnbPriceApi = "https://api.coingecko.com/api/v3/coins/binancecoin";
 
 export const lotto360ContractAddress = "0x57A3Afb76de11fba3de5089785157f19153959C0";
@@ -18,4 +18,4 @@ export const baseUrl: string = "http://localhost:3001/api";
 // chainscan link
 export const rinkebyScan = "https://rinkeby.etherscan.io/";
 
-export const maxTicketsEachBuy = 50;
+export const maxTicketsEachBuy = 51;

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState } from "react";
+import { Dispatch, FunctionComponent, useState } from "react";
 import { TicketState } from "../../../interfaces/ticket.state";
 import TicketAmountInput from "./ticket.amount.input";
 import TicketAmountTitle from "./ticket.amount.title";
@@ -6,12 +6,17 @@ import ModalHeader from "./modal.header";
 import RandomButton from "./random.button";
 import TicketNumbersInput from "./ticket.numbers.input";
 import TotalPay from "./total.pay";
+import { ActionModel, LottoActions } from "../../../reducer/reducer";
 
 interface BuyTicketModalProps {
+    dispatch: Dispatch<ActionModel<LottoActions>>;
     ticketPrice: number;
 }
 
-const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ ticketPrice }) => {
+const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({
+    dispatch,
+    ticketPrice,
+}) => {
     const [ticketState, setTicketState] = useState<TicketState>({
         ticketCount: "0",
         ticketNumbers: [],
@@ -33,7 +38,7 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ ticketPrice })
     return (
         <div className="modal-bg d-flex justify-content-center">
             <div className="inner-modal mt-4 bg-light rounded overflow-hidden">
-                <ModalHeader />
+                <ModalHeader dispatch={dispatch} />
                 <div className="p-3">
                     <TicketAmountTitle />
 

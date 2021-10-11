@@ -18,7 +18,6 @@ export const ChainMethods = {
                     web3.utils.toWei(`${amount}`, "ether")
                 )
                 .send({ from: spenderAddress });
-            console.info(result);
             return result;
         } catch (err) {
             console.error("Error approving approve contract spend:", err);
@@ -28,8 +27,9 @@ export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     checkAllowance: async (spenderAddress: string, web3: Web3) => {
         try {
+            // allowance(owner, spender)
             const amount = await bnbTokenContract(web3)
-                .methods.allowance(lotto360ContractAddress, spenderAddress)
+                .methods.allowance(spenderAddress, lotto360ContractAddress)
                 .call();
             return amount;
         } catch (err) {

@@ -56,7 +56,7 @@ function App() {
             />
 
             {state.currentRound && state.showModal && (
-                <BuyTicketModal ticketPrice={state.ticketPrice} />
+                <BuyTicketModal ticketPrice={state.ticketPrice} dispatch={dispatch} />
             )}
         </>
     );

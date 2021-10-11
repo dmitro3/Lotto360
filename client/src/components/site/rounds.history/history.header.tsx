@@ -1,5 +1,6 @@
 import { FunctionComponent } from "react";
 import { flexItemsCenter } from "../constants/classes";
+import TargetNavigation from "../shared/target.nav.link";
 
 interface HistoryHeaderProps {
     lastRound: number;
@@ -8,6 +9,7 @@ interface HistoryHeaderProps {
 const HistoryHeader: FunctionComponent<HistoryHeaderProps> = ({ lastRound }) => {
     return (
         <>
+            <TargetNavigation id={"history"} />
             <h2 className="text-center fw-bold text-white text-shadow">
                 Checkout previous rounds!
             </h2>

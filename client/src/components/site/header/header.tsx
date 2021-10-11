@@ -10,7 +10,7 @@ interface HeaderProps {
 
 const Header: FunctionComponent<HeaderProps> = ({ address, dispatch }) => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-light">
+        <nav className="navbar navbar-expand-lg border-dark navbar-light">
             <div className="container-fluid">
                 <a
                     className="navbar-brand megering d-flex justify-content-between align-items-center"

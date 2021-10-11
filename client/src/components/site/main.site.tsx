@@ -1,13 +1,14 @@
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { ActionModel, LottoActions, LottoState } from "../../reducer/reducer";
 import RoundsHistory from "./rounds.history/rounds.history";
+import { ChainMethods } from "../../provider/chain.methods";
+import { maxTicketsEachBuy } from "../../config/config";
 import PrizePot from "./current.round/prize.pot";
 import GameInfo from "./game.info/game.info";
 import CheckWin from "./check.win/checkwin";
 import Header from "./header/header";
 import Main from "./main/main";
-import { ChainMethods } from "../../provider/chain.methods";
-import { maxTicketsEachBuy } from "../../config/config";
+import { GetRoundApiModel } from "../../api/models/round.model";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -16,53 +17,51 @@ interface MainSiteProps {
 
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
     const [isApproved, setIsApproved] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const { address, web3, ticketPrice, currentRound, historyAmount, bnbPrice } = state;
 
     useEffect(() => {
-        if (!state.address || !state.web3) return;
-        ChainMethods.checkAllowance(state.address, state.web3).then((allowance) => {
-            const maxPay = state.ticketPrice * maxTicketsEachBuy;
-            if (allowance < maxPay) {
-                setIsApproved(false);
-            } else setIsApproved(true);
+        if (!address || !web3) return;
+        ChainMethods.checkAllowance(address, web3).then((allowance) => {
+            const maxPay = ticketPrice * maxTicketsEachBuy;
+            const maxPayInWei = web3.utils.toWei(`${maxPay}`, "ether");
+            if (allowance <= maxPayInWei) setIsApproved(true);
+            else setIsApproved(false);
         });
-    }, [state.address, state.ticketPrice, state.web3]);
+    }, [address, ticketPrice, web3]);
 
-    let totalBnb = 0;
-    if (state.currentRound) {
-        const { bnbAddedFromLastRound, bonusBnbAmount, totalBnbAmount } =
-            state.currentRound;
-        if (totalBnbAmount) totalBnb += totalBnbAmount;
-        if (bonusBnbAmount) totalBnb += bonusBnbAmount;
-        if (bnbAddedFromLastRound) totalBnb += bnbAddedFromLastRound;
-    }
-
-    const changeIsApproved = (value: boolean) => setIsApproved(value);
+    const totalBnb = calculateTotalAmount(currentRound);
+    const changeArrovedLoading = (isApr: boolean, isLoa: boolean) => {
+        setIsApproved(isApr);
+        setIsLoading(isLoa);
+    };
 
     return (
         <div>
-            <Header address={state.address} dispatch={dispatch} />
+            <Header address={address} dispatch={dispatch} />
 
             <Main
-                changeIsApproved={changeIsApproved}
+                changeArrovedLoading={changeArrovedLoading}
                 currentPrizeAmount={totalBnb}
+                dispatch={dispatch}
                 isApproved={isApproved}
+                isLoading={isLoading}
                 state={state}
             />
 
-            {state.currentRound && state.bnbPrice && (
+            {currentRound && bnbPrice && (
                 <PrizePot
-                    changeIsApproved={changeIsApproved}
+                    changeArrovedLoading={changeArrovedLoading}
+                    dispatch={dispatch}
                     isApproved={isApproved}
+                    isLoading={isLoading}
                     state={state}
                 />
             )}
 
             <CheckWin />
 
-            <RoundsHistory
-                bnbPrice={state.bnbPrice}
-                historyAmount={state.historyAmount}
-            />
+            <RoundsHistory bnbPrice={bnbPrice} historyAmount={historyAmount} />
 
             <GameInfo />
         </div>
@@ -70,3 +69,10 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
 };
 
 export default MainSite;
+
+// ..........................................................................................
+const calculateTotalAmount = ({
+    bnbAddedFromLastRound,
+    bonusBnbAmount,
+    totalBnbAmount,
+}: GetRoundApiModel) => totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;

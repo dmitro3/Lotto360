@@ -1,22 +1,26 @@
-import { FunctionComponent } from "react";
+import { Dispatch, FunctionComponent } from "react";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import BuyTicketButton from "../shared/buy.ticket.button";
 import PrizePerMatch from "../shared/prize.per.match";
+import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import UserTickets from "../shared/user.tickets";
 import RoundNumber from "./round.number";
 import PrizeBoxHeader from "./header";
-import { LottoState } from "../../../reducer/reducer";
 
 interface PrizePotProps {
-    changeIsApproved: (val: boolean) => void;
+    changeArrovedLoading: (val1: boolean, val2: boolean) => void;
+    dispatch: Dispatch<ActionModel<LottoActions>>;
     isApproved: boolean;
+    isLoading: boolean;
     state: LottoState;
 }
 
 const PrizePot: FunctionComponent<PrizePotProps> = ({
-    changeIsApproved,
+    changeArrovedLoading,
+    dispatch,
     isApproved,
+    isLoading,
     state,
 }) => {
     if (!state.currentRound) return <></>;
@@ -62,8 +66,10 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                 >
                     <i className="fa-duotone fa-chevrons-down fa-xl fa-flash text-success mb-4"></i>
                     <BuyTicketButton
-                        changeIsApproved={changeIsApproved}
+                        changeArrovedLoading={changeArrovedLoading}
+                        dispatch={dispatch}
                         isApproved={isApproved}
+                        isLoading={isLoading}
                         state={state}
                     />
                 </div>

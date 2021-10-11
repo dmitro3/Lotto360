@@ -1,19 +1,23 @@
-import { FunctionComponent } from "react";
-import { LottoState } from "../../../reducer/reducer";
+import { Dispatch, FunctionComponent } from "react";
+import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { currencyFormat } from "../../../utilities/string.numbers.util";
 import BuyTicketButton from "../shared/buy.ticket.button";
 
 interface MainProps {
-    changeIsApproved: (val: boolean) => void;
+    changeArrovedLoading: (val1: boolean, val2: boolean) => void;
+    dispatch: Dispatch<ActionModel<LottoActions>>;
     currentPrizeAmount?: number;
     isApproved: boolean;
+    isLoading: boolean;
     state: LottoState;
 }
 
 const Main: FunctionComponent<MainProps> = ({
-    changeIsApproved,
+    changeArrovedLoading,
+    dispatch,
     currentPrizeAmount,
     isApproved,
+    isLoading,
     state,
 }) => {
     return (
@@ -49,8 +53,10 @@ const Main: FunctionComponent<MainProps> = ({
                     >
                         <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
                         <BuyTicketButton
-                            changeIsApproved={changeIsApproved}
+                            changeArrovedLoading={changeArrovedLoading}
+                            dispatch={dispatch}
                             isApproved={isApproved}
+                            isLoading={isLoading}
                             state={state}
                         />
                         <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
