@@ -68,7 +68,7 @@ contract Lotto360 {
     mapping(uint256 => uint256[]) private poolsInEachRound;
     mapping(uint256 => uint256) private ticketCountInEachRound;
     mapping(uint256 => mapping(uint256 => Ticket)) private ticketsInEachRound;
-    mapping(uint256 => mapping(address => uint256)) private userTicketCountInEachRound;
+    mapping(address => mapping(uint256 => uint256)) private userTicketCountInEachRound;
 
     /**************************************************************************************************
      * @dev these are modifiers
@@ -145,17 +145,16 @@ contract Lotto360 {
                 "Ticket number is not valid"
             );
 
-            ticketsInEachRound[_roundId][currentTicketId] = Ticket({
+            ticketsInEachRound[_roundId][currentTicketId - 1] = Ticket({
                 cid: currentTicketId,
                 number: ticketNumber,
                 owner: msg.sender
             });
 
+            userTicketCountInEachRound[msg.sender][_roundId]++;
             ticketCountInEachRound[_roundId]++;
             currentTicketId++;
         }
-
-        userTicketCountInEachRound[currentRoundId][msg.sender] += _ticketNumbers.length;
 
         emit TicketsPurchase(msg.sender, _roundId, _ticketNumbers.length);
     }
@@ -176,7 +175,7 @@ contract Lotto360 {
             address[] memory
         )
     {
-        uint256 count = userTicketCountInEachRound[currentRoundId][msg.sender];
+        uint256 count = 3;
         uint256[] memory cidArray = new uint256[](count);
         uint256[] memory numberArray = new uint256[](count);
         address[] memory addressArray = new address[](count);
@@ -196,6 +195,39 @@ contract Lotto360 {
 
         return (cidArray, numberArray, addressArray);
     }
+
+    // -----------------------------------------------------------------------------------------
+    function getUserTicketsInCurrentRound1() external view nonContract returns (uint256) {
+        return userTicketCountInEachRound[msg.sender][currentRoundId];
+    }
+
+    function getUserTicketsInCurrentRound2() external view nonContract returns (uint256) {
+        uint256 count = userTicketCountInEachRound[msg.sender][currentRoundId];
+        uint256[] memory cidArray = new uint256[](count);
+        uint256[] memory numberArray = new uint256[](count);
+        address[] memory addressArray = new address[](count);
+
+        return ticketCountInEachRound[currentRoundId];
+    }
+
+    function getUserTicketsInCurrentRound3()
+        external
+        view
+        nonContract
+        returns (Ticket memory)
+    {
+        uint256 count = userTicketCountInEachRound[msg.sender][currentRoundId];
+        uint256[] memory cidArray = new uint256[](count);
+        uint256[] memory numberArray = new uint256[](count);
+        address[] memory addressArray = new address[](count);
+
+        uint256 ticketCount = ticketCountInEachRound[currentRoundId];
+        uint256 arrayIndex = 0;
+
+        return ticketsInEachRound[currentRoundId][0];
+    }
+
+    // -----------------------------------------------------------------------------------------
 
     // ✅
     function getPoolsInCurrentRoundForUser()
@@ -226,9 +258,10 @@ contract Lotto360 {
             address[] memory
         )
     {
-        uint256[] memory cidArray;
-        uint256[] memory numberArray;
-        address[] memory addressArray;
+        uint256 count = userTicketCountInEachRound[_roundId][msg.sender];
+        uint256[] memory cidArray = new uint256[](count);
+        uint256[] memory numberArray = new uint256[](count);
+        address[] memory addressArray = new address[](count);
 
         uint256 ticketCount = ticketCountInEachRound[_roundId];
         uint256 arrayIndex = 0;
@@ -495,9 +528,9 @@ contract Lotto360 {
             address[] memory
         )
     {
-        uint256[] memory cidArray;
-        uint256[] memory numberArray;
-        address[] memory addressArray;
+        uint256[] memory cidArray = new uint256[](currentTicketId - 1);
+        uint256[] memory numberArray = new uint256[](currentTicketId - 1);
+        address[] memory addressArray = new address[](currentTicketId - 1);
 
         for (uint256 i = 0; i < currentRoundId; i++) {
             mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];

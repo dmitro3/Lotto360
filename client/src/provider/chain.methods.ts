@@ -45,18 +45,18 @@ export const ChainMethods = {
         }
     },
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    getCurrentRoundForUser: async (web3: Web3) => {
+    getCurrentRoundForUser: async (address: string, web3: Web3) => {
         try {
             const roundResult = await lotto360Contract(web3)
                 .methods.getCurrentRoundForUser()
-                .call();
+                .call({ from: address });
 
-            const ticketsResult: [][] = await lotto360Contract(web3)
+            const ticketsResult = await lotto360Contract(web3)
                 .methods.getUserTicketsInCurrentRound()
-                .call();
-            console.info(ticketsResult);
+                .call({ from: address });
+
             let tickets: TicketAttrs[] = [];
-            if (ticketsResult.length === 3) {
+            if (ticketsResult) {
                 for (let i = 0; i < ticketsResult[0].length; i++) {
                     tickets[i] = {
                         cid: ticketsResult[0][i],
@@ -70,7 +70,7 @@ export const ChainMethods = {
 
             const poolsBn: any[] = await lotto360Contract(web3)
                 .methods.getPoolsInCurrentRoundForUser()
-                .call();
+                .call({ from: address });
 
             let pools: PoolAttrs[] = [];
             pools = poolsBn.map((bn, i) => {

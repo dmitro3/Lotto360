@@ -4,7 +4,12 @@ import { Route, Switch } from "react-router";
 import axios, { AxiosResponse } from "axios";
 import Web3 from "web3";
 
-import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
+import lottoReducer, {
+    ActionModel,
+    initialState,
+    LottoActions,
+    LottoState,
+} from "./reducer/reducer";
 import { coinGeckoBnbPriceApi, targetNetworkId } from "./config/config";
 import { ChainMethods } from "./provider/chain.methods";
 import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
@@ -18,7 +23,7 @@ function App() {
     useEffect(() => {
         getWeb3(dispatch)
             .then((web3) => {
-                if (!web3) return;
+                if (!web3 || !state.address) return;
                 web3.eth.net.getId((err, networkId) => {
                     if (!err) {
                         dispatch({
@@ -27,9 +32,9 @@ function App() {
                         });
                     }
                 });
-                getCurrentRoundAndBnbPrice(dispatch, state.networkId, web3);
+                getCurrentRoundAndBnbPrice(dispatch, state, web3);
                 setInterval(() => {
-                    getCurrentRoundAndBnbPrice(dispatch, state.networkId, web3);
+                    getCurrentRoundAndBnbPrice(dispatch, state, web3);
                 }, 20000);
             })
             .catch((err) => console.log(err));
@@ -67,11 +72,11 @@ export default App;
 // ........................................................................................
 const getCurrentRoundAndBnbPrice = (
     dispatch: Dispatch<ActionModel<LottoActions>>,
-    networkId: number,
+    state: LottoState,
     web3: Web3
 ) => {
-    if (networkId !== targetNetworkId) return;
-    ChainMethods.getCurrentRoundForUser(web3).then((res) => {
+    if (state.networkId !== targetNetworkId || !state.address) return;
+    ChainMethods.getCurrentRoundForUser(state.address, web3).then((res) => {
         if (!res) return;
         dispatch({
             type: LottoActions.SET_CURRENT_ROUND,
