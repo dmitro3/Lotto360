@@ -27,7 +27,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
 }) => {
     const { endTime, bonusBnbAmount, bnbAddedFromLastRound, ticketPrice, pools } =
         formValues;
-
+    if (!pools || pools.length === 0) return <></>;
     return (
         <Modal
             size="lg"

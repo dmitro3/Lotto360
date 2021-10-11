@@ -3,16 +3,19 @@ import { TicketState } from "../../../interfaces/ticket.state";
 import { get6DigitsRandomString } from "../../../utilities/string.numbers.util";
 
 interface RandomButtonProps {
+    disabled: boolean;
     ticketState: TicketState;
     buttonClicked: (state: TicketState) => void;
 }
 
 const RandomButton: FunctionComponent<RandomButtonProps> = ({
+    disabled,
     buttonClicked,
     ticketState,
 }) => {
     return (
         <button
+            disabled={disabled}
             type="button"
             className="btn btn-info width-available mb-3"
             onClick={() => buttonClicked(generateRandomForInputs(ticketState))}

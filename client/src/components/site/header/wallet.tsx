@@ -1,6 +1,6 @@
 import { Dispatch, FunctionComponent } from "react";
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import { stringUtils } from "../../../utilities/string.numbers.util";
+import { simplifyString } from "../../../utilities/string.numbers.util";
 import { getWeb3 } from "../../../provider/web3";
 
 interface WalletProps {
@@ -22,7 +22,7 @@ const Wallet: FunctionComponent<WalletProps> = ({ address, dispatch }) => {
             title={address ? address : ""}
         >
             {address && <i className="fa-duotone fa-wallet fa-lg me-2"></i>}
-            {address ? stringUtils.simplifyString(address) : "Connect to wallet"}
+            {address ? simplifyString(address) : "Connect to wallet"}
         </button>
     );
 };

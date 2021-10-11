@@ -25,7 +25,8 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
         ChainMethods.checkAllowance(address, web3).then((allowance) => {
             const maxPay = ticketPrice * maxTicketsEachBuy;
             const maxPayInWei = web3.utils.toWei(`${maxPay}`, "ether");
-            if (allowance <= maxPayInWei) setIsApproved(true);
+            // console.info(allowance, maxPayInWei);
+            if (allowance >= maxPayInWei) setIsApproved(true);
             else setIsApproved(false);
         });
     }, [address, ticketPrice, web3]);
@@ -49,7 +50,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                 state={state}
             />
 
-            {currentRound && bnbPrice && (
+            {currentRound.cid > 0 && bnbPrice ? (
                 <PrizePot
                     changeArrovedLoading={changeArrovedLoading}
                     dispatch={dispatch}
@@ -57,6 +58,8 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     isLoading={isLoading}
                     state={state}
                 />
+            ) : (
+                <></>
             )}
 
             <CheckWin />

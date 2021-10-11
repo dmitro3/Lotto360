@@ -47,20 +47,22 @@ const Main: FunctionComponent<MainProps> = ({
                             </span>
                         </div>
                     </div>
-                    <div
-                        className="max-content px-3 py-1 d-flex mb-5
+                    {state.currentRound.cid > 0 && (
+                        <div
+                            className="max-content px-3 py-1 d-flex mb-5
                     justify-content-center align-items-center mx-auto rounded text-black"
-                    >
-                        <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
-                        <BuyTicketButton
-                            changeArrovedLoading={changeArrovedLoading}
-                            dispatch={dispatch}
-                            isApproved={isApproved}
-                            isLoading={isLoading}
-                            state={state}
-                        />
-                        <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
-                    </div>
+                        >
+                            <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
+                            <BuyTicketButton
+                                changeArrovedLoading={changeArrovedLoading}
+                                dispatch={dispatch}
+                                isApproved={isApproved}
+                                isLoading={isLoading}
+                                state={state}
+                            />
+                            <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
+                        </div>
+                    )}
                 </div>
                 <div className="main-side-pic divider2"></div>
 

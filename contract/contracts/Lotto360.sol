@@ -34,7 +34,7 @@ contract Lotto360 {
 
     constructor() {
         owner = msg.sender;
-        bnbToken = IERC20(address(0x030b0a08eCaDdE5Ac33859a48d87416946C966A1));
+        bnbToken = IERC20(address(0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984));
     }
 
     enum Status {
@@ -68,6 +68,7 @@ contract Lotto360 {
     mapping(uint256 => uint256[]) private poolsInEachRound;
     mapping(uint256 => uint256) private ticketCountInEachRound;
     mapping(uint256 => mapping(uint256 => Ticket)) private ticketsInEachRound;
+    mapping(uint256 => mapping(address => uint256)) private userTicketCountInEachRound;
 
     /**************************************************************************************************
      * @dev these are modifiers
@@ -109,6 +110,7 @@ contract Lotto360 {
     /**************************************************************************************************
      * @dev these are functions for user
      **************************************************************************************************/
+    // ✅
     function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers)
         external
         nonContract
@@ -126,11 +128,11 @@ contract Lotto360 {
         uint256 amountToPay = _ticketNumbers.length * rounds[_roundId].ticketPrice;
 
         // check users wallet for bnb amount
-        uint256 userBnbSupply = bnbToken.balanceOf(address(msg.sender));
+        uint256 userBnbSupply = bnbToken.balanceOf(msg.sender);
         require(userBnbSupply > amountToPay, "Balance too low");
 
         // transfer tokens to this contract
-        bnbToken.transferFrom(address(msg.sender), address(this), amountToPay);
+        bnbToken.transferFrom(msg.sender, address(this), amountToPay);
 
         // increment this round BNB amount
         rounds[_roundId].totalBnbAmount += amountToPay;
@@ -153,35 +155,49 @@ contract Lotto360 {
             currentTicketId++;
         }
 
+        userTicketCountInEachRound[currentRoundId][msg.sender] += _ticketNumbers.length;
+
         emit TicketsPurchase(msg.sender, _roundId, _ticketNumbers.length);
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getCurrentRoundForUser() external view nonContract returns (Round memory) {
         return rounds[currentRoundId];
     }
 
+    // ✅
     function getUserTicketsInCurrentRound()
         external
         view
         nonContract
-        returns (Ticket[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory
+        )
     {
-        Ticket[] memory ticketArray;
+        uint256 count = userTicketCountInEachRound[currentRoundId][msg.sender];
+        uint256[] memory cidArray = new uint256[](count);
+        uint256[] memory numberArray = new uint256[](count);
+        address[] memory addressArray = new address[](count);
+
         uint256 ticketCount = ticketCountInEachRound[currentRoundId];
         uint256 arrayIndex = 0;
 
         for (uint256 i = 0; i < ticketCount; i++) {
             Ticket memory ticket = ticketsInEachRound[currentRoundId][i];
             if (ticket.owner == msg.sender) {
-                ticketArray[arrayIndex] = ticket;
+                cidArray[arrayIndex] = ticket.cid;
+                numberArray[arrayIndex] = ticket.number;
+                addressArray[arrayIndex] = ticket.owner;
                 arrayIndex++;
             }
         }
 
-        return ticketArray;
+        return (cidArray, numberArray, addressArray);
     }
 
+    // ✅
     function getPoolsInCurrentRoundForUser()
         external
         view
@@ -204,21 +220,30 @@ contract Lotto360 {
         external
         view
         nonContract
-        returns (Ticket[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory
+        )
     {
-        Ticket[] memory ticketArray;
+        uint256[] memory cidArray;
+        uint256[] memory numberArray;
+        address[] memory addressArray;
+
         uint256 ticketCount = ticketCountInEachRound[_roundId];
         uint256 arrayIndex = 0;
 
         for (uint256 i = 0; i < ticketCount; i++) {
             Ticket memory ticket = ticketsInEachRound[_roundId][i];
             if (ticket.owner == msg.sender) {
-                ticketArray[arrayIndex] = ticket;
+                cidArray[arrayIndex] = ticket.cid;
+                numberArray[arrayIndex] = ticket.number;
+                addressArray[arrayIndex] = ticket.owner;
                 arrayIndex++;
             }
         }
 
-        return ticketArray;
+        return (cidArray, numberArray, addressArray);
     }
 
     function getPoolsInRoundForUser(uint256 _roundId)
@@ -228,6 +253,15 @@ contract Lotto360 {
         returns (uint256[] memory)
     {
         return poolsInEachRound[_roundId];
+    }
+
+    function getMaxNumberTicketsPerBuyOrClaim()
+        external
+        view
+        nonContract
+        returns (uint256)
+    {
+        return maxNumberTicketsPerBuyOrClaim;
     }
 
     /**************************************************************************************************
@@ -370,16 +404,24 @@ contract Lotto360 {
         view
         onlyOwner
         nonContract
-        returns (Ticket[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory
+        )
     {
         uint256 ticketCounts = ticketCountInEachRound[_roundId];
-        Ticket[] memory tickets = new Ticket[](ticketCounts);
+        uint256[] memory cidArray = new uint256[](ticketCounts);
+        uint256[] memory numberArray = new uint256[](ticketCounts);
+        address[] memory addressArray = new address[](ticketCounts);
 
         for (uint256 i = 0; i < ticketCounts; i++) {
-            tickets[i] = ticketsInEachRound[_roundId][i];
+            cidArray[i] = ticketsInEachRound[_roundId][i].cid;
+            numberArray[i] = ticketsInEachRound[_roundId][i].number;
+            addressArray[i] = ticketsInEachRound[_roundId][i].owner;
         }
 
-        return tickets;
+        return (cidArray, numberArray, addressArray);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -410,17 +452,24 @@ contract Lotto360 {
         view
         onlyOwner
         nonContract
-        returns (Ticket[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory
+        )
     {
-        Ticket[] memory ticketArray = new Ticket[](
-            ticketCountInEachRound[currentRoundId]
-        );
+        uint256 ticketCounts = ticketCountInEachRound[currentRoundId];
+        uint256[] memory cidArray = new uint256[](ticketCounts);
+        uint256[] memory numberArray = new uint256[](ticketCounts);
+        address[] memory addressArray = new address[](ticketCounts);
 
-        for (uint256 i = 0; i < ticketCountInEachRound[currentRoundId]; i++) {
-            ticketArray[i] = ticketsInEachRound[currentRoundId][i];
+        for (uint256 i = 0; i < ticketCounts; i++) {
+            cidArray[i] = ticketsInEachRound[currentRoundId][i].cid;
+            numberArray[i] = ticketsInEachRound[currentRoundId][i].number;
+            addressArray[i] = ticketsInEachRound[currentRoundId][i].owner;
         }
 
-        return (ticketArray);
+        return (cidArray, numberArray, addressArray);
     }
 
     // ✅
@@ -440,19 +489,27 @@ contract Lotto360 {
         view
         onlyOwner
         nonContract
-        returns (Ticket[] memory)
+        returns (
+            uint256[] memory,
+            uint256[] memory,
+            address[] memory
+        )
     {
-        Ticket[] memory ticketsArray;
+        uint256[] memory cidArray;
+        uint256[] memory numberArray;
+        address[] memory addressArray;
 
         for (uint256 i = 0; i < currentRoundId; i++) {
             mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];
             for (uint256 j = 0; j < ticketCountInEachRound[i]; j++) {
                 Ticket memory ticket = tickets[j];
-                ticketsArray[ticket.cid] = ticket;
+                cidArray[ticket.cid] = ticket.cid;
+                numberArray[ticket.cid] = ticket.number;
+                addressArray[ticket.cid] = ticket.owner;
             }
         }
 
-        return ticketsArray;
+        return (cidArray, numberArray, addressArray);
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -469,5 +526,13 @@ contract Lotto360 {
         )
     {
         return (owner, currentRoundId, currentTicketId, maxNumberTicketsPerBuyOrClaim);
+    }
+
+    function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim)
+        external
+        onlyOwner
+        nonContract
+    {
+        maxNumberTicketsPerBuyOrClaim = _maxNumberTicketsPerBuyOrClaim;
     }
 }

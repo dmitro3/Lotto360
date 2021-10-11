@@ -42,7 +42,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
         const result = await RoundApiService.addRound(state);
         if (result) {
             const res = await RoundApiService.getCurrentRound();
-            if (res.data.result) setCurrentRound(cloneDeep(res.data.result));
+            if (res.data.result) setCurrentRound(res.data.result);
 
             closeFormModal();
             toast.success(
@@ -120,7 +120,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
             <CurrentRound
                 bnbPrice={bnbPrice}
                 currentRound={currentRound}
-                handleUpdateButton={setShowUpdateRoundModal}
+                handleUpdateButton={(value) => setShowUpdateRoundModal(value)}
             />
 
             <h4 className="mt-5 fw-bold">Rounds</h4>

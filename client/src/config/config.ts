@@ -1,7 +1,7 @@
-export const bnbTokenAddress = "0xc778417e063141139fce010982780140aa0cd5ab";
+export const bnbTokenAddress = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984";
 export const coinGeckoBnbPriceApi = "https://api.coingecko.com/api/v3/coins/binancecoin";
 
-export const lotto360ContractAddress = "0x57A3Afb76de11fba3de5089785157f19153959C0";
+export const lotto360ContractAddress = "0xfFad9dffA142004bCA43722a6779601E99E4885E";
 
 // rinkeby change to bnb
 export const targetNetworkId = 4;

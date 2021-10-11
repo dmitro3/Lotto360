@@ -1,8 +1,15 @@
 import Web3 from "web3";
-import { GetRoundApiModel, PoolAttrs } from "../api/models/round.model";
+import {
+    GetRoundApiModel,
+    PoolAttrs,
+    TicketAttrs,
+    TicketStatus,
+} from "../api/models/round.model";
 import { bnbTokenContract, lotto360Contract } from "./contracts";
 import { bnToNumber } from "../utilities/string.numbers.util";
 import { lotto360ContractAddress } from "../config/config";
+import { toast } from "react-toastify";
+import { CustomToastWithLink } from "../utilities/toastLink";
 
 export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -44,9 +51,22 @@ export const ChainMethods = {
                 .methods.getCurrentRoundForUser()
                 .call();
 
-            const tickets = await lotto360Contract(web3)
+            const ticketsResult: [][] = await lotto360Contract(web3)
                 .methods.getUserTicketsInCurrentRound()
                 .call();
+            console.info(ticketsResult);
+            let tickets: TicketAttrs[] = [];
+            if (ticketsResult.length === 3) {
+                for (let i = 0; i < ticketsResult[0].length; i++) {
+                    tickets[i] = {
+                        cid: ticketsResult[0][i],
+                        number: ticketsResult[1][i],
+                        owner: ticketsResult[2][i],
+                        ticketStatus: TicketStatus.Unknown,
+                        prizeClaimed: false,
+                    };
+                }
+            }
 
             const poolsBn: any[] = await lotto360Contract(web3)
                 .methods.getPoolsInCurrentRoundForUser()
@@ -90,18 +110,24 @@ export const ChainMethods = {
     ) => {
         try {
             tickets.forEach((num) => {
-                if (num < 1000000 || num > 1999999) {
-                    // todo return and show alert
-                }
+                if (num < 1000000 || num > 1999999) toast.error("Invalid ticket numbers");
             });
 
-            const roundResult = await lotto360Contract(web3)
+            const result = await lotto360Contract(web3)
                 .methods.buyTickets(roundId, tickets)
-                .send({ from: userAddress })
-                .call();
-            return roundResult;
-        } catch (err) {
-            console.error("Error buying tickets:", err);
+                .send({ from: userAddress });
+            if (result.status) {
+                toast.success(
+                    CustomToastWithLink(result.transactionHash, "transaction done")
+                );
+            }
+            return result.status;
+        } catch (err: any) {
+            if (err.receipt && !err.receipt.status) {
+                toast.error(
+                    CustomToastWithLink(err.receipt.transactionHash, "transaction failed")
+                );
+            }
             return null;
         }
     },

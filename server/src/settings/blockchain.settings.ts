@@ -4,5 +4,5 @@ export const ACCOUNT_PRIVATE_KEY =
 export const ACCOUNT_ADDRESS = "0xcB09b8dFB1abE10b353396974Fe73e2E80A316BC";
 
 // rinkeby
-export const lotto360Address = "0x57A3Afb76de11fba3de5089785157f19153959C0";
-export const bnbContractAddress = "0x030b0a08ecadde5ac33859a48d87416946c966a1";
+export const lotto360Address = "0xfFad9dffA142004bCA43722a6779601E99E4885E";
+export const bnbContractAddress = "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984";

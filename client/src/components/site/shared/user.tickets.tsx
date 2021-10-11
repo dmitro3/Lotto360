@@ -15,10 +15,7 @@ const UserTickets: FunctionComponent<UserTicketsProps> = ({ ticketNumbers }) => 
                 <span className="fw-bold">Your tickets ({ticketNumbers.length})</span>
                 {ticketNumbers.length > 0 && (
                     <i
-                        onClick={() => {
-                            console.info("object");
-                            setIsHide(!isHide);
-                        }}
+                        onClick={() => setIsHide(!isHide)}
                         className={
                             isHide
                                 ? "fa-duotone fa-eye-slash ms-2 text-muted pointer"

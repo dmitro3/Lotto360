@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import { maxTicketsEachBuy } from "../../../config/config";
 import { TicketState } from "../../../interfaces/ticket.state";
+import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
 
 interface TicketNumbersInputProps {
     inputOnChange: (state: TicketState) => void;
@@ -44,19 +45,6 @@ const TicketNumbersInput: FunctionComponent<TicketNumbersInputProps> = ({
 };
 
 export default TicketNumbersInput;
-
-// ..........................................................................................
-const ticketNumberIsValid = (value: string) => {
-    try {
-        if (value === "") return true;
-        if (value.length > 6) return false;
-        const number = parseInt(value);
-        if (number >= 0 && number < 1000000) return true;
-        return false;
-    } catch {
-        return false;
-    }
-};
 
 // ..........................................................................................
 const changeInputNumber = (value: string, i: number, ticketState: TicketState) => {

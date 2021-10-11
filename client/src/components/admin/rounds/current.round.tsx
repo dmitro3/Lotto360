@@ -9,7 +9,7 @@ import moment from "moment";
 interface CurrentRoundProps {
     bnbPrice: number;
     currentRound?: GetRoundApiModel;
-    handleUpdateButton: Function;
+    handleUpdateButton: (bl: boolean) => void;
 }
 
 const CurrentRound: FunctionComponent<CurrentRoundProps> = ({

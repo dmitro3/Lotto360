@@ -1,35 +1,36 @@
 import { Dispatch, FunctionComponent, useState } from "react";
+import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { TicketState } from "../../../interfaces/ticket.state";
+import TicketNumbersInput from "./ticket.numbers.input";
 import TicketAmountInput from "./ticket.amount.input";
 import TicketAmountTitle from "./ticket.amount.title";
-import ModalHeader from "./modal.header";
 import RandomButton from "./random.button";
-import TicketNumbersInput from "./ticket.numbers.input";
+import ModalHeader from "./modal.header";
 import TotalPay from "./total.pay";
-import { ActionModel, LottoActions } from "../../../reducer/reducer";
+import BuyTicketButton from "./buy.ticket.button";
 
 interface BuyTicketModalProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
-    ticketPrice: number;
+    state: LottoState;
 }
 
-const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({
-    dispatch,
-    ticketPrice,
-}) => {
+const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, state }) => {
+    const [waiting, setWaiting] = useState(false);
     const [ticketState, setTicketState] = useState<TicketState>({
         ticketCount: "0",
         ticketNumbers: [],
     });
     const { ticketCount, ticketNumbers } = ticketState;
+    const { ticketPrice, currentRound, address, web3 } = state;
 
+    const changeState = (state: TicketState) => setTicketState(state);
     const handleTicketCountInput = (value: string) => {
         setTicketState({
             ...ticketState,
             ticketCount: value,
         });
     };
-    const changeState = (state: TicketState) => setTicketState(state);
+    if (!address || !web3) return <></>;
 
     if (ticketCount && parseInt(ticketCount) !== ticketNumbers.length) {
         setTicketState(generateEmptyInputs(ticketState));
@@ -54,15 +55,21 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({
                         ticketState={ticketState}
                     />
 
-                    <RandomButton buttonClicked={changeState} ticketState={ticketState} />
+                    <RandomButton
+                        disabled={waiting}
+                        buttonClicked={changeState}
+                        ticketState={ticketState}
+                    />
 
-                    <button
-                        type="button"
-                        className="btn btn-primary width-available"
-                        onClick={() => console.info(ticketState.ticketNumbers)}
-                    >
-                        Buy
-                    </button>
+                    <BuyTicketButton
+                        address={address}
+                        roundId={currentRound.cid}
+                        setTicketState={changeState}
+                        setWaiting={(value) => setWaiting(value)}
+                        ticketNumbers={ticketState.ticketNumbers}
+                        waiting={waiting}
+                        web3={web3}
+                    />
                 </div>
             </div>
         </div>
