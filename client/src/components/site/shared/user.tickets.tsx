@@ -28,7 +28,7 @@ const UserTickets: FunctionComponent<UserTicketsProps> = ({ ticketNumbers }) => 
 
             {ticketNumbers.length > 0 && (
                 <div
-                    className={`flex-wrap ${flexItemsCenter} ticket-box border rounded border-2`}
+                    className={`flex-wrap ${flexItemsCenter} ticket-box border rounded border-2 border-secondary`}
                 >
                     {ticketNumbers.map((number, i) => (
                         <div key={i} className={`ticket ${flexItemsCenter}`}>

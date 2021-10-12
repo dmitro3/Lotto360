@@ -78,7 +78,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                             </span>
                         </div>
                     </div>
-                    <div className={`${flexItemsCenter}`}>
+                    <div className={`${flexItemsCenter} mb-5`}>
                         {!showTicketTable && (
                             <button
                                 className="btn btn-primary mt-5"
