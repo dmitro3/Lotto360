@@ -1,10 +1,11 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import { getPlayersCount, getTicketCount } from "../../../utilities/string.numbers.util";
 import TimeAndTotalAmount from "../../site/shared/time.total.amount";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { flexItemsCenter } from "../../site/constants/classes";
 import PrizePerMatch from "../../site/shared/prize.per.match";
 import moment from "moment";
+import TicketsTable from "../shared/tickets.table";
 
 interface CurrentRoundProps {
     bnbPrice: number;
@@ -17,6 +18,8 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
     currentRound,
     handleUpdateButton,
 }) => {
+    const [showTicketTable, setshowTicketTable] = useState(false);
+
     if (!currentRound || !currentRound.cid) return <div></div>;
     const {
         endTime,
@@ -76,8 +79,17 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         </div>
                     </div>
                     <div className={`${flexItemsCenter}`}>
-                        <button className="btn btn-primary mt-5">Load tickets</button>
+                        {!showTicketTable && (
+                            <button
+                                className="btn btn-primary mt-5"
+                                onClick={() => setshowTicketTable(true)}
+                            >
+                                Load tickets
+                            </button>
+                        )}
                     </div>
+
+                    {showTicketTable && <TicketsTable tickets={tickets} />}
                 </div>
             </div>
         </div>

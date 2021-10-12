@@ -25,7 +25,7 @@ const getTicketCount = (tickets?: TicketAttrs[]) =>
 // ..........................................................................................
 const getPlayersCount = (tickets?: TicketAttrs[]) => {
     if (!tickets || !tickets.length) return 0;
-    const ticketsGroupbyOwner = groupBy(tickets, tickets[0].owner);
+    const ticketsGroupbyOwner = groupBy(tickets, "owner");
     let counter = 0;
     forOwn(ticketsGroupbyOwner, (_value, _index) => {
         counter++;

@@ -2,6 +2,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import express, { Request, Response } from "express";
 import { PoolAttrs } from "../../../database/model/pool/interface.enum";
 import { RoundAttrs } from "../../../database/model/round/interface.enum";
+import { TicketAttrs, TicketStatus } from "../../../database/model/ticket/interface.enum";
 import { BadRequestError } from "../../../errors/bad-request-error";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
@@ -19,13 +20,28 @@ router.get(
         // send transaction to blockchain
         try {
             const roundResult = await lotto360Contract.getCurrentRound();
-            const tickets = await lotto360Contract.getCurrentRoundTickets();
+            const tickets: BigNumber[][] =
+                await lotto360Contract.getCurrentRoundTickets();
             const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
 
             let pools: PoolAttrs[] = [];
             pools = poolsBn.map((bn, i) => {
                 return { name: i, percentage: bn.toNumber() };
             });
+
+            const ticketArray: TicketAttrs[] = [];
+            if (tickets.length === 3) {
+                const count = tickets[0].length;
+                for (let i = 0; i < count; i++) {
+                    ticketArray.push({
+                        cid: tickets[0][i].toNumber(),
+                        number: tickets[1][i].toNumber(),
+                        owner: tickets[2][i].toString(),
+                        ticketStatus: TicketStatus.Unknown,
+                        prizeClaimed: false,
+                    });
+                }
+            }
 
             const round: RoundAttrs = {
                 status: roundResult.status,
@@ -40,7 +56,7 @@ router.get(
                 bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
                 finalNumber: roundResult.finalNumber.toNumber(),
                 pools: pools,
-                tickets: tickets,
+                tickets: ticketArray,
             };
 
             if (!roundResult || !roundResult.length)

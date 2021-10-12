@@ -27,6 +27,7 @@ const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
     return (
         <>
             <button
+                disabled={isLoading}
                 type="button"
                 className="btn btn-lg btn-success mx-3"
                 onClick={async () => {

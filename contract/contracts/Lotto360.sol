@@ -175,7 +175,7 @@ contract Lotto360 {
             address[] memory
         )
     {
-        uint256 count = 3;
+        uint256 count = userTicketCountInEachRound[msg.sender][currentRoundId];
         uint256[] memory cidArray = new uint256[](count);
         uint256[] memory numberArray = new uint256[](count);
         address[] memory addressArray = new address[](count);
@@ -195,39 +195,6 @@ contract Lotto360 {
 
         return (cidArray, numberArray, addressArray);
     }
-
-    // -----------------------------------------------------------------------------------------
-    function getUserTicketsInCurrentRound1() external view nonContract returns (uint256) {
-        return userTicketCountInEachRound[msg.sender][currentRoundId];
-    }
-
-    function getUserTicketsInCurrentRound2() external view nonContract returns (uint256) {
-        uint256 count = userTicketCountInEachRound[msg.sender][currentRoundId];
-        uint256[] memory cidArray = new uint256[](count);
-        uint256[] memory numberArray = new uint256[](count);
-        address[] memory addressArray = new address[](count);
-
-        return ticketCountInEachRound[currentRoundId];
-    }
-
-    function getUserTicketsInCurrentRound3()
-        external
-        view
-        nonContract
-        returns (Ticket memory)
-    {
-        uint256 count = userTicketCountInEachRound[msg.sender][currentRoundId];
-        uint256[] memory cidArray = new uint256[](count);
-        uint256[] memory numberArray = new uint256[](count);
-        address[] memory addressArray = new address[](count);
-
-        uint256 ticketCount = ticketCountInEachRound[currentRoundId];
-        uint256 arrayIndex = 0;
-
-        return ticketsInEachRound[currentRoundId][0];
-    }
-
-    // -----------------------------------------------------------------------------------------
 
     // ✅
     function getPoolsInCurrentRoundForUser()
@@ -258,7 +225,7 @@ contract Lotto360 {
             address[] memory
         )
     {
-        uint256 count = userTicketCountInEachRound[_roundId][msg.sender];
+        uint256 count = userTicketCountInEachRound[msg.sender][_roundId];
         uint256[] memory cidArray = new uint256[](count);
         uint256[] memory numberArray = new uint256[](count);
         address[] memory addressArray = new address[](count);

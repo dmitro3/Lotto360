@@ -26,19 +26,23 @@ const UserTickets: FunctionComponent<UserTicketsProps> = ({ ticketNumbers }) => 
                 )}
             </div>
 
-            <div className={`flex-wrap ${flexItemsCenter}`}>
-                {ticketNumbers.map((number, i) => (
-                    <div key={i} className={`ticket ${flexItemsCenter}`}>
-                        <span
-                            className={`fs-4 font-monospace fw-bold ${
-                                isHide && "text-blur"
-                            }`}
-                        >
-                            {number}
-                        </span>
-                    </div>
-                ))}
-            </div>
+            {ticketNumbers.length > 0 && (
+                <div
+                    className={`flex-wrap ${flexItemsCenter} ticket-box border rounded border-2`}
+                >
+                    {ticketNumbers.map((number, i) => (
+                        <div key={i} className={`ticket ${flexItemsCenter}`}>
+                            <span
+                                className={`fs-4 font-monospace fw-bold ${
+                                    isHide && "text-blur"
+                                }`}
+                            >
+                                {number}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </>
     );
 };

@@ -58,9 +58,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
         const result = await RoundApiService.updateRound(state);
         if (result) {
             const res = await RoundApiService.getCurrentRound();
-            if (res.data.result) setCurrentRound(cloneDeep(res.data.result));
-
-            closeFormModal();
+            if (res.data.result) setCurrentRound(res.data.result);
             toast.success(
                 CustomToastWithLink(result.data.messages![0].message, "round updated")
             );
