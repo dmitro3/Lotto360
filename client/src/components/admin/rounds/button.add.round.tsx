@@ -13,6 +13,7 @@ const AddRoundButton: FunctionComponent<AddRoundButtonProps> = ({
                 className="btn btn-primary ms-auto"
                 onClick={() => setShowModalAddRound(true)}
             >
+                <i className="fa-solid fa-plus fa-xl me-2"></i>
                 create round
             </button>
         </div>

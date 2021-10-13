@@ -1,52 +1,29 @@
-import { ethers } from "ethers";
 import express, { Request, Response } from "express";
-import { RoundAttrs } from "../../../database/model/round/interface.enum";
-import { BadRequestError } from "../../../errors/bad-request-error";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { requireAuth } from "../../../middlewares/require-auth";
-import { validateRequest } from "../../../middlewares/validate-request";
 import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { ResponseMessageType } from "../../../middlewares/error-handler";
+import { BadRequestError } from "../../../errors/bad-request-error";
 import { responseMaker } from "../../response.maker";
-import { addRoundValidatorSchema } from "../../validation/schemas";
+import { generateSeed } from "../../../utils/util";
 
 const router = express.Router();
 
-router.post(
-    "/api/round",
+router.get(
+    "/api/finishround",
     // requireAuth,
-    addRoundValidatorSchema,
-    validateRequest,
     async (req: Request, res: Response) => {
-        // extract body
-        const {
-            endTime,
-            ticketPrice,
-            bonusBnbAmount,
-            bnbAddedFromLastRound,
-            pools,
-        }: RoundAttrs = req.body;
-
-        // make pools array
-        const poolsArray: number[] = [];
-        pools?.forEach((pool, i) => (poolsArray[i] = pool.percentage));
-
         let transactionHash: string = "";
 
         // send transaction to blockchain
         try {
-            const tx = await lotto360Contract.startNewRound(
-                endTime,
-                ethers.utils.parseEther(`${ticketPrice}`),
-                ethers.utils.parseEther(`${bonusBnbAmount}`),
-                ethers.utils.parseEther(`${bnbAddedFromLastRound}`),
-                poolsArray,
-                {
-                    gasLimit: 1000000,
-                }
-            );
+            const random = generateSeed();
+
+            // send transaction
+            const tx = await lotto360Contract.closeRoundAndPickWinningNumber(random, {
+                gasLimit: 1000000,
+            });
 
             // get tx hash
-            console.info("add round transaction hash:", tx.hash);
+            console.info("claim winning number transaction hash:", tx.hash);
             transactionHash = tx.hash;
 
             // get tx result
@@ -81,4 +58,4 @@ router.post(
     }
 );
 
-export { router as createRoundRouter };
+export { router as drawRoundRouter };

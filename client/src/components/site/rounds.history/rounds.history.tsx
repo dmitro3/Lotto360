@@ -40,6 +40,8 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
                     amount={historyAmount}
                     bnbPrice={bnbPrice}
                     percentages={[]}
+                    finalNumber={56533453}
+                    tickets={undefined}
                 />
 
                 <div className={`${flexItemsCenter} mt-3`}>

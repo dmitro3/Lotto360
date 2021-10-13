@@ -29,6 +29,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
     const {
         cid,
         endTime,
+        finalNumber,
         bnbAddedFromLastRound,
         bonusBnbAmount,
         totalBnbAmount,
@@ -55,6 +56,8 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                     amount={totalPrice}
                     bnbPrice={bnbPrice}
                     percentages={pools}
+                    finalNumber={finalNumber}
+                    tickets={tickets}
                 />
 
                 <div className="dashed my-5"></div>

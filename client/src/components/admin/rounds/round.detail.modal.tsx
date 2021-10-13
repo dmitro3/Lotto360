@@ -17,11 +17,22 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     roundInfo,
     showModal,
 }) => {
+    const {
+        cid,
+        endTime,
+        finalNumber,
+        totalBnbAmount,
+        pools,
+        tickets,
+        bnbAddedFromLastRound,
+        bonusBnbAmount,
+    } = roundInfo;
+    const totalAmount = totalBnbAmount + bnbAddedFromLastRound + bonusBnbAmount;
     return showModal ? (
         <div className="detail-modal bg-light p-3">
             <div className={`d-flex ${flexItemsCenter} mb-3`}>
                 <i className="fa-solid fa-hashtag fa-xl me-2"></i>
-                <span className="fs-2 fw-bold">{roundInfo.cid}</span>
+                <span className="fs-2 fw-bold">{cid}</span>
 
                 <i
                     className="fa-light fa-xmark ms-auto fa-3x pointer"
@@ -32,13 +43,15 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
             <div className="container rounded shadow bg-white py-3">
                 <TimeAndTotalAmount
                     bnbPrice={bnbPrice}
-                    time={roundInfo.endTime}
-                    totalAmount={roundInfo.totalBnbAmount}
+                    time={endTime}
+                    totalAmount={totalAmount}
                 />
                 <PrizePerMatch
-                    amount={roundInfo.totalBnbAmount}
+                    amount={totalAmount}
                     bnbPrice={bnbPrice}
-                    percentages={roundInfo.pools}
+                    percentages={pools}
+                    finalNumber={finalNumber}
+                    tickets={tickets}
                 />
 
                 <div className={`${flexItemsCenter}`}>

@@ -1,13 +1,20 @@
 import { FunctionComponent, useState } from "react";
-// import { Table } from "react-bootstrap";
 import { Pagination, Table } from "rsuite";
-import "rsuite/dist/rsuite.min.css";
-
 import { TicketAttrs, TicketStatus } from "../../../api/models/round.model";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
+import "rsuite/dist/rsuite.min.css";
+import { Col, Form, Row } from "react-bootstrap";
 
 interface TicketsTableProps {
     tickets?: TicketAttrs[];
+}
+
+interface TicketTable {
+    cid: number;
+    number: string;
+    owner: string;
+    prizeClaimed: string;
+    ticketStatus: string;
 }
 
 const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
@@ -18,27 +25,34 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
 
     if (!tickets) return <></>;
 
-    let data = tickets.map(({ cid, number, owner, prizeClaimed, ticketStatus }) => ({
-        cid,
-        number: ticketNumToStr(number),
-        owner,
-        prizeClaimed: prizeClaimed ? "Yes" : "No",
-        ticketStatus:
-            ticketStatus === TicketStatus.Lose
-                ? "Lose"
-                : ticketStatus === TicketStatus.Unknown
-                ? "Unknown"
-                : "Win",
-    }));
+    let data: TicketTable[] = tickets.map(
+        ({ cid, number, owner, prizeClaimed, ticketStatus }) => ({
+            cid,
+            number: ticketNumToStr(number),
+            owner,
+            prizeClaimed: prizeClaimed ? "Yes" : "No",
+            ticketStatus:
+                ticketStatus === TicketStatus.Lose
+                    ? "Lose"
+                    : ticketStatus === TicketStatus.Unknown
+                    ? "Unknown"
+                    : "Win",
+        })
+    );
     const total = data.length;
 
     const handleChangeLimit = (dataKey: any) => {
         setPage(1);
         setLimit(dataKey);
     };
+
+    if (search) {
+        data = filteringData(data, search);
+    }
 
     const getData = () => {
         if (sortColumn && sortType) {
@@ -84,6 +98,20 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
 
     return (
         <div>
+            <Form.Group as={Row} className="mb-3" controlId="searchtickets">
+                <Form.Label column sm="1">
+                    Search
+                </Form.Label>
+                <Col sm="5">
+                    <Form.Control
+                        value={search}
+                        type="text"
+                        placeholder="search"
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                </Col>
+            </Form.Group>
+
             <Table
                 bordered
                 height={500}
@@ -92,9 +120,6 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
                 sortType={sortType}
                 onSortColumn={handleSortColumn}
                 loading={loading}
-                // onRowClick={(data) => {
-                //     console.log(data);
-                // }}
             >
                 <Column width={70} align="center" fixed sortable resizable>
                     <HeaderCell>Id</HeaderCell>
@@ -133,7 +158,7 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
                     size="xs"
                     layout={["total", "-", "limit", "|", "pager", "skip"]}
                     total={total}
-                    limitOptions={[5, 10, 20]}
+                    limitOptions={[5, 10, 20, 50, 100, 200, 500, 1000]}
                     limit={limit}
                     activePage={page}
                     onChangePage={setPage}
@@ -142,43 +167,19 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
             </div>
         </div>
     );
-
-    // return (
-    //     <Table striped bordered hover responsive>
-    //         <thead className="table-dark">
-    //             <tr>
-    //                 <th>#</th>
-    //                 <th>number</th>
-    //                 <th>Owner</th>
-    //                 <th>Status</th>
-    //                 <th>Claimed?</th>
-    //             </tr>
-    //         </thead>
-    //         <tbody>
-    //             {tickets.map(({ cid, number, owner, prizeClaimed, ticketStatus }, i) => (
-    //                 <tr key={i}>
-    //                     <td>{cid}</td>
-    //                     <td>{ticketNumToStr(number)}</td>
-    //                     <td>{owner}</td>
-    //                     <td>
-    //                         {ticketStatus === TicketStatus.Lose
-    //                             ? "Lose"
-    //                             : ticketStatus === TicketStatus.Unknown
-    //                             ? "Unknown"
-    //                             : "Win"}
-    //                     </td>
-    //                     <td>
-    //                         {prizeClaimed ? (
-    //                             <span className="text-success">Yes</span>
-    //                         ) : (
-    //                             <span className="text-danger">No</span>
-    //                         )}
-    //                     </td>
-    //                 </tr>
-    //             ))}
-    //         </tbody>
-    //     </Table>
-    // );
 };
 
 export default TicketsTable;
+
+// ..........................................................................................
+const filteringData = (data: TicketTable[], search: string) => {
+    search = search.toLowerCase();
+    return data.filter(
+        (t) =>
+            `${t.cid}`.toLowerCase().includes(search) ||
+            `${t.number}`.toLowerCase().includes(search) ||
+            t.owner.toLowerCase().includes(search) ||
+            t.prizeClaimed.toLowerCase().includes(search) ||
+            t.ticketStatus.toLowerCase().includes(search)
+    );
+};

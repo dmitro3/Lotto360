@@ -1,9 +1,9 @@
-import cookieSession from "cookie-session";
-import { json } from "body-parser";
-import express from "express";
-import rateLimit from "express-rate-limit";
 import { frameguard, xssFilter } from "helmet";
+import cookieSession from "cookie-session";
+import rateLimit from "express-rate-limit";
+import { json } from "body-parser";
 import helmet = require("helmet");
+import express from "express";
 import cors = require("cors");
 import "express-async-errors";
 
@@ -13,6 +13,7 @@ import { createRoundRouter } from "./routes/admin/round/add.routes";
 import { currentUser } from "./middlewares/current-user";
 import { getCurrentRoundRouter } from "./routes/admin/round/get.current.routes";
 import { updateCurrentRoundRouter } from "./routes/admin/round/update.routes";
+import { drawRoundRouter } from "./routes/admin/round/draw.round.routes";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(limiter);
 
 // register routes
 app.use(createRoundRouter);
+app.use(drawRoundRouter);
 app.use(getCurrentRoundRouter);
 app.use(updateCurrentRoundRouter);
 

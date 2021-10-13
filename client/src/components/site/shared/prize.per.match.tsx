@@ -1,10 +1,12 @@
 import { FunctionComponent } from "react";
-import { PoolAttrs } from "../../../api/models/round.model";
+import { PoolAttrs, TicketAttrs } from "../../../api/models/round.model";
 import PrizeBox from "./prize.box";
 
 interface PrizePerMatchProps {
     amount: number;
     bnbPrice: number;
+    finalNumber: number;
+    tickets?: TicketAttrs[];
     percentages?: PoolAttrs[];
 }
 
@@ -12,6 +14,8 @@ const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
     amount,
     bnbPrice,
     percentages,
+    finalNumber,
+    tickets,
 }) => {
     return (
         <>
@@ -20,7 +24,13 @@ const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
             </h4>
 
             <div className="d-flex flex-wrap justify-content-center mt-4">
-                <PrizeBox amount={amount} bnbPrice={bnbPrice} pools={percentages!} />
+                <PrizeBox
+                    amount={amount}
+                    bnbPrice={bnbPrice}
+                    finalNumber={finalNumber}
+                    tickets={tickets}
+                    pools={percentages!}
+                />
             </div>
         </>
     );

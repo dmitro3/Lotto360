@@ -1,17 +1,30 @@
 import { FunctionComponent } from "react";
-import { PoolAttrs } from "../../../api/models/round.model";
-import { currencyFormat } from "../../../utilities/string.numbers.util";
+import { PoolAttrs, TicketAttrs } from "../../../api/models/round.model";
+import { currencyFormat, ticketNumToStr } from "../../../utilities/string.numbers.util";
 
 interface PrizeBoxProps {
     amount: number;
     bnbPrice: number;
     pools: PoolAttrs[];
+    finalNumber: number;
+    tickets?: TicketAttrs[];
 }
 
-const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, bnbPrice, pools }) => {
+const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
+    amount,
+    bnbPrice,
+    pools,
+    finalNumber,
+    tickets,
+}) => {
     const runCallback = (cb: any) => {
         return cb();
     };
+
+    const winningTicketsCount: number[] = calculateWinningTicketCounts(
+        finalNumber,
+        tickets
+    );
 
     return (
         <>
@@ -65,6 +78,12 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, bnbPrice, pools })
                                 "$"
                             )}
                         </span>
+                        {winningTicketsCount[i] >= 0 && (
+                            <span className="text-dark fw-bold">
+                                {winningTicketsCount[i]}{" "}
+                                {winningTicketsCount[i] > 1 ? "tickets" : "ticket"}
+                            </span>
+                        )}
                     </div>
                 </div>
             ))}
@@ -73,3 +92,61 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({ amount, bnbPrice, pools })
 };
 
 export default PrizeBox;
+
+// ..........................................................................................
+function calculateWinningTicketCounts(
+    finalNumber: number,
+    tickets: TicketAttrs[] | undefined
+): number[] {
+    if (!tickets || tickets.length === 0 || !finalNumber) return [];
+    else {
+        const winNumber = ticketNumToStr(finalNumber);
+        const ticketsArray = tickets.map((t) => ticketNumToStr(t.number));
+
+        const match6Array = ticketsArray.filter((t) => t === winNumber);
+        const match5Array = ticketsArray.filter(
+            (t) =>
+                t.slice(0, -1) === winNumber.slice(0, -1) && ![...match6Array].includes(t)
+        );
+        const match4Array = ticketsArray.filter(
+            (t) =>
+                t.slice(0, -2) === winNumber.slice(0, -2) &&
+                ![...match6Array, ...match5Array].includes(t)
+        );
+        const match3Array = ticketsArray.filter(
+            (t) =>
+                t.slice(0, -3) === winNumber.slice(0, -3) &&
+                ![...match6Array, ...match5Array, ...match4Array].includes(t)
+        );
+        const match2Array = ticketsArray.filter(
+            (t) =>
+                t.slice(0, -4) === winNumber.slice(0, -4) &&
+                ![
+                    ...match6Array,
+                    ...match5Array,
+                    ...match4Array,
+                    ...match3Array,
+                ].includes(t)
+        );
+        const match1Array = ticketsArray.filter(
+            (t) =>
+                t.slice(0, -5) === winNumber.slice(0, -5) &&
+                ![
+                    ...match6Array,
+                    ...match5Array,
+                    ...match4Array,
+                    ...match3Array,
+                    ...match2Array,
+                ].includes(t)
+        );
+
+        return [
+            match1Array.length,
+            match2Array.length,
+            match3Array.length,
+            match4Array.length,
+            match5Array.length,
+            match6Array.length,
+        ];
+    }
+}

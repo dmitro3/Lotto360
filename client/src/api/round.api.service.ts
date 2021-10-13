@@ -38,12 +38,6 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/round`);
     },
 
-    // getCurrentRoundForUser(): Promise<
-    //     AxiosResponse<ApiResponseResult<GetRoundApiModel>>
-    // > {
-    //     return httpService.get(`${baseUrl}/userround`);
-    // },
-
     addRound(
         roundData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
@@ -66,23 +60,7 @@ export const RoundApiService = {
         });
     },
 
-    uploadImage(
-        file: File | null,
-        userId: number | null,
-        onUploadProgress: any
-    ): Promise<AxiosResponse<ApiResponseResult<string>>> {
-        let formData = new FormData();
-
-        if (file && userId) {
-            formData.append("id", `${userId}`);
-            formData.append("profile_picture", file);
-        }
-
-        return httpService.post(`${baseUrl}/user/uploadimage`, formData, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            onUploadProgress,
-        });
+    finishRound(): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
+        return httpService.get(`${baseUrl}/finishround`);
     },
 };
