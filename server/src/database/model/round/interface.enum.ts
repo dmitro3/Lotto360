@@ -1,5 +1,5 @@
 import { Document, Model } from "mongoose";
-import { PoolAttrs } from "../pool/interface.enum";
+import { PoolAttrs, PoolWinnersAttr } from "../pool/interface.enum";
 import { TicketAttrs } from "../ticket/interface.enum";
 
 enum RoundStatus {
@@ -21,8 +21,12 @@ interface RoundAttrs {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
+    totalPlayers: number;
+    totalTickets: number;
+    isInDb?: boolean;
     tickets?: TicketAttrs[];
     pools?: PoolAttrs[];
+    winnersInPools?: PoolWinnersAttr;
 }
 
 interface RoundDoc extends Document {
@@ -37,8 +41,10 @@ interface RoundDoc extends Document {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
+    totalPlayers: number;
     tickets: TicketAttrs;
     pools: PoolAttrs;
+    winnersInPools: PoolWinnersAttr;
 }
 
 interface RoundModel extends Model<RoundDoc> {

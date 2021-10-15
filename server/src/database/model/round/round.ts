@@ -1,7 +1,7 @@
 import { model, Schema } from "mongoose";
-import { poolSchema } from "../pool/pool";
-import { ticketSchema } from "../ticket/ticket";
 import { RoundAttrs, RoundDoc, RoundModel, RoundStatus } from "./interface.enum";
+import { poolSchema, poolWinnersSchema } from "../pool/pool";
+import { ticketSchema } from "../ticket/ticket";
 
 const roundSchema = new Schema(
     {
@@ -53,11 +53,18 @@ const roundSchema = new Schema(
             type: Number,
             required: true,
         },
+        totalPlayers: {
+            type: Number,
+            required: true,
+        },
         tickets: {
             type: [ticketSchema],
         },
         pools: {
             type: [poolSchema],
+        },
+        winnersInPools: {
+            type: poolWinnersSchema,
         },
     },
     {

@@ -42,8 +42,8 @@ export interface TicketAttrs {
     cid: number;
     owner: string;
     number: number;
-    ticketStatus: TicketStatus;
-    prizeClaimed: boolean;
+    ticketStatus?: TicketStatus;
+    prizeClaimed?: boolean;
 }
 
 export interface GetRoundApiModel {
@@ -58,6 +58,7 @@ export interface GetRoundApiModel {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
+    isInDb?: boolean;
     tickets?: TicketAttrs[];
     pools?: PoolAttrs[];
 }

@@ -14,6 +14,8 @@ import { currentUser } from "./middlewares/current-user";
 import { getCurrentRoundRouter } from "./routes/admin/round/get.current.routes";
 import { updateCurrentRoundRouter } from "./routes/admin/round/update.routes";
 import { drawRoundRouter } from "./routes/admin/round/draw.round.routes";
+import { getAllRoundsRouter } from "./routes/admin/round/get.all.routes";
+import { fetchRoundRouter } from "./routes/admin/round/fetch.round.routes";
 
 const app = express();
 
@@ -41,6 +43,8 @@ app.use(limiter);
 app.use(createRoundRouter);
 app.use(drawRoundRouter);
 app.use(getCurrentRoundRouter);
+app.use(getAllRoundsRouter);
+app.use(fetchRoundRouter);
 app.use(updateCurrentRoundRouter);
 
 // error handler

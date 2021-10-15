@@ -5,11 +5,12 @@ import { cloneDeep } from "lodash";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { RoundApiService } from "../../../api/round.api.service";
+import { flexItemsCenter } from "../../site/constants/classes";
 import { initialRound } from "./reducer/round.list.reducer";
 import AddRoundButton from "./button.add.round";
 import CurrentRound from "./current.round";
 import RoundModal from "./round.modal";
-import { flexItemsCenter } from "../../site/constants/classes";
+import History from "./history";
 
 interface RoundsProps {
     bnbPrice: number;
@@ -107,70 +108,8 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
             )}
 
             <h4 className="mt-5 fw-bold">Rounds</h4>
-            <Table striped bordered hover responsive>
-                <thead className="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Username</th>
-                        <th>Detail</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>
-                            <button
-                                className="btn btn-sm btn-info"
-                                type="button"
-                                onClick={() => {
-                                    showDetail();
-                                }}
-                            >
-                                detail
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>
-                            <button
-                                className="btn btn-sm btn-info"
-                                type="button"
-                                onClick={() => {
-                                    showDetail();
-                                }}
-                            >
-                                detail
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>3</td>
-                        <td>Thornton</td>
-                        <td>@twitter</td>
-                        <td>
-                            <button
-                                className="btn btn-sm btn-info"
-                                type="button"
-                                onClick={() => {
-                                    showDetail();
-                                }}
-                            >
-                                detail
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </Table>
+
+            <History />
 
             {/* add round */}
             <RoundModal

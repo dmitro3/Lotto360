@@ -1,8 +1,9 @@
 import { FunctionComponent } from "react";
-import { PoolAttrs, TicketAttrs } from "../../../api/models/round.model";
 import { currencyFormat, ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { PoolAttrs, RoundStatus, TicketAttrs } from "../../../api/models/round.model";
 
 interface PrizeBoxProps {
+    status: RoundStatus;
     amount: number;
     bnbPrice: number;
     pools: PoolAttrs[];
@@ -11,6 +12,7 @@ interface PrizeBoxProps {
 }
 
 const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
+    status,
     amount,
     bnbPrice,
     pools,
@@ -78,7 +80,7 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
                                 "$"
                             )}
                         </span>
-                        {winningTicketsCount[i] >= 0 && (
+                        {winningTicketsCount[i] >= 0 && status === RoundStatus.Close && (
                             <span className="text-dark fw-bold">
                                 {winningTicketsCount[i]}{" "}
                                 {winningTicketsCount[i] > 1 ? "tickets" : "ticket"}
@@ -102,42 +104,33 @@ function calculateWinningTicketCounts(
     else {
         const winNumber = ticketNumToStr(finalNumber);
         const ticketsArray = tickets.map((t) => ticketNumToStr(t.number));
+        let alreadyWon: string[] = [];
 
         const match6Array = ticketsArray.filter((t) => t === winNumber);
-        const match5Array = ticketsArray.filter(
-            (t) =>
-                t.slice(0, -1) === winNumber.slice(0, -1) && ![...match6Array].includes(t)
+        alreadyWon = [...match6Array];
+
+        const match5Array = ticketsArray.filter((t) =>
+            winningCondition(t, winNumber, -1, alreadyWon)
         );
-        const match4Array = ticketsArray.filter(
-            (t) =>
-                t.slice(0, -2) === winNumber.slice(0, -2) &&
-                ![...match6Array, ...match5Array].includes(t)
+        alreadyWon = [...alreadyWon, ...match5Array];
+
+        const match4Array = ticketsArray.filter((t) =>
+            winningCondition(t, winNumber, -2, alreadyWon)
         );
-        const match3Array = ticketsArray.filter(
-            (t) =>
-                t.slice(0, -3) === winNumber.slice(0, -3) &&
-                ![...match6Array, ...match5Array, ...match4Array].includes(t)
+        alreadyWon = [...alreadyWon, ...match4Array];
+
+        const match3Array = ticketsArray.filter((t) =>
+            winningCondition(t, winNumber, -3, alreadyWon)
         );
-        const match2Array = ticketsArray.filter(
-            (t) =>
-                t.slice(0, -4) === winNumber.slice(0, -4) &&
-                ![
-                    ...match6Array,
-                    ...match5Array,
-                    ...match4Array,
-                    ...match3Array,
-                ].includes(t)
+        alreadyWon = [...alreadyWon, ...match3Array];
+
+        const match2Array = ticketsArray.filter((t) =>
+            winningCondition(t, winNumber, -4, alreadyWon)
         );
-        const match1Array = ticketsArray.filter(
-            (t) =>
-                t.slice(0, -5) === winNumber.slice(0, -5) &&
-                ![
-                    ...match6Array,
-                    ...match5Array,
-                    ...match4Array,
-                    ...match3Array,
-                    ...match2Array,
-                ].includes(t)
+        alreadyWon = [...alreadyWon, ...match2Array];
+
+        const match1Array = ticketsArray.filter((t) =>
+            winningCondition(t, winNumber, -5, alreadyWon)
         );
 
         return [
@@ -150,3 +143,12 @@ function calculateWinningTicketCounts(
         ];
     }
 }
+
+const winningCondition = (
+    targetNumber: string,
+    winNumber: string,
+    sliceNumber: number,
+    alreadyWon: string[]
+) =>
+    targetNumber.slice(0, sliceNumber) === winNumber.slice(0, sliceNumber) &&
+    !alreadyWon.includes(targetNumber);

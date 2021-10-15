@@ -1,9 +1,10 @@
 import { Dispatch, FunctionComponent } from "react";
+import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { RoundStatus } from "../../../api/models/round.model";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import BuyTicketButton from "../shared/buy.ticket.button";
 import PrizePerMatch from "../shared/prize.per.match";
-import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import UserTickets from "../shared/user.tickets";
 import RoundNumber from "./round.number";
 import PrizeBoxHeader from "./header";
@@ -23,7 +24,8 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
     isLoading,
     state,
 }) => {
-    if (!state.currentRound) return <></>;
+    if (!state.currentRound || state.currentRound.status != RoundStatus.Open)
+        return <></>;
 
     const { bnbPrice, currentRound } = state;
     const {
@@ -35,6 +37,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
         totalBnbAmount,
         pools,
         tickets,
+        status,
     } = currentRound;
     const totalPrice = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
 
@@ -58,6 +61,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                     percentages={pools}
                     finalNumber={finalNumber}
                     tickets={tickets}
+                    status={status}
                 />
 
                 <div className="dashed my-5"></div>

@@ -26,6 +26,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
         tickets,
         bnbAddedFromLastRound,
         bonusBnbAmount,
+        status,
     } = roundInfo;
     const totalAmount = totalBnbAmount + bnbAddedFromLastRound + bonusBnbAmount;
     return showModal ? (
@@ -52,6 +53,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                     percentages={pools}
                     finalNumber={finalNumber}
                     tickets={tickets}
+                    status={status}
                 />
 
                 <div className={`${flexItemsCenter}`}>

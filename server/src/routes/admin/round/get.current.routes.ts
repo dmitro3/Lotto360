@@ -9,6 +9,7 @@ import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { lotto360Contract } from "../../../provider/contracts";
 import { bnToNumber } from "../../../utils/ethers";
+import { getPlayersCount } from "../../../utils/util";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
@@ -37,8 +38,6 @@ router.get(
                         cid: tickets[0][i].toNumber(),
                         number: tickets[1][i].toNumber(),
                         owner: tickets[2][i].toString(),
-                        ticketStatus: TicketStatus.Unknown,
-                        prizeClaimed: false,
                     });
                 }
             }
@@ -57,6 +56,8 @@ router.get(
                 finalNumber: roundResult.finalNumber.toNumber(),
                 pools: pools,
                 tickets: ticketArray,
+                totalPlayers: getPlayersCount(ticketArray),
+                totalTickets: ticketArray.length,
             };
 
             if (!roundResult || !roundResult.length)

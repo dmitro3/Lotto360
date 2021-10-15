@@ -1,9 +1,9 @@
 import { FunctionComponent, useState } from "react";
+import { Col, Form, Row } from "react-bootstrap";
 import { Pagination, Table } from "rsuite";
-import { TicketAttrs, TicketStatus } from "../../../api/models/round.model";
+import { TicketAttrs } from "../../../api/models/round.model";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import "rsuite/dist/rsuite.min.css";
-import { Col, Form, Row } from "react-bootstrap";
 
 interface TicketsTableProps {
     tickets?: TicketAttrs[];
@@ -13,14 +13,14 @@ interface TicketTable {
     cid: number;
     number: string;
     owner: string;
-    prizeClaimed: string;
-    ticketStatus: string;
+    prizeClaimed?: string;
+    ticketStatus?: string;
 }
 
+type ColumnNames = "cid" | "number" | "owner" | "prizeClaimed" | "ticketStatus";
+
 const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
-    const [sortColumn, setSortColumn] = useState<
-        "cid" | "number" | "owner" | "prizeClaimed" | "ticketStatus"
-    >("cid");
+    const [sortColumn, setSortColumn] = useState<ColumnNames>("cid");
     const [sortType, setSortType] = useState();
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
@@ -34,13 +34,6 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
             cid,
             number: ticketNumToStr(number),
             owner,
-            prizeClaimed: prizeClaimed ? "Yes" : "No",
-            ticketStatus:
-                ticketStatus === TicketStatus.Lose
-                    ? "Lose"
-                    : ticketStatus === TicketStatus.Unknown
-                    ? "Unknown"
-                    : "Win",
         })
     );
     const total = data.length;
@@ -136,7 +129,7 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
                     <Cell dataKey="number" />
                 </Column>
 
-                <Column width={200} sortable resizable>
+                {/* <Column width={200} sortable resizable>
                     <HeaderCell>Status</HeaderCell>
                     <Cell dataKey="ticketStatus" />
                 </Column>
@@ -144,7 +137,7 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
                 <Column width={200} sortable resizable>
                     <HeaderCell>Claimed?</HeaderCell>
                     <Cell dataKey="prizeClaimed" />
-                </Column>
+                </Column> */}
             </Table>
             <div style={{ padding: 20 }}>
                 <Pagination
@@ -179,7 +172,7 @@ const filteringData = (data: TicketTable[], search: string) => {
             `${t.cid}`.toLowerCase().includes(search) ||
             `${t.number}`.toLowerCase().includes(search) ||
             t.owner.toLowerCase().includes(search) ||
-            t.prizeClaimed.toLowerCase().includes(search) ||
-            t.ticketStatus.toLowerCase().includes(search)
+            t.prizeClaimed?.toLowerCase().includes(search) ||
+            t.ticketStatus?.toLowerCase().includes(search)
     );
 };

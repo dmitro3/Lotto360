@@ -6,10 +6,6 @@ import ApiResponseResult, { ListResult } from "./models/response.model";
 import { GetRoundApiModel, GetRoundListViewModel } from "./models/round.model";
 
 export const RoundApiService = {
-    getAllRounds(): Promise<AxiosResponse<ApiResponseResult<GetRoundListViewModel>>> {
-        return httpService.get(`${baseUrl}/user`);
-    },
-
     getRoundsPaginated(
         currentPage: number,
         pageSize: number,
@@ -62,5 +58,13 @@ export const RoundApiService = {
 
     finishRound(): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
         return httpService.get(`${baseUrl}/finishround`);
+    },
+
+    getRounds(): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel[]>>> {
+        return httpService.get(`${baseUrl}/allrounds`);
+    },
+
+    fetchRound(id: number): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
+        return httpService.get(`${baseUrl}/fetchround/${id}`);
     },
 };

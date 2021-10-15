@@ -32,7 +32,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
         bonusBnbAmount,
         bnbAddedFromLastRound,
         endTime,
-        // finalNumber,
+        finalNumber,
         pools,
         startTime,
         status,
@@ -56,9 +56,6 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
             .catch((err) => console.log(err))
             .finally(() => setDrawWaiting(false));
     };
-
-    // todo remove this uncomment upper finalNumber
-    const finalNumber = 1883176;
 
     return (
         <div>
@@ -132,6 +129,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         percentages={pools}
                         finalNumber={finalNumber}
                         tickets={tickets}
+                        status={status}
                     />
                     <div className={`${flexItemsCenter}`}>
                         <div className={`${flexItemsCenter} mt-3 me-5`}>

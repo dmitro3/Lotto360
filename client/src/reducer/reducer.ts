@@ -25,7 +25,6 @@ export interface LottoState {
     bnbPrice: number;
     historyAmount: number;
     currentPrize: number;
-    historyRound?: number;
     address?: string;
     web3?: Web3;
 }
@@ -35,7 +34,6 @@ export const initialState: LottoState = {
     ticketPrice: 0,
     bnbPrice: 0,
     currentPrize: 0,
-    historyRound: 0,
     historyAmount: 0,
     networkId: 0,
     currentRound: initialRound,

@@ -18,15 +18,14 @@ interface MainSiteProps {
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
     const [isApproved, setIsApproved] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const { address, web3, ticketPrice, currentRound, historyAmount, bnbPrice } = state;
+    const { address, web3, ticketPrice, currentRound, bnbPrice } = state;
 
     useEffect(() => {
         if (!address || !web3) return;
         ChainMethods.checkAllowance(address, web3).then((allowance) => {
             const maxPay = ticketPrice * maxTicketsEachBuy;
             const maxPayInWei = web3.utils.toWei(`${maxPay}`, "ether");
-            // console.info(allowance, maxPayInWei);
-            if (allowance >= maxPayInWei) setIsApproved(true);
+            if (allowance === maxPayInWei) setIsApproved(true);
             else setIsApproved(false);
         });
     }, [address, ticketPrice, web3]);
@@ -63,9 +62,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
             )}
 
             <CheckWin />
-
-            <RoundsHistory bnbPrice={bnbPrice} historyAmount={historyAmount} />
-
+            <RoundsHistory state={state} />
             <GameInfo />
         </div>
     );
