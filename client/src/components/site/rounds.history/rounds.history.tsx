@@ -1,40 +1,73 @@
 /* eslint-disable eqeqeq */
 import { FunctionComponent, useEffect, useState } from "react";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { GetRoundApiModel } from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import RoundNumberSelector from "./round.number.selector";
 import { flexItemsCenter } from "../constants/classes";
-import { LottoState } from "../../../reducer/reducer";
 import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
 import HistoryHeader from "./history.header";
 import UserHistory from "./user.history";
+import { RoundApiService } from "../../../api/round.api.service";
 
 interface RoundsHistoryProps {
-    state: LottoState;
+    address: string;
+    bnbPrice: number;
+    currentRound: GetRoundApiModel;
 }
 
-const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
-    const [passedRound, setHistoryRound] = useState<GetRoundApiModel>();
+const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
+    address,
+    bnbPrice,
+    currentRound,
+}) => {
+    const [round, setRound] = useState<GetRoundApiModel>();
+    const [loading, setLoading] = useState(false);
 
-    const currentRoundId = state.currentRound.cid;
-    useEffect(() => {
-        if (!state.address || !state.web3 || currentRoundId == 0) return;
-        if (currentRoundId == 1) return;
-        else {
-            RoundApiService.getRoundById(currentRoundId - 1, state.address)
-                .then((res) => {
-                    if (res && res.data && res.data.result)
-                        setHistoryRound(res.data.result);
-                })
-                .catch((err) => console.error(err));
+    // set latest round
+    let isLatest = false;
+    let lastRoundId = 0;
+    {
+        const { status, cid } = currentRound;
+        if (status == RoundStatus.Close) {
+            isLatest = true;
+            lastRoundId = cid;
+        } else if (status == RoundStatus.Open) {
+            isLatest = round?.cid == cid - 1;
+            lastRoundId = cid - 1;
+        } else {
+            isLatest = false;
+            lastRoundId = 0;
         }
-    }, [currentRoundId, state.address, state.currentRound, state.web3]);
+    }
 
-    if (!passedRound) return <></>;
+    // use effect
+    useEffect(() => {
+        if (lastRoundId < 1) return;
+        RoundApiService.getRoundById(lastRoundId, address)
+            .then((res) => {
+                if (res && res.data && res.data.result) {
+                    setRound(res.data.result);
+                }
+            })
+            .catch((err) => console.log(err));
+    }, [address, lastRoundId]);
 
+    // get new round
+    const fetchNewRound = (id: number) => {
+        setLoading(true);
+        RoundApiService.getRoundById(id, address)
+            .then((res) => {
+                if (res && res.data && res.data.result) {
+                    setRound(res.data.result);
+                }
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false));
+    };
+
+    if (!round) return <></>;
     const {
         bnbAddedFromLastRound,
         bonusBnbAmount,
@@ -45,7 +78,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
         totalBnbAmount,
         winnersInPools,
         finalNumber,
-    } = passedRound;
+    } = round;
     const totalAmount = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
 
     let userTickets: string[] = [];
@@ -57,7 +90,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
             <UserHistory />
 
             <div className="container bg-white rounded shadow p-4 mt-4 mb-5">
-                {currentRoundId > cid && (
+                {isLatest && (
                     <div className="text-center">
                         <span className="badge rounded-pill bg-success mb-2 fs-6">
                             latest round
@@ -65,15 +98,27 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
                     </div>
                 )}
 
-                <RoundNumberSelector number={cid} winningNumber={finalNumber} />
+                {loading ? (
+                    <div className={`${flexItemsCenter} my-3`}>
+                        <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
+                        <span className="fw-bold">Loading</span>
+                    </div>
+                ) : (
+                    <RoundNumberSelector
+                        fetchAnotherRound={fetchNewRound}
+                        latestRound={currentRound.cid}
+                        number={cid}
+                        winningNumber={finalNumber}
+                    />
+                )}
                 <TimeAndTotalAmount
                     totalAmount={totalAmount}
-                    bnbPrice={state.bnbPrice}
+                    bnbPrice={bnbPrice}
                     time={endTime}
                 />
                 <PrizePerMatch
                     amount={totalAmount}
-                    bnbPrice={state.bnbPrice}
+                    bnbPrice={bnbPrice}
                     percentages={pools}
                     poolWinners={winnersInPools}
                 />
@@ -81,13 +126,13 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
                 <div className={`${flexItemsCenter} mt-3`}>
                     <i className="fa-duotone fa-ticket me-2 fa-lg"></i>
                     <span className="fs-5 fw-bold me-2">Total tickets:</span>
-                    <span className="fs-5 text-dark">{passedRound.totalTickets}</span>
+                    <span className="fs-5 text-dark">{round.totalTickets}</span>
                 </div>
 
                 <div className={`${flexItemsCenter} mt-3`}>
                     <i className="fa-duotone fa-users me-2 fa-lg"></i>
                     <span className="fs-5 fw-bold me-2">Total players:</span>
-                    <span className="fs-5 text-dark">{passedRound.totalPlayers}</span>
+                    <span className="fs-5 text-dark">{round.totalPlayers}</span>
                 </div>
 
                 <div className="dashed my-5"></div>

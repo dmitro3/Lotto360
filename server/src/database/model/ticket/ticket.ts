@@ -14,8 +14,8 @@ const winningTicketSchema = new Schema(
         cid: {
             type: Number,
             required: true,
-            unique: true,
-            index: true,
+            // unique: true,
+            // index: true,
         },
         owner: {
             type: String,
@@ -41,7 +41,7 @@ const winningTicketSchema = new Schema(
     {
         toJSON: {
             transform(_doc, ret) {
-                ret.id = ret._id;
+                // ret.id = ret._id;
                 delete ret._id;
             },
         },
@@ -77,7 +77,7 @@ const ticketSchema = new Schema(
     {
         toJSON: {
             transform(_doc, ret) {
-                ret.id = ret._id;
+                // ret.id = ret._id;
                 delete ret._id;
             },
         },

@@ -1,5 +1,6 @@
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { ActionModel, LottoActions, LottoState } from "../../reducer/reducer";
+import { GetRoundApiModel } from "../../api/models/round.model";
 import RoundsHistory from "./rounds.history/rounds.history";
 import { ChainMethods } from "../../provider/chain.methods";
 import { maxTicketsEachBuy } from "../../config/config";
@@ -8,7 +9,6 @@ import GameInfo from "./game.info/game.info";
 import CheckWin from "./check.win/checkwin";
 import Header from "./header/header";
 import Main from "./main/main";
-import { GetRoundApiModel } from "../../api/models/round.model";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -18,6 +18,7 @@ interface MainSiteProps {
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
     const [isApproved, setIsApproved] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
     const { address, web3, ticketPrice, currentRound, bnbPrice } = state;
 
     useEffect(() => {
@@ -62,7 +63,13 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
             )}
 
             <CheckWin />
-            <RoundsHistory state={state} />
+            {state.address && (
+                <RoundsHistory
+                    bnbPrice={state.bnbPrice}
+                    address={state.address}
+                    currentRound={state.currentRound}
+                />
+            )}
             <GameInfo />
         </div>
     );

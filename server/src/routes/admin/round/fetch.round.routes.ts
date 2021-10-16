@@ -45,6 +45,7 @@ router.get(
                     });
                 }
             }
+
             if (!roundResult || !roundResult.length)
                 throw new NotFoundError("round not found");
 
@@ -72,7 +73,7 @@ router.get(
                 isInDb: true,
                 winnersInPools: winnerPools,
             };
-
+            console.info(round);
             const roundModel = Round.build(round);
             await roundModel.save();
 
@@ -83,6 +84,7 @@ router.get(
                 })
             );
         } catch (err: any) {
+            console.info(err);
             throw new BadRequestError("bad request", ResponseMessageType.ERROR);
         }
     }
@@ -128,7 +130,7 @@ function calculateWinningTicketCounts(
         );
 
         const rest = {
-            ticketStatus: TicketStatus.Unknown,
+            ticketStatus: TicketStatus.Win,
             prizeClaimed: false,
         };
 

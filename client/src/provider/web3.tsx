@@ -53,7 +53,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
 
             window.ethereum.handleDisconnect((i: any) => console.info(i));
         } catch (e) {
-            console.error("can't connect to metamask");
+            console.log("can't connect to metamask");
         }
         return web3;
     }

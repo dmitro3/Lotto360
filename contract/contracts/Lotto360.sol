@@ -205,7 +205,7 @@ contract Lotto360 {
         return poolsInEachRound[currentRoundId];
     }
 
-    //
+    // ✅
     function getRoundByIdForUser(uint256 _roundId)
         external
         view
@@ -215,7 +215,7 @@ contract Lotto360 {
         return rounds[_roundId];
     }
 
-    //
+    // ✅
     function getUserTicketsInRound(uint256 _roundId)
         external
         view
@@ -247,7 +247,7 @@ contract Lotto360 {
         return (cidArray, numberArray, addressArray);
     }
 
-    //
+    // ✅
     function getPoolsInRoundForUser(uint256 _roundId)
         external
         view
@@ -378,51 +378,7 @@ contract Lotto360 {
         return 1000000 + (number % 1000000);
     }
 
-    // ❌ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getRounds()
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (
-            Status[] memory,
-            uint256[] memory,
-            uint256[] memory,
-            uint256[] memory,
-            uint256[] memory,
-            uint256[] memory
-        )
-    {
-        Status[] memory statusArray = new Status[](currentRoundId);
-        uint256[] memory cidArray = new uint256[](currentRoundId);
-        uint256[] memory endTimeArray = new uint256[](currentRoundId);
-        uint256[] memory ticketPriceArray = new uint256[](currentRoundId);
-        uint256[] memory finalNumberArray = new uint256[](currentRoundId);
-        uint256[] memory totalBnbAmountArray = new uint256[](currentRoundId);
-
-        for (uint256 i = 0; i < currentRoundId; i++) {
-            cidArray[i] = rounds[i + 1].cid;
-            statusArray[i] = rounds[i + 1].status;
-            endTimeArray[i] = rounds[i + 1].endTime;
-            finalNumberArray[i] = rounds[i + 1].finalNumber;
-            ticketPriceArray[i] = rounds[i + 1].ticketPrice;
-            totalBnbAmountArray[i] =
-                rounds[i + 1].totalBnbAmount +
-                rounds[i + 1].bonusBnbAmount +
-                rounds[i + 1].bnbAddedFromLastRound;
-        }
-
-        return (
-            statusArray,
-            cidArray,
-            endTimeArray,
-            ticketPriceArray,
-            totalBnbAmountArray,
-            finalNumberArray
-        );
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getRoundById(uint256 _roundId)
         external
         view
@@ -433,7 +389,7 @@ contract Lotto360 {
         return rounds[_roundId];
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getTicketsInRound(uint256 _roundId)
         external
         view
@@ -459,7 +415,7 @@ contract Lotto360 {
         return (cidArray, numberArray, addressArray);
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getPoolsInRound(uint256 _roundId)
         external
         view
