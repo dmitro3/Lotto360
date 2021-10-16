@@ -42,8 +42,20 @@ export interface TicketAttrs {
     cid: number;
     owner: string;
     number: number;
-    ticketStatus?: TicketStatus;
-    prizeClaimed?: boolean;
+}
+
+export interface WinningTicketAttrs extends TicketAttrs {
+    ticketStatus: TicketStatus;
+    prizeClaimed: boolean;
+}
+
+export interface PoolWinnersAttr {
+    match1: WinningTicketAttrs[];
+    match2: WinningTicketAttrs[];
+    match3: WinningTicketAttrs[];
+    match4: WinningTicketAttrs[];
+    match5: WinningTicketAttrs[];
+    match6: WinningTicketAttrs[];
 }
 
 export interface GetRoundApiModel {
@@ -58,7 +70,10 @@ export interface GetRoundApiModel {
     bonusBnbAmount: number;
     bnbAddedFromLastRound: number;
     finalNumber: number;
+    totalPlayers: number;
+    totalTickets: number;
     isInDb?: boolean;
     tickets?: TicketAttrs[];
     pools?: PoolAttrs[];
+    winnersInPools?: PoolWinnersAttr;
 }

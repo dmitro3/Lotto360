@@ -42,9 +42,11 @@ interface RoundDoc extends Document {
     bnbAddedFromLastRound: number;
     finalNumber: number;
     totalPlayers: number;
-    tickets: TicketAttrs;
-    pools: PoolAttrs;
-    winnersInPools: PoolWinnersAttr;
+    totalTickets: number;
+    isInDb?: boolean;
+    tickets?: TicketAttrs[];
+    pools?: PoolAttrs[];
+    winnersInPools?: PoolWinnersAttr;
 }
 
 interface RoundModel extends Model<RoundDoc> {

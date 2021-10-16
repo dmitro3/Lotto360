@@ -37,3 +37,8 @@ export const updateRoundValidatorSchema = [
         .isArray({ max: 7, min: 7 })
         .withMessage("Pool should be exist with length of 7"),
 ];
+
+export const getRoundSchema = [
+    body("roundId").not().isEmpty().isInt({ gt: 0 }).withMessage("please enter round id"),
+    body("address").not().isEmpty().isString().withMessage("please enter address"),
+];

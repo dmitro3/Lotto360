@@ -57,6 +57,10 @@ const roundSchema = new Schema(
             type: Number,
             required: true,
         },
+        totalTickets: {
+            type: Number,
+            required: true,
+        },
         tickets: {
             type: [ticketSchema],
         },

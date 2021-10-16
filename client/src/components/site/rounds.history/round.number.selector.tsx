@@ -1,15 +1,20 @@
 import { FunctionComponent, useState } from "react";
 import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
+import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { flexItemsCenter } from "../constants/classes";
 
 interface RoundNumberSelectorProps {
     number: number;
+    winningNumber: number;
 }
 
-const getWinningNumberClass = (number: number) =>
+const getWinningNumberClass = (number: string) =>
     `fa-solid fa-square-${number} text-success fa-2xl me-1`;
 
-const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({ number }) => {
+const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
+    number,
+    winningNumber,
+}) => {
     const [showModal, setShowModal] = useState(false);
 
     const handleModalClose = () => setShowModal(false);
@@ -36,12 +41,11 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({ numb
 
             <div className={flexItemsCenter}>
                 <span className="fs-5 fw-bold me-2">Winning numbers:</span>
-                <i className={getWinningNumberClass(4)}></i>
-                <i className={getWinningNumberClass(6)}></i>
-                <i className={getWinningNumberClass(8)}></i>
-                <i className={getWinningNumberClass(3)}></i>
-                <i className={getWinningNumberClass(2)}></i>
-                <i className={getWinningNumberClass(0)}></i>
+                {ticketNumToStr(winningNumber)
+                    .split("")
+                    .map((str, i) => (
+                        <i key={i} className={getWinningNumberClass(str)}></i>
+                    ))}
             </div>
 
             <Modal show={showModal} onHide={handleModalClose}>

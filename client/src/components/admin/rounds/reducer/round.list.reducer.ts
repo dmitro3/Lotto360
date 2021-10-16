@@ -18,4 +18,6 @@ export let initialRound: GetRoundApiModel = {
     ticketPrice: 0.02,
     totalBnbAmount: 0,
     pools: defaultPools,
+    totalPlayers: 0,
+    totalTickets: 0,
 };

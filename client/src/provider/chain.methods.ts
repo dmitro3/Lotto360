@@ -45,62 +45,62 @@ export const ChainMethods = {
         }
     },
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    getRoundByIdForUser: async (address: string, roundId: number, web3: Web3) => {
-        try {
-            const roundResult = await lotto360Contract(web3)
-                .methods.getRoundByIdForUser(roundId)
-                .call({ from: address });
+    // getRoundByIdForUser: async (address: string, roundId: number, web3: Web3) => {
+    //     try {
+    //         const roundResult = await lotto360Contract(web3)
+    //             .methods.getRoundByIdForUser(roundId)
+    //             .call({ from: address });
 
-            const ticketsResult = await lotto360Contract(web3)
-                .methods.getUserTicketsInRound(roundId)
-                .call({ from: address });
+    //         const ticketsResult = await lotto360Contract(web3)
+    //             .methods.getUserTicketsInRound(roundId)
+    //             .call({ from: address });
 
-            let tickets: TicketAttrs[] = [];
-            if (ticketsResult) {
-                for (let i = 0; i < ticketsResult[0].length; i++) {
-                    tickets[i] = {
-                        cid: ticketsResult[0][i],
-                        number: ticketsResult[1][i],
-                        owner: ticketsResult[2][i],
-                        ticketStatus: TicketStatus.Unknown,
-                        prizeClaimed: false,
-                    };
-                }
-            }
+    //         let tickets: TicketAttrs[] = [];
+    //         if (ticketsResult) {
+    //             for (let i = 0; i < ticketsResult[0].length; i++) {
+    //                 tickets[i] = {
+    //                     cid: ticketsResult[0][i],
+    //                     number: ticketsResult[1][i],
+    //                     owner: ticketsResult[2][i],
+    //                     ticketStatus: TicketStatus.Unknown,
+    //                     prizeClaimed: false,
+    //                 };
+    //             }
+    //         }
 
-            const poolsBn: any[] = await lotto360Contract(web3)
-                .methods.getPoolsInRoundForUser(roundId)
-                .call({ from: address });
+    //         const poolsBn: any[] = await lotto360Contract(web3)
+    //             .methods.getPoolsInRoundForUser(roundId)
+    //             .call({ from: address });
 
-            let pools: PoolAttrs[] = [];
-            pools = poolsBn.map((bn, i) => {
-                return { name: i, percentage: bn };
-            });
+    //         let pools: PoolAttrs[] = [];
+    //         pools = poolsBn.map((bn, i) => {
+    //             return { name: i, percentage: bn };
+    //         });
 
-            const round: GetRoundApiModel = {
-                status: roundResult.status,
-                cid: roundResult.cid,
-                startTime: roundResult.startTime,
-                endTime: roundResult.endTime,
-                ticketPrice: bnToNumber(roundResult.ticketPrice),
-                firstTicketId: roundResult.firstTicketId,
-                firstTicketIdNextRound: roundResult.firstTicketIdNextRound,
-                totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
-                bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
-                bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
-                finalNumber: roundResult.finalNumber,
-                pools: pools,
-                tickets: tickets,
-            };
+    //         const round: GetRoundApiModel = {
+    //             status: roundResult.status,
+    //             cid: roundResult.cid,
+    //             startTime: roundResult.startTime,
+    //             endTime: roundResult.endTime,
+    //             ticketPrice: bnToNumber(roundResult.ticketPrice),
+    //             firstTicketId: roundResult.firstTicketId,
+    //             firstTicketIdNextRound: roundResult.firstTicketIdNextRound,
+    //             totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
+    //             bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
+    //             bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
+    //             finalNumber: roundResult.finalNumber,
+    //             pools: pools,
+    //             tickets: tickets,
+    //         };
 
-            if (!roundResult || !roundResult.length) return null;
+    //         if (!roundResult || !roundResult.length) return null;
 
-            return round;
-        } catch (err) {
-            console.error("Error get current round:", err);
-            return null;
-        }
-    },
+    //         return round;
+    //     } catch (err) {
+    //         console.error("Error get current round:", err);
+    //         return null;
+    //     }
+    // },
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getCurrentRoundForUser: async (address: string, web3: Web3) => {
         try {
@@ -119,8 +119,6 @@ export const ChainMethods = {
                         cid: ticketsResult[0][i],
                         number: ticketsResult[1][i],
                         owner: ticketsResult[2][i],
-                        ticketStatus: TicketStatus.Unknown,
-                        prizeClaimed: false,
                     };
                 }
             }
@@ -148,6 +146,8 @@ export const ChainMethods = {
                 finalNumber: roundResult.finalNumber,
                 pools: pools,
                 tickets: tickets,
+                totalPlayers: 0,
+                totalTickets: 0,
             };
 
             if (!roundResult || !roundResult.length) return null;

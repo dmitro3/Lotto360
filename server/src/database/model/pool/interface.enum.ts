@@ -1,5 +1,5 @@
 import { Document, Model } from "mongoose";
-import { TicketAttrs, WinningTicketAttrs } from "../ticket/interface.enum";
+import { WinningTicketAttrs } from "../ticket/interface.enum";
 
 enum PoolName {
     Match1,
@@ -12,21 +12,21 @@ enum PoolName {
 }
 
 interface PoolWinnersAttr {
-    match1: WinningTicketAttrs[];
-    match2: WinningTicketAttrs[];
-    match3: WinningTicketAttrs[];
-    match4: WinningTicketAttrs[];
-    match5: WinningTicketAttrs[];
-    match6: WinningTicketAttrs[];
+    match1?: WinningTicketAttrs[];
+    match2?: WinningTicketAttrs[];
+    match3?: WinningTicketAttrs[];
+    match4?: WinningTicketAttrs[];
+    match5?: WinningTicketAttrs[];
+    match6?: WinningTicketAttrs[];
 }
 
 interface PoolWinnersDoc extends Document {
-    match1: WinningTicketAttrs[];
-    match2: WinningTicketAttrs[];
-    match3: WinningTicketAttrs[];
-    match4: WinningTicketAttrs[];
-    match5: WinningTicketAttrs[];
-    match6: WinningTicketAttrs[];
+    match1?: WinningTicketAttrs[];
+    match2?: WinningTicketAttrs[];
+    match3?: WinningTicketAttrs[];
+    match4?: WinningTicketAttrs[];
+    match5?: WinningTicketAttrs[];
+    match6?: WinningTicketAttrs[];
 }
 
 interface PoolWinnersModel extends Model<PoolWinnersDoc> {

@@ -1,23 +1,19 @@
 import { FunctionComponent } from "react";
-import { PoolAttrs, RoundStatus, TicketAttrs } from "../../../api/models/round.model";
+import { PoolAttrs, PoolWinnersAttr } from "../../../api/models/round.model";
 import PrizeBox from "./prize.box";
 
 interface PrizePerMatchProps {
     amount: number;
     bnbPrice: number;
-    finalNumber: number;
-    tickets?: TicketAttrs[];
     percentages?: PoolAttrs[];
-    status: RoundStatus;
+    poolWinners?: PoolWinnersAttr;
 }
 
 const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
     amount,
     bnbPrice,
     percentages,
-    finalNumber,
-    tickets,
-    status,
+    poolWinners,
 }) => {
     return (
         <>
@@ -29,10 +25,8 @@ const PrizePerMatch: FunctionComponent<PrizePerMatchProps> = ({
                 <PrizeBox
                     amount={amount}
                     bnbPrice={bnbPrice}
-                    finalNumber={finalNumber}
-                    tickets={tickets}
                     pools={percentages!}
-                    status={status}
+                    poolWinners={poolWinners}
                 />
             </div>
         </>

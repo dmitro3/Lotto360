@@ -1,9 +1,9 @@
 import { FunctionComponent, useState } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Pagination, Table } from "rsuite";
-import { TicketAttrs } from "../../../api/models/round.model";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import "rsuite/dist/rsuite.min.css";
+import { TicketAttrs } from "../../../api/models/round.model";
 
 interface TicketsTableProps {
     tickets?: TicketAttrs[];
@@ -29,13 +29,11 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
 
     if (!tickets) return <></>;
 
-    let data: TicketTable[] = tickets.map(
-        ({ cid, number, owner, prizeClaimed, ticketStatus }) => ({
-            cid,
-            number: ticketNumToStr(number),
-            owner,
-        })
-    );
+    let data: TicketTable[] = tickets.map(({ cid, number, owner }) => ({
+        cid,
+        number: ticketNumToStr(number),
+        owner,
+    }));
     const total = data.length;
 
     const handleChangeLimit = (dataKey: any) => {

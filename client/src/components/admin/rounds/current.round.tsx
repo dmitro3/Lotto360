@@ -38,6 +38,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
         status,
         tickets,
         totalBnbAmount,
+        winnersInPools,
     } = currentRound;
 
     const totalBnb = totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;
@@ -127,9 +128,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         amount={totalBnb}
                         bnbPrice={bnbPrice}
                         percentages={pools}
-                        finalNumber={finalNumber}
-                        tickets={tickets}
-                        status={status}
+                        poolWinners={winnersInPools}
                     />
                     <div className={`${flexItemsCenter}`}>
                         <div className={`${flexItemsCenter} mt-3 me-5`}>

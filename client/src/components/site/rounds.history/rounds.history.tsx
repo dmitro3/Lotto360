@@ -1,7 +1,8 @@
+/* eslint-disable eqeqeq */
 import { FunctionComponent, useEffect, useState } from "react";
-import { getPlayersCount, ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { GetRoundApiModel } from "../../../api/models/round.model";
-import { ChainMethods } from "../../../provider/chain.methods";
+import { RoundApiService } from "../../../api/round.api.service";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import RoundNumberSelector from "./round.number.selector";
 import { flexItemsCenter } from "../constants/classes";
@@ -23,14 +24,12 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
         if (!state.address || !state.web3 || currentRoundId == 0) return;
         if (currentRoundId == 1) return;
         else {
-            // todo take it from backend
-            ChainMethods.getRoundByIdForUser(
-                state.address,
-                currentRoundId - 1,
-                state.web3
-            ).then((res) => {
-                if (res) setHistoryRound(res);
-            });
+            RoundApiService.getRoundById(currentRoundId - 1, state.address)
+                .then((res) => {
+                    if (res && res.data && res.data.result)
+                        setHistoryRound(res.data.result);
+                })
+                .catch((err) => console.error(err));
         }
     }, [currentRoundId, state.address, state.currentRound, state.web3]);
 
@@ -41,11 +40,11 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
         bonusBnbAmount,
         cid,
         endTime,
-        finalNumber,
         pools,
         tickets,
         totalBnbAmount,
-        status,
+        winnersInPools,
+        finalNumber,
     } = passedRound;
     const totalAmount = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
 
@@ -66,7 +65,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
                     </div>
                 )}
 
-                <RoundNumberSelector number={cid} />
+                <RoundNumberSelector number={cid} winningNumber={finalNumber} />
                 <TimeAndTotalAmount
                     totalAmount={totalAmount}
                     bnbPrice={state.bnbPrice}
@@ -76,17 +75,19 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({ state }) => {
                     amount={totalAmount}
                     bnbPrice={state.bnbPrice}
                     percentages={pools}
-                    finalNumber={finalNumber}
-                    tickets={tickets}
-                    status={status}
+                    poolWinners={winnersInPools}
                 />
 
                 <div className={`${flexItemsCenter} mt-3`}>
                     <i className="fa-duotone fa-ticket me-2 fa-lg"></i>
                     <span className="fs-5 fw-bold me-2">Total tickets:</span>
-                    <span className="fs-5 text-dark">
-                        {passedRound.firstTicketIdNextRound - passedRound.firstTicketId}
-                    </span>
+                    <span className="fs-5 text-dark">{passedRound.totalTickets}</span>
+                </div>
+
+                <div className={`${flexItemsCenter} mt-3`}>
+                    <i className="fa-duotone fa-users me-2 fa-lg"></i>
+                    <span className="fs-5 fw-bold me-2">Total players:</span>
+                    <span className="fs-5 text-dark">{passedRound.totalPlayers}</span>
                 </div>
 
                 <div className="dashed my-5"></div>

@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { Dispatch, FunctionComponent } from "react";
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
@@ -31,13 +32,12 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
     const {
         cid,
         endTime,
-        finalNumber,
         bnbAddedFromLastRound,
         bonusBnbAmount,
         totalBnbAmount,
         pools,
         tickets,
-        status,
+        winnersInPools,
     } = currentRound;
     const totalPrice = bnbAddedFromLastRound + bonusBnbAmount + totalBnbAmount;
 
@@ -59,9 +59,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                     amount={totalPrice}
                     bnbPrice={bnbPrice}
                     percentages={pools}
-                    finalNumber={finalNumber}
-                    tickets={tickets}
-                    status={status}
+                    poolWinners={winnersInPools}
                 />
 
                 <div className="dashed my-5"></div>

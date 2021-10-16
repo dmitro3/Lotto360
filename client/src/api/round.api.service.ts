@@ -25,9 +25,10 @@ export const RoundApiService = {
     },
 
     getRoundById(
-        userId: number | null
+        roundId: number,
+        address: string
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
-        return httpService.get(`${baseUrl}/user/${userId}`);
+        return httpService.post(`${baseUrl}/user/round`, { roundId, address });
     },
 
     getCurrentRound(): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {

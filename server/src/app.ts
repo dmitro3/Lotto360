@@ -16,6 +16,7 @@ import { updateCurrentRoundRouter } from "./routes/admin/round/update.routes";
 import { drawRoundRouter } from "./routes/admin/round/draw.round.routes";
 import { getAllRoundsRouter } from "./routes/admin/round/get.all.routes";
 import { fetchRoundRouter } from "./routes/admin/round/fetch.round.routes";
+import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id.routes";
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(drawRoundRouter);
 app.use(getCurrentRoundRouter);
 app.use(getAllRoundsRouter);
 app.use(fetchRoundRouter);
+app.use(getRoundByIdForUserRouter);
 app.use(updateCurrentRoundRouter);
 
 // error handler

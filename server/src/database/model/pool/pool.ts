@@ -48,7 +48,7 @@ const poolWinnersSchema = new Schema(
     {
         toJSON: {
             transform(_doc, ret) {
-                ret.id = ret._id;
+                // ret.id = ret._id;
                 delete ret._id;
             },
         },
