@@ -1,7 +1,8 @@
 /* eslint-disable eqeqeq */
 import { FunctionComponent, useEffect, useState } from "react";
-import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
+import { ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { RoundApiService } from "../../../api/round.api.service";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import RoundNumberSelector from "./round.number.selector";
 import { flexItemsCenter } from "../constants/classes";
@@ -9,7 +10,6 @@ import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
 import HistoryHeader from "./history.header";
 import UserHistory from "./user.history";
-import { RoundApiService } from "../../../api/round.api.service";
 
 interface RoundsHistoryProps {
     address: string;
@@ -86,7 +86,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
 
     return (
         <div className="bg-dark p-5 position-relative">
-            <HistoryHeader lastRound={cid} />
+            <HistoryHeader lastRound={lastRoundId} />
             <UserHistory />
 
             <div className="container bg-white rounded shadow p-4 mt-4 mb-5">

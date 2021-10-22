@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import { Button, FormControl, InputGroup, Modal } from "react-bootstrap";
+import { toast } from "react-toastify";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { flexItemsCenter } from "../constants/classes";
 
@@ -19,20 +19,15 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
     number,
     winningNumber,
 }) => {
-    const [showModal, setShowModal] = useState(false);
-
-    const handleModalClose = () => setShowModal(false);
-    const handleModalShow = () => setShowModal(true);
-    const handleViewRound = () => {
-        // todo implement
-    };
+    const [showHiddenInput, setShowHiddenInput] = useState(false);
+    const [roundNumber, setRoundNumber] = useState(0);
 
     const nextPage = number + 1 <= latestRound && number + 1;
     const previousPage = number - 1 > 0 && number - 1;
 
     return (
         <>
-            <div className="d-flex justify-content-center align-items-center mt-1 px-5 history-divide pb-3 mb-3">
+            <div className="d-flex justify-content-center align-items-center mt-1 px-5 pb-3">
                 {previousPage && previousPage > 1 && (
                     <i
                         className="fa-solid fa-angles-left me-2 pointer p-1 px-2 hover-icon rounded"
@@ -47,7 +42,7 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
                 )}
                 <div
                     className={`${flexItemsCenter} badge bg-secondary me-2 pointer`}
-                    onClick={handleModalShow}
+                    onClick={() => setShowHiddenInput(!showHiddenInput)}
                 >
                     <i className="fa-solid fa-hashtag me-2 fa-lg"></i>
                     <span className="fs-5">{number}</span>
@@ -66,6 +61,36 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
                 )}
             </div>
 
+            {showHiddenInput && (
+                <div className={flexItemsCenter}>
+                    <div className="input-group mb-3 min-width">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="number"
+                            onChange={(e) => {
+                                const value = parseInt(e.target.value);
+                                if (value) setRoundNumber(value);
+                            }}
+                        />
+                        <button
+                            className="btn btn-primary"
+                            type="button"
+                            id="button-addon2"
+                            onClick={() => {
+                                if (roundNumber > 0 && roundNumber <= latestRound)
+                                    fetchAnotherRound(roundNumber);
+                                else toast.error("invalid number");
+                            }}
+                        >
+                            go
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            <div className="history-divide mb-3"></div>
+
             <div className={flexItemsCenter}>
                 <span className="fs-5 fw-bold me-2">Winning numbers:</span>
                 {ticketNumToStr(winningNumber)
@@ -74,34 +99,6 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
                         <i key={i} className={getWinningNumberClass(str)}></i>
                     ))}
             </div>
-
-            <Modal show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Enter round number</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <InputGroup>
-                        <InputGroup.Text id="basic-addon1">
-                            <i className="fa-solid fa-hashtag fa-lg"></i>
-                        </InputGroup.Text>
-                        <FormControl
-                            type="number"
-                            min="1"
-                            placeholder="Enter round number"
-                            aria-label="Enter round number"
-                            aria-describedby="Enter round number"
-                        />
-                    </InputGroup>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleModalClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleViewRound}>
-                        View round
-                    </Button>
-                </Modal.Footer>
-            </Modal>
         </>
     );
 };

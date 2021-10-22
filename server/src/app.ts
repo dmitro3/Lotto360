@@ -17,6 +17,8 @@ import { drawRoundRouter } from "./routes/admin/round/draw.round.routes";
 import { getAllRoundsRouter } from "./routes/admin/round/get.all.routes";
 import { fetchRoundRouter } from "./routes/admin/round/fetch.round.routes";
 import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id.routes";
+import { getRemainingBnbRouter } from "./routes/admin/round/calculate.remain.bnb.routes";
+import { checkForWinRouter } from "./routes/users/round/check.for.win.routes";
 
 const app = express();
 
@@ -41,13 +43,15 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // register routes
-app.use(createRoundRouter);
-app.use(drawRoundRouter);
-app.use(getCurrentRoundRouter);
-app.use(getAllRoundsRouter);
-app.use(fetchRoundRouter);
 app.use(getRoundByIdForUserRouter);
 app.use(updateCurrentRoundRouter);
+app.use(getCurrentRoundRouter);
+app.use(getRemainingBnbRouter);
+app.use(getAllRoundsRouter);
+app.use(createRoundRouter);
+app.use(checkForWinRouter);
+app.use(fetchRoundRouter);
+app.use(drawRoundRouter);
 
 // error handler
 app.all("*", async () => {

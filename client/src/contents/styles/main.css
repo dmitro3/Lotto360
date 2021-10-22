@@ -371,3 +371,7 @@ body {
     max-height: 310px;
     overflow-y: scroll;
 }
+
+.min-width {
+    width: 130px !important;
+}

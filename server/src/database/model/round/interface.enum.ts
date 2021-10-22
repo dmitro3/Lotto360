@@ -45,12 +45,40 @@ interface RoundDoc extends Document {
     totalTickets: number;
     isInDb?: boolean;
     tickets?: TicketAttrs[];
-    pools?: PoolAttrs[];
+    pools: PoolAttrs[];
     winnersInPools?: PoolWinnersAttr;
 }
 
 interface RoundModel extends Model<RoundDoc> {
     build(attrs: RoundAttrs): RoundDoc;
+}
+
+export interface RoundWinBrief {
+    roundId: number;
+    m1?: {
+        price: number;
+        tickets: number[];
+    };
+    m2?: {
+        price: number;
+        tickets: number[];
+    };
+    m3?: {
+        price: number;
+        tickets: number[];
+    };
+    m4?: {
+        price: number;
+        tickets: number[];
+    };
+    m5?: {
+        price: number;
+        tickets: number[];
+    };
+    m6?: {
+        price: number;
+        tickets: number[];
+    };
 }
 
 export { RoundAttrs, RoundDoc, RoundModel, RoundStatus };

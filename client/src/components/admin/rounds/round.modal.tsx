@@ -3,6 +3,7 @@ import { FunctionComponent } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 
 interface RoundModalProps {
     changeRoundValues: Function;
@@ -111,7 +112,23 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                                 />
                             </Col>
                             <Col sm="2">
-                                <Button variant="warning" type="button">
+                                <Button
+                                    variant="warning"
+                                    type="button"
+                                    onClick={() => {
+                                        RoundApiService.getRemainingBnb()
+                                            .then((res) => {
+                                                if (res && res.data && res.data.result) {
+                                                    changeRoundValues({
+                                                        ...formValues,
+                                                        bnbAddedFromLastRound:
+                                                            res.data.result,
+                                                    });
+                                                }
+                                            })
+                                            .then((err) => console.log(err));
+                                    }}
+                                >
                                     Calculate
                                 </Button>
                             </Col>

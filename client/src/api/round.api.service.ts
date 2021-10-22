@@ -68,4 +68,8 @@ export const RoundApiService = {
     fetchRound(id: number): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
         return httpService.get(`${baseUrl}/fetchround/${id}`);
     },
+
+    getRemainingBnb(): Promise<AxiosResponse<ApiResponseResult<number>>> {
+        return httpService.get(`${baseUrl}/calculateremainingbnb`);
+    },
 };
