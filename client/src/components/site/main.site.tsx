@@ -62,7 +62,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                 <></>
             )}
 
-            <CheckWin />
+            {state.address && <CheckWin address={state.address} />}
             {state.address && (
                 <RoundsHistory
                     bnbPrice={state.bnbPrice}

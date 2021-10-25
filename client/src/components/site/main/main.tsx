@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { Dispatch, FunctionComponent } from "react";
 import { RoundStatus } from "../../../api/models/round.model";
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
@@ -79,7 +80,9 @@ const Main: FunctionComponent<MainProps> = ({
                 </div>
                 <div className="main-side-pic divider2"></div>
 
-                <div className="divider-blue"></div>
+                {state.currentRound.status == RoundStatus.Open && (
+                    <div className="divider-blue"></div>
+                )}
             </div>
         </>
     );

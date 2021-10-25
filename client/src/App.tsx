@@ -55,7 +55,7 @@ function App() {
             <ToastContainer
                 autoClose={10000}
                 theme={"colored"}
-                limit={1}
+                limit={10}
                 position="top-right"
                 transition={Slide}
             />
@@ -81,6 +81,16 @@ const getCurrentRoundAndBnbPrice = (
         dispatch({
             type: LottoActions.SET_CURRENT_ROUND,
             payload: res,
+        });
+    });
+
+    ChainMethods.getUserBalance(state.address, web3).then((res) => {
+        if (!res) return;
+        const balance =
+            Math.round(parseFloat(web3.utils.fromWei(res, "ether")) * 1000) / 1000;
+        dispatch({
+            type: LottoActions.SET_USER_BALANCE,
+            payload: balance,
         });
     });
 

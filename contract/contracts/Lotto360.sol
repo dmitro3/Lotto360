@@ -105,6 +105,7 @@ contract Lotto360 {
         uint256 bonusBnbAmount
     );
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event PrizeTransferred(address indexed winnerAddress, uint256 indexed amount);
 
     /**************************************************************************************************
      * @dev these are functions for user
@@ -274,6 +275,18 @@ contract Lotto360 {
         address oldOwner = owner;
         owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
+    }
+
+    //
+    function payThePrize(address winnerAddress, uint256 amount)
+        external
+        onlyOwner
+        nonContract
+    {
+        uint256 currentBalance = bnbToken.balanceOf(address(this));
+        require(currentBalance >= amount, "insufficient contract balance");
+        bnbToken.transfer(winnerAddress, amount);
+        emit PrizeTransferred(winnerAddress, amount);
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

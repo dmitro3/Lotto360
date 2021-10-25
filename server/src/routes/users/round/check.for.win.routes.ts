@@ -20,23 +20,31 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 ResponseMessageType.ERROR
             );
 
+        // match filter
+        const matchExpression = {
+            $elemMatch: {
+                owner: { $regex: new RegExp("^" + userAddress, "i") },
+                ticketStatus: TicketStatus.Win,
+                prizeClaimed: false,
+            },
+        };
+
+        // query to get unclaimed prizes
         const rounds = await Round.find(
             {
                 $or: [
-                    {
-                        "winnersInPools.match1": {
-                            $elemMatch: {
-                                owner: userAddress,
-                                ticketStatus: TicketStatus.Win,
-                                prizeClaimed: false,
-                            },
-                        },
-                    },
+                    { "winnersInPools.match1": matchExpression },
+                    { "winnersInPools.match2": matchExpression },
+                    { "winnersInPools.match3": matchExpression },
+                    { "winnersInPools.match4": matchExpression },
+                    { "winnersInPools.match5": matchExpression },
+                    { "winnersInPools.match6": matchExpression },
                 ],
             },
             { tickets: 0 }
         );
 
+        // early return if not found
         if (!rounds || !rounds.length) {
             res.status(200).send(
                 responseMaker({
@@ -59,7 +67,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             } = round;
 
             if (!winnersInPools) return;
-            const brief: RoundWinBrief = { roundId: round.cid };
+            const brief: RoundWinBrief = {
+                roundId: round.cid,
+                winningNumber: round.finalNumber,
+            };
             const { match1, match2, match3, match4, match5, match6 } = winnersInPools;
             const totalPrice = totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;
 
@@ -139,10 +150,15 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             await round.save();
         });
 
+        // todo transfer money to user account
+
         res.status(200).send(
             responseMaker({
                 success: true,
-                result: briefs,
+                result: {
+                    totalWin: totalPay,
+                    briefs,
+                },
             })
         );
     } catch (err: any) {

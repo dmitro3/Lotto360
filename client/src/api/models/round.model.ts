@@ -77,3 +77,37 @@ export interface GetRoundApiModel {
     pools?: PoolAttrs[];
     winnersInPools?: PoolWinnersAttr;
 }
+
+export interface RoundWinBrief {
+    roundId: number;
+    winningNumber: number;
+    m1?: {
+        price: number;
+        tickets: number[];
+    };
+    m2?: {
+        price: number;
+        tickets: number[];
+    };
+    m3?: {
+        price: number;
+        tickets: number[];
+    };
+    m4?: {
+        price: number;
+        tickets: number[];
+    };
+    m5?: {
+        price: number;
+        tickets: number[];
+    };
+    m6?: {
+        price: number;
+        tickets: number[];
+    };
+}
+
+export interface CheckForWin {
+    totalWin: number;
+    briefs: RoundWinBrief[];
+}

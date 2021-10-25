@@ -1,29 +1,11 @@
 import { AxiosResponse } from "axios";
-import { baseUrl } from "../config/config";
 
+import { baseUrl } from "../config/config";
 import { httpService } from "./api.service";
-import ApiResponseResult, { ListResult } from "./models/response.model";
-import { GetRoundApiModel, GetRoundListViewModel } from "./models/round.model";
+import ApiResponseResult from "./models/response.model";
+import { CheckForWin, GetRoundApiModel } from "./models/round.model";
 
 export const RoundApiService = {
-    getRoundsPaginated(
-        currentPage: number,
-        pageSize: number,
-        sortBy: string,
-        order: string = "asc",
-        keyword: string = ""
-    ): Promise<AxiosResponse<ApiResponseResult<ListResult<GetRoundListViewModel>>>> {
-        return httpService.get(`${baseUrl}/user/list`, {
-            params: {
-                skip: (currentPage - 1) * pageSize,
-                take: pageSize,
-                keyword,
-                sortBy,
-                order,
-            },
-        });
-    },
-
     getRoundById(
         roundId: number,
         address: string
@@ -71,5 +53,9 @@ export const RoundApiService = {
 
     getRemainingBnb(): Promise<AxiosResponse<ApiResponseResult<number>>> {
         return httpService.get(`${baseUrl}/calculateremainingbnb`);
+    },
+
+    checkForWin(address: string): Promise<AxiosResponse<ApiResponseResult<CheckForWin>>> {
+        return httpService.post(`${baseUrl}/user/checkwin/${address}`);
     },
 };

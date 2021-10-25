@@ -15,9 +15,11 @@ export enum LottoActions {
     SET_NETWORK_ID,
     SET_SHOW_MODAL,
     SET_WEB3,
+    SET_USER_BALANCE,
 }
 
 export interface LottoState {
+    userBalance: number;
     showModal: boolean;
     ticketPrice: number;
     networkId: number;
@@ -30,6 +32,7 @@ export interface LottoState {
 }
 
 export const initialState: LottoState = {
+    userBalance: 0,
     showModal: false,
     ticketPrice: 0,
     bnbPrice: 0,
@@ -47,10 +50,12 @@ export default function lottoReducer(
 
     switch (action.type) {
         case LottoActions.SET_ADDRESS:
+            if (state.address === action.payload) return state;
             newState.address = action.payload;
             return newState;
 
         case LottoActions.SET_BNB_PRICE:
+            if (state.bnbPrice === action.payload) return state;
             newState.bnbPrice = action.payload;
             return newState;
 
@@ -65,6 +70,7 @@ export default function lottoReducer(
             return newState;
 
         case LottoActions.SET_NETWORK_ID:
+            if (state.networkId === action.payload) return state;
             newState.networkId = action.payload;
             return newState;
 
@@ -72,7 +78,13 @@ export default function lottoReducer(
             newState.showModal = action.payload;
             return newState;
 
+        case LottoActions.SET_USER_BALANCE:
+            if (state.userBalance === action.payload) return state;
+            newState.userBalance = action.payload;
+            return newState;
+
         case LottoActions.SET_WEB3:
+            if (state.web3 === action.payload) return state;
             newState.web3 = action.payload;
             return newState;
 

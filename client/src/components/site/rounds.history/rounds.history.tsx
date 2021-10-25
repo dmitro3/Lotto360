@@ -10,6 +10,7 @@ import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
 import HistoryHeader from "./history.header";
 import UserHistory from "./user.history";
+import { toast } from "react-toastify";
 
 interface RoundsHistoryProps {
     address: string;
@@ -51,7 +52,10 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
                     setRound(res.data.result);
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err);
+                toast.error("error happened try please again");
+            });
     }, [address, lastRoundId]);
 
     // get new round
@@ -63,7 +67,10 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
                     setRound(res.data.result);
                 }
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {
+                console.log(err);
+                toast.error("error happened try please again");
+            })
             .finally(() => setLoading(false));
     };
 

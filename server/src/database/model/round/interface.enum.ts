@@ -55,6 +55,7 @@ interface RoundModel extends Model<RoundDoc> {
 
 export interface RoundWinBrief {
     roundId: number;
+    winningNumber: number;
     m1?: {
         price: number;
         tickets: number[];
