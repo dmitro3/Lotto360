@@ -1,24 +1,28 @@
-import { deepCopy } from "@ethersproject/properties";
-import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { cloneDeep } from "lodash";
+import moment from "moment";
+
 import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../../site/constants/classes";
 
-interface HistoryProps {}
+interface HistoryProps {
+    setRoundId: (val: number) => void;
+    setShowModal: (val: boolean) => void;
+}
 
-const History: FunctionComponent<HistoryProps> = () => {
+const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) => {
     const [roundsArray, setRoundsArray] = useState<GetRoundApiModel[]>();
     const [disable, setDisable] = useState(false);
 
     useEffect(() => {
-        RoundApiService.getRounds().then((res) => {
-            if (res && res.data && res.data.success) {
-                setRoundsArray(res.data.result);
-            }
-        });
+        RoundApiService.getRounds()
+            .then((res) => {
+                if (res && res.data && res.data.success) setRoundsArray(res.data.result);
+            })
+            .catch((err) => console.error(err));
     }, []);
 
     if (!roundsArray || !roundsArray.length)
@@ -58,9 +62,17 @@ const History: FunctionComponent<HistoryProps> = () => {
                         <td>{r.totalBnbAmount}</td>
                         <td>{ticketNumToStr(r.finalNumber)}</td>
                         <td>
-                            <button className="btn btn-primary btn-sm">
-                                <i className="fa-solid fa-circle-info me-2"></i>detail
-                            </button>
+                            {r.status === RoundStatus.Close && (
+                                <button
+                                    className="btn btn-primary btn-sm"
+                                    onClick={() => {
+                                        setRoundId(r.cid);
+                                        setShowModal(true);
+                                    }}
+                                >
+                                    <i className="fa-solid fa-circle-info me-2"></i>detail
+                                </button>
+                            )}
                             {r.status === RoundStatus.Close && !r.isInDb && (
                                 <button
                                     disabled={disable}
@@ -71,7 +83,9 @@ const History: FunctionComponent<HistoryProps> = () => {
                                             .then((res) => {
                                                 if (res && res.data && res.data.result) {
                                                     r.isInDb = true;
-                                                    setRoundsArray(deepCopy(roundsArray));
+                                                    setRoundsArray(
+                                                        cloneDeep(roundsArray)
+                                                    );
                                                 }
                                             })
                                             .catch((err) => console.info(err))

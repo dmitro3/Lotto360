@@ -76,35 +76,52 @@ const getCurrentRoundAndBnbPrice = (
     web3: Web3
 ) => {
     if (state.networkId !== targetNetworkId || !state.address) return;
-    ChainMethods.getCurrentRoundForUser(state.address, web3).then((res) => {
-        if (!res) return;
-        dispatch({
-            type: LottoActions.SET_CURRENT_ROUND,
-            payload: res,
-        });
-    });
-
-    ChainMethods.getUserBalance(state.address, web3).then((res) => {
-        if (!res) return;
-        const balance =
-            Math.round(parseFloat(web3.utils.fromWei(res, "ether")) * 1000) / 1000;
-        dispatch({
-            type: LottoActions.SET_USER_BALANCE,
-            payload: balance,
-        });
-    });
-
-    axios.get(coinGeckoBnbPriceApi).then((res: AxiosResponse<any>) => {
-        if (
-            res &&
-            res.data &&
-            res.data.market_data &&
-            res.data.market_data.current_price.usd
-        ) {
+    ChainMethods.getCurrentRoundForUser(state.address, web3)
+        .then((res) => {
+            if (!res) return;
             dispatch({
-                type: LottoActions.SET_BNB_PRICE,
-                payload: res.data.market_data.current_price.usd,
+                type: LottoActions.SET_CURRENT_ROUND,
+                payload: res,
             });
-        }
-    });
+        })
+        .catch((err) => console.error(err));
+
+    ChainMethods.getMaxTicketsPerBuy(web3)
+        .then((res) => {
+            if (!res) return;
+            dispatch({
+                type: LottoActions.SET_MAX_TICKETS,
+                payload: res,
+            });
+        })
+        .catch((err) => console.error(err));
+
+    ChainMethods.getUserBalance(state.address, web3)
+        .then((res) => {
+            if (!res) return;
+            const balance =
+                Math.round(parseFloat(web3.utils.fromWei(res, "ether")) * 1000) / 1000;
+            dispatch({
+                type: LottoActions.SET_USER_BALANCE,
+                payload: balance,
+            });
+        })
+        .catch((err) => console.error(err));
+
+    axios
+        .get(coinGeckoBnbPriceApi)
+        .then((res: AxiosResponse<any>) => {
+            if (
+                res &&
+                res.data &&
+                res.data.market_data &&
+                res.data.market_data.current_price.usd
+            ) {
+                dispatch({
+                    type: LottoActions.SET_BNB_PRICE,
+                    payload: res.data.market_data.current_price.usd,
+                });
+            }
+        })
+        .catch((err) => console.error(err));
 };

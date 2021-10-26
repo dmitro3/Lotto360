@@ -258,7 +258,7 @@ contract Lotto360 {
         return poolsInEachRound[_roundId];
     }
 
-    //
+    // ✅
     function getMaxNumberTicketsPerBuyOrClaim()
         external
         view

@@ -36,13 +36,8 @@ router.put(
                     gasLimit: 1000000,
                 }
             );
-            console.info(
-                endTime,
-                ethers.utils.parseEther(`${bonusBnbAmount}`),
-                poolsArray
-            );
+
             // get tx hash
-            console.info("update round transaction hash:", tx.hash);
             transactionHash = tx.hash;
 
             // get tx result
@@ -54,7 +49,6 @@ router.put(
                 );
             }
 
-            console.info("successfull transaction");
             res.status(200).send(
                 responseMaker({
                     success: true,

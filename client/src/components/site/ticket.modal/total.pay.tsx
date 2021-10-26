@@ -3,14 +3,24 @@ import { FunctionComponent } from "react";
 interface TotalPayProps {
     ticketCount: string;
     ticketPrice: number;
+    userBalance: number;
 }
 
-const TotalPay: FunctionComponent<TotalPayProps> = ({ ticketCount, ticketPrice }) => {
+const TotalPay: FunctionComponent<TotalPayProps> = ({
+    ticketCount,
+    ticketPrice,
+    userBalance,
+}) => {
+    if (!ticketCount) ticketCount = "0";
+    const isBalanceOk = parseInt(ticketCount) * ticketPrice <= userBalance;
+
     return (
         <>
             <div className="d-flex justify-content-between mt-1">
                 <span className="text-dark fs-6">Ticket: {ticketPrice}</span>
-                <span className="text-dark fs-6">Your balance: 0.025 BNB</span>
+                <span className={`${isBalanceOk ? "text-dark" : "text-danger"} fs-6`}>
+                    Your balance: {userBalance} BNB
+                </span>
             </div>
 
             <hr />

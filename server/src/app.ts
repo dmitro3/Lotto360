@@ -19,6 +19,7 @@ import { fetchRoundRouter } from "./routes/admin/round/fetch.round.routes";
 import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id.routes";
 import { getRemainingBnbRouter } from "./routes/admin/round/calculate.remain.bnb.routes";
 import { checkForWinRouter } from "./routes/users/round/check.for.win.routes";
+import { getRoundByIdAdminRouter } from "./routes/admin/round/get.round.by.id.routes";
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use(limiter);
 // register routes
 app.use(getRoundByIdForUserRouter);
 app.use(updateCurrentRoundRouter);
+app.use(getRoundByIdAdminRouter);
 app.use(getCurrentRoundRouter);
 app.use(getRemainingBnbRouter);
 app.use(getAllRoundsRouter);

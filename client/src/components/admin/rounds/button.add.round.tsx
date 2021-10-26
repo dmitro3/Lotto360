@@ -1,7 +1,7 @@
 import { FunctionComponent } from "react";
 
 interface AddRoundButtonProps {
-    setShowModalAddRound: Function;
+    setShowModalAddRound: (val: boolean) => void;
 }
 
 const AddRoundButton: FunctionComponent<AddRoundButtonProps> = ({

@@ -40,6 +40,18 @@ export const ChainMethods = {
         }
     },
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    getMaxTicketsPerBuy: async (web3: Web3) => {
+        try {
+            const amount = await lotto360Contract(web3)
+                .methods.getMaxNumberTicketsPerBuyOrClaim()
+                .call();
+            return amount;
+        } catch (err) {
+            console.error("Error check max tickets per buy:", err);
+            return null;
+        }
+    },
+    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getUserBalance: async (address: string, web3: Web3) => {
         try {
             const result = bnbTokenContract(web3)

@@ -2,6 +2,7 @@ import Web3 from "web3";
 import { cloneDeep } from "lodash";
 import { GetRoundApiModel } from "../api/models/round.model";
 import { initialRound } from "../components/admin/rounds/reducer/round.list.reducer";
+import { maxTicketsEachBuy } from "../config/config";
 
 export interface ActionModel<T> {
     type: T;
@@ -16,6 +17,7 @@ export enum LottoActions {
     SET_SHOW_MODAL,
     SET_WEB3,
     SET_USER_BALANCE,
+    SET_MAX_TICKETS,
 }
 
 export interface LottoState {
@@ -25,6 +27,7 @@ export interface LottoState {
     networkId: number;
     currentRound: GetRoundApiModel;
     bnbPrice: number;
+    maxTicketsPerBuy: number;
     historyAmount: number;
     currentPrize: number;
     address?: string;
@@ -38,6 +41,7 @@ export const initialState: LottoState = {
     bnbPrice: 0,
     currentPrize: 0,
     historyAmount: 0,
+    maxTicketsPerBuy: maxTicketsEachBuy,
     networkId: 0,
     currentRound: initialRound,
 };
@@ -67,6 +71,11 @@ export default function lottoReducer(
             ) {
                 newState.ticketPrice = newState.currentRound.ticketPrice;
             }
+            return newState;
+
+        case LottoActions.SET_MAX_TICKETS:
+            if (state.maxTicketsPerBuy === action.payload) return state;
+            newState.maxTicketsPerBuy = action.payload;
             return newState;
 
         case LottoActions.SET_NETWORK_ID:

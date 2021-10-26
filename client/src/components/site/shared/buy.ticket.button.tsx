@@ -1,6 +1,6 @@
 import { Dispatch, FunctionComponent } from "react";
 import { toast } from "react-toastify";
-import { maxTicketsEachBuy, targetNetworkId } from "../../../config/config";
+import { targetNetworkId } from "../../../config/config";
 import { ChainMethods } from "../../../provider/chain.methods";
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
@@ -20,7 +20,7 @@ const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
     isLoading,
     state,
 }) => {
-    const { address, web3, ticketPrice, networkId } = state;
+    const { address, web3, ticketPrice, networkId, maxTicketsPerBuy } = state;
     const disabled = networkId !== targetNetworkId;
     if (!address || !web3) return <></>;
 
@@ -37,7 +37,7 @@ const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
                     } else if (!isApproved) {
                         const result = await ChainMethods.approveSpendBnbOnLottoContract(
                             address,
-                            ticketPrice * maxTicketsEachBuy,
+                            ticketPrice * maxTicketsPerBuy,
                             web3
                         );
                         if (result && result.status && result.transactionHash) {

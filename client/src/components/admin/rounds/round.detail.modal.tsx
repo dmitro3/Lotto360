@@ -1,33 +1,70 @@
-import { FunctionComponent } from "react";
-import { GetRoundApiModel } from "../../../api/models/round.model";
+import { FunctionComponent, useEffect, useState } from "react";
+import moment from "moment";
+
+import TimeAndTotalAmount from "../../site/shared/time.total.amount";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import { flexItemsCenter } from "../../site/constants/classes";
 import PrizePerMatch from "../../site/shared/prize.per.match";
-import TimeAndTotalAmount from "../../site/shared/time.total.amount";
+import { RoundApiService } from "../../../api/round.api.service";
+import {
+    getPlayersCount,
+    getTicketCount,
+    ticketNumToStr,
+} from "../../../utilities/string.numbers.util";
+import TicketsTable from "../shared/tickets.table";
+import { initialRound } from "./reducer/round.list.reducer";
+import { toast } from "react-toastify";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
-    handleClose: Function;
-    roundInfo: GetRoundApiModel;
+    roundId: number;
     showModal: boolean;
+    setShowModal: (val: boolean) => void;
 }
 
 const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     bnbPrice,
-    handleClose,
-    roundInfo,
+    roundId,
     showModal,
+    setShowModal,
 }) => {
+    const [roundInfo, setRoundInfo] = useState<GetRoundApiModel>(initialRound);
+    const [showTicketTable, setshowTicketTable] = useState(false);
+
+    useEffect(() => {
+        if (!roundId) return;
+        RoundApiService.getRoundByIdAdmin(roundId)
+            .then((result) => {
+                if (result && result.data && result.data.result)
+                    setRoundInfo(result.data.result);
+            })
+            .catch((err) => {
+                console.error(err);
+                toast.error("Error getting roun detail");
+                setRoundInfo(initialRound);
+                setShowModal(false);
+                setshowTicketTable(false);
+            });
+    }, [roundId]);
+
     const {
         cid,
         endTime,
         totalBnbAmount,
         pools,
+        finalNumber,
         bnbAddedFromLastRound,
         bonusBnbAmount,
+        startTime,
+        status,
         winnersInPools,
+        tickets,
     } = roundInfo;
+
     const totalAmount = totalBnbAmount + bnbAddedFromLastRound + bonusBnbAmount;
-    return showModal ? (
+    window.scrollTo(0, 0);
+
+    return showModal && roundId ? (
         <div className="detail-modal bg-light p-3">
             <div className={`d-flex ${flexItemsCenter} mb-3`}>
                 <i className="fa-solid fa-hashtag fa-xl me-2"></i>
@@ -35,42 +72,106 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
 
                 <i
                     className="fa-light fa-xmark ms-auto fa-3x pointer"
-                    onClick={() => handleClose()}
+                    onClick={() => {
+                        setRoundInfo(initialRound);
+                        setshowTicketTable(false);
+                        setShowModal(false);
+                    }}
                 ></i>
             </div>
 
             <div className="container rounded shadow bg-white py-3">
-                <TimeAndTotalAmount
-                    bnbPrice={bnbPrice}
-                    time={endTime}
-                    totalAmount={totalAmount}
-                />
-                <PrizePerMatch
-                    amount={totalAmount}
-                    bnbPrice={bnbPrice}
-                    percentages={pools}
-                    poolWinners={winnersInPools}
-                />
+                {cid ? (
+                    <div>
+                        <div className="container bg-white py-3">
+                            <div className={`${flexItemsCenter} mb-3`}>
+                                <span className="fs-5 fw-bold me-3">Start at: </span>
+                                <div className="fs-5 me-2">
+                                    {moment(startTime * 1000).format(
+                                        "MMMM Do YYYY, h:mm a"
+                                    )}
+                                </div>
+                                {status === RoundStatus.Open ? (
+                                    <span className="badge rounded-pill bg-primary fs-6">
+                                        Open
+                                    </span>
+                                ) : (
+                                    <span className="badge rounded-pill bg-secondary">
+                                        closed
+                                    </span>
+                                )}
+                            </div>
 
-                <div className={`${flexItemsCenter}`}>
-                    <div className={`${flexItemsCenter} mt-3 me-5`}>
-                        <i className="fa-duotone fa-users me-2 fa-lg"></i>
-                        <span className="fs-5 fw-bold me-2">Total players:</span>
-                        <span className="fs-5 text-dark">4567</span>
-                    </div>
-                    <div className={`${flexItemsCenter} mt-3`}>
-                        <i className="fa-duotone fa-ticket me-2 fa-lg"></i>
-                        <span className="fs-5 fw-bold me-2">Total tickets:</span>
-                        <span className="fs-5 text-dark">456700</span>
-                    </div>
-                </div>
+                            <TimeAndTotalAmount
+                                time={endTime}
+                                bnbPrice={bnbPrice}
+                                totalAmount={totalAmount}
+                            />
 
-                <div className={`${flexItemsCenter}`}>
-                    <button className="btn btn-primary mt-5">Load tickets</button>
-                </div>
+                            {finalNumber && (
+                                <div className={`${flexItemsCenter} mt-5`}>
+                                    {ticketNumToStr(finalNumber)
+                                        .split("")
+                                        .map((str, i) => (
+                                            <i
+                                                key={i}
+                                                className={`fa-solid fa-square-${str} fa-2x mx-1 text-success`}
+                                            ></i>
+                                        ))}
+                                </div>
+                            )}
+
+                            <PrizePerMatch
+                                amount={totalAmount}
+                                bnbPrice={bnbPrice}
+                                percentages={pools}
+                                poolWinners={winnersInPools}
+                            />
+                            <div className={`${flexItemsCenter}`}>
+                                <div className={`${flexItemsCenter} mt-3 me-5`}>
+                                    <i className="fa-duotone fa-users me-2 fa-lg"></i>
+                                    <span className="fs-5 fw-bold me-2">
+                                        Total players:
+                                    </span>
+                                    <span className="fs-5 text-dark">
+                                        {getPlayersCount(tickets)}
+                                    </span>
+                                </div>
+                                <div className={`${flexItemsCenter} mt-3`}>
+                                    <i className="fa-duotone fa-ticket me-2 fa-lg"></i>
+                                    <span className="fs-5 fw-bold me-2">
+                                        Total tickets:
+                                    </span>
+                                    <span className="fs-5 text-dark">
+                                        {getTicketCount(tickets)}
+                                    </span>
+                                </div>
+                            </div>
+                            <div className={`${flexItemsCenter} mb-5`}>
+                                {!showTicketTable && (
+                                    <button
+                                        className="btn btn-primary mt-5"
+                                        onClick={() => setshowTicketTable(true)}
+                                    >
+                                        Load tickets
+                                    </button>
+                                )}
+                            </div>
+
+                            {showTicketTable && <TicketsTable tickets={tickets} />}
+                        </div>
+                    </div>
+                ) : (
+                    <div className={flexItemsCenter}>
+                        <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
+                        Loading round detail
+                    </div>
+                )}
             </div>
         </div>
-    ) : null;
+    ) : (
+        <></>
+    );
 };
 
 export default RoundDetailModal;

@@ -1,12 +1,13 @@
 import { FunctionComponent } from "react";
-import { maxTicketsEachBuy } from "../../../config/config";
 
 interface TicketAmountInputProps {
+    maxTicketsEachBuy: number;
     ticketCount: string;
     handleTicketCountInput: (value: string) => void;
 }
 
 const TicketAmountInput: FunctionComponent<TicketAmountInputProps> = ({
+    maxTicketsEachBuy,
     handleTicketCountInput,
     ticketCount,
 }) => {
