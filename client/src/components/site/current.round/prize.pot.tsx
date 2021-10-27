@@ -63,7 +63,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                 />
 
                 <div className="dashed my-5"></div>
-                <UserTickets ticketNumbers={userTickets} />
+                <UserTickets ticketNumbers={userTickets} winningTicket={0} />
 
                 <div
                     className="max-content px-3 py-1 d-flex flex-column mb-3 mt-5

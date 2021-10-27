@@ -96,9 +96,9 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
             <HistoryHeader lastRound={lastRoundId} />
             <UserHistory />
 
-            <div className="container bg-white rounded shadow p-4 mt-4 mb-5">
+            <div className="container bg-white rounded shadow p-4 mt-4 mb-5 position-relative">
                 {isLatest && (
-                    <div className="text-center">
+                    <div className="text-center position-absolute left-0">
                         <span className="badge rounded-pill bg-success mb-2 fs-6">
                             latest round
                         </span>
@@ -113,7 +113,11 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
                 ) : (
                     <RoundNumberSelector
                         fetchAnotherRound={fetchNewRound}
-                        latestRound={currentRound.cid}
+                        latestRound={
+                            currentRound.status == RoundStatus.Open
+                                ? currentRound.cid - 1
+                                : currentRound.cid
+                        }
                         number={cid}
                         winningNumber={finalNumber}
                     />
@@ -144,7 +148,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
 
                 <div className="dashed my-5"></div>
 
-                <UserTickets ticketNumbers={userTickets} />
+                <UserTickets ticketNumbers={userTickets} winningTicket={finalNumber} />
             </div>
             <div className="mb-5 border-transparent"></div>
             <div className="divider-history"></div>

@@ -40,7 +40,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
             })
             .catch((err) => {
                 console.error(err);
-                toast.error("Error getting roun detail");
+                toast.error("Error getting round detail");
                 setRoundInfo(initialRound);
                 setShowModal(false);
                 setshowTicketTable(false);
@@ -48,17 +48,17 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     }, [roundId]);
 
     const {
-        cid,
-        endTime,
-        totalBnbAmount,
-        pools,
-        finalNumber,
         bnbAddedFromLastRound,
         bonusBnbAmount,
+        cid,
+        endTime,
+        finalNumber,
+        pools,
         startTime,
         status,
-        winnersInPools,
         tickets,
+        totalBnbAmount,
+        winnersInPools,
     } = roundInfo;
 
     const totalAmount = totalBnbAmount + bnbAddedFromLastRound + bonusBnbAmount;

@@ -78,13 +78,22 @@ body {
 }
 
 .ticket {
+    position: relative;
+    height: 170px;
+    width: 170px;
     background-image: url(../svgs/ticket2.svg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
-    height: 150px;
-    width: 150px;
-    letter-spacing: 5px;
+    filter: grayscale();
+}
+
+.ticket-win {
+    filter: grayscale(0) !important;
+}
+
+.ticket-number {
+    width: 24px;
 }
 
 .ticket > span {
@@ -97,8 +106,7 @@ body {
 }
 
 .text-blur {
-    color: transparent;
-    text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    filter: blur(5px);
     transition: 0.3s ease-in-out;
 }
 
@@ -368,7 +376,7 @@ body {
 }
 
 .ticket-box {
-    max-height: 310px;
+    max-height: 345px;
     overflow-y: scroll;
 }
 

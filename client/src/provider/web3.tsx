@@ -18,7 +18,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
         web3 = new Web3(window.ethereum);
 
         try {
-            window.ethereum.enable().then(async () => {
+            window.ethereum.request({ method: "eth_requestAccounts" }).then(async () => {
                 console.info("connected to metamask");
                 web3.eth.net.getId((_err, id) => {
                     console.info("network id:", id);
@@ -41,7 +41,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
             });
 
             // detect Network account change
-            window.ethereum.on("networkChanged", function (networkId: number) {
+            window.ethereum.on("chainChanged", function (networkId: number) {
                 console.log(`network changed: networkId ${networkId}`);
                 if (networkId !== targetNetworkId)
                     toast.info("Change your network to binance smart chain");
@@ -51,7 +51,11 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                 });
             });
 
-            window.ethereum.handleDisconnect((i: any) => console.info(i));
+            window.ethereum.on("disconnect", (code: any, reason: any) => {
+                console.log(
+                    `Ethereum Provider connection closed: ${reason}. Code: ${code}`
+                );
+            });
         } catch (e) {
             console.log("can't connect to metamask");
         }
@@ -63,9 +67,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
         return web3;
     }
     // Non-DApp Browsers
-    else {
-        alert("You have to install MetaMask!");
-    }
+    else alert("You have to install MetaMask!");
 };
 
 export { getWeb3, web3 };
