@@ -23,6 +23,14 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/round`);
     },
 
+    setNewTicketPerBuy(amount: number): Promise<AxiosResponse<ApiResponseResult<void>>> {
+        return httpService.post(`${baseUrl}/ticketsperbuy/${amount}`);
+    },
+
+    setNewOwner(address: string): Promise<AxiosResponse<ApiResponseResult<void>>> {
+        return httpService.post(`${baseUrl}/transferownership/${address}`);
+    },
+
     addRound(
         roundData: GetRoundApiModel
     ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
@@ -61,7 +69,17 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/calculateremainingbnb`);
     },
 
+    getSettings(): Promise<AxiosResponse<ApiResponseResult<any>>> {
+        return httpService.get(`${baseUrl}/getsettings`);
+    },
+
     checkForWin(address: string): Promise<AxiosResponse<ApiResponseResult<CheckForWin>>> {
         return httpService.post(`${baseUrl}/user/checkwin/${address}`);
+    },
+
+    getUserHistory(
+        address: string
+    ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel[]>>> {
+        return httpService.post(`${baseUrl}/user/checkhistory/${address}`);
     },
 };

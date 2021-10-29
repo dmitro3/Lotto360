@@ -20,6 +20,11 @@ import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id.routes
 import { getRemainingBnbRouter } from "./routes/admin/round/calculate.remain.bnb.routes";
 import { checkForWinRouter } from "./routes/users/round/check.for.win.routes";
 import { getRoundByIdAdminRouter } from "./routes/admin/round/get.round.by.id.routes";
+import { checkUserHistoryRouter } from "./routes/users/round/get.user.history.routes";
+import { setMaxTicketsPerBuyRouter } from "./routes/admin/round/set.max.tickets.per.buy.routes";
+import { transferOwnerRouter } from "./routes/admin/round/transfer.owner.routes";
+import { getAllTicketsRouter } from "./routes/admin/round/get.all.tickets.routes";
+import { getSettingsRouter } from "./routes/admin/round/get.settings.routes";
 
 const app = express();
 
@@ -45,11 +50,16 @@ app.use(limiter);
 
 // register routes
 app.use(getRoundByIdForUserRouter);
+app.use(setMaxTicketsPerBuyRouter);
 app.use(updateCurrentRoundRouter);
 app.use(getRoundByIdAdminRouter);
+app.use(checkUserHistoryRouter);
 app.use(getCurrentRoundRouter);
 app.use(getRemainingBnbRouter);
+app.use(transferOwnerRouter);
+app.use(getAllTicketsRouter);
 app.use(getAllRoundsRouter);
+app.use(getSettingsRouter);
 app.use(createRoundRouter);
 app.use(checkForWinRouter);
 app.use(fetchRoundRouter);

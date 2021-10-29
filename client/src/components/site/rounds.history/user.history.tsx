@@ -1,29 +1,60 @@
 import moment from "moment";
 import { FunctionComponent, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { GetRoundApiModel } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../constants/classes";
 
-interface UserHistoryProps {}
+interface UserHistoryProps {
+    getnewRound: (value: number) => void;
+    userAddress: string;
+}
 
-const UserHistory: FunctionComponent<UserHistoryProps> = () => {
-    const [showModal, setShowModal] = useState(false);
+const UserHistory: FunctionComponent<UserHistoryProps> = ({
+    getnewRound,
+    userAddress,
+}) => {
+    const [disableButton, setDisableButton] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [rounds, setRounds] = useState<GetRoundApiModel[]>();
 
-    const handleModalClose = () => setShowModal(false);
-    const handleModalShow = () => setShowModal(true);
+    const getHistory = () => {
+        setLoading(true);
+        setDisableButton(true);
+        RoundApiService.getUserHistory(userAddress)
+            .then((res) => {
+                if (res && res.data && res.data.result) {
+                    setRounds(res.data.result);
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+                setDisableButton(false);
+            })
+            .finally(() => setLoading(false));
+    };
+
     return (
         <>
             <div className={flexItemsCenter}>
-                <button onClick={handleModalShow} className="btn btn-primary mt-3">
-                    Your history
+                <button
+                    disabled={disableButton}
+                    onClick={getHistory}
+                    className="btn btn-primary mt-3 shadow"
+                >
+                    {loading && (
+                        <>
+                            <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
+                            waiting ...
+                        </>
+                    )}
+                    {!loading && "Your history"}
                 </button>
             </div>
-            <Modal size="lg" scrollable show={showModal} onHide={handleModalClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Your history</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <table className="table table-hover table-bordered rounded table-striped">
-                        <thead className="table-dark">
+
+            <div className="container p-0 overflow-hidden rounded">
+                {rounds ? (
+                    <table className="table table-light table-hover table-bordered rounded table-striped m-0 mt-3">
+                        <thead className="table-light">
                             <tr>
                                 <th scope="col"># Round</th>
                                 <th scope="col">Draw Time</th>
@@ -32,27 +63,70 @@ const UserHistory: FunctionComponent<UserHistoryProps> = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {[...Array(100)].map((_num, i) => (
-                                <tr key={i} className="table-active">
-                                    <th scope="row">{`# ${i + 1}`}</th>
-                                    <td>
-                                        {moment(1633242758504).format(
-                                            "MMMM Do, YYYY, h:mm a"
-                                        )}
-                                    </td>
-                                    <td>{i * 3}</td>
-                                    <td>{0}</td>
-                                </tr>
-                            ))}
+                            {rounds?.map((round, i) => {
+                                if (!round.tickets) return <></>;
+                                let winningTickets = 0;
+                                if (round.winnersInPools) {
+                                    const {
+                                        match1,
+                                        match2,
+                                        match3,
+                                        match4,
+                                        match5,
+                                        match6,
+                                    } = round.winnersInPools;
+
+                                    winningTickets =
+                                        match1.length +
+                                        match2.length +
+                                        match3.length +
+                                        match4.length +
+                                        match5.length +
+                                        match6.length;
+                                }
+
+                                return (
+                                    <tr key={i} className="table-active">
+                                        <td>{`# ${round.cid}`}</td>
+                                        <td>
+                                            {moment(round.endTime * 1000).format(
+                                                "MMMM Do, YYYY, h:mm a"
+                                            )}
+                                        </td>
+                                        <td>{round.tickets.length}</td>
+                                        <td>
+                                            {winningTickets > 0 ? (
+                                                <a
+                                                    href="#round-history"
+                                                    className="text-dark pointer fw-bold"
+                                                    onClick={() =>
+                                                        getnewRound(winningTickets)
+                                                    }
+                                                >
+                                                    {`${winningTickets} - click`}
+                                                </a>
+                                            ) : (
+                                                "❌"
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleModalClose}>
-                        Close
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+                ) : disableButton ? (
+                    <div className={flexItemsCenter}>
+                        <span className="mt-3 text-white fs-5 fw-bold text-shadow">
+                            No recorded history for your current account
+                        </span>
+                    </div>
+                ) : (
+                    <></>
+                )}
+                <a id="round-history" className="opacity-0" href="/#">
+                    {" "}
+                </a>
+            </div>
         </>
     );
 };

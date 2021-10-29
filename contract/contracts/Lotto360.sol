@@ -503,9 +503,9 @@ contract Lotto360 {
         uint256[] memory numberArray = new uint256[](currentTicketId - 1);
         address[] memory addressArray = new address[](currentTicketId - 1);
 
-        for (uint256 i = 0; i < currentRoundId; i++) {
+        for (uint256 i = 1; i <= currentRoundId; i++) {
             mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];
-            for (uint256 j = 0; j < ticketCountInEachRound[i]; j++) {
+            for (uint256 j = 1; j <= ticketCountInEachRound[i]; j++) {
                 Ticket memory ticket = tickets[j];
                 cidArray[ticket.cid] = ticket.cid;
                 numberArray[ticket.cid] = ticket.number;
@@ -532,6 +532,7 @@ contract Lotto360 {
         return (owner, currentRoundId, currentTicketId, maxNumberTicketsPerBuyOrClaim);
     }
 
+    //
     function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim)
         external
         onlyOwner

@@ -60,6 +60,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
 
     // get new round
     const fetchNewRound = (id: number) => {
+        if (round?.cid === id) return;
         setLoading(true);
         RoundApiService.getRoundById(id, address)
             .then((res) => {
@@ -94,7 +95,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
     return (
         <div className="bg-dark p-5 position-relative">
             <HistoryHeader lastRound={lastRoundId} />
-            <UserHistory />
+            <UserHistory getnewRound={fetchNewRound} userAddress={address} />
 
             <div className="container bg-white rounded shadow p-4 mt-4 mb-5 position-relative">
                 {isLatest && (

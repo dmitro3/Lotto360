@@ -42,7 +42,7 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, stat
             <div className="inner-modal mt-4 bg-light rounded overflow-hidden">
                 <ModalHeader dispatch={dispatch} />
                 <div className="p-3">
-                    <TicketAmountTitle />
+                    <TicketAmountTitle maxNumber={maxTicketsPerBuy} />
 
                     <TicketAmountInput
                         maxTicketsEachBuy={maxTicketsPerBuy}

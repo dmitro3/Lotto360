@@ -8,6 +8,8 @@ import {
     WinningTicketAttrs,
 } from "../../../database/model/ticket/interface.enum";
 import { RoundWinBrief } from "../../../database/model/round/interface.enum";
+import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { ethers } from "ethers";
 
 const router = express.Router();
 
@@ -150,7 +152,22 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             await round.save();
         });
 
-        // todo transfer money to user account
+        // transfer money to user account
+        const tx = await lotto360Contract.payThePrize(
+            ethers.utils.parseEther(`${totalPay}`),
+            {
+                gasLimit: 1000000,
+            }
+        );
+
+        // get tx hash
+        const transactionHash = tx.hash;
+
+        // get tx result
+        const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+        if (!txResult.status) {
+            throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
+        }
 
         res.status(200).send(
             responseMaker({

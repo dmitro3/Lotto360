@@ -4,6 +4,7 @@ import Dashboard from "../dashboard/dashboard";
 import Rounds from "../rounds/rounds";
 import ProtectedRoute from "../../security/protected.route";
 import SideBar from "../sidebar/sideBar";
+import Settings from "../setting/settings";
 
 interface MainContainerProps {
     bnbPrice: number;
@@ -26,7 +27,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
                                 path="/admin/rounds"
                                 render={() => <Rounds bnbPrice={bnbPrice} />}
                             />
-                            <ProtectedRoute path="/admin/setting" component={Dashboard} />
+                            <ProtectedRoute path="/admin/settings" component={Settings} />
                             <ProtectedRoute path="/admin" component={Dashboard} />
                             {/*  <ProtectedRoute path="/roles/:id" component={RoleForm} />
                             <ProtectedRoute path="/404" component={NotFount404} /> */}

@@ -23,7 +23,7 @@ const TicketAmountInput: FunctionComponent<TicketAmountInputProps> = ({
                 value={ticketCount}
                 onChange={(e) => {
                     const value = e.target.value;
-                    if (ticketCountIsValid(value))
+                    if (ticketCountIsValid(value, maxTicketsEachBuy))
                         handleTicketCountInput(`${parseInt(value)}`);
                     else handleTicketCountInput("");
                 }}
@@ -35,10 +35,10 @@ const TicketAmountInput: FunctionComponent<TicketAmountInputProps> = ({
 export default TicketAmountInput;
 
 // ..........................................................................................
-const ticketCountIsValid = (value: string) => {
+const ticketCountIsValid = (value: string, maxVal: number) => {
     try {
         const number = parseInt(value);
-        if (number > 0 && number < 51) return true;
+        if (number > 0 && number <= maxVal) return true;
         return false;
     } catch {
         return false;
