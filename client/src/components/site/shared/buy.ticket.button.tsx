@@ -1,9 +1,10 @@
 import { Dispatch, FunctionComponent } from "react";
 import { toast } from "react-toastify";
-import { targetNetworkId } from "../../../config/config";
-import { ChainMethods } from "../../../provider/chain.methods";
+
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
+import { ChainMethods } from "../../../provider/chain.methods";
+import { targetNetworkId } from "../../../config/config";
 
 interface BuyTicketButtonProps {
     changeArrovedLoading: (val1: boolean, val2: boolean) => void;

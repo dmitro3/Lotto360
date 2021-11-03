@@ -16,7 +16,7 @@ interface BuyTicketButtonProps {
     web3: Web3;
 }
 
-const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
+const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
     address,
     ticketNumbers,
     roundId,
@@ -69,7 +69,7 @@ const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
     );
 };
 
-export default BuyTicketButton;
+export default BuyTicketFromContract;
 
 // ..........................................................................................
 const isNumberArrayValid = (ticketNumbers: string[]) => {

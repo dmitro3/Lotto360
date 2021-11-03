@@ -1,44 +1,44 @@
-import { Dispatch, useEffect, useReducer } from "react";
+import { Dispatch, useEffect, useReducer, useState } from "react";
 import { Slide, ToastContainer } from "react-toastify";
 import { Route, Switch } from "react-router";
 import axios, { AxiosResponse } from "axios";
 import Web3 from "web3";
 
-import lottoReducer, {
-    ActionModel,
-    initialState,
-    LottoActions,
-    LottoState,
-} from "./reducer/reducer";
+import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
+import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
 import { coinGeckoBnbPriceApi, targetNetworkId } from "./config/config";
 import { ChainMethods } from "./provider/chain.methods";
-import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
 import AdminPanel from "./components/admin/admin.panel";
 import MainSite from "./components/site/main.site";
 import { getWeb3 } from "./provider/web3";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
+    const [intervalNum, setIntervalNum] = useState<any>();
 
     useEffect(() => {
         getWeb3(dispatch)
-            .then((web3) => {
-                if (!web3 || !state.address) return;
-                web3.eth.net.getId((err, networkId) => {
-                    if (!err) {
-                        dispatch({
-                            type: LottoActions.SET_NETWORK_ID,
-                            payload: networkId,
-                        });
-                    }
-                });
-                getCurrentRoundAndBnbPrice(dispatch, state, web3);
-                setInterval(() => {
-                    getCurrentRoundAndBnbPrice(dispatch, state, web3);
+            .then(() => {
+                if (!state.address || !state.web3) return;
+                getCurrentRoundAndBnbPrice(
+                    dispatch,
+                    state.networkId,
+                    state.address,
+                    state.web3
+                );
+                if (intervalNum) clearInterval(intervalNum);
+                let interval = setInterval(() => {
+                    getCurrentRoundAndBnbPrice(
+                        dispatch,
+                        state.networkId,
+                        state.address!,
+                        state.web3!
+                    );
                 }, 20000);
+                setIntervalNum(interval);
             })
             .catch((err) => console.log(err));
-    }, [state.networkId, state.address]);
+    }, [state.address, state.networkId]);
 
     return (
         <>
@@ -72,11 +72,12 @@ export default App;
 // ........................................................................................
 const getCurrentRoundAndBnbPrice = (
     dispatch: Dispatch<ActionModel<LottoActions>>,
-    state: LottoState,
+    networkId: number,
+    address: string,
     web3: Web3
 ) => {
-    if (state.networkId !== targetNetworkId || !state.address) return;
-    ChainMethods.getCurrentRoundForUser(state.address, web3)
+    if (networkId !== targetNetworkId || !address) return;
+    ChainMethods.getCurrentRoundForUser(address, web3)
         .then((res) => {
             if (!res) return;
             dispatch({
@@ -96,9 +97,9 @@ const getCurrentRoundAndBnbPrice = (
         })
         .catch((err) => console.error(err));
 
-    ChainMethods.getUserBalance(state.address, web3)
+    ChainMethods.getUserBalance(address, web3)
         .then((res) => {
-            if (!res) return;
+            if (!res || res === "0") return;
             const balance =
                 Math.round(parseFloat(web3.utils.fromWei(res, "ether")) * 1000) / 1000;
             dispatch({

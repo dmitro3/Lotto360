@@ -1,4 +1,8 @@
 import express, { Request, Response } from "express";
+import { ethers } from "ethers";
+
+import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { RoundWinBrief } from "../../../database/model/round/interface.enum";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { BadRequestError } from "../../../errors/bad-request-error";
 import { Round } from "../../../database/model/round/round";
@@ -7,9 +11,6 @@ import {
     TicketStatus,
     WinningTicketAttrs,
 } from "../../../database/model/ticket/interface.enum";
-import { RoundWinBrief } from "../../../database/model/round/interface.enum";
-import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
-import { ethers } from "ethers";
 
 const router = express.Router();
 
@@ -149,11 +150,11 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 });
             }
             briefs.push(brief);
-            await round.save();
         });
 
         // transfer money to user account
         const tx = await lotto360Contract.payThePrize(
+            userAddress,
             ethers.utils.parseEther(`${totalPay}`),
             {
                 gasLimit: 1000000,
@@ -167,6 +168,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
         if (!txResult.status) {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
+        }
+
+        for (let i = 0; i < rounds.length; i++) {
+            await rounds[i].save();
         }
 
         res.status(200).send(

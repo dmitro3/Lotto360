@@ -271,6 +271,7 @@ contract Lotto360 {
     /**************************************************************************************************
      * @dev these are functions for owner
      **************************************************************************************************/
+    // ✅
     function transferOwnership(address newOwner) external onlyOwner nonContract {
         address oldOwner = owner;
         owner = newOwner;
@@ -504,12 +505,11 @@ contract Lotto360 {
         address[] memory addressArray = new address[](currentTicketId - 1);
 
         for (uint256 i = 1; i <= currentRoundId; i++) {
-            mapping(uint256 => Ticket) storage tickets = ticketsInEachRound[i];
-            for (uint256 j = 1; j <= ticketCountInEachRound[i]; j++) {
-                Ticket memory ticket = tickets[j];
-                cidArray[ticket.cid] = ticket.cid;
-                numberArray[ticket.cid] = ticket.number;
-                addressArray[ticket.cid] = ticket.owner;
+            for (uint256 j = 0; j < ticketCountInEachRound[i]; j++) {
+                Ticket memory ticket = ticketsInEachRound[i][j];
+                cidArray[ticket.cid - 1] = ticket.cid;
+                numberArray[ticket.cid - 1] = ticket.number;
+                addressArray[ticket.cid - 1] = ticket.owner;
             }
         }
 
@@ -532,7 +532,7 @@ contract Lotto360 {
         return (owner, currentRoundId, currentTicketId, maxNumberTicketsPerBuyOrClaim);
     }
 
-    //
+    // ✅
     function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim)
         external
         onlyOwner

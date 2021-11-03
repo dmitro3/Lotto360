@@ -7,7 +7,7 @@ import TicketAmountTitle from "./ticket.amount.title";
 import RandomButton from "./random.button";
 import ModalHeader from "./modal.header";
 import TotalPay from "./total.pay";
-import BuyTicketButton from "./buy.ticket.button";
+import BuyTicketFromContract from "./buy.ticket.button";
 
 interface BuyTicketModalProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -68,7 +68,7 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, stat
                         ticketState={ticketState}
                     />
 
-                    <BuyTicketButton
+                    <BuyTicketFromContract
                         address={address}
                         roundId={currentRound.cid}
                         setTicketState={changeState}

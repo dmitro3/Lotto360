@@ -50,7 +50,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                         <Datetime
                             dateFormat="dddd, MMM Do, YYYY"
                             value={moment.unix(endTime)}
-                            utc={true}
+                            // utc={true}
                             onChange={(value) => {
                                 if (typeof value === "string") return;
                                 changeRoundValues({

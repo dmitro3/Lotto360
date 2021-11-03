@@ -18,6 +18,7 @@ export enum LottoActions {
     SET_WEB3,
     SET_USER_BALANCE,
     SET_MAX_TICKETS,
+    SET_PROVIDER_THINGS,
 }
 
 export interface LottoState {
@@ -54,7 +55,6 @@ export default function lottoReducer(
 
     switch (action.type) {
         case LottoActions.SET_ADDRESS:
-            if (state.address === action.payload) return state;
             newState.address = action.payload;
             return newState;
 
@@ -88,13 +88,18 @@ export default function lottoReducer(
             return newState;
 
         case LottoActions.SET_USER_BALANCE:
-            if (state.userBalance === action.payload) return state;
             newState.userBalance = action.payload;
             return newState;
 
         case LottoActions.SET_WEB3:
             if (state.web3 === action.payload) return state;
             newState.web3 = action.payload;
+            return newState;
+
+        case LottoActions.SET_PROVIDER_THINGS:
+            newState.web3 = action.payload.web3;
+            newState.address = action.payload.account;
+            newState.networkId = action.payload.networkId;
             return newState;
 
         default:

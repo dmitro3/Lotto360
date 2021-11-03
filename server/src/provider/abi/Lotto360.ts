@@ -28,6 +28,25 @@ export const Lotto360Abi = [
         inputs: [
             {
                 indexed: true,
+                internalType: "address",
+                name: "winnerAddress",
+                type: "address",
+            },
+            {
+                indexed: true,
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
+            },
+        ],
+        name: "PrizeTransferred",
+        type: "event",
+    },
+    {
+        anonymous: false,
+        inputs: [
+            {
+                indexed: true,
                 internalType: "uint256",
                 name: "currentRoundId",
                 type: "uint256",
@@ -577,76 +596,6 @@ export const Lotto360Abi = [
     },
     {
         inputs: [],
-        name: "getRounds",
-        outputs: [
-            {
-                components: [
-                    {
-                        internalType: "enum Lotto360.Status",
-                        name: "status",
-                        type: "uint8",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "cid",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "startTime",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "endTime",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "ticketPrice",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "firstTicketId",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "firstTicketIdNextRound",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "totalBnbAmount",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "bonusBnbAmount",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "bnbAddedFromLastRound",
-                        type: "uint256",
-                    },
-                    {
-                        internalType: "uint256",
-                        name: "finalNumber",
-                        type: "uint256",
-                    },
-                ],
-                internalType: "struct Lotto360.Round[]",
-                name: "",
-                type: "tuple[]",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
         name: "getSettings",
         outputs: [
             {
@@ -752,6 +701,24 @@ export const Lotto360Abi = [
             },
         ],
         stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "winnerAddress",
+                type: "address",
+            },
+            {
+                internalType: "uint256",
+                name: "amount",
+                type: "uint256",
+            },
+        ],
+        name: "payThePrize",
+        outputs: [],
+        stateMutability: "nonpayable",
         type: "function",
     },
     {

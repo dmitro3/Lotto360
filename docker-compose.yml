@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+    client:
+        depends_on:
+            - server
+        restart: unless-stopped
+        build: ./client
+        ports:
+            - 80:80
+        networks:
+            - frontend
+
+    server:
+        depends_on:
+            - db
+        restart: unless-stopped
+        build: ./server
+        ports:
+            - 3001:3001
+        environment:
+            DB_URL: mongodb://db/lotto360
+        command: ./docker-entrypoint.sh
+        networks:
+            - backend
+            - frontend
+
+    db:
+        image: mongo:5.0.3
+        # env_file: ./.env
+        # environment:
+        #     - MONGO_INITDB_ROOT_USERNAME=$MONGODB_USER
+        #     - MONGO_INITDB_ROOT_PASSWORD=$MONGODB_PASSWORD
+        restart: unless-stopped
+        ports:
+            - 27017:27017
+        volumes:
+            - lotto360:/data/db
+        networks:
+            - backend
+
+volumes:
+    lotto360:
+
+networks:
+    backend:
+    frontend:
