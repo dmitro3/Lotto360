@@ -102,12 +102,14 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
             <AddRoundButton setShowModalAddRound={setShowAddModal} />
             <hr />
 
-            <RoundDetailModal
-                roundId={roundId}
-                bnbPrice={bnbPrice}
-                showModal={showDetail}
-                setShowModal={setShowDetail}
-            />
+            {showDetail && (
+                <RoundDetailModal
+                    roundId={roundId}
+                    bnbPrice={bnbPrice}
+                    showModal={showDetail}
+                    setShowModal={setShowDetail}
+                />
+            )}
 
             {loadingCurrentRound && (
                 <div className={flexItemsCenter}>

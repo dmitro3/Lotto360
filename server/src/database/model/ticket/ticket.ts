@@ -14,8 +14,6 @@ const winningTicketSchema = new Schema(
         cid: {
             type: Number,
             required: true,
-            // unique: true,
-            // index: true,
         },
         owner: {
             type: String,

@@ -9,22 +9,25 @@ import "express-async-errors";
 
 import { NotFoundError } from "./errors/not-found-error";
 import { errorHandler } from "./middlewares/error-handler";
-import { createRoundRouter } from "./routes/admin/round/add.routes";
 import { currentUser } from "./middlewares/current-user";
-import { getCurrentRoundRouter } from "./routes/admin/round/get.current.routes";
-import { updateCurrentRoundRouter } from "./routes/admin/round/update.routes";
-import { drawRoundRouter } from "./routes/admin/round/draw.round.routes";
-import { getAllRoundsRouter } from "./routes/admin/round/get.all.routes";
-import { fetchRoundRouter } from "./routes/admin/round/fetch.round.routes";
-import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id.routes";
-import { getRemainingBnbRouter } from "./routes/admin/round/calculate.remain.bnb.routes";
-import { checkForWinRouter } from "./routes/users/round/check.for.win.routes";
-import { getRoundByIdAdminRouter } from "./routes/admin/round/get.round.by.id.routes";
-import { checkUserHistoryRouter } from "./routes/users/round/get.user.history.routes";
-import { setMaxTicketsPerBuyRouter } from "./routes/admin/round/set.max.tickets.per.buy.routes";
-import { transferOwnerRouter } from "./routes/admin/round/transfer.owner.routes";
-import { getAllTicketsRouter } from "./routes/admin/round/get.all.tickets.routes";
-import { getSettingsRouter } from "./routes/admin/round/get.settings.routes";
+import { createRoundRouter } from "./routes/admin/round/add.round";
+import { getCurrentRoundRouter } from "./routes/admin/round/get.current";
+import { updateCurrentRoundRouter } from "./routes/admin/round/update";
+import { drawRoundRouter } from "./routes/admin/round/draw.round";
+import { getAllRoundsRouter } from "./routes/admin/round/get.all";
+import { fetchRoundRouter } from "./routes/admin/round/fetch.round";
+import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id";
+import { getRemainingBnbRouter } from "./routes/admin/helpers/calculate.remain.bnb";
+import { checkForWinRouter } from "./routes/users/round/check.for.win";
+import { getRoundByIdAdminRouter } from "./routes/admin/round/get.round.by.id";
+import { checkUserHistoryRouter } from "./routes/users/round/get.user.history";
+import { setMaxTicketsPerBuyRouter } from "./routes/admin/helpers/set.max.tickets.per.buy";
+import { transferOwnerRouter } from "./routes/admin/helpers/transfer.owner";
+import { getAllTicketsRouter } from "./routes/admin/ticket/get.all.tickets";
+import { getSettingsRouter } from "./routes/admin/helpers/get.settings";
+import { getRoundByIdAdminFromDbRouter } from "./routes/admin/round/get.round.by.id.db";
+import { getFreeBalanceRouter } from "./routes/admin/helpers/get.free.balance";
+import { withdrawRouter } from "./routes/admin/helpers/withdraw";
 
 const app = express();
 
@@ -49,6 +52,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // register routes
+app.use(getRoundByIdAdminFromDbRouter);
 app.use(getRoundByIdForUserRouter);
 app.use(setMaxTicketsPerBuyRouter);
 app.use(updateCurrentRoundRouter);
@@ -56,6 +60,7 @@ app.use(getRoundByIdAdminRouter);
 app.use(checkUserHistoryRouter);
 app.use(getCurrentRoundRouter);
 app.use(getRemainingBnbRouter);
+app.use(getFreeBalanceRouter);
 app.use(transferOwnerRouter);
 app.use(getAllTicketsRouter);
 app.use(getAllRoundsRouter);
@@ -64,6 +69,7 @@ app.use(createRoundRouter);
 app.use(checkForWinRouter);
 app.use(fetchRoundRouter);
 app.use(drawRoundRouter);
+app.use(withdrawRouter);
 
 // error handler
 app.all("*", async () => {

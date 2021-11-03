@@ -68,6 +68,7 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                                     onClick={() => {
                                         setRoundId(r.cid);
                                         setShowModal(true);
+                                        window.scrollTo(0, 0);
                                     }}
                                 >
                                     <i className="fa-solid fa-circle-info me-2"></i>detail

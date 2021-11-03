@@ -19,6 +19,12 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/round/${roundId}`);
     },
 
+    getRoundByIdAdminFromDb(
+        roundId: number
+    ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
+        return httpService.get(`${baseUrl}/rounddb/${roundId}`);
+    },
+
     getCurrentRound(): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
         return httpService.get(`${baseUrl}/round`);
     },

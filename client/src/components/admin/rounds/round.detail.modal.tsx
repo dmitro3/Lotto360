@@ -14,6 +14,7 @@ import {
 import TicketsTable from "../shared/tickets.table";
 import { initialRound } from "./reducer/round.list.reducer";
 import { toast } from "react-toastify";
+import PoolTables from "./pool.tables";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
@@ -32,8 +33,9 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     const [showTicketTable, setshowTicketTable] = useState(false);
 
     useEffect(() => {
+        console.info("here is me");
         if (!roundId) return;
-        RoundApiService.getRoundByIdAdmin(roundId)
+        RoundApiService.getRoundByIdAdminFromDb(roundId)
             .then((result) => {
                 if (result && result.data && result.data.result)
                     setRoundInfo(result.data.result);
@@ -45,7 +47,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                 setShowModal(false);
                 setshowTicketTable(false);
             });
-    }, [roundId]);
+    }, [roundId, setShowModal]);
 
     const {
         bnbAddedFromLastRound,
@@ -62,7 +64,6 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     } = roundInfo;
 
     const totalAmount = totalBnbAmount + bnbAddedFromLastRound + bonusBnbAmount;
-    window.scrollTo(0, 0);
 
     return showModal && roundId ? (
         <div className="detail-modal bg-light p-3">
@@ -147,13 +148,18 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                                     </span>
                                 </div>
                             </div>
+
+                            {winnersInPools && (
+                                <PoolTables winnersInPools={winnersInPools} />
+                            )}
+
                             <div className={`${flexItemsCenter} mb-5`}>
                                 {!showTicketTable && (
                                     <button
                                         className="btn btn-primary mt-5"
                                         onClick={() => setshowTicketTable(true)}
                                     >
-                                        Load tickets
+                                        Load all tickets
                                     </button>
                                 )}
                             </div>
