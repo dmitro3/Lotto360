@@ -38,7 +38,7 @@ router.get(
                 bnToNumber(roundResult.bonusBnbAmount) +
                 bnToNumber(roundResult.totalBnbAmount);
 
-            // get sum of winning pools
+            // get sum of winning pool
             const rounds = await Round.find({}, { tickets: 0 });
 
             let treasuryBalance = 0;
