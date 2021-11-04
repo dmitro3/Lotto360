@@ -5,6 +5,7 @@ import { targetNetworkId } from "../config/config";
 import { toast } from "react-toastify";
 
 let web3: Web3;
+let allowShow = true;
 
 declare global {
     interface Window {
@@ -21,8 +22,13 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                 console.info("connected to metamask");
                 web3.eth.net.getId((_err, id) => {
                     console.info("network id:", id);
-                    if (id !== targetNetworkId)
+                    if (id !== 0 && id !== targetNetworkId && allowShow) {
+                        allowShow = false;
                         toast.info("Change your network to binance smart chain");
+                        setTimeout(() => {
+                            allowShow = true;
+                        }, 1000);
+                    }
                     const account = window.ethereum.selectedAddress;
                     dispatch({
                         type: LottoActions.SET_PROVIDER_THINGS,
@@ -43,12 +49,18 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
 
             // detect Network account change
             window.ethereum.on("chainChanged", function (networkId: number) {
-                console.log(`network changed: networkId ${networkId}`);
-                if (networkId !== targetNetworkId)
+                const id = web3.utils.hexToNumber(networkId);
+                console.log(`network changed: networkId ${id}`);
+                if (id !== 0 && id !== targetNetworkId && allowShow) {
+                    allowShow = false;
                     toast.info("Change your network to binance smart chain");
+                    setTimeout(() => {
+                        allowShow = true;
+                    }, 1000);
+                }
                 dispatch({
                     type: LottoActions.SET_NETWORK_ID,
-                    payload: networkId,
+                    payload: id,
                 });
             });
 

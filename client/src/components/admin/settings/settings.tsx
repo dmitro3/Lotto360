@@ -1,8 +1,9 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { RoundApiService } from "../../../api/round.api.service";
-import { web3 } from "../../../provider/web3";
+
+import { HelperApiService } from "../../../api/helper.api.service";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
+import { web3 } from "../../../provider/web3";
 
 interface SettingProps {}
 
@@ -13,7 +14,7 @@ const Settings: FunctionComponent<SettingProps> = () => {
     const [amount, setAmount] = useState(1);
 
     useEffect(() => {
-        RoundApiService.getSettings()
+        HelperApiService.getSettings()
             .then((res) => {
                 if (res && res.data && res.data.result) setSettings(res.data.result);
             })
@@ -23,7 +24,7 @@ const Settings: FunctionComponent<SettingProps> = () => {
 
     const setNewTicketPerBuy = (amount: number): void => {
         setLoading(true);
-        RoundApiService.setNewTicketPerBuy(amount)
+        HelperApiService.setNewTicketPerBuy(amount)
             .then((res) => {
                 if (res && res.data && res.data.success && res.data.messages) {
                     toast.success(
@@ -45,7 +46,7 @@ const Settings: FunctionComponent<SettingProps> = () => {
 
     const setNewOwner = (address: string): void => {
         setLoading(true);
-        RoundApiService.setNewOwner(address)
+        HelperApiService.setNewOwner(address)
             .then((res) => {
                 if (res && res.data && res.data.success && res.data.messages) {
                     toast.success(

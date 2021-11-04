@@ -4,7 +4,7 @@ import Dashboard from "../dashboard/dashboard";
 import Rounds from "../rounds/rounds";
 import ProtectedRoute from "../../security/protected.route";
 import SideBar from "../sidebar/sideBar";
-import Settings from "../setting/settings";
+import Settings from "../settings/settings";
 
 interface MainContainerProps {
     bnbPrice: number;

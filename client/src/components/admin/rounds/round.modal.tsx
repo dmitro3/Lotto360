@@ -2,6 +2,7 @@ import moment from "moment";
 import { FunctionComponent } from "react";
 import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
+import { HelperApiService } from "../../../api/helper.api.service";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
 import { RoundApiService } from "../../../api/round.api.service";
 
@@ -116,7 +117,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                                     variant="warning"
                                     type="button"
                                     onClick={() => {
-                                        RoundApiService.getRemainingBnb()
+                                        HelperApiService.getRemainingBnb()
                                             .then((res) => {
                                                 if (res && res.data && res.data.result) {
                                                     changeRoundValues({

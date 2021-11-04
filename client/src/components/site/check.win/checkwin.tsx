@@ -1,11 +1,11 @@
 import { FunctionComponent, useState } from "react";
+import { toast } from "react-toastify";
 import { forOwn } from "lodash";
 
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { RoundApiService } from "../../../api/round.api.service";
+import { HelperApiService } from "../../../api/helper.api.service";
 import { CheckForWin } from "../../../api/models/round.model";
 import TargetNavigation from "../shared/target.nav.link";
-import { toast } from "react-toastify";
 
 interface CheckWinProps {
     address: string;
@@ -19,7 +19,7 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
 
     const checkForWin = () => {
         setIsloading(true);
-        RoundApiService.checkForWin(address)
+        HelperApiService.checkForWin(address)
             .then((res) => {
                 console.info(res.data.result);
                 if (res && res.data && res.data.result) {

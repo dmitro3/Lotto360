@@ -15,6 +15,7 @@ import TicketsTable from "../shared/tickets.table";
 import { initialRound } from "./reducer/round.list.reducer";
 import { toast } from "react-toastify";
 import PoolTables from "./pool.tables";
+import AddedBnb from "./added.bnb";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
@@ -148,6 +149,11 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                                     </span>
                                 </div>
                             </div>
+
+                            <AddedBnb
+                                bnbAddedFromLastRound={bnbAddedFromLastRound}
+                                bonusBnbAmount={bonusBnbAmount}
+                            />
 
                             {winnersInPools && (
                                 <PoolTables winnersInPools={winnersInPools} />

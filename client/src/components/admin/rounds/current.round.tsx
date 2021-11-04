@@ -12,6 +12,7 @@ import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../../site/constants/classes";
 import PrizePerMatch from "../../site/shared/prize.per.match";
 import TicketsTable from "../shared/tickets.table";
+import AddedBnb from "./added.bnb";
 
 interface CurrentRoundProps {
     bnbPrice: number;
@@ -146,6 +147,12 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                             </span>
                         </div>
                     </div>
+
+                    <AddedBnb
+                        bnbAddedFromLastRound={bnbAddedFromLastRound}
+                        bonusBnbAmount={bonusBnbAmount}
+                    />
+
                     <div className={`${flexItemsCenter} mb-5`}>
                         {!showTicketTable && (
                             <button
