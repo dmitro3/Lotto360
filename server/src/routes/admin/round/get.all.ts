@@ -10,49 +10,42 @@ import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
 
-router.get(
-    "/api/allrounds",
-    // requireAuth,
-    async (req: Request, res: Response) => {
-        // send transaction to blockchain
-        try {
-            let roundResult = await lotto360Contract.getCurrentRound();
-            // @ts-ignore
-            const dbRounds: any[] = await Round.find({}, { cid: 1, _id: 0 });
+router.get("/api/allrounds", requireAuth, async (req: Request, res: Response) => {
+    // send transaction to blockchain
+    try {
+        let roundResult = await lotto360Contract.getCurrentRound();
+        // @ts-ignore
+        const dbRounds: any[] = await Round.find({}, { cid: 1, _id: 0 });
 
-            const roundArray: RoundAttrs[] = [];
-            const round: RoundAttrs = convertChaindataToRound(roundResult, dbRounds);
-            roundArray.push(round);
+        const roundArray: RoundAttrs[] = [];
+        const round: RoundAttrs = convertChaindataToRound(roundResult, dbRounds);
+        roundArray.push(round);
 
-            const currentRound = round.cid;
-            const promiseArray: Promise<any>[] = [];
-            if (currentRound > 1) {
-                for (let i = currentRound - 1; i > 0; i--) {
-                    const roundResult = lotto360Contract.getRoundById(i);
-                    promiseArray.push(roundResult);
-                }
-                const values = await Promise.all(promiseArray);
-                values.forEach((roundResult: any) => {
-                    const round: RoundAttrs = convertChaindataToRound(
-                        roundResult,
-                        dbRounds
-                    );
-                    roundArray.push(round);
-                });
+        const currentRound = round.cid;
+        const promiseArray: Promise<any>[] = [];
+        if (currentRound > 1) {
+            for (let i = currentRound - 1; i > 0; i--) {
+                const roundResult = lotto360Contract.getRoundById(i);
+                promiseArray.push(roundResult);
             }
-
-            res.status(200).send(
-                responseMaker({
-                    success: true,
-                    result: roundArray,
-                })
-            );
-        } catch (err: any) {
-            console.info(err);
-            throw new BadRequestError("bad request", ResponseMessageType.ERROR);
+            const values = await Promise.all(promiseArray);
+            values.forEach((roundResult: any) => {
+                const round: RoundAttrs = convertChaindataToRound(roundResult, dbRounds);
+                roundArray.push(round);
+            });
         }
+
+        res.status(200).send(
+            responseMaker({
+                success: true,
+                result: roundArray,
+            })
+        );
+    } catch (err: any) {
+        console.info(err);
+        throw err;
     }
-);
+});
 
 export { router as getAllRoundsRouter };
 

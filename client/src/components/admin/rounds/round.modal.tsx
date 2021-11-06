@@ -4,7 +4,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
 import { HelperApiService } from "../../../api/helper.api.service";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
+import ButtonWaiting from "../../site/shared/btn.waiting";
 
 interface RoundModalProps {
     changeRoundValues: Function;
@@ -288,14 +288,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     disabled={isWaiting}
                     onClick={() => handleModalSubmit(formValues)}
                 >
-                    {isWaiting ? (
-                        <>
-                            <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>{" "}
-                            waiting
-                        </>
-                    ) : (
-                        "submit"
-                    )}
+                    {isWaiting ? <ButtonWaiting /> : "submit"}
                 </Button>
             </Modal.Footer>
         </Modal>

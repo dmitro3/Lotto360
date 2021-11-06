@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.put(
     "/api/round",
-    // requireAuth,
+    requireAuth,
     updateRoundValidatorSchema,
     validateRequest,
     async (req: Request, res: Response) => {

@@ -4,13 +4,14 @@ import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { BadRequestError } from "../../../errors/bad-request-error";
 import { NotFoundError } from "../../../errors/not-found-error";
+import { requireAuth } from "../../../middlewares/require-auth";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
 
 router.post(
     "/api/ticketsperbuy/:number",
-    // requireAuth,
+    requireAuth,
     async (req: Request, res: Response) => {
         const numberOfTickets = req.params.number;
         if (!numberOfTickets) throw new NotFoundError("no number specified");

@@ -1,9 +1,10 @@
 import { NextFunction, Response, Request } from "express";
 import jwt from "jsonwebtoken";
+import { JWT_KEY } from "../config/configs";
 
 interface UserPayload {
     id: string;
-    email: string;
+    name: string;
 }
 
 // add currentUser definition to req object
@@ -15,20 +16,15 @@ declare global {
     }
 }
 
-export const currentUser = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    if (!req.session?.jwt) return next();
+export const currentUser = (req: Request, res: Response, next: NextFunction) => {
+    const jwtHeader = req.get("jwt");
+    if (!jwtHeader) return next();
 
     try {
-        const payload = jwt.verify(
-            req.session.jwt,
-            process.env.JWT_KEY!
-        ) as UserPayload;
+        const payload = jwt.verify(jwtHeader, JWT_KEY) as UserPayload;
         req.currentUser = payload;
     } catch (err) {
+        console.info(err);
         return res.send({ currentUser: null });
     }
     next();

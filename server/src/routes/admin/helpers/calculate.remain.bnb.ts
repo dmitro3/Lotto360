@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get(
     "/api/calculateremainingbnb",
-    // requireAuth,
+    requireAuth,
     async (req: Request, res: Response) => {
         try {
             // get last round
@@ -47,7 +47,7 @@ router.get(
                 })
             );
         } catch (err: any) {
-            throw new BadRequestError("bad request", ResponseMessageType.ERROR);
+            throw err;
         }
     }
 );

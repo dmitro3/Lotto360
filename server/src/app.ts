@@ -1,5 +1,4 @@
 import { frameguard, xssFilter } from "helmet";
-import cookieSession from "cookie-session";
 import rateLimit from "express-rate-limit";
 import { json } from "body-parser";
 import helmet = require("helmet");
@@ -28,12 +27,13 @@ import { withdrawRouter } from "./routes/admin/helpers/withdraw";
 import { errorHandler } from "./middlewares/error-handler";
 import { NotFoundError } from "./errors/not-found-error";
 import { currentUser } from "./middlewares/current-user";
+import { signinRouter } from "./routes/admin/auth/signin";
+import { signoutRouter } from "./routes/admin/auth/signout";
+import { currentUserRouter } from "./routes/admin/auth/current.user";
 
 const app = express();
 
-app.set("trust proxy", true);
 app.use(json());
-app.use(cookieSession({ signed: false, secure: process.env.NODE_ENV !== "test" }));
 app.use(currentUser);
 
 // Helmet Security - - - - - - - - - - - - - - - - - -
@@ -67,9 +67,12 @@ app.use(getAllRoundsRouter);
 app.use(getSettingsRouter);
 app.use(createRoundRouter);
 app.use(checkForWinRouter);
+app.use(currentUserRouter);
 app.use(fetchRoundRouter);
 app.use(drawRoundRouter);
 app.use(withdrawRouter);
+app.use(signoutRouter);
+app.use(signinRouter);
 
 // error handler
 app.all("*", async () => {

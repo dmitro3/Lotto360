@@ -1,22 +1,21 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { toast } from "react-toastify";
-import { ACCESS_TOKEN_KEY } from "../config/config";
 import { CustomToastWithLink } from "../utilities/toastLink";
-import ApiResponseResult, { ResponseMessage, ResponseMessageType } from "./models/response.model";
+import ApiResponseResult, {
+    ResponseMessage,
+    ResponseMessageType,
+} from "./models/response.model";
+
+axios.interceptors.request.use((config) => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt && config.headers) {
+        config.headers.jwt = jwt;
+    }
+    return config;
+});
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ApiResponseResult<any>>) => {
-        // console.debug(response);
-        if (response && response.status === 401) localStorage.removeItem(ACCESS_TOKEN_KEY);
-
-        if (response && response.status === 200 && response.data.success) {
-            const { headers } = response;
-            if (headers["x-access-token"] && headers["x-refresh-token"]) {
-                setJwt(headers["x-access-token"], headers["x-refresh-token"]);
-                localStorage.setItem(ACCESS_TOKEN_KEY, headers["x-refresh-token"]);
-            }
-        }
-
         if (response && response.data && response.status) {
             const data: ApiResponseResult<any> = response.data;
             if (data.messages) {
@@ -29,10 +28,12 @@ axios.interceptors.response.use(
         return response;
     },
     (error: AxiosError<ApiResponseResult<any>>) => {
-        // console.debug(error);
-        if (error && error.response?.status === 401) localStorage.removeItem(ACCESS_TOKEN_KEY);
-
-        if (error && error.response && error.response.data && error.response.data.messages) {
+        if (
+            error &&
+            error.response &&
+            error.response.data &&
+            error.response.data.messages
+        ) {
             const message = error.response.data.messages[0];
             toastMessage(message);
             if (error.response.data.exception) console.log(error.response.data.exception);
@@ -53,7 +54,10 @@ axios.interceptors.response.use(
             if (message.type !== ResponseMessageType.TRANSACTION) toastMessage(message);
             else {
                 toast.error(
-                    CustomToastWithLink(message.message, "transaction failed click link for detail")
+                    CustomToastWithLink(
+                        message.message,
+                        "transaction failed click link for detail"
+                    )
                 );
             }
             if (error.response.data.exception) console.log(error.response.data.exception);
@@ -89,13 +93,4 @@ const toastMessage = (mes: ResponseMessage): void => {
     else if (mes.type === ResponseMessageType.WARNING) toast.warning(message);
 };
 
-function setJwt(accessToken: string, refreshToken: string) {
-    if (axios.defaults.headers) {
-        // @ts-ignore
-        axios.defaults.headers.common["x-access-token"] = accessToken;
-        // @ts-ignore
-        axios.defaults.headers.common["x-refresh-token"] = refreshToken;
-    }
-}
-
-export { axios as httpService, setJwt };
+export { axios as httpService };

@@ -6,61 +6,59 @@ import { BadRequestError } from "../../../errors/bad-request-error";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { WITHDRAW_PHRASE } from "../../../config/blockchain.configs";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
 
-router.post(
-    "/api/withdraw",
-    // requireAuth,
-    async (req: Request, res: Response) => {
-        try {
-            const { recipient, amount } = req.body;
-            if (!recipient || !amount)
-                throw new BadRequestError(
-                    "invalid body objects",
-                    ResponseMessageType.ERROR
-                );
+router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) => {
+    try {
+        const { recipient, amount, passphrase } = req.body;
 
-            // transfer money to user account
-            const tx = await lotto360Contract.payThePrize(
-                recipient,
-                ethers.utils.parseEther(`${amount}`),
-                {
-                    gasLimit: 1000000,
-                }
-            );
+        if (!recipient || !amount || passphrase !== WITHDRAW_PHRASE)
+            throw new BadRequestError("invalid body objects", ResponseMessageType.ERROR);
 
-            // get tx hash
-            const transactionHash = tx.hash;
-
-            // get tx result
-            const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
-            if (!txResult.status) {
-                throw new BadRequestError(
-                    transactionHash,
-                    ResponseMessageType.TRANSACTION
-                );
+        // transfer money to user account
+        const tx = await lotto360Contract.payThePrize(
+            recipient,
+            ethers.utils.parseEther(`${amount}`),
+            {
+                gasLimit: 1000000,
             }
+        );
 
-            const withdraw = Withdraw.build({
-                amount,
-                recipient,
-                time: moment.utc().toDate(),
-            });
-            await withdraw.save();
+        // get tx hash
+        const transactionHash = tx.hash;
 
-            res.status(200).send(
-                responseMaker({
-                    success: true,
-                    result: withdraw,
-                })
-            );
-        } catch (err: any) {
-            console.info(err);
-            throw new BadRequestError("bad request", ResponseMessageType.ERROR);
+        // get tx result
+        const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+        if (!txResult.status) {
+            throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }
+
+        const withdraw = Withdraw.build({
+            amount,
+            recipient,
+            time: moment.utc().toDate(),
+        });
+        await withdraw.save();
+
+        res.status(200).send(
+            responseMaker({
+                success: true,
+                messages: [
+                    {
+                        message: transactionHash,
+                        type: ResponseMessageType.TRANSACTION,
+                    },
+                ],
+                result: withdraw,
+            })
+        );
+    } catch (err: any) {
+        console.info(err);
+        throw err;
     }
-);
+});
 
 export { router as withdrawRouter };

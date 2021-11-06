@@ -5,3 +5,9 @@ export interface DashboardModel {
     winnersBalance: number;
     totalWithdraws: number;
 }
+
+export interface TransferTokenModel {
+    recipient: string;
+    amount: string;
+    passphrase: string;
+}

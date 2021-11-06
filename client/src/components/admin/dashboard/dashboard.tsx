@@ -1,4 +1,5 @@
 import { FunctionComponent, useEffect, useState } from "react";
+import { HashLoader } from "react-spinners";
 
 import { HelperApiService } from "../../../api/helper.api.service";
 import { DashboardModel } from "../../../interfaces/dashboard";
@@ -9,15 +10,25 @@ interface DashboardProps {}
 
 const Dashboard: FunctionComponent<DashboardProps> = () => {
     const [dashboardStats, setDashboardStats] = useState<DashboardModel>();
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setLoading(true);
         HelperApiService.getDashboardStats()
             .then((res) => {
                 if (res && res.data && res.data.result)
                     setDashboardStats(res.data.result);
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.error(err))
+            .finally(() => setLoading(false));
     }, []);
+
+    if (loading)
+        return (
+            <div className="ps-3 pt-3 d-flex justify-content-center align-items-center">
+                <HashLoader />
+            </div>
+        );
 
     if (!dashboardStats) return <></>;
 

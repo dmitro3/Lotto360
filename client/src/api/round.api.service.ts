@@ -3,7 +3,7 @@ import { AxiosResponse } from "axios";
 import { baseUrl } from "../config/config";
 import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
-import { CheckForWin, GetRoundApiModel } from "./models/round.model";
+import { GetRoundApiModel } from "./models/round.model";
 
 export const RoundApiService = {
     getRoundById(

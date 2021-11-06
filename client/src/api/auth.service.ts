@@ -2,20 +2,21 @@ import { AxiosResponse } from "axios";
 import { baseUrl } from "../config/config";
 
 import { httpService } from "./api.service";
-import { LoginApiModel, RegisterApiModel } from "./models/auth.models";
+import { LoginApiModel, UserModel } from "./models/auth.models";
 import ApiResponseResult from "./models/response.model";
-import { GetRoundApiModel } from "./models/round.model";
 
-export default class AuthenticationApiService {
-    login(
+export const AuthenticationApiService = {
+    signin(
         loginModel: LoginApiModel
-    ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
-        return httpService.post(`${baseUrl}/auth/login`, loginModel);
-    }
+    ): Promise<AxiosResponse<ApiResponseResult<UserModel>>> {
+        return httpService.post(`${baseUrl}/admin/signin`, loginModel);
+    },
 
-    register(
-        registerModel: RegisterApiModel
-    ): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel>>> {
-        return httpService.post(`${baseUrl}/auth/register`, registerModel);
-    }
-}
+    signout(): Promise<AxiosResponse<ApiResponseResult<void>>> {
+        return httpService.post(`${baseUrl}/admin/signout`);
+    },
+
+    getCurrentUser(): Promise<AxiosResponse<ApiResponseResult<LoginApiModel>>> {
+        return httpService.get(`${baseUrl}/admin/currentuser`);
+    },
+};

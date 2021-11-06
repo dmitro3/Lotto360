@@ -1,9 +1,24 @@
-import React, { ReactElement } from "react";
-import { useHistory } from "react-router-dom";
-import { ACCESS_TOKEN_KEY } from "../../../config/config";
+import React, { ReactElement, useState } from "react";
+import { Redirect } from "react-router-dom";
+import { AuthenticationApiService } from "../../../api/auth.service";
 
-const MyHeader: React.FC = (): ReactElement => {
-    const history = useHistory();
+interface MyHeaderProps {
+    username: string;
+}
+
+const MyHeader: React.FC<MyHeaderProps> = ({ username }): ReactElement => {
+    const [redirect, setRedirect] = useState(false);
+
+    const handleLogout = () => {
+        AuthenticationApiService.signout()
+            .then((res) => {})
+            .finally(() => {
+                localStorage.clear();
+                setRedirect(true);
+            });
+    };
+
+    if (redirect) return <Redirect to={{ pathname: "/" }} />;
 
     return (
         <header
@@ -22,7 +37,7 @@ const MyHeader: React.FC = (): ReactElement => {
                         aria-expanded="true"
                         data-bs-display="static"
                     >
-                        Armin Eslami
+                        {username}
                     </span>
                     <div
                         className="user-submenu bg-white shadow text-start dropdown-menu 
@@ -33,10 +48,7 @@ const MyHeader: React.FC = (): ReactElement => {
                         <span className="d-block px-3 py-2 pe-5 pointer">Profile</span>
                         <span
                             className="d-block px-3 py-2 pe-5 pointer"
-                            onClick={() => {
-                                localStorage.removeItem(ACCESS_TOKEN_KEY);
-                                history.replace("/account/login");
-                            }}
+                            onClick={() => handleLogout()}
                         >
                             Logout
                         </span>

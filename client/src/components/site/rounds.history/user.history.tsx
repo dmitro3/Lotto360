@@ -3,6 +3,7 @@ import { FunctionComponent, useState } from "react";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../constants/classes";
+import ButtonWaiting from "../shared/btn.waiting";
 
 interface UserHistoryProps {
     getnewRound: (value: number) => void;
@@ -41,12 +42,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                     onClick={getHistory}
                     className="btn btn-primary mt-3 shadow"
                 >
-                    {loading && (
-                        <>
-                            <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
-                            waiting ...
-                        </>
-                    )}
+                    {loading && <ButtonWaiting />}
                     {!loading && "Your history"}
                 </button>
             </div>

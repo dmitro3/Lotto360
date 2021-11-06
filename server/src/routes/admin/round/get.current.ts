@@ -14,65 +14,60 @@ import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
 
-router.get(
-    "/api/round",
-    // requireAuth,
-    async (req: Request, res: Response) => {
-        // send transaction to blockchain
-        try {
-            const roundResult = await lotto360Contract.getCurrentRound();
-            const tickets: BigNumber[][] =
-                await lotto360Contract.getCurrentRoundTickets();
-            const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
+router.get("/api/round", requireAuth, async (req: Request, res: Response) => {
+    // send transaction to blockchain
+    try {
+        const roundResult = await lotto360Contract.getCurrentRound();
+        const tickets: BigNumber[][] = await lotto360Contract.getCurrentRoundTickets();
+        const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
 
-            let pools: PoolAttrs[] = [];
-            pools = poolsBn.map((bn, i) => {
-                return { name: i, percentage: bn.toNumber() };
-            });
+        let pools: PoolAttrs[] = [];
+        pools = poolsBn.map((bn, i) => {
+            return { name: i, percentage: bn.toNumber() };
+        });
 
-            const ticketArray: TicketAttrs[] = [];
-            if (tickets.length === 3) {
-                const count = tickets[0].length;
-                for (let i = 0; i < count; i++) {
-                    ticketArray.push({
-                        cid: tickets[0][i].toNumber(),
-                        number: tickets[1][i].toNumber(),
-                        owner: tickets[2][i].toString(),
-                    });
-                }
+        const ticketArray: TicketAttrs[] = [];
+        if (tickets.length === 3) {
+            const count = tickets[0].length;
+            for (let i = 0; i < count; i++) {
+                ticketArray.push({
+                    cid: tickets[0][i].toNumber(),
+                    number: tickets[1][i].toNumber(),
+                    owner: tickets[2][i].toString(),
+                });
             }
-
-            const round: RoundAttrs = {
-                status: roundResult.status,
-                cid: roundResult.cid.toNumber(),
-                startTime: roundResult.startTime.toNumber(),
-                endTime: roundResult.endTime.toNumber(),
-                ticketPrice: bnToNumber(roundResult.ticketPrice),
-                firstTicketId: roundResult.firstTicketId.toNumber(),
-                firstTicketIdNextRound: roundResult.firstTicketIdNextRound.toNumber(),
-                totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
-                bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
-                bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
-                finalNumber: roundResult.finalNumber.toNumber(),
-                pools: pools,
-                tickets: ticketArray,
-                totalPlayers: getPlayersCount(ticketArray),
-                totalTickets: ticketArray.length,
-            };
-
-            if (!roundResult || !roundResult.length)
-                throw new NotFoundError("round not found");
-
-            res.status(200).send(
-                responseMaker({
-                    success: true,
-                    result: round,
-                })
-            );
-        } catch (err: any) {
-            throw new BadRequestError("bad request", ResponseMessageType.ERROR);
         }
+
+        const round: RoundAttrs = {
+            status: roundResult.status,
+            cid: roundResult.cid.toNumber(),
+            startTime: roundResult.startTime.toNumber(),
+            endTime: roundResult.endTime.toNumber(),
+            ticketPrice: bnToNumber(roundResult.ticketPrice),
+            firstTicketId: roundResult.firstTicketId.toNumber(),
+            firstTicketIdNextRound: roundResult.firstTicketIdNextRound.toNumber(),
+            totalBnbAmount: bnToNumber(roundResult.totalBnbAmount),
+            bonusBnbAmount: bnToNumber(roundResult.bonusBnbAmount),
+            bnbAddedFromLastRound: bnToNumber(roundResult.bnbAddedFromLastRound),
+            finalNumber: roundResult.finalNumber.toNumber(),
+            pools: pools,
+            tickets: ticketArray,
+            totalPlayers: getPlayersCount(ticketArray),
+            totalTickets: ticketArray.length,
+        };
+
+        if (!roundResult || !roundResult.length)
+            throw new NotFoundError("round not found");
+
+        res.status(200).send(
+            responseMaker({
+                success: true,
+                result: round,
+            })
+        );
+    } catch (err: any) {
+        throw err;
     }
-);
+});
 
 export { router as getCurrentRoundRouter };

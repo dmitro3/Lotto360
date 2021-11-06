@@ -5,6 +5,7 @@ import { TicketState } from "../../../interfaces/ticket.state";
 import { ChainMethods } from "../../../provider/chain.methods";
 import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
 import { flexItemsCenter } from "../constants/classes";
+import ButtonWaiting from "../shared/btn.waiting";
 
 interface BuyTicketButtonProps {
     address: string;
@@ -59,8 +60,7 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
         >
             {waiting ? (
                 <div className={flexItemsCenter}>
-                    <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>{" "}
-                    waiting
+                    <ButtonWaiting />
                 </div>
             ) : (
                 "Buy"

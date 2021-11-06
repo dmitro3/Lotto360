@@ -19,6 +19,7 @@ export enum LottoActions {
     SET_USER_BALANCE,
     SET_MAX_TICKETS,
     SET_PROVIDER_THINGS,
+    SET_ADMIN_NAME,
 }
 
 export interface LottoState {
@@ -31,11 +32,13 @@ export interface LottoState {
     maxTicketsPerBuy: number;
     historyAmount: number;
     currentPrize: number;
+    admin: string;
     address?: string;
     web3?: Web3;
 }
 
 export const initialState: LottoState = {
+    admin: "",
     userBalance: 0,
     showModal: false,
     ticketPrice: 0,
@@ -94,6 +97,10 @@ export default function lottoReducer(
         case LottoActions.SET_WEB3:
             if (state.web3 === action.payload) return state;
             newState.web3 = action.payload;
+            return newState;
+
+        case LottoActions.SET_ADMIN_NAME:
+            newState.admin = action.payload;
             return newState;
 
         case LottoActions.SET_PROVIDER_THINGS:

@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { HelperApiService } from "../../../api/helper.api.service";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { web3 } from "../../../provider/web3";
+import TokenTransfer from "./token.transfer";
+import ButtonWaiting from "../../site/shared/btn.waiting";
 
 interface SettingProps {}
 
@@ -98,7 +100,7 @@ const Settings: FunctionComponent<SettingProps> = () => {
                 </div>
             </div>
 
-            <div className="col col-6">
+            <div className="col col-6 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <h6 className="mt-5 fw-bold">Set max ticket buy</h6>
                 <div className="input-group mb-3">
                     <input
@@ -118,12 +120,7 @@ const Settings: FunctionComponent<SettingProps> = () => {
                         id="button-addon2"
                         onClick={() => setNewTicketPerBuy(amount)}
                     >
-                        {loading && (
-                            <>
-                                <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>{" "}
-                                waiting
-                            </>
-                        )}
+                        {loading && <ButtonWaiting />}
                         {!loading && "set"}
                     </button>
                 </div>
@@ -146,16 +143,12 @@ const Settings: FunctionComponent<SettingProps> = () => {
                         id="button-addon2"
                         onClick={() => setNewOwner(ownerAddress)}
                     >
-                        {loading && (
-                            <>
-                                <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>{" "}
-                                waiting
-                            </>
-                        )}
+                        {loading && <ButtonWaiting />}
                         {!loading && "set"}
                     </button>
                 </div>
             </div>
+            <TokenTransfer />
         </div>
     );
 };

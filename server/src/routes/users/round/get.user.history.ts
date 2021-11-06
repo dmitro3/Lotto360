@@ -87,7 +87,7 @@ router.post("/api/user/checkhistory/:id", async (req: Request, res: Response) =>
         );
     } catch (err: any) {
         console.error(err);
-        throw new BadRequestError("bad request", ResponseMessageType.ERROR, err);
+        throw err;
     }
 });
 

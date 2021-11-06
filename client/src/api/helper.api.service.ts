@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 
 import { baseUrl } from "../config/config";
-import { DashboardModel } from "../interfaces/dashboard";
+import { DashboardModel, TransferTokenModel } from "../interfaces/dashboard";
 import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
 import { CheckForWin } from "./models/round.model";
@@ -25,6 +25,12 @@ export const HelperApiService = {
 
     checkForWin(address: string): Promise<AxiosResponse<ApiResponseResult<CheckForWin>>> {
         return httpService.post(`${baseUrl}/user/checkwin/${address}`);
+    },
+
+    withdraw(
+        transferModel: TransferTokenModel
+    ): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
+        return httpService.post(`${baseUrl}/withdraw/`, transferModel);
     },
 
     getDashboardStats(): Promise<AxiosResponse<ApiResponseResult<DashboardModel>>> {

@@ -8,10 +8,6 @@ export const targetNetworkId = 4;
 
 export const PageSize = { SMALL: 10, MEDIUM: 25, BIG: 50 };
 
-// local storage
-export const REFRESH_TOKEN_KEY = "refresh_token";
-export const ACCESS_TOKEN_KEY = "access_token";
-
 // backend
 export const baseUrl: string = "http://localhost:3001/api";
 

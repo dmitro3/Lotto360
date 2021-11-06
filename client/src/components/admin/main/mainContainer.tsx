@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
 import Rounds from "../rounds/rounds";
 import ProtectedRoute from "../../security/protected.route";
@@ -18,22 +18,16 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
                     <SideBar />
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4 pb-5">
                         <Switch>
-                            <ProtectedRoute
-                                path="/admin/dashboard"
-                                component={Dashboard}
-                            />
-                            <ProtectedRoute path="/admin/users" component={Dashboard} />
-                            <ProtectedRoute
+                            <Route path="/admin/dashboard" component={Dashboard} />
+                            <Route path="/admin/users" component={Dashboard} />
+                            <Route
                                 path="/admin/rounds"
                                 render={() => <Rounds bnbPrice={bnbPrice} />}
                             />
-                            <ProtectedRoute path="/admin/settings" component={Settings} />
-                            <ProtectedRoute path="/admin" component={Dashboard} />
-                            {/*  <ProtectedRoute path="/roles/:id" component={RoleForm} />
-                            <ProtectedRoute path="/404" component={NotFount404} /> */}
+                            <Route path="/admin/settings" component={Settings} />
+                            <Route path="/admin" component={Dashboard} />
 
                             <Redirect from="/" exact to="/" />
-                            <Redirect to="/404" />
                         </Switch>
                     </main>
                 </div>

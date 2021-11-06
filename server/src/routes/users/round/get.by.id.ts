@@ -1,7 +1,5 @@
 import express, { Request, Response } from "express";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { validateRequest } from "../../../middlewares/validate-request";
-import { BadRequestError } from "../../../errors/bad-request-error";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { Round } from "../../../database/model/round/round";
 import { getRoundSchema } from "../../validation/schemas";
@@ -36,7 +34,7 @@ router.post(
                 })
             );
         } catch (err: any) {
-            throw new BadRequestError("bad request", ResponseMessageType.ERROR);
+            throw err;
         }
     }
 );

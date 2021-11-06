@@ -3,7 +3,7 @@ import {
     ACCOUNT_PRIVATE_KEY,
     bnbContractAddress,
     lotto360Address,
-} from "../settings/blockchain.settings";
+} from "../config/blockchain.configs";
 import { ERC20Abi } from "./abi/Erc20";
 import { Lotto360Abi } from "./abi/Lotto360";
 

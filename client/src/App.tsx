@@ -11,6 +11,8 @@ import { ChainMethods } from "./provider/chain.methods";
 import AdminPanel from "./components/admin/admin.panel";
 import MainSite from "./components/site/main.site";
 import { getWeb3 } from "./provider/web3";
+import Signin from "./components/admin/auth/login";
+import ProtectedRoute from "./components/security/protected.route";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
@@ -44,8 +46,14 @@ function App() {
         <>
             <Switch>
                 <Route
+                    path="/admin/login"
+                    render={() => <Signin dispatch={dispatch} />}
+                />
+                <ProtectedRoute
                     path="/admin"
-                    render={() => <AdminPanel bnbPrice={state.bnbPrice} />}
+                    render={() => (
+                        <AdminPanel bnbPrice={state.bnbPrice} username={state.admin} />
+                    )}
                 />
                 <Route
                     path="/"
