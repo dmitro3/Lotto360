@@ -1,13 +1,14 @@
-import { ethers } from "ethers";
 import express, { Request, Response } from "express";
+import { ethers } from "ethers";
+
 import { RoundAttrs } from "../../../database/model/round/interface.enum";
-import { BadRequestError } from "../../../errors/bad-request-error";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { requireAuth } from "../../../middlewares/require-auth";
 import { validateRequest } from "../../../middlewares/validate-request";
-import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
-import { responseMaker } from "../../response.maker";
+import { BadRequestError } from "../../../errors/bad-request-error";
 import { addRoundValidatorSchema } from "../../validation/schemas";
+import { contract, provider } from "../../../provider/contracts";
+import { requireAuth } from "../../../middlewares/require-auth";
+import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
 
@@ -34,7 +35,7 @@ router.post(
 
         // send transaction to blockchain
         try {
-            const tx = await lotto360Contract.startNewRound(
+            const tx = await contract.startNewRound(
                 endTime,
                 ethers.utils.parseEther(`${ticketPrice}`),
                 ethers.utils.parseEther(`${bonusBnbAmount}`),
@@ -50,7 +51,7 @@ router.post(
             transactionHash = tx.hash;
 
             // get tx result
-            const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+            const txResult = await provider.waitForTransaction(tx.hash);
             if (!txResult.status) {
                 throw new BadRequestError(
                     transactionHash,

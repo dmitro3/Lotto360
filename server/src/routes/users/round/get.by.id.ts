@@ -1,11 +1,12 @@
 import express, { Request, Response } from "express";
+
+import { PoolWinnersAttr } from "../../../database/model/pool/interface.enum";
+import { TicketAttrs } from "../../../database/model/ticket/interface.enum";
 import { validateRequest } from "../../../middlewares/validate-request";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { Round } from "../../../database/model/round/round";
 import { getRoundSchema } from "../../validation/schemas";
 import { responseMaker } from "../../response.maker";
-import { TicketAttrs } from "../../../database/model/ticket/interface.enum";
-import { PoolWinnersAttr } from "../../../database/model/pool/interface.enum";
 
 const router = express.Router();
 

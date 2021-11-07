@@ -1,12 +1,11 @@
 import express, { Request, Response } from "express";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { BadRequestError } from "../../../errors/bad-request-error";
+
+import { PoolAttrs, PoolWinnersAttr } from "../../../database/model/pool/interface.enum";
+import { RoundStatus } from "../../../database/model/round/interface.enum";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { Round } from "../../../database/model/round/round";
 import { responseMaker } from "../../response.maker";
-import { RoundStatus } from "../../../database/model/round/interface.enum";
-import { PoolAttrs, PoolWinnersAttr } from "../../../database/model/pool/interface.enum";
 
 const router = express.Router();
 

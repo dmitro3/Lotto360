@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Dispatch, useEffect, useReducer, useState } from "react";
 import { Slide, ToastContainer } from "react-toastify";
 import { Route, Switch } from "react-router";

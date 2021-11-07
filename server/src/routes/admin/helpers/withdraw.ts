@@ -1,12 +1,13 @@
 import { ethers } from "ethers";
 import express, { Request, Response } from "express";
 import moment from "moment";
-import { Withdraw } from "../../../database/model/withdraw/withdraw";
-import { BadRequestError } from "../../../errors/bad-request-error";
+
 import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { requireAuth } from "../../../middlewares/require-auth";
-import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+import { Withdraw } from "../../../database/model/withdraw/withdraw";
 import { WITHDRAW_PHRASE } from "../../../config/blockchain.configs";
+import { BadRequestError } from "../../../errors/bad-request-error";
+import { contract, provider } from "../../../provider/contracts";
+import { requireAuth } from "../../../middlewares/require-auth";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
@@ -19,7 +20,7 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
             throw new BadRequestError("invalid body objects", ResponseMessageType.ERROR);
 
         // transfer money to user account
-        const tx = await lotto360Contract.payThePrize(
+        const tx = await contract.payThePrize(
             recipient,
             ethers.utils.parseEther(`${amount}`),
             {
@@ -31,7 +32,7 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
         const transactionHash = tx.hash;
 
         // get tx result
-        const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+        const txResult = await provider.waitForTransaction(tx.hash);
         if (!txResult.status) {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }

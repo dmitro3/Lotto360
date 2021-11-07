@@ -1,10 +1,9 @@
-import { BigNumber } from "ethers";
 import express, { Request, Response } from "express";
+import { BigNumber } from "ethers";
+
 import { TicketAttrs } from "../../../database/model/ticket/interface.enum";
-import { BadRequestError } from "../../../errors/bad-request-error";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
-import { lotto360Contract } from "../../../provider/contracts";
+import { contract } from "../../../provider/contracts";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();
@@ -12,7 +11,7 @@ const router = express.Router();
 router.get("/api/alltickets", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        const tickets: BigNumber[][] = await lotto360Contract.getAllTickets();
+        const tickets: BigNumber[][] = await contract.getAllTickets();
         const ticketArray: TicketAttrs[] = [];
         if (tickets.length === 3) {
             const count = tickets[0].length;

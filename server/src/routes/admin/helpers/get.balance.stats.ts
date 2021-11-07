@@ -2,13 +2,11 @@ import express, { Request, Response } from "express";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 
-import { bnbTokenContract, lotto360Contract } from "../../../provider/contracts";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { lotto360Address } from "../../../config/blockchain.configs";
 import { Withdraw } from "../../../database/model/withdraw/withdraw";
-import { BadRequestError } from "../../../errors/bad-request-error";
+import { TOKEN_ADDRESS } from "../../../config/blockchain.configs";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { requireAuth } from "../../../middlewares/require-auth";
+import { token, contract } from "../../../provider/contracts";
 import { Round } from "../../../database/model/round/round";
 import { responseMaker } from "../../response.maker";
 import { bnToNumber } from "../../../utils/ethers";
@@ -18,13 +16,11 @@ const router = express.Router();
 router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Response) => {
     try {
         // get contract balance
-        const contractBalanceBn: BigNumber = await bnbTokenContract.balanceOf(
-            lotto360Address
-        );
+        const contractBalanceBn: BigNumber = await token.balanceOf(TOKEN_ADDRESS);
         const contractBalance = parseFloat(ethers.utils.formatEther(contractBalanceBn));
 
         // get bnb in current round
-        const roundResult = await lotto360Contract.getCurrentRound();
+        const roundResult = await contract.getCurrentRound();
         if (!roundResult || !roundResult.length)
             throw new NotFoundError("Current round not found");
 

@@ -1,10 +1,8 @@
 import express, { Request, Response } from "express";
 
-import { Round } from "../../../database/model/round/round";
-import { BadRequestError } from "../../../errors/bad-request-error";
 import { NotFoundError } from "../../../errors/not-found-error";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
+import { Round } from "../../../database/model/round/round";
 import { responseMaker } from "../../response.maker";
 
 const router = express.Router();

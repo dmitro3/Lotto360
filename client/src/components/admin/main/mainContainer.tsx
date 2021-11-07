@@ -2,7 +2,6 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/dashboard";
 import Rounds from "../rounds/rounds";
-import ProtectedRoute from "../../security/protected.route";
 import SideBar from "../sidebar/sideBar";
 import Settings from "../settings/settings";
 

@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { ethers } from "ethers";
 
-import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
 import { RoundWinBrief } from "../../../database/model/round/interface.enum";
 import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { BadRequestError } from "../../../errors/bad-request-error";
+import { contract, provider } from "../../../provider/contracts";
 import { Round } from "../../../database/model/round/round";
 import { responseMaker } from "../../response.maker";
 import {
@@ -153,7 +153,7 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         });
 
         // transfer money to user account
-        const tx = await lotto360Contract.payThePrize(
+        const tx = await contract.payThePrize(
             userAddress,
             ethers.utils.parseEther(`${totalPay}`),
             {
@@ -165,7 +165,7 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         const transactionHash = tx.hash;
 
         // get tx result
-        const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+        const txResult = await provider.waitForTransaction(tx.hash);
         if (!txResult.status) {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }

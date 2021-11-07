@@ -1,10 +1,11 @@
 import express, { Request, Response } from "express";
-import { lotto360Contract, rinkebyProvider } from "../../../provider/contracts";
+
 import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { BadRequestError } from "../../../errors/bad-request-error";
+import { contract, provider } from "../../../provider/contracts";
+import { requireAuth } from "../../../middlewares/require-auth";
 import { responseMaker } from "../../response.maker";
 import { generateSeed } from "../../../utils/util";
-import { requireAuth } from "../../../middlewares/require-auth";
 
 const router = express.Router();
 
@@ -16,7 +17,7 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
         const random = generateSeed();
 
         // send transaction
-        const tx = await lotto360Contract.closeRoundAndPickWinningNumber(random, {
+        const tx = await contract.closeRoundAndPickWinningNumber(random, {
             gasLimit: 1000000,
         });
 
@@ -25,7 +26,7 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
         transactionHash = tx.hash;
 
         // get tx result
-        const txResult = await rinkebyProvider.waitForTransaction(tx.hash);
+        const txResult = await provider.waitForTransaction(tx.hash);
         if (!txResult.status) {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }
@@ -44,7 +45,7 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
     } catch (err: any) {
         if (transactionHash)
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
-        else throw new BadRequestError("bad request", ResponseMessageType.TRANSACTION);
+        else throw err;
     }
 });
 

@@ -34,7 +34,7 @@ const Signin: FunctionComponent<SigninProps> = ({ dispatch }) => {
                 console.error(err);
                 setLoading(false);
             });
-    }, []);
+    }, [dispatch]);
 
     const { name, password } = loginModel;
 

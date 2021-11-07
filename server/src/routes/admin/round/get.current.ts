@@ -1,25 +1,24 @@
-import { BigNumber } from "@ethersproject/bignumber";
 import express, { Request, Response } from "express";
-import { PoolAttrs } from "../../../database/model/pool/interface.enum";
+import { BigNumber } from "@ethersproject/bignumber";
+
+import { TicketAttrs } from "../../../database/model/ticket/interface.enum";
 import { RoundAttrs } from "../../../database/model/round/interface.enum";
-import { TicketAttrs, TicketStatus } from "../../../database/model/ticket/interface.enum";
-import { BadRequestError } from "../../../errors/bad-request-error";
+import { PoolAttrs } from "../../../database/model/pool/interface.enum";
 import { NotFoundError } from "../../../errors/not-found-error";
-import { ResponseMessageType } from "../../../middlewares/error-handler";
 import { requireAuth } from "../../../middlewares/require-auth";
-import { lotto360Contract } from "../../../provider/contracts";
-import { bnToNumber } from "../../../utils/ethers";
+import { contract } from "../../../provider/contracts";
 import { getPlayersCount } from "../../../utils/util";
 import { responseMaker } from "../../response.maker";
+import { bnToNumber } from "../../../utils/ethers";
 
 const router = express.Router();
 
 router.get("/api/round", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        const roundResult = await lotto360Contract.getCurrentRound();
-        const tickets: BigNumber[][] = await lotto360Contract.getCurrentRoundTickets();
-        const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
+        const roundResult = await contract.getCurrentRound();
+        const tickets: BigNumber[][] = await contract.getCurrentRoundTickets();
+        const poolsBn: BigNumber[] = await contract.getCurrentRoundPools();
 
         let pools: PoolAttrs[] = [];
         pools = poolsBn.map((bn, i) => {
