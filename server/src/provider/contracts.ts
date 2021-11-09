@@ -11,7 +11,7 @@ const provider = new ethers.providers.InfuraProvider("rinkeby");
 const wallet = new ethers.Wallet(ACCOUNT_PRIVATE_KEY, provider);
 
 // contracts
-const contract = new ethers.Contract(TOKEN_ADDRESS, Lotto360Abi, wallet);
-const token = new ethers.Contract(CONTRACT_ADDRESS, ERC20Abi, wallet);
+const contract = new ethers.Contract(CONTRACT_ADDRESS, Lotto360Abi, wallet);
+const token = new ethers.Contract(TOKEN_ADDRESS, ERC20Abi, wallet);
 
 export { token, contract, provider };

@@ -3,7 +3,7 @@ import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 
 import { Withdraw } from "../../../database/model/withdraw/withdraw";
-import { TOKEN_ADDRESS } from "../../../config/blockchain.configs";
+import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../../../config/blockchain.configs";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { token, contract } from "../../../provider/contracts";
@@ -16,7 +16,7 @@ const router = express.Router();
 router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Response) => {
     try {
         // get contract balance
-        const contractBalanceBn: BigNumber = await token.balanceOf(TOKEN_ADDRESS);
+        const contractBalanceBn: BigNumber = await token.balanceOf(CONTRACT_ADDRESS);
         const contractBalance = parseFloat(ethers.utils.formatEther(contractBalanceBn));
 
         // get bnb in current round

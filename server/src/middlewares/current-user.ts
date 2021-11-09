@@ -24,8 +24,9 @@ export const currentUser = (req: Request, res: Response, next: NextFunction) => 
         const payload = jwt.verify(jwtHeader, JWT_KEY) as UserPayload;
         req.currentUser = payload;
     } catch (err) {
-        console.info(err);
-        return res.send({ currentUser: null });
+        console.info("jwt malformed");
+        return next();
+        // return res.send({ currentUser: null });
     }
     next();
 };

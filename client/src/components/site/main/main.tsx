@@ -1,9 +1,11 @@
 /* eslint-disable eqeqeq */
 import { Dispatch, FunctionComponent } from "react";
-import { RoundStatus } from "../../../api/models/round.model";
+
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { currencyFormat } from "../../../utilities/string.numbers.util";
+import { RoundStatus } from "../../../api/models/round.model";
 import BuyTicketButton from "../shared/buy.ticket.button";
+import logo from "../../../contents/images/logo-cir.png";
 
 interface MainProps {
     changeArrovedLoading: (val1: boolean, val2: boolean) => void;
@@ -25,17 +27,16 @@ const Main: FunctionComponent<MainProps> = ({
     return (
         <>
             <div
-                className={`p-4 pb-5 bg4 d-flex position-relative flex-wrap justify-content-around align-items-center`}
+                className={`p-4 pb-5 bg7 d-flex position-relative flex-wrap justify-content-around align-items-center`}
             >
                 <div className="main-side-pic divider1"></div>
                 <div className="max-content">
-                    <h1 className="d-flex justify-content-center align-items-center mt-3 megering">
-                        <b className="me-3 logo-main">LOTTO</b>
-                        <i className="fa-solid fa-360-degrees fa-xl"></i>
-                    </h1>
+                    <div className="d-flex justify-content-center align-items-center mt-3">
+                        <img src={logo} alt="logo" className="logo-circle" />
+                    </div>
                     {state.currentRound.status == RoundStatus.Open ? (
                         <div
-                            className="my-3 max-content px-3 py-1 d-flex flex-column
+                            className="my-3 mt-5 max-content px-3 py-1 d-flex flex-column
                     justify-content-center align-items-center mx-auto rounded text-black"
                         >
                             <div>
@@ -44,7 +45,7 @@ const Main: FunctionComponent<MainProps> = ({
                                     {calcPrize(currentPrizeAmount)}
                                 </span>
                             </div>
-                            <div className="pb-2 d-flex justify-content-center align-items-center mt-3">
+                            <div className="pb-2 d-flex justify-content-center align-items-center">
                                 <span className="fs-3 fw-bold">
                                     {calcPrizeinUsd(currentPrizeAmount, state.bnbPrice)}
                                 </span>

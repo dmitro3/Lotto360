@@ -18,6 +18,14 @@ body {
     color: transparent !important;
 }
 
+.logo-circle {
+    width: 300px;
+}
+
+.logo-hor {
+    height: 60px;
+}
+
 .admin-fl {
     min-height: 100vh !important;
 }
@@ -182,10 +190,17 @@ body {
 }
 
 .main-side-pic {
+    max-width: 20%;
     height: 300px;
     width: 300px;
     background-position: center;
     background-size: contain;
+}
+
+@media only screen and (max-width: 600px) {
+    .main-side-pic {
+        display: none;
+    }
 }
 
 #root {

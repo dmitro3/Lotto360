@@ -1,7 +1,9 @@
 import { Dispatch, FunctionComponent } from "react";
+
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import Menu from "./menu";
+import logo from "../../../contents/images/logo-ver.png";
 import Wallet from "./wallet";
+import Menu from "./menu";
 
 interface HeaderProps {
     address?: string;
@@ -16,8 +18,7 @@ const Header: FunctionComponent<HeaderProps> = ({ address, dispatch }) => {
                     className="navbar-brand megering d-flex justify-content-between align-items-center"
                     href="/"
                 >
-                    <b className="big-logo me-2">LOTTO</b>
-                    <i className="fa-solid fa-360-degrees fa-xl"></i>
+                    <img src={logo} alt="logo" className="logo-hor" />
                 </a>
                 <button
                     className="navbar-toggler"

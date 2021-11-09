@@ -18,7 +18,6 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
 
         if (!recipient || !amount || passphrase !== WITHDRAW_PHRASE)
             throw new BadRequestError("invalid body objects", ResponseMessageType.ERROR);
-
         // transfer money to user account
         const tx = await contract.payThePrize(
             recipient,

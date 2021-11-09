@@ -22,7 +22,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     useEffect(() => {
         AuthenticationApiService.getCurrentUser()
             .then((res) => {
-                console.info(res.data.result);
                 if (res && res.data && res.data.result) {
                     setUser(res.data.result);
                 } else setUser(undefined);
@@ -32,7 +31,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
                 setUser(undefined);
             });
     }, []);
-    console.info(user);
+
     if (!user) {
         return (
             <Redirect
