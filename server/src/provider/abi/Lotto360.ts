@@ -169,6 +169,34 @@ export const Lotto360Abi = [
     {
         inputs: [
             {
+                internalType: "uint256[]",
+                name: "_roundIds",
+                type: "uint256[]",
+            },
+            {
+                internalType: "uint256[]",
+                name: "_ticketIds",
+                type: "uint256[]",
+            },
+            {
+                internalType: "address",
+                name: "_winnerAddress",
+                type: "address",
+            },
+            {
+                internalType: "uint256",
+                name: "_amount",
+                type: "uint256",
+            },
+        ],
+        name: "claimPrize",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
                 internalType: "uint256",
                 name: "_seedNumber",
                 type: "uint256",
@@ -197,6 +225,11 @@ export const Lotto360Abi = [
                 internalType: "address[]",
                 name: "",
                 type: "address[]",
+            },
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
             },
         ],
         stateMutability: "view",
@@ -373,6 +406,11 @@ export const Lotto360Abi = [
                 internalType: "address[]",
                 name: "",
                 type: "address[]",
+            },
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
             },
         ],
         stateMutability: "view",
@@ -647,6 +685,11 @@ export const Lotto360Abi = [
                 name: "",
                 type: "address[]",
             },
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
+            },
         ],
         stateMutability: "view",
         type: "function",
@@ -669,6 +712,11 @@ export const Lotto360Abi = [
                 internalType: "address[]",
                 name: "",
                 type: "address[]",
+            },
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
             },
         ],
         stateMutability: "view",
@@ -699,26 +747,41 @@ export const Lotto360Abi = [
                 name: "",
                 type: "address[]",
             },
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
+            },
         ],
         stateMutability: "view",
         type: "function",
     },
     {
-        inputs: [
+        inputs: [],
+        name: "getWithdraws",
+        outputs: [
             {
-                internalType: "address",
-                name: "winnerAddress",
-                type: "address",
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
             },
             {
-                internalType: "uint256",
-                name: "amount",
-                type: "uint256",
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
+            },
+            {
+                internalType: "address[]",
+                name: "",
+                type: "address[]",
+            },
+            {
+                internalType: "uint256[]",
+                name: "",
+                type: "uint256[]",
             },
         ],
-        name: "payThePrize",
-        outputs: [],
-        stateMutability: "nonpayable",
+        stateMutability: "view",
         type: "function",
     },
     {
@@ -776,6 +839,24 @@ export const Lotto360Abi = [
             },
         ],
         name: "transferOwnership",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "address",
+                name: "_targetAddress",
+                type: "address",
+            },
+            {
+                internalType: "uint256",
+                name: "_amount",
+                type: "uint256",
+            },
+        ],
+        name: "transferToken",
         outputs: [],
         stateMutability: "nonpayable",
         type: "function",

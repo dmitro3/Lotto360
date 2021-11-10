@@ -7,7 +7,7 @@ import Web3 from "web3";
 
 import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
 import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
-import { coinGeckoBnbPriceApi, targetNetworkId } from "./config/config";
+import { coinGeckoApi, targetNetworkId } from "./config/config";
 import { ChainMethods } from "./provider/chain.methods";
 import AdminPanel from "./components/admin/admin.panel";
 import MainSite from "./components/site/main.site";
@@ -52,9 +52,7 @@ function App() {
                 />
                 <ProtectedRoute
                     path="/admin"
-                    render={() => (
-                        <AdminPanel bnbPrice={state.bnbPrice} username={state.admin} />
-                    )}
+                    render={() => <AdminPanel bnbPrice={state.bnbPrice} />}
                 />
                 <Route
                     path="/"
@@ -119,7 +117,7 @@ const getCurrentRoundAndBnbPrice = (
         .catch((err) => console.error(err));
 
     axios
-        .get(coinGeckoBnbPriceApi)
+        .get(coinGeckoApi)
         .then((res: AxiosResponse<any>) => {
             if (
                 res &&

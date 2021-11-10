@@ -2,11 +2,9 @@ import React, { ReactElement, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { AuthenticationApiService } from "../../../api/auth.service";
 
-interface MyHeaderProps {
-    username: string;
-}
+interface MyHeaderProps {}
 
-const MyHeader: React.FC<MyHeaderProps> = ({ username }): ReactElement => {
+const MyHeader: React.FC<MyHeaderProps> = (): ReactElement => {
     const [redirect, setRedirect] = useState(false);
 
     const handleLogout = () => {
@@ -37,7 +35,7 @@ const MyHeader: React.FC<MyHeaderProps> = ({ username }): ReactElement => {
                         aria-expanded="true"
                         data-bs-display="static"
                     >
-                        {username}
+                        {localStorage.getItem("username")}
                     </span>
                     <div
                         className="user-submenu bg-white shadow text-start dropdown-menu 

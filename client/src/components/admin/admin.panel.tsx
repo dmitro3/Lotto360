@@ -5,13 +5,12 @@ import "react-datetime/css/react-datetime.css";
 
 interface AdminPanelProps {
     bnbPrice: number;
-    username: string;
 }
 
-const AdminPanel: FunctionComponent<AdminPanelProps> = ({ bnbPrice, username }) => {
+const AdminPanel: FunctionComponent<AdminPanelProps> = ({ bnbPrice }) => {
     return (
         <div>
-            <MyHeader username={username} />
+            <MyHeader />
             <MainContainer bnbPrice={bnbPrice} />
         </div>
     );

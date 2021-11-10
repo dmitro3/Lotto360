@@ -28,10 +28,10 @@ contract Lotto360 {
     address private owner;
     IERC20 private bnbToken;
 
+    uint256 private withdrawCount = 0;
     uint256 private currentRoundId = 0;
     uint256 private currentTicketId = 1;
     uint256 private maxNumberTicketsPerBuyOrClaim = 50;
-    uint256 withdrawCount = 0;
 
     constructor() {
         owner = msg.sender;
@@ -120,7 +120,7 @@ contract Lotto360 {
     /**************************************************************************************************
      * @dev these are functions for user
      **************************************************************************************************/
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers)
         external
         nonContract
@@ -175,7 +175,7 @@ contract Lotto360 {
         return rounds[currentRoundId];
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getUserTicketsInCurrentRound()
         external
         view
@@ -210,7 +210,7 @@ contract Lotto360 {
         return (cidArray, numberArray, addressArray, isClaimedArray);
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getPoolsInCurrentRoundForUser()
         external
         view
@@ -220,7 +220,7 @@ contract Lotto360 {
         return poolsInEachRound[currentRoundId];
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getRoundByIdForUser(uint256 _roundId)
         external
         view
@@ -230,7 +230,7 @@ contract Lotto360 {
         return rounds[_roundId];
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getUserTicketsInRound(uint256 _roundId)
         external
         view
@@ -265,7 +265,7 @@ contract Lotto360 {
         return (cidArray, numberArray, addressArray, isClaimedArray);
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getPoolsInRoundForUser(uint256 _roundId)
         external
         view
@@ -275,7 +275,7 @@ contract Lotto360 {
         return poolsInEachRound[_roundId];
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getMaxNumberTicketsPerBuyOrClaim()
         external
         view
@@ -532,7 +532,7 @@ contract Lotto360 {
         return rounds[currentRoundId];
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getCurrentRoundTickets()
         external
         view
@@ -541,24 +541,27 @@ contract Lotto360 {
         returns (
             uint256[] memory,
             uint256[] memory,
-            address[] memory
+            address[] memory,
+            bool[] memory
         )
     {
         uint256 ticketCounts = ticketCountInEachRound[currentRoundId];
         uint256[] memory cidArray = new uint256[](ticketCounts);
         uint256[] memory numberArray = new uint256[](ticketCounts);
         address[] memory addressArray = new address[](ticketCounts);
+        bool[] memory isClaimedArray = new bool[](ticketCounts);
 
         for (uint256 i = 0; i < ticketCounts; i++) {
             cidArray[i] = ticketsInEachRound[currentRoundId][i].cid;
             numberArray[i] = ticketsInEachRound[currentRoundId][i].number;
             addressArray[i] = ticketsInEachRound[currentRoundId][i].owner;
+            isClaimedArray[i] = ticketsInEachRound[currentRoundId][i].isClaimed;
         }
 
-        return (cidArray, numberArray, addressArray);
+        return (cidArray, numberArray, addressArray, isClaimedArray);
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getCurrentRoundPools()
         external
         view
@@ -569,7 +572,7 @@ contract Lotto360 {
         return poolsInEachRound[currentRoundId];
     }
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function getAllTickets()
         external
         view
@@ -616,7 +619,7 @@ contract Lotto360 {
         return (owner, currentRoundId, currentTicketId, maxNumberTicketsPerBuyOrClaim);
     }
 
-    // ✅
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim)
         external
         onlyOwner

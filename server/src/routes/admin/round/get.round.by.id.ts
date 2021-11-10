@@ -29,7 +29,7 @@ router.get("/api/round/:id", requireAuth, async (req: Request, res: Response) =>
         });
 
         const ticketArray: TicketAttrs[] = [];
-        if (tickets.length === 3) {
+        if (tickets.length === 4) {
             const count = tickets[0].length;
             for (let i = 0; i < count; i++) {
                 ticketArray.push({

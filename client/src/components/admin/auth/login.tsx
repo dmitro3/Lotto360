@@ -23,10 +23,6 @@ const Signin: FunctionComponent<SigninProps> = ({ dispatch }) => {
         AuthenticationApiService.getCurrentUser()
             .then((res) => {
                 if (res && res.data && res.data.result) {
-                    dispatch({
-                        type: LottoActions.SET_ADMIN_NAME,
-                        payload: res.data.result.name,
-                    });
                     setRedirect(true);
                 } else setLoading(false);
             })
@@ -43,10 +39,7 @@ const Signin: FunctionComponent<SigninProps> = ({ dispatch }) => {
         AuthenticationApiService.signin(loginModel)
             .then((res) => {
                 if (res && res.data && res.data.result) {
-                    dispatch({
-                        type: LottoActions.SET_ADMIN_NAME,
-                        payload: res.data.result.name,
-                    });
+                    localStorage.setItem("username", res.data.result.name);
                     localStorage.setItem("jwt", res.headers["jwt"]);
                     setLoading(false);
                     setRedirect(true);

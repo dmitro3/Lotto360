@@ -29,7 +29,7 @@ router.get("/api/fetchround/:id", requireAuth, async (req: Request, res: Respons
         });
 
         const ticketArray: TicketAttrs[] = [];
-        if (tickets.length === 3) {
+        if (tickets.length === 4) {
             const count = tickets[0].length;
             for (let i = 0; i < count; i++) {
                 ticketArray.push({
@@ -123,18 +123,13 @@ function calculateWinningTicketCounts(
             winningCondition(t, winNumber, -5, alreadyWon)
         );
 
-        const rest = {
-            ticketStatus: TicketStatus.Win,
-            isClaimed: false,
-        };
-
         return {
-            match1: match1Array.map((t) => ({ ...t, ...rest })),
-            match2: match2Array.map((t) => ({ ...t, ...rest })),
-            match3: match3Array.map((t) => ({ ...t, ...rest })),
-            match4: match4Array.map((t) => ({ ...t, ...rest })),
-            match5: match5Array.map((t) => ({ ...t, ...rest })),
-            match6: match6Array.map((t) => ({ ...t, ...rest })),
+            match1: match1Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
+            match2: match2Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
+            match3: match3Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
+            match4: match4Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
+            match5: match5Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
+            match6: match6Array.map((t) => ({ ...t, ticketStatus: TicketStatus.Win })),
         };
     }
 }

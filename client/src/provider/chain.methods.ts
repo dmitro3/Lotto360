@@ -1,8 +1,8 @@
 import Web3 from "web3";
 import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../api/models/round.model";
-import { bnbTokenContract, lotto360Contract } from "./contracts";
+import { token, contract } from "./contracts";
 import { bnToNumber } from "../utilities/string.numbers.util";
-import { lotto360ContractAddress } from "../config/config";
+import { contractAddress } from "../config/config";
 import { toast } from "react-toastify";
 import { CustomToastWithLink } from "../utilities/toastLink";
 
@@ -14,11 +14,8 @@ export const ChainMethods = {
         web3: Web3
     ) => {
         try {
-            const result = await bnbTokenContract(web3)
-                .methods.approve(
-                    lotto360ContractAddress,
-                    web3.utils.toWei(`${amount}`, "ether")
-                )
+            const result = await token(web3)
+                .methods.approve(contractAddress, web3.utils.toWei(`${amount}`, "ether"))
                 .send({ from: spenderAddress });
             return result;
         } catch (err) {
@@ -30,8 +27,8 @@ export const ChainMethods = {
     checkAllowance: async (spenderAddress: string, web3: Web3) => {
         try {
             // allowance(owner, spender)
-            const amount = await bnbTokenContract(web3)
-                .methods.allowance(spenderAddress, lotto360ContractAddress)
+            const amount = await token(web3)
+                .methods.allowance(spenderAddress, contractAddress)
                 .call();
             return amount;
         } catch (err) {
@@ -42,7 +39,7 @@ export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getMaxTicketsPerBuy: async (web3: Web3) => {
         try {
-            const amount = await lotto360Contract(web3)
+            const amount = await contract(web3)
                 .methods.getMaxNumberTicketsPerBuyOrClaim()
                 .call();
             return amount;
@@ -54,9 +51,7 @@ export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getUserBalance: async (address: string, web3: Web3) => {
         try {
-            const result = bnbTokenContract(web3)
-                .methods.balanceOf(address)
-                .call({ from: address });
+            const result = token(web3).methods.balanceOf(address).call({ from: address });
             return result;
         } catch (err) {
             console.error("Error check user balance:", err);
@@ -66,11 +61,11 @@ export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getCurrentRoundForUser: async (address: string, web3: Web3) => {
         try {
-            const roundResult = await lotto360Contract(web3)
+            const roundResult = await contract(web3)
                 .methods.getCurrentRoundForUser()
                 .call({ from: address });
 
-            const ticketsResult = await lotto360Contract(web3)
+            const ticketsResult = await contract(web3)
                 .methods.getUserTicketsInCurrentRound()
                 .call({ from: address });
 
@@ -86,7 +81,7 @@ export const ChainMethods = {
                 }
             }
 
-            const poolsBn: any[] = await lotto360Contract(web3)
+            const poolsBn: any[] = await contract(web3)
                 .methods.getPoolsInCurrentRoundForUser()
                 .call({ from: address });
 
@@ -133,7 +128,7 @@ export const ChainMethods = {
                 if (num < 1000000 || num > 1999999) toast.error("Invalid ticket numbers");
             });
 
-            const result = await lotto360Contract(web3)
+            const result = await contract(web3)
                 .methods.buyTickets(roundId, tickets)
                 .send({ from: userAddress });
             if (result.status) {
