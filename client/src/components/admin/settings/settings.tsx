@@ -6,6 +6,8 @@ import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { web3 } from "../../../provider/web3";
 import TokenTransfer from "./token.transfer";
 import ButtonWaiting from "../../site/shared/btn.waiting";
+import { flexItemsCenter } from "../../site/constants/classes";
+import { HashLoader } from "react-spinners";
 
 interface SettingProps {}
 
@@ -22,7 +24,13 @@ const Settings: FunctionComponent<SettingProps> = () => {
             })
             .catch((err) => console.error(err));
     }, []);
-    if (!settings) return <></>;
+
+    if (!settings)
+        return (
+            <div className={flexItemsCenter}>
+                <HashLoader />
+            </div>
+        );
 
     const setNewTicketPerBuy = (amount: number): void => {
         setLoading(true);

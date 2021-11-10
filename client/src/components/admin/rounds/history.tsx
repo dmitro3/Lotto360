@@ -7,6 +7,7 @@ import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../../site/constants/classes";
+import { HashLoader } from "react-spinners";
 
 interface HistoryProps {
     setRoundId: (val: number) => void;
@@ -28,8 +29,7 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
     if (!roundsArray || !roundsArray.length)
         return (
             <div className={flexItemsCenter}>
-                <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
-                Loading previous rounds
+                <HashLoader />
             </div>
         );
 

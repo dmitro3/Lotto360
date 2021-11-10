@@ -12,6 +12,7 @@ import AddRoundButton from "./button.add.round";
 import CurrentRound from "./current.round";
 import RoundModal from "./round.modal";
 import History from "./history";
+import { HashLoader } from "react-spinners";
 
 interface RoundsProps {
     bnbPrice: number;
@@ -113,8 +114,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
 
             {loadingCurrentRound && (
                 <div className={flexItemsCenter}>
-                    <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
-                    Loading current round
+                    <HashLoader />
                 </div>
             )}
 

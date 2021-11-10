@@ -11,3 +11,10 @@ export interface TransferTokenModel {
     amount: string;
     passphrase: string;
 }
+
+export interface Withdraws {
+    id: number;
+    address: string;
+    amount: number;
+    time: number;
+}

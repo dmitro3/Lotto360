@@ -60,7 +60,11 @@ router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Respon
 
         // get all withdraws
         const withdraws = await contract.getWithdraws();
+
         if (withdraws && withdraws.length) {
+            for (let i = 0; i < withdraws[1].length; i++) {
+                totalWithdraws += bnToNumber(withdraws[1][i]);
+            }
         }
 
         res.status(200).send(

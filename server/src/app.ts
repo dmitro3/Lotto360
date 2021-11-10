@@ -30,6 +30,7 @@ import { currentUser } from "./middlewares/current-user";
 import { signinRouter } from "./routes/admin/auth/signin";
 import { signoutRouter } from "./routes/admin/auth/signout";
 import { currentUserRouter } from "./routes/admin/auth/current.user";
+import { getWithdrawsRouter } from "./routes/admin/helpers/get.withdraws";
 
 const app = express();
 
@@ -64,6 +65,7 @@ app.use(getBalanceStatsRouter);
 app.use(transferOwnerRouter);
 app.use(getAllTicketsRouter);
 app.use(getAllRoundsRouter);
+app.use(getWithdrawsRouter);
 app.use(getSettingsRouter);
 app.use(createRoundRouter);
 app.use(checkForWinRouter);

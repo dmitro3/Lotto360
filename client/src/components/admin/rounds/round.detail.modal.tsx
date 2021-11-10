@@ -16,6 +16,7 @@ import { initialRound } from "./reducer/round.list.reducer";
 import { toast } from "react-toastify";
 import PoolTables from "./pool.tables";
 import AddedBnb from "./added.bnb";
+import { HashLoader } from "react-spinners";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
@@ -175,8 +176,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                     </div>
                 ) : (
                     <div className={flexItemsCenter}>
-                        <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
-                        Loading round detail
+                        <HashLoader />
                     </div>
                 )}
             </div>

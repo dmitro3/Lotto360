@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 
 import { baseUrl } from "../config/config";
-import { DashboardModel, TransferTokenModel } from "../interfaces/dashboard";
+import { DashboardModel, TransferTokenModel, Withdraws } from "../interfaces/dashboard";
 import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
 import { CheckForWin } from "./models/round.model";
@@ -35,5 +35,9 @@ export const HelperApiService = {
 
     getDashboardStats(): Promise<AxiosResponse<ApiResponseResult<DashboardModel>>> {
         return httpService.get(`${baseUrl}/getbalancestats`);
+    },
+
+    getWithdraws(): Promise<AxiosResponse<ApiResponseResult<Withdraws[]>>> {
+        return httpService.get(`${baseUrl}/getwithdraws`);
     },
 };
