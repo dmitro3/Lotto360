@@ -11,7 +11,7 @@ const router = express.Router();
 router.get("/api/alltickets", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        const tickets: BigNumber[][] = await contract.getAllTickets();
+        const tickets: any[][] = await contract.getAllTickets();
         const ticketArray: TicketAttrs[] = [];
         if (tickets.length === 3) {
             const count = tickets[0].length;
@@ -20,6 +20,7 @@ router.get("/api/alltickets", requireAuth, async (req: Request, res: Response) =
                     cid: tickets[0][i].toNumber(),
                     number: tickets[1][i].toNumber(),
                     owner: tickets[2][i].toString(),
+                    isClaimed: tickets[3][i],
                 });
             }
         }

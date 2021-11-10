@@ -13,11 +13,11 @@ interface TicketTable {
     cid: number;
     number: string;
     owner: string;
-    prizeClaimed?: string;
+    isClaimed?: string;
     ticketStatus?: string;
 }
 
-type ColumnNames = "cid" | "number" | "owner" | "prizeClaimed" | "ticketStatus";
+type ColumnNames = "cid" | "number" | "owner" | "isClaimed" | "ticketStatus";
 
 const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
     const [sortColumn, setSortColumn] = useState<ColumnNames>("cid");
@@ -134,7 +134,7 @@ const TicketsTable: FunctionComponent<TicketsTableProps> = ({ tickets }) => {
 
                 <Column width={200} sortable resizable>
                     <HeaderCell>Claimed?</HeaderCell>
-                    <Cell dataKey="prizeClaimed" />
+                    <Cell dataKey="isClaimed" />
                 </Column> */}
             </Table>
             <div style={{ padding: 20 }}>
@@ -170,7 +170,7 @@ const filteringData = (data: TicketTable[], search: string) => {
             `${t.cid}`.toLowerCase().includes(search) ||
             `${t.number}`.toLowerCase().includes(search) ||
             t.owner.toLowerCase().includes(search) ||
-            t.prizeClaimed?.toLowerCase().includes(search) ||
+            t.isClaimed?.toLowerCase().includes(search) ||
             t.ticketStatus?.toLowerCase().includes(search)
     );
 };

@@ -50,42 +50,42 @@ const generateSensoredWinningPool = (
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
     const match2 = winnerPools?.match2?.map((w) => ({
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
     const match3 = winnerPools?.match3?.map((w) => ({
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
     const match4 = winnerPools?.match4?.map((w) => ({
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
     const match5 = winnerPools?.match5?.map((w) => ({
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
     const match6 = winnerPools?.match6?.map((w) => ({
         number: 0,
         owner: "0",
         cid: 0,
-        prizeClaimed: false,
+        isClaimed: false,
         ticketStatus: 0,
     }));
 

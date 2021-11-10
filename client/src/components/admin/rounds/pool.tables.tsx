@@ -49,14 +49,12 @@ const renderTable = (match: WinningTicketAttrs[], num: number) =>
                 <tbody>
                     {match.map((t) => (
                         <tr
-                            className={
-                                t.prizeClaimed ? "bg-success text-white fw-bold" : ""
-                            }
+                            className={t.isClaimed ? "bg-success text-white fw-bold" : ""}
                         >
                             <td>{t.cid}</td>
                             <td>{t.owner}</td>
                             <td>{t.number}</td>
-                            <td>{t.prizeClaimed ? "true" : "false"}</td>
+                            <td>{t.isClaimed ? "true" : "false"}</td>
                         </tr>
                     ))}
                 </tbody>

@@ -17,7 +17,7 @@ router.get("/api/round", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
         const roundResult = await contract.getCurrentRound();
-        const tickets: BigNumber[][] = await contract.getCurrentRoundTickets();
+        const tickets: any[][] = await contract.getCurrentRoundTickets();
         const poolsBn: BigNumber[] = await contract.getCurrentRoundPools();
 
         let pools: PoolAttrs[] = [];
@@ -33,6 +33,7 @@ router.get("/api/round", requireAuth, async (req: Request, res: Response) => {
                     cid: tickets[0][i].toNumber(),
                     number: tickets[1][i].toNumber(),
                     owner: tickets[2][i].toString(),
+                    isClaimed: tickets[3][i],
                 });
             }
         }

@@ -20,7 +20,7 @@ router.get("/api/fetchround/:id", requireAuth, async (req: Request, res: Respons
         const roundId = req.params.id;
 
         const roundResult = await contract.getRoundById(roundId);
-        const tickets: BigNumber[][] = await contract.getTicketsInRound(roundId);
+        const tickets: any[][] = await contract.getTicketsInRound(roundId);
         const poolsBn: BigNumber[] = await contract.getPoolsInRound(roundId);
 
         let pools: PoolAttrs[] = [];
@@ -36,6 +36,7 @@ router.get("/api/fetchround/:id", requireAuth, async (req: Request, res: Respons
                     cid: tickets[0][i].toNumber(),
                     number: tickets[1][i].toNumber(),
                     owner: tickets[2][i].toString(),
+                    isClaimed: tickets[3][i],
                 });
             }
         }
@@ -124,7 +125,7 @@ function calculateWinningTicketCounts(
 
         const rest = {
             ticketStatus: TicketStatus.Win,
-            prizeClaimed: false,
+            isClaimed: false,
         };
 
         return {

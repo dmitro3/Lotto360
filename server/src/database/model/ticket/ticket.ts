@@ -30,7 +30,7 @@ const winningTicketSchema = new Schema(
             enum: Object.values(TicketStatus),
             default: TicketStatus.Unknown,
         },
-        prizeClaimed: {
+        isClaimed: {
             type: Boolean,
             required: true,
             default: false,
@@ -71,6 +71,7 @@ const ticketSchema = new Schema(
             type: Number,
             required: true,
         },
+        isClaimed: { type: Boolean, require: true },
     },
     {
         toJSON: {

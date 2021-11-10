@@ -42,11 +42,11 @@ export interface TicketAttrs {
     cid: number;
     owner: string;
     number: number;
+    isClaimed: boolean;
 }
 
 export interface WinningTicketAttrs extends TicketAttrs {
     ticketStatus: TicketStatus;
-    prizeClaimed: boolean;
 }
 
 export interface PoolWinnersAttr {

@@ -2,8 +2,7 @@ import express, { Request, Response } from "express";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 
-import { Withdraw } from "../../../database/model/withdraw/withdraw";
-import { CONTRACT_ADDRESS, TOKEN_ADDRESS } from "../../../config/blockchain.configs";
+import { CONTRACT_ADDRESS } from "../../../config/blockchain.configs";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { token, contract } from "../../../provider/contracts";
@@ -60,11 +59,8 @@ router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Respon
         }
 
         // get all withdraws
-        const withdraws = await Withdraw.find();
+        const withdraws = await contract.getWithdraws();
         if (withdraws && withdraws.length) {
-            withdraws.forEach((w) => {
-                totalWithdraws += parseFloat(w.amount);
-            });
         }
 
         res.status(200).send(

@@ -10,21 +10,21 @@ interface TicketAttrs {
     cid: number;
     owner: string;
     number: number;
+    isClaimed: boolean;
 }
 
 interface WinningTicketAttrs extends TicketAttrs {
     ticketStatus: TicketStatus;
-    prizeClaimed: boolean;
 }
 interface WinningTicketDoc extends TicketDoc {
     ticketStatus: TicketStatus;
-    prizeClaimed: boolean;
 }
 
 interface TicketDoc extends Document {
     cid: number;
     owner: string;
     number: number;
+    isClaimed: boolean;
 }
 
 interface TicketModel extends Model<TicketDoc> {

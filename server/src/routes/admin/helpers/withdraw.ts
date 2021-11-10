@@ -1,9 +1,7 @@
 import { ethers } from "ethers";
 import express, { Request, Response } from "express";
-import moment from "moment";
 
 import { ResponseMessageType } from "../../../middlewares/error-handler";
-import { Withdraw } from "../../../database/model/withdraw/withdraw";
 import { WITHDRAW_PHRASE } from "../../../config/blockchain.configs";
 import { BadRequestError } from "../../../errors/bad-request-error";
 import { contract, provider } from "../../../provider/contracts";
@@ -19,7 +17,7 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
         if (!recipient || !amount || passphrase !== WITHDRAW_PHRASE)
             throw new BadRequestError("invalid body objects", ResponseMessageType.ERROR);
         // transfer money to user account
-        const tx = await contract.payThePrize(
+        const tx = await contract.transferToken(
             recipient,
             ethers.utils.parseEther(`${amount}`),
             {
@@ -36,13 +34,6 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }
 
-        const withdraw = Withdraw.build({
-            amount,
-            recipient,
-            time: moment.utc().toDate(),
-        });
-        await withdraw.save();
-
         res.status(200).send(
             responseMaker({
                 success: true,
@@ -52,7 +43,7 @@ router.post("/api/withdraw", requireAuth, async (req: Request, res: Response) =>
                         type: ResponseMessageType.TRANSACTION,
                     },
                 ],
-                result: withdraw,
+                result: { recipient, amount },
             })
         );
     } catch (err: any) {

@@ -81,6 +81,7 @@ export const ChainMethods = {
                         cid: ticketsResult[0][i],
                         number: ticketsResult[1][i],
                         owner: ticketsResult[2][i],
+                        isClaimed: ticketsResult[3][i],
                     };
                 }
             }

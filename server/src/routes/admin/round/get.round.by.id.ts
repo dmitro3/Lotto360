@@ -20,7 +20,7 @@ router.get("/api/round/:id", requireAuth, async (req: Request, res: Response) =>
         if (!roundId) throw new NotFoundError("round id not found");
 
         const roundResult = await contract.getRoundById(roundId);
-        const tickets: BigNumber[][] = await contract.getTicketsInRound(roundId);
+        const tickets: any[][] = await contract.getTicketsInRound(roundId);
         const poolsBn: BigNumber[] = await contract.getPoolsInRound(roundId);
 
         let pools: PoolAttrs[] = [];
@@ -36,6 +36,7 @@ router.get("/api/round/:id", requireAuth, async (req: Request, res: Response) =>
                     cid: tickets[0][i].toNumber(),
                     number: tickets[1][i].toNumber(),
                     owner: tickets[2][i].toString(),
+                    isClaimed: tickets[3][i],
                 });
             }
         }

@@ -28,7 +28,7 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             $elemMatch: {
                 owner: { $regex: new RegExp("^" + userAddress, "i") },
                 ticketStatus: TicketStatus.Win,
-                prizeClaimed: false,
+                isClaimed: false,
             },
         };
 
@@ -59,20 +59,24 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         }
 
         const briefs: RoundWinBrief[] = [];
+        const roundIds: number[] = [];
+        const ticketIds: number[] = [];
         let totalPay = 0;
         rounds.forEach(async (round) => {
             const {
+                cid,
                 totalBnbAmount,
                 bonusBnbAmount,
                 bnbAddedFromLastRound,
+                finalNumber,
                 winnersInPools,
                 pools,
             } = round;
 
             if (!winnersInPools) return;
             const brief: RoundWinBrief = {
-                roundId: round.cid,
-                winningNumber: round.finalNumber,
+                roundId: cid,
+                winningNumber: finalNumber,
             };
             const { match1, match2, match3, match4, match5, match6 } = winnersInPools;
             const totalPrice = totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;
@@ -83,8 +87,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m1 = { price: poolPrice, tickets: [] };
                 match1.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m1!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -95,8 +101,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m2 = { price: poolPrice, tickets: [] };
                 match2.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m2!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -107,8 +115,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m3 = { price: poolPrice, tickets: [] };
                 match3.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m3!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -119,8 +129,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m4 = { price: poolPrice, tickets: [] };
                 match4.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m4!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -131,8 +143,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m5 = { price: poolPrice, tickets: [] };
                 match5.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m5!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -143,8 +157,10 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
                 brief.m6 = { price: poolPrice, tickets: [] };
                 match6.forEach((ticket) => {
                     if (isWinnerAndNotClaimed(ticket, userAddress)) {
+                        roundIds.push(cid);
+                        ticketIds.push(ticket.cid);
                         brief.m6!.tickets.push(ticket.number);
-                        ticket.prizeClaimed = true;
+                        ticket.isClaimed = true;
                         totalPay += poolPrice;
                     }
                 });
@@ -153,7 +169,9 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         });
 
         // transfer money to user account
-        const tx = await contract.payThePrize(
+        const tx = await contract.claimPrize(
+            roundIds,
+            ticketIds,
             userAddress,
             ethers.utils.parseEther(`${totalPay}`),
             {
@@ -195,4 +213,4 @@ export { router as checkForWinRouter };
 const isWinnerAndNotClaimed = (ticket: WinningTicketAttrs, address: string) =>
     ticket.owner.toLowerCase() === address.toLowerCase() &&
     ticket.ticketStatus == TicketStatus.Win &&
-    !ticket.prizeClaimed;
+    !ticket.isClaimed;
