@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
+import { httpsServer } from "../app";
 
-import { app } from "../app";
 import { ADMIN_PASSWORD, ADMIN_USERNAME, MONGODB_URI } from "../config/configs";
 import { User } from "./model/user/user";
 
@@ -26,7 +26,7 @@ export const connectToMongodb = () => {
                 );
             }
 
-            app.listen(3001, () => console.log("✅ Listening on port 3001"));
+            httpsServer.listen(3001, () => console.log("✅ Listening on port 3001"));
         })
         .catch((err) => console.log(err));
 };

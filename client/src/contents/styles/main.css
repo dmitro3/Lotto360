@@ -424,3 +424,9 @@ body {
         background-position: bottom;
     }
 }
+
+.input-solo {
+    width: 40px !important;
+    border: 0 none;
+    outline: none !important;
+}

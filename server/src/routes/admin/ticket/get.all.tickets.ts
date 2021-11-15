@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import { BigNumber } from "ethers";
 
 import { TicketAttrs } from "../../../database/model/ticket/interface.enum";
 import { requireAuth } from "../../../middlewares/require-auth";

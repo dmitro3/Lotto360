@@ -9,7 +9,7 @@ export const targetNetworkId = 4;
 export const PageSize = { SMALL: 10, MEDIUM: 25, BIG: 50 };
 
 // backend
-export const baseUrl: string = "http://localhost:3001/api";
+export const baseUrl: string = "https://lotto360.io/api";
 
 // chainscan link
 export const blockExplorerUrl = "https://rinkeby.etherscan.io/";

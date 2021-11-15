@@ -4,6 +4,8 @@ import { json } from "body-parser";
 import helmet = require("helmet");
 import express from "express";
 import cors = require("cors");
+import https from "https";
+import fs from "fs";
 import "express-async-errors";
 
 import { setMaxTicketsPerBuyRouter } from "./routes/admin/helpers/set.max.tickets.per.buy";
@@ -15,27 +17,32 @@ import { checkUserHistoryRouter } from "./routes/users/round/get.user.history";
 import { transferOwnerRouter } from "./routes/admin/helpers/transfer.owner";
 import { getAllTicketsRouter } from "./routes/admin/ticket/get.all.tickets";
 import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id";
+import { getWithdrawsRouter } from "./routes/admin/helpers/get.withdraws";
 import { getCurrentRoundRouter } from "./routes/admin/round/get.current";
 import { getSettingsRouter } from "./routes/admin/helpers/get.settings";
 import { updateCurrentRoundRouter } from "./routes/admin/round/update";
 import { checkForWinRouter } from "./routes/users/round/check.for.win";
+import { currentUserRouter } from "./routes/admin/auth/current.user";
 import { fetchRoundRouter } from "./routes/admin/round/fetch.round";
 import { createRoundRouter } from "./routes/admin/round/add.round";
 import { drawRoundRouter } from "./routes/admin/round/draw.round";
 import { getAllRoundsRouter } from "./routes/admin/round/get.all";
 import { withdrawRouter } from "./routes/admin/helpers/withdraw";
+import { signoutRouter } from "./routes/admin/auth/signout";
 import { errorHandler } from "./middlewares/error-handler";
+import { signinRouter } from "./routes/admin/auth/signin";
 import { NotFoundError } from "./errors/not-found-error";
 import { currentUser } from "./middlewares/current-user";
-import { signinRouter } from "./routes/admin/auth/signin";
-import { signoutRouter } from "./routes/admin/auth/signout";
-import { currentUserRouter } from "./routes/admin/auth/current.user";
-import { getWithdrawsRouter } from "./routes/admin/helpers/get.withdraws";
 
 const app = express();
 
+const privateKey = fs.readFileSync(__dirname + "/cert/key.pem");
+const certificate = fs.readFileSync(__dirname + "/cert/cert.pem");
+
+const credentials = { key: privateKey, cert: certificate };
+const httpsServer = https.createServer(credentials, app);
+
 app.use(json());
-app.use(currentUser);
 
 // Helmet Security - - - - - - - - - - - - - - - - - -
 app.use(helmet());
@@ -51,6 +58,7 @@ const limiter = rateLimit({
     max: 600, // limit each IP to 100 requests per windowMs
 });
 app.use(limiter);
+app.use(currentUser);
 
 // register routes
 app.use(getRoundByIdAdminFromDbRouter);
@@ -83,4 +91,4 @@ app.all("*", async () => {
 
 app.use(errorHandler);
 
-export { app };
+export { httpsServer };

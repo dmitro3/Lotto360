@@ -79,17 +79,19 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
                     </div>
                 </div>
                 {winObject && (
-                    <table className="table table-bordered table-light bg-light fw-bold mb-5">
-                        <thead>
-                            <tr className="p-3">
-                                <td className="p-3"># round</td>
-                                <td className="p-3">pool</td>
-                                <td className="p-3">ticket</td>
-                                <td className="p-3">winning number</td>
-                            </tr>
-                        </thead>
-                        <tbody>{makeTableRows(winObject)}</tbody>
-                    </table>
+                    <div className="container p-0">
+                        <table className="table table-bordered table-light bg-light fw-bold mb-5">
+                            <thead>
+                                <tr className="p-3">
+                                    <td className="p-3"># round</td>
+                                    <td className="p-3">match</td>
+                                    <td className="p-3">ticket</td>
+                                    <td className="p-3">winning number</td>
+                                </tr>
+                            </thead>
+                            <tbody>{makeTableRows(winObject)}</tbody>
+                        </table>
+                    </div>
                 )}
                 <div className="divider-history bg-dark"></div>
             </div>

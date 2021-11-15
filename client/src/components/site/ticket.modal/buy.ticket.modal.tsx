@@ -57,7 +57,6 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, stat
                     />
 
                     <TicketNumbersInput
-                        maxTicketsEachBuy={maxTicketsPerBuy}
                         inputOnChange={changeState}
                         ticketState={ticketState}
                     />
