@@ -36,11 +36,11 @@ import { currentUser } from "./middlewares/current-user";
 
 const app = express();
 
-const privateKey = fs.readFileSync(__dirname + "/cert/key.pem");
-const certificate = fs.readFileSync(__dirname + "/cert/cert.pem");
+// const privateKey = fs.readFileSync(__dirname + "/cert/key.pem");
+// const certificate = fs.readFileSync(__dirname + "/cert/cert.pem");
 
-const credentials = { key: privateKey, cert: certificate };
-const httpsServer = https.createServer(credentials, app);
+// const credentials = { key: privateKey, cert: certificate };
+// const httpsServer = https.createServer(credentials, app);
 
 app.use(json());
 
@@ -85,10 +85,11 @@ app.use(signoutRouter);
 app.use(signinRouter);
 
 // error handler
-app.all("*", async () => {
+app.all("*", async (req) => {
+    console.info(req.protocol + "://" + req.get("host") + req.originalUrl);
     throw new NotFoundError("route not found");
 });
 
 app.use(errorHandler);
 
-export { httpsServer };
+export { app as httpsServer };
