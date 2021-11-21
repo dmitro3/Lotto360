@@ -118,7 +118,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                                         .map((str, i) => (
                                             <i
                                                 key={i}
-                                                className={`fa-solid fa-square-${str} fa-2x mx-1 text-success`}
+                                                className={`fa-solid fa-circle-${str} fa-2x mx-1 text-success`}
                                             ></i>
                                         ))}
                                 </div>

@@ -22,9 +22,12 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
     return (
         <>
             {pools.map((pool, i) => (
-                <div key={i} className="card border-secondary my-1 border border-2 mx-1">
+                <div
+                    key={i}
+                    className="card border-secondary my-2 rounded mx-2 shadow overflow-hidden"
+                >
                     <div className="card-header d-flex flex-column justify-content-between align-items-center">
-                        <span className="fw-bold fs-6">
+                        <span className="fw-bold fs-6 px-4">
                             {i + 1 === 7 ? "Treasury" : `${i + 1} Match`}
                         </span>
                         <div className="d-flex">
@@ -34,7 +37,7 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
                                     row.push(
                                         <i
                                             key={pools.length * j + 30}
-                                            className="fa-solid fa-square text-success mx-1"
+                                            className="fa-solid fa-circle text-success mx-1"
                                         ></i>
                                     );
                                 }

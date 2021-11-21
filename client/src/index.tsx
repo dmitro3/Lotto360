@@ -11,6 +11,7 @@ import "./contents/styles/bootstrap.min.css";
 import "./contents/plugins/fontawesome6/css/all.min.css";
 import "./contents/styles/main.css";
 import "./contents/styles/svg.css";
+import "./contents/styles/custom.css";
 
 ReactDOM.render(
     <React.StrictMode>

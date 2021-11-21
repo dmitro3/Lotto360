@@ -12,7 +12,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
             </p>
 
             <div>
-                <div className="px-3 py-2 mt-3 rounded border border-2 bg-secondary">
+                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
                     <div className="d-flex align-items-center mt-0">
                         <span className="fw-bold fs-5 me-3">Tickets purchases</span>
                     </div>
@@ -22,7 +22,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
                     </p>
                 </div>
 
-                <div className="px-3 py-2 mt-3 rounded border border-2 bg-secondary">
+                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
                     <div className="d-flex align-items-center mt-0">
                         <span className="fw-bold fs-5 me-3">Rollover prizes</span>
                     </div>
@@ -33,7 +33,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
                     </p>
                 </div>
 
-                <div className="px-3 py-2 mt-3 rounded border border-2 bg-secondary">
+                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
                     <div className="d-flex align-items-center mt-0">
                         <span className="fw-bold fs-5 me-3">Bonus BNB charge</span>
                     </div>
@@ -70,7 +70,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 />
             </div>
 
-            <div className="alert alert-primary">
+            <div className="alert alert-primary rounded px-4 shadow">
                 <h4 className="alert-heading">Treasury Box</h4>
                 <p className="mb-0">
                     BNB in treasury box used for our team funds, social media giveaways,
@@ -78,7 +78,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 </p>
             </div>
 
-            <div className="alert alert-warning mb-0">
+            <div className="alert alert-warning rounded px-4 mb-0 shadow">
                 <h4 className="alert-heading">Warning</h4>
                 <p className="mb-0">
                     Lottery may cause addiction. Play on your responsibility. for more

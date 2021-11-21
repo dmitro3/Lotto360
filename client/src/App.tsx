@@ -7,19 +7,20 @@ import Web3 from "web3";
 
 import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
 import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
-import { coinGeckoApi, targetNetworkId } from "./config/config";
-import { ChainMethods } from "./provider/chain.methods";
-import AdminPanel from "./components/admin/admin.panel";
-import MainSite from "./components/site/main.site";
-import { getWeb3 } from "./provider/web3";
-import Signin from "./components/admin/auth/login";
 import ProtectedRoute from "./components/security/protected.route";
+import { coinGeckoApi, targetNetworkId } from "./config/config";
+import AdminPanel from "./components/admin/admin.panel";
+import { ChainMethods } from "./provider/chain.methods";
+import MainSite from "./components/site/main.site";
+import Signin from "./components/admin/auth/login";
+import { getWeb3 } from "./provider/web3";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
     const [intervalNum, setIntervalNum] = useState<any>();
 
     useEffect(() => {
+        alert("website is in test phase on rinkeby network");
         getWeb3(dispatch)
             .then(() => {
                 if (!state.address || !state.web3) return;

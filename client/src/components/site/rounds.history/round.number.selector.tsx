@@ -11,7 +11,7 @@ interface RoundNumberSelectorProps {
 }
 
 const getWinningNumberClass = (number: string) =>
-    `fa-solid fa-square-${number} text-success fa-2xl me-1`;
+    `fa-solid fa-circle-${number} text-success fa-3x me-1`;
 
 const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
     fetchAnotherRound,
@@ -92,7 +92,7 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
             <div className="history-divide mb-3"></div>
 
             <div className={flexItemsCenter}>
-                <span className="fs-5 fw-bold me-2">Winning numbers:</span>
+                {/* <span className="fs-5 fw-bold me-2">Winning numbers:</span> */}
                 {ticketNumToStr(winningNumber)
                     .split("")
                     .map((str, i) => (

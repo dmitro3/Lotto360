@@ -15,7 +15,7 @@ const HowtoPlay: FunctionComponent<HowtoPlayProps> = () => {
 
             <div className="row">
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                    <div className="rounded border border-3 border-info px-3 py-4 mb-3">
+                    <div className="rounded px-3 py-4 mb-3 shadow bg-white">
                         <div className="d-flex align-items-center">
                             <i className="fa-duotone fa-circle-1 fa-xl me-2"></i>
                             <span className="fw-bold fs-5 text-primary">Buy tickets</span>
@@ -28,7 +28,7 @@ const HowtoPlay: FunctionComponent<HowtoPlayProps> = () => {
                 </div>
 
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                    <div className="rounded border border-3 border-info px-3 py-4 mb-3">
+                    <div className="rounded px-3 py-4 mb-3 shadow bg-white">
                         <div className="d-flex align-items-center">
                             <i className="fa-duotone fa-circle-2 fa-xl me-2"></i>
                             <span className="fw-bold fs-5 text-primary">
@@ -43,7 +43,7 @@ const HowtoPlay: FunctionComponent<HowtoPlayProps> = () => {
                 </div>
 
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12">
-                    <div className="rounded border border-3 border-info px-3 py-4 mb-3">
+                    <div className="rounded px-3 py-4 mb-3 shadow bg-white">
                         <div className="d-flex align-items-center">
                             <i className="fa-duotone fa-circle-3 fa-xl me-2"></i>
                             <span className="fw-bold fs-5 text-primary">

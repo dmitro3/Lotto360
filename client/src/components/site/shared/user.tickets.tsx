@@ -34,7 +34,7 @@ const UserTickets: FunctionComponent<UserTicketsProps> = ({
 
             {ticketNumbers.length > 0 && (
                 <div
-                    className={`flex-wrap ${flexItemsCenter} ticket-box border rounded border-2 border-secondary`}
+                    className={`flex-wrap ${flexItemsCenter} ticket-box rounded  mx-3 mb-3`}
                 >
                     {ticketNumbers.map((number, i) => {
                         const winClass =
@@ -60,7 +60,7 @@ const UserTickets: FunctionComponent<UserTicketsProps> = ({
                                         return (
                                             <i
                                                 key={j + i}
-                                                className={`fa-${shapeClass} fa-square-${str} ticket-number ${numberClass}`}
+                                                className={`fa-${shapeClass} fa-circle-${str} ticket-number ${numberClass}`}
                                             ></i>
                                         );
                                     })}
