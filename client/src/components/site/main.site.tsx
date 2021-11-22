@@ -1,13 +1,13 @@
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { ActionModel, LottoActions, LottoState } from "../../reducer/reducer";
 import { GetRoundApiModel } from "../../api/models/round.model";
-import RoundsHistory from "./5_rounds.history/rounds.history";
+import RoundsHistory from "./5.rounds.history/rounds.history";
 import { ChainMethods } from "../../provider/chain.methods";
-import PrizePot from "./3_current.round/prize.pot";
-import GameInfo from "./6_game.info/game.info";
-import CheckWin from "./4_check.win/checkwin";
-import Header from "./1_header/header";
-import Main from "./2_main/main";
+import PrizePot from "./3.current.round/prize.pot";
+import GameInfo from "./6.game.info/game.info";
+import CheckWin from "./4.check.win/checkwin";
+import Header from "./1.header/header";
+import Main from "./2.main/main";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
