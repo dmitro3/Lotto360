@@ -38,9 +38,9 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
     return (
         <div>
             <TargetNavigation id={"check-win"} />
-            <div className="p-5 gradient-pink bg5 position-relative">
+            <div className="p-5 gradient-pink bg1 position-relative">
                 <div className="container rounded p-4">
-                    <h2 className="text-center fw-bold text-white">
+                    <h2 className="text-center fw-bold text-white text-shadow">
                         Check for winning tickets
                     </h2>
                     <div className="d-flex justify-content-center align-items-center">
@@ -51,7 +51,7 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
                     }`}
                         >
                             {loading && (
-                                <i className="fa-duotone fa-question fa-xl fa-flash text-white spin"></i>
+                                <i className="fa-duotone fa-question fa-xl fa-flash text-shadow text-white spin"></i>
                             )}
                             {!isLoose ? (
                                 <button
@@ -73,7 +73,7 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
                                 </span>
                             )}
                             {loading && (
-                                <i className="fa-duotone fa-question fa-xl fa-flash text-white"></i>
+                                <i className="fa-duotone fa-question fa-xl fa-flash text-shadow text-white"></i>
                             )}
                         </div>
                     </div>

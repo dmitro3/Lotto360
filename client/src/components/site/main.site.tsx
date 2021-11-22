@@ -8,6 +8,7 @@ import GameInfo from "./6.game.info/game.info";
 import CheckWin from "./4.check.win/checkwin";
 import Header from "./1.header/header";
 import Main from "./2.main/main";
+import Footer from "./7.footer/footer";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -71,6 +72,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                 />
             )}
             <GameInfo />
+            <Footer />
         </div>
     );
 };

@@ -27,7 +27,7 @@ const Main: FunctionComponent<MainProps> = ({
     return (
         <>
             <div
-                className={`p-4 pb-5 bg7 d-flex position-relative flex-wrap justify-content-around align-items-center`}
+                className={`p-4 pb-5 bg6 d-flex position-relative flex-wrap justify-content-around align-items-center`}
             >
                 <div className="main-side-pic divider1"></div>
                 <div className="max-content">
