@@ -6,7 +6,7 @@ import axios, { AxiosResponse } from "axios";
 import Web3 from "web3";
 
 import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
-import BuyTicketModal from "./components/site/ticket.modal/buy.ticket.modal";
+import BuyTicketModal from "./components/site/0_ticket.modal/buy.ticket.modal";
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
 import AdminPanel from "./components/admin/admin.panel";
