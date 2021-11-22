@@ -40,7 +40,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                 <button
                     disabled={disableButton}
                     onClick={getHistory}
-                    className="btn btn-primary mt-3 shadow"
+                    className="btn btn-info mt-3 shadow"
                 >
                     {loading && <ButtonWaiting />}
                     {!loading && "Your history"}

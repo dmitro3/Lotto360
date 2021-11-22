@@ -17,7 +17,7 @@ const RandomButton: FunctionComponent<RandomButtonProps> = ({
         <button
             disabled={disabled}
             type="button"
-            className="btn btn-info width-available mb-3"
+            className="btn btn-primary shadow width-available mb-3"
             onClick={() => buttonClicked(generateRandomForInputs(ticketState))}
         >
             generate random numbers

@@ -97,7 +97,7 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
             <HistoryHeader lastRound={lastRoundId} />
             <UserHistory getnewRound={fetchNewRound} userAddress={address} />
 
-            <div className="container bg-white rounded shadow p-4 mt-4 mb-5 position-relative">
+            <div className="container bg-white rounded p-4 mt-5 mb-5 position-relative shadow-ex">
                 {isLatest && (
                     <div className="text-center position-absolute left-0">
                         <span className="badge rounded-pill bg-success mb-2 fs-6">

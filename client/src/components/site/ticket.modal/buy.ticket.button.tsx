@@ -30,7 +30,7 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
         <button
             disabled={waiting}
             type="button"
-            className="btn btn-primary width-available"
+            className="btn btn-success shadow mb-2 width-available"
             onClick={async () => {
                 if (ticketNumbers.length === 0) return;
                 const invalids = isNumberArrayValid(ticketNumbers);

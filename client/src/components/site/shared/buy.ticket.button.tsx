@@ -30,7 +30,7 @@ const BuyTicketButton: FunctionComponent<BuyTicketButtonProps> = ({
             <button
                 disabled={isLoading}
                 type="button"
-                className="btn btn-lg btn-success mx-3"
+                className="btn btn-lg btn-success mx-3 shadow"
                 onClick={async () => {
                     changeArrovedLoading(false, true);
                     if (disabled) {

@@ -103,5 +103,7 @@ const calcPrizeinUsd = (
 
 // ........................................................................................
 const calcPrize = (currentPrizeAmount: number | undefined) => {
-    return currentPrizeAmount ? currencyFormat(currentPrizeAmount, "BNB") : "0 BNB";
+    return currentPrizeAmount
+        ? currentPrizeAmount.toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + " BNB"
+        : "0 BNB";
 };

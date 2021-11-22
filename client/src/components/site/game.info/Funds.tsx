@@ -11,35 +11,41 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 The prizes of each round comes from three sources.
             </p>
 
-            <div>
-                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
-                    <div className="d-flex align-items-center mt-0">
-                        <span className="fw-bold fs-5 me-3">Tickets purchases</span>
+            <div className="row">
+                <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
+                    <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
+                        <div className="d-flex align-items-center mt-0">
+                            <span className="fw-bold fs-5 me-3">Tickets purchases</span>
+                        </div>
+                        <p className="max-width-rule text-dark mb-0">
+                            All BNB paid to buy tickets for each round goes directly to
+                            the prize pool.
+                        </p>
                     </div>
-                    <p className="max-width-rule text-dark mb-0">
-                        All BNB paid to buy tickets for each round goes directly to the
-                        prize pool.
-                    </p>
                 </div>
 
-                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
-                    <div className="d-flex align-items-center mt-0">
-                        <span className="fw-bold fs-5 me-3">Rollover prizes</span>
+                <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
+                    <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
+                        <div className="d-flex align-items-center mt-0">
+                            <span className="fw-bold fs-5 me-3">Rollover prizes</span>
+                        </div>
+                        <p className="max-width-rule text-dark mb-0">
+                            After every round, if nobody wins in one of the prize pools,
+                            all remaining BNB in that pool rolls over into the next round
+                            and are redistributed among the prize pools.
+                        </p>
                     </div>
-                    <p className="max-width-rule text-dark mb-0">
-                        After every round, if nobody wins in one of the prize pools, all
-                        remaining BNB in that pool rolls over into the next round and are
-                        redistributed among the prize pools.
-                    </p>
                 </div>
 
-                <div className="px-4 py-2 mt-3 rounded bg-white shadow">
-                    <div className="d-flex align-items-center mt-0">
-                        <span className="fw-bold fs-5 me-3">Bonus BNB charge</span>
+                <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
+                    <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
+                        <div className="d-flex align-items-center mt-0">
+                            <span className="fw-bold fs-5 me-3">Bonus BNB charge</span>
+                        </div>
+                        <p className="max-width-rule text-dark mb-0">
+                            We add bonus BNB in some rounds based on upcoming events.
+                        </p>
                     </div>
-                    <p className="max-width-rule text-dark mb-0">
-                        We add bonus BNB in some rounds based on upcoming events.
-                    </p>
                 </div>
             </div>
 

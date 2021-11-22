@@ -48,7 +48,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
         <div className="prizepot p-5 position-relative">
             <PrizeBoxHeader endTime={endTime} />
 
-            <div className="container bg-white rounded shadow p-4 mt-4 mb-5">
+            <div className="container bg-white rounded p-4 mt-5 mb-5 shadow-ex">
                 <TimeAndTotalAmount
                     time={endTime}
                     bnbPrice={bnbPrice}

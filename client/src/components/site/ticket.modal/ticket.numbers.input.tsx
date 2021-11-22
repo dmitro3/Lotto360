@@ -12,7 +12,7 @@ const TicketNumbersInput: FunctionComponent<TicketNumbersInputProps> = ({
     ticketState,
 }) => {
     return ticketState.ticketNumbers.length > 0 ? (
-        <div className="my-3 px-3 py-2 border border-primary border-1 rounded ticket-numbers">
+        <div className="my-3 px-3 py-2 shadow bg-white rounded ticket-numbers">
             {ticketState.ticketNumbers.map((num, i) => (
                 <div key={i} className="input-group my-2">
                     <span className="input-group-text" id="basic-addon1">

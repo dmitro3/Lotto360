@@ -4,7 +4,7 @@ interface MenuProps {}
 
 const Menu: FunctionComponent<MenuProps> = () => {
     return (
-        <ul className="navbar-nav me-auto">
+        <ul className="navbar-nav me-auto text-uppercase">
             <li className="nav-item">
                 <a className="nav-link" href="#buy-ticket">
                     Buy ticket

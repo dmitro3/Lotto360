@@ -57,7 +57,7 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
                                 <button
                                     type="button"
                                     disabled={loading || isWin}
-                                    className="btn btn-lg btn-secondary mx-5"
+                                    className="btn btn-lg btn-secondary shadow mx-5"
                                     onClick={checkForWin}
                                 >
                                     {!isWin && !loading && (

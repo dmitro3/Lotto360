@@ -13,7 +13,7 @@ const GameInfo: FunctionComponent<GameInfoProps> = () => {
             <h2 className="text-center fw-bold text-white text-shadow mb-5">
                 Informations!
             </h2>
-            <div className="container min-height bg-light rounded shadow px-5 pb-5">
+            <div className="container min-height bg-light rounded px-5 pb-5 mb-5 shadow-ex">
                 <HowtoPlay />
                 <div className="history-divide my-5"></div>
                 <Rules />
