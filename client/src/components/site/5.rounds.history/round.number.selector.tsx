@@ -74,7 +74,7 @@ const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
                             }}
                         />
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary ms-1"
                             type="button"
                             id="button-addon2"
                             onClick={() => {

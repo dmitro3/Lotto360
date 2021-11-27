@@ -93,7 +93,7 @@ body {
     position: relative;
     height: 170px;
     width: 170px;
-    background-image: url(../svgs/ticket2.svg);
+    background-image: url(../svgs/ticket.svg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -456,7 +456,3 @@ body {
 .fa-at {
     background-image: linear-gradient(to top, #0ba360 0%, #3cba92 100%);
 }
-
-/* footer {
-    background-image: linear-gradient(-225deg, #fffeff 0%, #d7fffe 100%);
-} */

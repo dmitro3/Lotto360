@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { contractAddress } from "../../../config/config";
+import { blockExplorerUrl, contractAddress } from "../../../config/config";
 import { flexItemsCenter } from "../constants/classes";
 
 interface FooterProps {}
@@ -44,7 +44,7 @@ const Footer: FunctionComponent<FooterProps> = () => {
                 </div>
                 <div className={`${flexItemsCenter} mt-5`}>
                     <a
-                        href={`https://bscscan.com/address/${contractAddress}`}
+                        href={`${blockExplorerUrl}address/${contractAddress}`}
                         target="_blank"
                         rel="noreferrer"
                         className="text-decoration-none text-white"

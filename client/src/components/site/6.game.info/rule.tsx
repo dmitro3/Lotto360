@@ -33,9 +33,9 @@ const Rules: FunctionComponent<RulesProps> = () => {
                     <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                         <div className="px-4 py-2 mt-3 rounded shadow bg-white h-100">
                             <div className="d-flex align-items-center mt-0">
-                                <span className="fw-bold fs-5 me-3">3 match:</span>
+                                <span className="fw-bold fs-5 me-3 mt-2">3 match:</span>
                             </div>
-                            <div>
+                            <div className="my-2">
                                 <i className="fa-solid fa-circle-7 text-success fa-2x me-1"></i>
                                 <i className="fa-solid fa-circle-4 text-success fa-2x me-1"></i>
                                 <i className="fa-solid fa-circle-9 text-success fa-2x me-1"></i>
@@ -52,9 +52,9 @@ const Rules: FunctionComponent<RulesProps> = () => {
                     <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                         <div className="px-4 py-2 mt-3 rounded shadow bg-white h-100">
                             <div className="d-flex align-items-center mt-0">
-                                <span className="fw-bold fs-5 me-3">2 match:</span>
+                                <span className="fw-bold fs-5 me-3 mt-2">2 match:</span>
                             </div>
-                            <div>
+                            <div className="my-2">
                                 <i className="fa-solid fa-circle-7 text-success fa-2x me-1"></i>
                                 <i className="fa-solid fa-circle-4 text-success fa-2x me-1"></i>
                                 <i className="fa-solid fa-circle-6 text-danger fa-2x me-1"></i>
@@ -73,9 +73,9 @@ const Rules: FunctionComponent<RulesProps> = () => {
                     <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                         <div className="px-4 py-2 mt-3 rounded shadow bg-white h-100">
                             <div className="d-flex align-items-center mt-0">
-                                <span className="fw-bold fs-5 me-3">No match:</span>
+                                <span className="fw-bold fs-5 me-3 mt-2">No match:</span>
                             </div>
-                            <div>
+                            <div className="my-2">
                                 <i className="fa-solid fa-circle-2 text-danger fa-2x me-1"></i>
                                 <i className="fa-regular fa-circle-4 text-success fa-2x me-1"></i>
                                 <i className="fa-regular fa-circle-9 text-success fa-2x me-1"></i>

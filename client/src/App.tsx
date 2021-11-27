@@ -20,7 +20,6 @@ function App() {
     const [intervalNum, setIntervalNum] = useState<any>();
 
     useEffect(() => {
-        alert("website is in test phase on rinkeby network");
         getWeb3(dispatch)
             .then(() => {
                 if (!state.address || !state.web3) return;

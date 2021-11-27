@@ -15,7 +15,9 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                     <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
                         <div className="d-flex align-items-center mt-0">
-                            <span className="fw-bold fs-5 me-3">Tickets purchases</span>
+                            <span className="fw-bold fs-5 me-3 mt-2">
+                                Tickets purchases
+                            </span>
                         </div>
                         <p className="max-width-rule text-dark mb-0">
                             All BNB paid to buy tickets for each round goes directly to
@@ -27,7 +29,9 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                     <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
                         <div className="d-flex align-items-center mt-0">
-                            <span className="fw-bold fs-5 me-3">Rollover prizes</span>
+                            <span className="fw-bold fs-5 me-3 mt-2">
+                                Rollover prizes
+                            </span>
                         </div>
                         <p className="max-width-rule text-dark mb-0">
                             After every round, if nobody wins in one of the prize pools,
@@ -40,7 +44,9 @@ const Funds: FunctionComponent<FundsProps> = () => {
                 <div className="col col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 my-2">
                     <div className="px-4 py-2 mt-3 rounded bg-white shadow h-100">
                         <div className="d-flex align-items-center mt-0">
-                            <span className="fw-bold fs-5 me-3">Bonus BNB charge</span>
+                            <span className="fw-bold fs-5 me-3 mt-2">
+                                Bonus BNB charge
+                            </span>
                         </div>
                         <p className="max-width-rule text-dark mb-0">
                             We add bonus BNB in some rounds based on upcoming events.
@@ -77,7 +83,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
             </div>
 
             <div className="alert alert-primary rounded px-4 shadow">
-                <h4 className="alert-heading">Treasury Box</h4>
+                <h4 className="alert-heading fw-bold">Treasury Box</h4>
                 <p className="mb-0">
                     BNB in treasury box used for our team funds, social media giveaways,
                     and bonus prize injection to some rounds.
@@ -85,7 +91,7 @@ const Funds: FunctionComponent<FundsProps> = () => {
             </div>
 
             <div className="alert alert-warning rounded px-4 mb-0 shadow">
-                <h4 className="alert-heading">Warning</h4>
+                <h4 className="alert-heading fw-bold">Warning</h4>
                 <p className="mb-0">
                     Lottery may cause addiction. Play on your responsibility. for more
                     info check{" "}

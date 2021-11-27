@@ -24,11 +24,13 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
             {pools.map((pool, i) => (
                 <div
                     key={i}
-                    className="card border-secondary my-2 rounded mx-2 shadow overflow-hidden"
+                    className={`card shadow ${
+                        i + 1 === 7 ? "shadow-treasure" : ""
+                    } my-2 rounded mx-2 border-0 overflow-hidden`}
                 >
                     <div className="card-header d-flex flex-column justify-content-between align-items-center">
-                        <span className="fw-bold fs-6 px-4">
-                            {i + 1 === 7 ? "Treasury" : `${i + 1} Match`}
+                        <span className={`fw-bold fs-6 ${i + 1 === 7 ? "px-5" : "px-3"}`}>
+                            {i + 1 === 7 ? "" : `${i + 1} Match`}
                         </span>
                         <div className="d-flex">
                             {runCallback(() => {
@@ -45,7 +47,7 @@ const PrizeBox: FunctionComponent<PrizeBoxProps> = ({
                                     row.push(
                                         <i
                                             key={pools.length * 98 + 30}
-                                            className="fa-duotone fa-box-dollar text-warning mx-1"
+                                            className="fa-duotone fa-box-dollar fa-2x my-1 text-warning mx-1"
                                         ></i>
                                     );
                                 return row;
