@@ -11,9 +11,9 @@ RUN npm run buildlegacy
 # Stage 2
 FROM nginx:1.21.3-alpine
 COPY --from=build-stage /app/build /usr/share/nginx/html
-COPY ./default.conf              /etc/nginx/conf.d/default.conf
-COPY ./ssl-dhparams.pem          /etc/data/ssl-dhparams.pem
-COPY ./options-ssl-nginx.conf    /etc/data/options-ssl-nginx.conf
+COPY ./nginx/default.conf              /etc/nginx/conf.d/default.conf
+COPY ./nginx/ssl-dhparams.pem          /etc/data/ssl-dhparams.pem
+COPY ./nginx/options-ssl-nginx.conf    /etc/data/options-ssl-nginx.conf
 
 EXPOSE 443
 EXPOSE 80
