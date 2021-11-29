@@ -1,3 +1,4 @@
+# Stage 1
 FROM node:16-alpine as build-stage
 
 WORKDIR /app
@@ -5,6 +6,16 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 
-EXPOSE 3000
+RUN npm run buildlegacy
 
-CMD ["npm", "run", "startNew"]
+# Stage 2
+FROM nginx:1.21.3-alpine
+COPY --from=build-stage /app/build /usr/share/nginx/html
+COPY ./default.conf              /etc/nginx/conf.d/default.conf
+COPY ./ssl-dhparams.pem          /etc/data/ssl-dhparams.pem
+COPY ./options-ssl-nginx.conf    /etc/data/options-ssl-nginx.conf
+
+EXPOSE 443
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
