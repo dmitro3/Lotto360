@@ -20,7 +20,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
         try {
             window.ethereum.request({ method: "eth_requestAccounts" }).then(() => {
                 console.info("connected to metamask");
-                web3.eth.net.getId((_err, id) => {
+                web3.eth.net.getId(async (_err, id) => {
                     console.info("network id:", id);
                     if (id !== 0 && id !== targetNetworkId && allowShow) {
                         allowShow = false;
@@ -28,6 +28,12 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                         setTimeout(() => {
                             allowShow = true;
                         }, 1000);
+                        await window.ethereum.request({
+                            method: "wallet_switchEthereumChain",
+                            params: [
+                                { chainId: web3.utils.numberToHex(targetNetworkId) },
+                            ],
+                        });
                     }
                     const account = window.ethereum.selectedAddress;
                     dispatch({

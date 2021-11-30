@@ -47,7 +47,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                 </button>
             </div>
 
-            <div className="container p-0 overflow-hidden rounded mt-3">
+            <div className="container p-0 overflow-hidden rounded mt-3 shadow">
                 {rounds ? (
                     <table className="table table-light table-hover table-bordered table-striped m-0">
                         <thead className="table-light">

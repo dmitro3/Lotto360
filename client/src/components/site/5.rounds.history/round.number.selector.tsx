@@ -11,7 +11,7 @@ interface RoundNumberSelectorProps {
 }
 
 const getWinningNumberClass = (number: string) =>
-    `fa-solid fa-circle-${number} text-success fa-3x me-1`;
+    `fa-solid fa-circle-${number} text-success fa-3x me-1 shadow rounded-100`;
 
 const RoundNumberSelector: FunctionComponent<RoundNumberSelectorProps> = ({
     fetchAnotherRound,
