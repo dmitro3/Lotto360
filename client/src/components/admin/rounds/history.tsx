@@ -1,5 +1,6 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
+import { CSVLink } from "react-csv";
 import { cloneDeep } from "lodash";
 import moment from "moment";
 
@@ -17,6 +18,7 @@ interface HistoryProps {
 const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) => {
     const [roundsArray, setRoundsArray] = useState<GetRoundApiModel[]>();
     const [disable, setDisable] = useState(false);
+    const [csvData, setCSVData] = useState<any>({});
 
     useEffect(() => {
         RoundApiService.getRounds()
@@ -26,12 +28,37 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
             .catch((err) => console.error(err));
     }, []);
 
-    if (!roundsArray || !roundsArray.length)
+    if (!roundsArray || !roundsArray.length) {
         return (
             <div className={flexItemsCenter}>
                 <HashLoader />
             </div>
         );
+    }
+
+    const downloadTickets = (roundId: number) => {
+        if (csvData[roundId]) return;
+        RoundApiService.getRoundByIdAdminFromDb(roundId)
+            .then((res) => {
+                if (res && res.data && res.data.success) {
+                    const tickets = res.data.result?.tickets;
+                    if (tickets) {
+                        const data = [
+                            ["id", "owner", "number", "isClaimed"],
+                            ...tickets.map((t) => [
+                                t.cid,
+                                t.owner,
+                                `# ${ticketNumToStr(t.number)}`,
+                                t.isClaimed,
+                            ]),
+                        ];
+                        console.info(data);
+                        setCSVData({ ...csvData, [roundId]: data });
+                    }
+                }
+            })
+            .catch((err) => console.error(err));
+    };
 
     return (
         <Table striped bordered hover responsive>
@@ -63,16 +90,41 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                         <td>{ticketNumToStr(r.finalNumber)}</td>
                         <td>
                             {r.status === RoundStatus.Close && (
-                                <button
-                                    className="btn btn-primary btn-sm"
-                                    onClick={() => {
-                                        setRoundId(r.cid);
-                                        setShowModal(true);
-                                        window.scrollTo(0, 0);
-                                    }}
-                                >
-                                    <i className="fa-solid fa-circle-info me-2"></i>detail
-                                </button>
+                                <>
+                                    <button
+                                        className="btn btn-primary btn-sm mb-1 me-2"
+                                        onClick={() => {
+                                            setRoundId(r.cid);
+                                            setShowModal(true);
+                                            window.scrollTo(0, 0);
+                                        }}
+                                    >
+                                        <i className="fa-solid fa-circle-info me-2"></i>
+                                        detail
+                                    </button>
+                                    <button
+                                        className="btn btn-secondary btn-sm"
+                                        onClick={() => {
+                                            downloadTickets(r.cid);
+                                        }}
+                                    >
+                                        {csvData[r.cid] ? (
+                                            <>
+                                                <CSVLink
+                                                    data={csvData[r.cid]}
+                                                    className="text-decoration-none"
+                                                >
+                                                    download cvs
+                                                </CSVLink>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <i className="fa-solid fa-arrow-down me-2"></i>
+                                                load cvs
+                                            </>
+                                        )}
+                                    </button>
+                                </>
                             )}
                             {r.status === RoundStatus.Close && !r.isInDb && (
                                 <button

@@ -21,7 +21,6 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
         setIsloading(true);
         HelperApiService.checkForWin(address)
             .then((res) => {
-                console.info(res.data.result);
                 if (res && res.data && res.data.result) {
                     setWinObject(res.data.result);
                     setIsWin(true);
@@ -39,7 +38,7 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
         <div>
             <TargetNavigation id={"check-win"} />
             <div className="p-5 gradient-pink bg1 position-relative">
-                <div className="container rounded p-4">
+                <div className="container rounded p-4 mb-4">
                     <h2 className="text-center fw-bold text-white text-shadow">
                         Check for winning tickets
                     </h2>
@@ -79,14 +78,14 @@ const CheckWin: FunctionComponent<CheckWinProps> = ({ address }) => {
                     </div>
                 </div>
                 {winObject && (
-                    <div className="container p-0">
-                        <table className="table table-bordered table-light bg-light fw-bold mb-5">
+                    <div className="container p-0 overflow-hidden rounded mb-5 shadow">
+                        <table className="table table-bordered table-striped table-light bg-light fw-bold mb-0">
                             <thead>
-                                <tr className="p-3">
-                                    <td className="p-3"># round</td>
-                                    <td className="p-3">match</td>
-                                    <td className="p-3">ticket</td>
-                                    <td className="p-3">winning number</td>
+                                <tr>
+                                    <td># round</td>
+                                    <td>match</td>
+                                    <td>ticket</td>
+                                    <td>winning number</td>
                                 </tr>
                             </thead>
                             <tbody>{makeTableRows(winObject)}</tbody>
@@ -213,24 +212,21 @@ const renderTrArray = (
         arrayElement.push(
             <tr key={i + label + roundId}>
                 {isFirst && (
-                    <td className="align-middle fw-bold p-3" rowSpan={totalRow}>
+                    <td className="align-middle fw-bold" rowSpan={totalRow}>
                         {roundId}
                     </td>
                 )}
                 {i === 0 && (
-                    <td className="align-middle fw-bold p-3" rowSpan={tickets.length}>
+                    <td className="align-middle fw-bold" rowSpan={tickets.length}>
                         {label}
                     </td>
                 )}
-                <td className="p-3">
+                <td>
                     {ticketNumToStr(ticket)}
                     <span className="ms-5">🏆 {prize.toFixed(3)} BNB claimed</span>
                 </td>
                 {isFirst && (
-                    <td
-                        className="align-middle text-success fw-bold p-3"
-                        rowSpan={totalRow}
-                    >
+                    <td className="align-middle text-success fw-bold" rowSpan={totalRow}>
                         {ticketNumToStr(winningNumber)}
                     </td>
                 )}

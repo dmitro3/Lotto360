@@ -79,6 +79,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                     />
                 </div>
             </div>
+            <div className="divider-win bg1"></div>
         </div>
     );
 };

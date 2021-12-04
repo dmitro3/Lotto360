@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { connectToMongodb } from "./database/database";
-import Queue from "bull";
+// import Queue from "bull";
 
 const startUp = async () => {
     connectToMongodb();

@@ -10,36 +10,36 @@ const Footer: FunctionComponent<FooterProps> = () => {
             <div className="container">
                 <div className={`socials ${flexItemsCenter}`}>
                     <a
-                        className="text-white text-decoration-none rounded"
+                        className="text-white text-decoration-none rounded-100"
                         href="https://twitter.com/Lotto360_io"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <i className="fa-brands fa-twitter fa-2x p-3 rounded shadow"></i>
+                        <i className="fa-brands fa-twitter fa-2x p-3 rounded-100 shadow"></i>
                     </a>
                     <a
-                        className="text-white text-decoration-none rounded mx-3"
+                        className="text-white text-decoration-none rounded-100 mx-3"
                         href="https://instagram.com/Lotto360.io"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <i className="fa-brands fa-instagram fa-2x p-3 rounded shadow"></i>
+                        <i className="fa-brands fa-instagram fa-2x p-3 rounded-100 shadow"></i>
                     </a>
                     <a
-                        className="text-white text-decoration-none rounded me-3"
+                        className="text-white text-decoration-none rounded-100 me-3"
                         href="https://t.me/lotto360_io"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <i className="fa-brands fa-telegram fa-4x rounded shadow"></i>
+                        <i className="fa-brands fa-telegram fa-4x rounded-100 shadow"></i>
                     </a>
                     <a
-                        className="text-white text-decoration-none rounded"
+                        className="text-white text-decoration-none rounded-100"
                         href="mailto:admin@lotto360.io"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <i className="fa-solid fa-at fa-2x p-3 rounded shadow"></i>
+                        <i className="fa-solid fa-at fa-2x p-3 rounded-100 shadow"></i>
                     </a>
                 </div>
                 <div className={`${flexItemsCenter} mt-5`}>

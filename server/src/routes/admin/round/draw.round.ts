@@ -22,7 +22,6 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
         });
 
         // get tx hash
-        console.info("claim winning number transaction hash:", tx.hash);
         transactionHash = tx.hash;
 
         // get tx result

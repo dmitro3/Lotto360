@@ -95,9 +95,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                                                 <a
                                                     href="#round-history"
                                                     className="text-dark pointer fw-bold"
-                                                    onClick={() =>
-                                                        getnewRound(winningTickets)
-                                                    }
+                                                    onClick={() => getnewRound(round.cid)}
                                                 >
                                                     {`${winningTickets} - click`}
                                                 </a>

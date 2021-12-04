@@ -4,7 +4,7 @@ import { baseUrl } from "../config/config";
 import { DashboardModel, TransferTokenModel, Withdraws } from "../interfaces/dashboard";
 import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
-import { CheckForWin } from "./models/round.model";
+import { CheckForWin, TicketAttrs } from "./models/round.model";
 
 export const HelperApiService = {
     setNewTicketPerBuy(amount: number): Promise<AxiosResponse<ApiResponseResult<void>>> {
@@ -39,5 +39,9 @@ export const HelperApiService = {
 
     getWithdraws(): Promise<AxiosResponse<ApiResponseResult<Withdraws[]>>> {
         return httpService.get(`${baseUrl}/getwithdraws`);
+    },
+
+    getTicketss(): Promise<AxiosResponse<ApiResponseResult<TicketAttrs[]>>> {
+        return httpService.get(`${baseUrl}/alltickets`);
     },
 };

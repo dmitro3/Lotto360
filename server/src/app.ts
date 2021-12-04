@@ -36,12 +36,6 @@ import { currentUser } from "./middlewares/current-user";
 
 const app = express();
 
-// const privateKey = fs.readFileSync(__dirname + "/cert/key.pem");
-// const certificate = fs.readFileSync(__dirname + "/cert/cert.pem");
-
-// const credentials = { key: privateKey, cert: certificate };
-// const httpsServer = https.createServer(credentials, app);
-
 app.use(json());
 
 // Helmet Security - - - - - - - - - - - - - - - - - -
