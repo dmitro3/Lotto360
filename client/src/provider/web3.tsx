@@ -1,7 +1,15 @@
 import Web3 from "web3";
 import { Dispatch } from "react";
 import { ActionModel, LottoActions } from "../reducer/reducer";
-import { targetNetworkId } from "../config/config";
+import {
+    blockExplorerUrl,
+    chainName,
+    chainNativeCurrency,
+    currencyDecimals,
+    currencySymbol,
+    rpcUrl,
+    targetNetworkId,
+} from "../config/config";
 import { toast } from "react-toastify";
 
 let web3: Web3;
@@ -28,12 +36,41 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                         setTimeout(() => {
                             allowShow = true;
                         }, 1000);
-                        await window.ethereum.request({
-                            method: "wallet_switchEthereumChain",
-                            params: [
-                                { chainId: web3.utils.numberToHex(targetNetworkId) },
-                            ],
-                        });
+                        try {
+                            await window.ethereum.request({
+                                method: "wallet_switchEthereumChain",
+                                params: [
+                                    { chainId: web3.utils.numberToHex(targetNetworkId) },
+                                ],
+                            });
+                        } catch (err: any) {
+                            // This error code indicates that the chain has not been added to MetaMask.
+                            if (err && err.code === 4902) {
+                                window.ethereum
+                                    .request({
+                                        method: "wallet_addEthereumChain",
+                                        params: [
+                                            {
+                                                chainId:
+                                                    web3.utils.numberToHex(
+                                                        targetNetworkId
+                                                    ),
+                                                chainName: chainName,
+                                                nativeCurrency: {
+                                                    name: chainNativeCurrency,
+                                                    symbol: currencySymbol,
+                                                    decimals: currencyDecimals,
+                                                },
+                                                rpcUrls: [rpcUrl],
+                                                blockExplorerUrls: [blockExplorerUrl],
+                                            },
+                                        ],
+                                    })
+                                    .catch((error: any) => {
+                                        console.log(error);
+                                    });
+                            }
+                        }
                     }
                     const account = window.ethereum.selectedAddress;
                     dispatch({
