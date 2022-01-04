@@ -1,7 +1,7 @@
 import { Dispatch, FunctionComponent } from "react";
 
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import logo from "../../../contents/images/logo-ver.png";
+import logo from "../../../contents/images/horizontal-logo.svg";
 import Wallet from "./wallet";
 import Menu from "./menu";
 

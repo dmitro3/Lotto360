@@ -5,7 +5,7 @@ import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer"
 import { currencyFormat } from "../../../utilities/string.numbers.util";
 import { RoundStatus } from "../../../api/models/round.model";
 import BuyTicketButton from "../shared/buy.ticket.button";
-import logo from "../../../contents/images/logo-cir.png";
+import logo from "../../../contents/images/main-logo.svg";
 
 interface MainProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
