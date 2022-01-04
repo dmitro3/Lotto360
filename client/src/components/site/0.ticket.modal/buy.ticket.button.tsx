@@ -13,7 +13,9 @@ interface BuyTicketButtonProps {
     roundId: number;
     setTicketState: (state: TicketState) => void;
     setWaiting: (bl: boolean) => void;
+    ticketPrice: number;
     waiting: boolean;
+    userBalance: number;
     web3: Web3;
 }
 
@@ -23,7 +25,9 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
     roundId,
     setTicketState,
     setWaiting,
+    ticketPrice,
     waiting,
+    userBalance,
     web3,
 }) => {
     return (
@@ -34,9 +38,11 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
             onClick={async () => {
                 if (ticketNumbers.length === 0) return;
                 const invalids = isNumberArrayValid(ticketNumbers);
+
                 if (invalids.length > 0) {
                     toast.error(`Invalid tickets (${invalids.join(", ")})`);
-                    return;
+                } else if (userBalance < ticketNumbers.length * ticketPrice) {
+                    toast.error(`Insufficient balance`);
                 } else {
                     const numericArray = ticketNumbers.map(
                         (num) => 1000000 + parseInt(num)
@@ -46,6 +52,7 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
                         address,
                         roundId,
                         numericArray,
+                        ticketPrice,
                         web3
                     );
                     if (result) {

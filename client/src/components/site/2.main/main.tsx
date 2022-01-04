@@ -8,22 +8,12 @@ import BuyTicketButton from "../shared/buy.ticket.button";
 import logo from "../../../contents/images/logo-cir.png";
 
 interface MainProps {
-    changeArrovedLoading: (val1: boolean, val2: boolean) => void;
     dispatch: Dispatch<ActionModel<LottoActions>>;
     currentPrizeAmount?: number;
-    isApproved: boolean;
-    isLoading: boolean;
     state: LottoState;
 }
 
-const Main: FunctionComponent<MainProps> = ({
-    changeArrovedLoading,
-    dispatch,
-    currentPrizeAmount,
-    isApproved,
-    isLoading,
-    state,
-}) => {
+const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, state }) => {
     return (
         <>
             <div
@@ -68,13 +58,7 @@ const Main: FunctionComponent<MainProps> = ({
                     justify-content-center align-items-center mx-auto rounded text-black"
                             >
                                 <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
-                                <BuyTicketButton
-                                    changeArrovedLoading={changeArrovedLoading}
-                                    dispatch={dispatch}
-                                    isApproved={isApproved}
-                                    isLoading={isLoading}
-                                    state={state}
-                                />
+                                <BuyTicketButton dispatch={dispatch} state={state} />
                                 <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
                             </div>
                         )}

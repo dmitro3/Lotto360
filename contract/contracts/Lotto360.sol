@@ -3,31 +3,8 @@
 pragma solidity ^0.8.10;
 pragma experimental ABIEncoderV2;
 
-interface IERC20 {
-    function totalSupply() external view returns (uint256);
-
-    function balanceOf(address account) external view returns (uint256);
-
-    function transfer(address recipient, uint256 amount) external returns (bool);
-
-    function allowance(address owner, address spender) external view returns (uint256);
-
-    function approve(address spender, uint256 amount) external returns (bool);
-
-    function transferFrom(
-        address sender,
-        address recipient,
-        uint256 amount
-    ) external returns (bool);
-
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
-}
-
 contract Lotto360 {
     address private owner;
-    IERC20 private bnbToken;
-
     uint256 private withdrawCount = 0;
     uint256 private currentRoundId = 0;
     uint256 private currentTicketId = 1;
@@ -35,7 +12,6 @@ contract Lotto360 {
 
     constructor() {
         owner = msg.sender;
-        bnbToken = IERC20(address(0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984));
     }
 
     enum Status {
@@ -123,6 +99,7 @@ contract Lotto360 {
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers)
         external
+        payable
         nonContract
     {
         require(_ticketNumbers.length != 0, "No ticket specified");
@@ -138,11 +115,7 @@ contract Lotto360 {
         uint256 amountToPay = _ticketNumbers.length * rounds[_roundId].ticketPrice;
 
         // check users wallet for bnb amount
-        uint256 userBnbSupply = bnbToken.balanceOf(msg.sender);
-        require(userBnbSupply > amountToPay, "Balance too low");
-
-        // transfer tokens to this contract
-        bnbToken.transferFrom(msg.sender, address(this), amountToPay);
+        require(msg.value >= amountToPay, "Balance too low");
 
         // increment this round BNB amount
         rounds[_roundId].totalBnbAmount += amountToPay;
@@ -313,9 +286,9 @@ contract Lotto360 {
             ticketsInEachRound[roundId][ticketId - round.firstTicketId].isClaimed = true;
         }
 
-        uint256 currentBalance = bnbToken.balanceOf(address(this));
+        uint256 currentBalance = address(this).balance;
         require(currentBalance >= _amount, "insufficient contract balance");
-        bnbToken.transfer(_winnerAddress, _amount);
+        payable(_winnerAddress).transfer(_amount);
         emit PrizeTransferred(_winnerAddress, _amount);
     }
 
@@ -325,9 +298,9 @@ contract Lotto360 {
         onlyOwner
         nonContract
     {
-        uint256 currentBalance = bnbToken.balanceOf(address(this));
+        uint256 currentBalance = address(this).balance;
         require(currentBalance >= _amount, "insufficient contract balance");
-        bnbToken.transfer(_targetAddress, _amount);
+        payable(_targetAddress).transfer(_amount);
 
         withdraws[withdrawCount] = Withdraw({
             cid: withdrawCount + 1,

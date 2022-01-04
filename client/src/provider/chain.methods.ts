@@ -1,48 +1,15 @@
 import Web3 from "web3";
 import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../api/models/round.model";
-import { token, contract } from "./contracts";
+import { contract } from "./contracts";
 import { bnToNumber } from "../utilities/string.numbers.util";
-import { contractAddress } from "../config/config";
 import { toast } from "react-toastify";
 import { CustomToastWithLink } from "../utilities/toastLink";
 
 export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    approveSpendBnbOnLottoContract: async (
-        spenderAddress: string,
-        amount: number,
-        web3: Web3
-    ) => {
-        try {
-            const result = await token(web3)
-                .methods.approve(contractAddress, web3.utils.toWei(`${amount}`, "ether"))
-                .send({ from: spenderAddress });
-            return result;
-        } catch (err) {
-            console.error("Error approving approve contract spend:", err);
-            return null;
-        }
-    },
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    checkAllowance: async (spenderAddress: string, web3: Web3) => {
-        try {
-            // allowance(owner, spender)
-            const amount = await token(web3)
-                .methods.allowance(spenderAddress, contractAddress)
-                .call();
-            return amount;
-        } catch (err) {
-            console.error("Error check allowance:", err);
-            return null;
-        }
-    },
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getMaxTicketsPerBuy: async (web3: Web3) => {
         try {
-            const amount = await contract(web3)
-                .methods.getMaxNumberTicketsPerBuyOrClaim()
-                .call();
-            return amount;
+            return contract(web3).methods.getMaxNumberTicketsPerBuyOrClaim().call();
         } catch (err) {
             console.error("Error check max tickets per buy:", err);
             return null;
@@ -51,8 +18,7 @@ export const ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getUserBalance: async (address: string, web3: Web3) => {
         try {
-            const result = token(web3).methods.balanceOf(address).call({ from: address });
-            return result;
+            return await web3.eth.getBalance(address);
         } catch (err) {
             console.error("Error check user balance:", err);
             return null;
@@ -121,16 +87,20 @@ export const ChainMethods = {
         userAddress: string,
         roundId: number,
         tickets: number[],
+        ticketPrice: number,
         web3: Web3
     ) => {
         try {
             tickets.forEach((num) => {
                 if (num < 1000000 || num > 1999999) toast.error("Invalid ticket numbers");
             });
-
+            const amount = tickets.length * ticketPrice;
             const result = await contract(web3)
                 .methods.buyTickets(roundId, tickets)
-                .send({ from: userAddress });
+                .send({
+                    from: userAddress,
+                    value: Web3.utils.toWei(`${amount}`, "ether"),
+                });
             if (result.status) {
                 toast.success(
                     CustomToastWithLink(result.transactionHash, "transaction done")
@@ -138,6 +108,7 @@ export const ChainMethods = {
             }
             return result.status;
         } catch (err: any) {
+            console.error(err);
             if (err.receipt && !err.receipt.status) {
                 toast.error(
                     CustomToastWithLink(err.receipt.transactionHash, "transaction failed")

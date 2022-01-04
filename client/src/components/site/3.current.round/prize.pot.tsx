@@ -11,20 +11,11 @@ import RoundNumber from "./round.number";
 import PrizeBoxHeader from "./header";
 
 interface PrizePotProps {
-    changeArrovedLoading: (val1: boolean, val2: boolean) => void;
     dispatch: Dispatch<ActionModel<LottoActions>>;
-    isApproved: boolean;
-    isLoading: boolean;
     state: LottoState;
 }
 
-const PrizePot: FunctionComponent<PrizePotProps> = ({
-    changeArrovedLoading,
-    dispatch,
-    isApproved,
-    isLoading,
-    state,
-}) => {
+const PrizePot: FunctionComponent<PrizePotProps> = ({ dispatch, state }) => {
     if (!state.currentRound || state.currentRound.status != RoundStatus.Open)
         return <></>;
 
@@ -70,13 +61,7 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({
                 justify-content-center align-items-center mx-auto rounded text-black"
                 >
                     <i className="fa-duotone fa-chevrons-down fa-xl fa-flash text-success mb-4"></i>
-                    <BuyTicketButton
-                        changeArrovedLoading={changeArrovedLoading}
-                        dispatch={dispatch}
-                        isApproved={isApproved}
-                        isLoading={isLoading}
-                        state={state}
-                    />
+                    <BuyTicketButton dispatch={dispatch} state={state} />
                 </div>
             </div>
             <div className="divider-win bg1"></div>

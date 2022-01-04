@@ -24,7 +24,7 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, stat
     const { ticketPrice, currentRound, address, web3, userBalance, maxTicketsPerBuy } =
         state;
 
-    const changeState = (state: TicketState) => setTicketState(state);
+    const changeState = (s: TicketState) => setTicketState(s);
     const handleTicketCountInput = (value: string) => {
         setTicketState({
             ...ticketState,
@@ -73,6 +73,8 @@ const BuyTicketModal: FunctionComponent<BuyTicketModalProps> = ({ dispatch, stat
                         setTicketState={changeState}
                         setWaiting={(value) => setWaiting(value)}
                         ticketNumbers={ticketState.ticketNumbers}
+                        ticketPrice={ticketPrice}
+                        userBalance={userBalance}
                         waiting={waiting}
                         web3={web3}
                     />
