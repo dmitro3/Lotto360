@@ -26,7 +26,7 @@ const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, stat
                     </div>
                     {state.currentRound.status == RoundStatus.Open ? (
                         <div
-                            className="my-3 mt-5 max-content px-3 py-1 d-flex flex-column
+                            className="my-3 mt-4 max-content px-3 py-1 d-flex flex-column
                     justify-content-center align-items-center mx-auto rounded text-black"
                         >
                             <div>
