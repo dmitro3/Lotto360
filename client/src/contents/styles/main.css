@@ -64,7 +64,7 @@ body {
     left: 0;
     bottom: 0;
     width: 100%;
-    background-image: linear-gradient(to top, #04befe 0%, #04befe 100%);
+    background-image: linear-gradient(to top, #4481eb 0%, #4481eb 100%);
     border-radius: 100% 100% 0 0;
 }
 
@@ -87,7 +87,7 @@ body {
 }
 
 .prizepot {
-    background-image: linear-gradient(to top, #4481eb 0%, #04befe 100%);
+    background-image: linear-gradient(to top, #4481eb 0%, #4481eb 100%);
 }
 
 .text-green {

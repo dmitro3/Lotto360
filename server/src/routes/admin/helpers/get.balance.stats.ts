@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { CONTRACT_ADDRESS } from "../../../config/blockchain.configs";
 import { NotFoundError } from "../../../errors/not-found-error";
 import { requireAuth } from "../../../middlewares/require-auth";
-import { token, contract } from "../../../provider/contracts";
+import { contract, provider } from "../../../provider/contracts";
 import { Round } from "../../../database/model/round/round";
 import { responseMaker } from "../../response.maker";
 import { bnToNumber } from "../../../utils/ethers";
@@ -15,7 +15,7 @@ const router = express.Router();
 router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Response) => {
     try {
         // get contract balance
-        const contractBalanceBn: BigNumber = await token.balanceOf(CONTRACT_ADDRESS);
+        const contractBalanceBn: BigNumber = await provider.getBalance(CONTRACT_ADDRESS);
         const contractBalance = parseFloat(ethers.utils.formatEther(contractBalanceBn));
 
         // get bnb in current round
