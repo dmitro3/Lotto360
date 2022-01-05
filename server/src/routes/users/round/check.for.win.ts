@@ -11,6 +11,7 @@ import {
     TicketStatus,
     WinningTicketAttrs,
 } from "../../../database/model/ticket/interface.enum";
+import { Payment } from "../../../database/model/payment/payment";
 
 const router = express.Router();
 
@@ -188,8 +189,15 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }
 
-        for (let i = 0; i < rounds.length; i++) {
-            await rounds[i].save();
+        const payment = Payment.biuld({
+            address: userAddress,
+            amount: totalPay,
+            transaction: transactionHash,
+        });
+        payment.save();
+
+        for (let round of rounds) {
+            await round.save();
         }
 
         res.status(200).send(
