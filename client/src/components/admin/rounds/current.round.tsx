@@ -78,18 +78,17 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
         <div>
             <div className="d-flex mb-4 mt-5 align-items-center">
                 <h4 className="me-3 fw-bold">Current round</h4>
-                {status === RoundStatus.Open && (
-                    <>
-                        <button
-                            disabled={waiting}
-                            className="btn btn-warning ms-3"
-                            onClick={() => handleUpdateButton(true)}
-                        >
-                            <i className="fa-duotone fa-pen-to-square fa-xl me-2"></i>
-                            edit round
-                        </button>
-
-                        {status === RoundStatus.Open ? (
+                <>
+                    {status === RoundStatus.Open ? (
+                        <>
+                            <button
+                                disabled={waiting}
+                                className="btn btn-warning ms-3"
+                                onClick={() => handleUpdateButton(true)}
+                            >
+                                <i className="fa-duotone fa-pen-to-square fa-xl me-2"></i>
+                                edit round
+                            </button>
                             <button
                                 disabled={waiting}
                                 className="btn btn-primary ms-auto"
@@ -98,20 +97,20 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                                 {renderWaiting(waiting)}
                                 Close round
                             </button>
-                        ) : (
-                            status === RoundStatus.Close && (
-                                <button
-                                    disabled={waiting}
-                                    className="btn btn-primary ms-auto"
-                                    onClick={() => drawCurrentRound()}
-                                >
-                                    {renderWaiting(waiting)}
-                                    Draw round
-                                </button>
-                            )
-                        )}
-                    </>
-                )}
+                        </>
+                    ) : (
+                        status === RoundStatus.Close && (
+                            <button
+                                disabled={waiting}
+                                className="btn btn-primary ms-auto"
+                                onClick={() => drawCurrentRound()}
+                            >
+                                {renderWaiting(waiting)}
+                                Draw round
+                            </button>
+                        )
+                    )}
+                </>
             </div>
             <div>
                 <div className="container rounded border border-2 bg-white py-3">
@@ -123,6 +122,10 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         {status === RoundStatus.Open ? (
                             <span className="badge rounded-pill bg-primary fs-6">
                                 Open
+                            </span>
+                        ) : status === RoundStatus.Claimable ? (
+                            <span className="badge rounded-pill bg-secondary">
+                                Claimable
                             </span>
                         ) : (
                             <span className="badge rounded-pill bg-secondary">

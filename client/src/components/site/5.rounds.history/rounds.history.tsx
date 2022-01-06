@@ -31,14 +31,13 @@ const RoundsHistory: FunctionComponent<RoundsHistoryProps> = ({
     let lastRoundId = 0;
     {
         const { status, cid } = currentRound;
-        if (status == RoundStatus.Close) {
+        if (status == RoundStatus.Claimable) {
             isLatest = true;
             lastRoundId = cid;
         } else if (status == RoundStatus.Open) {
             isLatest = round?.cid == cid - 1;
             lastRoundId = cid - 1;
         } else {
-            isLatest = false;
             lastRoundId = 0;
         }
     }

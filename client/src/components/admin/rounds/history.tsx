@@ -79,9 +79,13 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                         <td>{r.cid}</td>
                         <td>{moment(r.endTime * 1000).format("Do MMMM YYYY, h:mm a")}</td>
                         <td>
-                            {r.status === RoundStatus.Open ? (
+                            {r.status === RoundStatus.Open && (
                                 <span className="text-success fw-bold">Open</span>
-                            ) : (
+                            )}
+                            {r.status === RoundStatus.Claimable && (
+                                <span className="text-primary fw-bold">Claimable</span>
+                            )}
+                            {r.status === RoundStatus.Close && (
                                 <span className="text-primary fw-bold">Close</span>
                             )}
                         </td>
@@ -89,7 +93,7 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                         <td>{r.totalBnbAmount}</td>
                         <td>{ticketNumToStr(r.finalNumber)}</td>
                         <td>
-                            {r.status === RoundStatus.Close && (
+                            {r.status === RoundStatus.Claimable && (
                                 <>
                                     <button
                                         className="btn btn-primary btn-sm mb-1 me-2"
@@ -126,7 +130,7 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                                     </button>
                                 </>
                             )}
-                            {r.status === RoundStatus.Close && !r.isInDb && (
+                            {r.status === RoundStatus.Claimable && !r.isInDb && (
                                 <button
                                     disabled={disable}
                                     className="btn btn-success btn-sm ms-3"

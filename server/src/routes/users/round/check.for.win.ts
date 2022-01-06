@@ -189,7 +189,7 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
             throw new BadRequestError(transactionHash, ResponseMessageType.TRANSACTION);
         }
 
-        const payment = Payment.biuld({
+        const payment = Payment.build({
             address: userAddress,
             amount: totalPay,
             transaction: transactionHash,

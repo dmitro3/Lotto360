@@ -15,5 +15,5 @@ export interface PaymentDoc extends Document {
 }
 
 export interface PaymentModel extends Model<PaymentDoc> {
-    biuld(attrs: PaymentAttrs): PaymentDoc;
+    build(attrs: PaymentAttrs): PaymentDoc;
 }
