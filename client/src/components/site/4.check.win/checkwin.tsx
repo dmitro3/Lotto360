@@ -192,7 +192,6 @@ const makeTableRows = (data: CheckForWin) => {
                 m6.price
             );
             arrayElement = [...arrayElement, ...array];
-            isFirst = false;
         }
     });
     return arrayElement;
