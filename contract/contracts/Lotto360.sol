@@ -411,6 +411,10 @@ contract Lotto360 {
             rounds[currentRoundId].status == Status.Open,
             "Current round is not open"
         );
+        require(
+            rounds[currentRoundId].endTime < block.timestamp,
+            "Round time is not finished"
+        );
 
         rounds[currentRoundId].status = Status.Close;
     }
@@ -421,11 +425,6 @@ contract Lotto360 {
         onlyOwner
         nonContract
     {
-        require(
-            rounds[currentRoundId].endTime < block.timestamp,
-            "Round time is not finished"
-        );
-
         require(rounds[currentRoundId].status == Status.Close, "Round is not closed");
 
         rounds[currentRoundId].status = Status.Claimable;

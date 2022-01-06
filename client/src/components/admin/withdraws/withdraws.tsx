@@ -22,7 +22,7 @@ const Withdraws: FunctionComponent<WithdrawsProps> = () => {
                 if (res && res.data && res.data.result) setWithdraws(res.data.result);
             })
             .catch((err) => console.error(err));
-        HelperApiService.getTicketss()
+        HelperApiService.getTickets()
             .then((res) => {
                 if (res && res.data && res.data.result) setTicketsArray(res.data.result);
             })

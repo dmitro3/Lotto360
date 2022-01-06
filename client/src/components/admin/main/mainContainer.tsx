@@ -5,6 +5,7 @@ import Rounds from "../rounds/rounds";
 import SideBar from "../sidebar/sideBar";
 import Settings from "../settings/settings";
 import Withdraws from "../withdraws/withdraws";
+import Payments from "../payments/payments";
 
 interface MainContainerProps {
     bnbPrice: number;
@@ -26,6 +27,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
                             />
                             <Route path="/admin/settings" component={Settings} />
                             <Route path="/admin/withdraws" component={Withdraws} />
+                            <Route path="/admin/payments" component={Payments} />
                             <Route path="/admin" component={Dashboard} />
 
                             <Redirect from="/" exact to="/" />

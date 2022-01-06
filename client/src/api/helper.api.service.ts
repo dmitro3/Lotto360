@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 
 import { baseUrl } from "../config/config";
 import { DashboardModel, TransferTokenModel, Withdraws } from "../interfaces/dashboard";
+import { PaymentAttrs } from "../interfaces/payments";
 import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
 import { CheckForWin, TicketAttrs } from "./models/round.model";
@@ -41,7 +42,17 @@ export const HelperApiService = {
         return httpService.get(`${baseUrl}/getwithdraws`);
     },
 
-    getTicketss(): Promise<AxiosResponse<ApiResponseResult<TicketAttrs[]>>> {
+    getTickets(): Promise<AxiosResponse<ApiResponseResult<TicketAttrs[]>>> {
         return httpService.get(`${baseUrl}/alltickets`);
+    },
+
+    getPayments(): Promise<AxiosResponse<ApiResponseResult<PaymentAttrs[]>>> {
+        return httpService.get(`${baseUrl}/getpayments`);
+    },
+
+    getUserPayments(
+        address: string
+    ): Promise<AxiosResponse<ApiResponseResult<PaymentAttrs[]>>> {
+        return httpService.get(`${baseUrl}/getuserpayments/${address}`);
     },
 };

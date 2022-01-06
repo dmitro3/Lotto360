@@ -202,5 +202,5 @@ const renderWaiting = (waiting: boolean) =>
     waiting ? (
         <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
     ) : (
-        <i className="fa-duotone fa-award fa-xl me-2"></i>
+        <i className="fa-duotone fa-flask-round-potion fa-xl me-2"></i>
     );

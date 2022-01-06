@@ -20,10 +20,10 @@ export class SideBarItem {
 
 const dashboardItems: SideBarItem[] = [
     new SideBarItem("Dashboard", "home"),
-    // new SideBarItem("Users", "user"),
     new SideBarItem("Rounds", "pool-8-ball"),
     new SideBarItem("Settings", "gear"),
     new SideBarItem("Withdraws", "money-from-bracket"),
+    new SideBarItem("Payments", "money-from-bracket"),
 ];
 
 const SideBar: React.FC<SideBarProps> = () => {
