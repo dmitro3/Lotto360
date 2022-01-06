@@ -16,7 +16,7 @@ router.get(
         try {
             // get last round
             const roundResult = await Round.findOne(
-                { status: RoundStatus.Close },
+                { status: RoundStatus.Claimable },
                 { tickets: 0 }
             )
                 .sort({ cid: -1 })

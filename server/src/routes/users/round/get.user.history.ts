@@ -20,7 +20,7 @@ router.post("/api/user/checkhistory/:id", async (req: Request, res: Response) =>
         // query to get unclaimed prizes
         const rounds = await Round.find(
             {
-                status: RoundStatus.Close,
+                status: RoundStatus.Claimable,
                 tickets: {
                     $elemMatch: {
                         owner: { $regex: new RegExp("^" + userAddress, "i") },

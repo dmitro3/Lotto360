@@ -108,14 +108,15 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                             })}
                         </tbody>
                     </table>
-                ) : disableButton ? (
-                    <div className={flexItemsCenter}>
-                        <span className="mt-3 text-white fs-5 fw-bold text-shadow">
-                            No recorded history for your current account
-                        </span>
-                    </div>
                 ) : (
-                    <></>
+                    !loading &&
+                    disableButton && (
+                        <div className={flexItemsCenter}>
+                            <span className="mt-3 text-white fs-5 fw-bold">
+                                No recorded history for your current account
+                            </span>
+                        </div>
+                    )
                 )}
                 <a id="round-history" className="opacity-0" href="/#">
                     {" "}

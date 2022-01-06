@@ -53,7 +53,7 @@ const Payments: FunctionComponent<PaymentsProps> = () => {
                         placeholder="Enter address"
                         aria-label="Enter address"
                         aria-describedby="button-addon2"
-                        value=""
+                        value={address}
                         onChange={(e) => setAddress(e.target.value)}
                     />
                     <button
