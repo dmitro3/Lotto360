@@ -1,6 +1,6 @@
 export const coinGeckoApi = "https://api.coingecko.com/api/v3/coins/binancecoin";
 
-export const contractAddress = "0xA10046ADBA828a427914A59ba16dbae90f30fe0a";
+export const contractAddress = "0x9EE0e55479d8748362Fd715C47F9B54e129241aD";
 
 // chain network info
 export const targetNetworkId = 4;

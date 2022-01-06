@@ -5,19 +5,16 @@ import { BadRequestError } from "../../../errors/bad-request-error";
 import { contract, provider } from "../../../provider/contracts";
 import { requireAuth } from "../../../middlewares/require-auth";
 import { responseMaker } from "../../response.maker";
-import { generateSeed } from "../../../utils/util";
 
 const router = express.Router();
 
-router.get("/api/finishround", requireAuth, async (req: Request, res: Response) => {
+router.get("/api/closeround", requireAuth, async (req: Request, res: Response) => {
     let transactionHash: string = "";
 
     // send transaction to blockchain
     try {
-        const random = generateSeed();
-
         // send transaction
-        const tx = await contract.makeRoundClaimableAndPickWinningNumber(random, {
+        const tx = await contract.closeCurrentRound({
             gasLimit: 1000000,
         });
 
@@ -48,4 +45,4 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
     }
 });
 
-export { router as drawRoundRouter };
+export { router as closeRoundRouter };

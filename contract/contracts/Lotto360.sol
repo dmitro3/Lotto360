@@ -350,7 +350,7 @@ contract Lotto360 {
         uint256[] calldata _pools
     ) external onlyOwner nonContract {
         require(
-            currentRoundId == 0 || rounds[currentRoundId].status == Status.Close,
+            currentRoundId == 0 || rounds[currentRoundId].status == Status.Claimable,
             "Current round is not finished"
         );
 
@@ -406,7 +406,17 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function closeRoundAndPickWinningNumber(uint256 _seedNumber)
+    function closeCurrentRound() external onlyOwner nonContract {
+        require(
+            rounds[currentRoundId].status == Status.Open,
+            "Current round is not open"
+        );
+
+        rounds[currentRoundId].status = Status.Close;
+    }
+
+    // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function makeRoundClaimableAndPickWinningNumber(uint256 _seedNumber)
         external
         onlyOwner
         nonContract
@@ -416,9 +426,9 @@ contract Lotto360 {
             "Round time is not finished"
         );
 
-        require(rounds[currentRoundId].status == Status.Open, "Round is not open");
+        require(rounds[currentRoundId].status == Status.Close, "Round is not closed");
 
-        rounds[currentRoundId].status = Status.Close;
+        rounds[currentRoundId].status = Status.Claimable;
         rounds[currentRoundId].firstTicketIdNextRound = currentTicketId;
         uint256 finalNumber = generateRandomNumber(_seedNumber);
         rounds[currentRoundId].finalNumber = finalNumber;

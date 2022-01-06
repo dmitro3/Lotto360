@@ -57,9 +57,7 @@ const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, stat
                                 className="max-content px-3 py-1 d-flex mb-5
                     justify-content-center align-items-center mx-auto rounded text-black"
                             >
-                                <i className="fa-duotone fa-chevrons-right fa-xl fa-flash text-success"></i>
                                 <BuyTicketButton dispatch={dispatch} state={state} />
-                                <i className="fa-duotone fa-chevrons-left fa-xl fa-flash text-success"></i>
                             </div>
                         )}
                 </div>

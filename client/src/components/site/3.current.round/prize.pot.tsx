@@ -60,7 +60,6 @@ const PrizePot: FunctionComponent<PrizePotProps> = ({ dispatch, state }) => {
                     className="max-content px-3 py-1 d-flex flex-column mb-3 mt-5
                 justify-content-center align-items-center mx-auto rounded text-black"
                 >
-                    <i className="fa-duotone fa-chevrons-down fa-xl fa-flash text-success mb-4"></i>
                     <BuyTicketButton dispatch={dispatch} state={state} />
                 </div>
             </div>

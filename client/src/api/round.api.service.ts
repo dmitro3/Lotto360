@@ -55,6 +55,10 @@ export const RoundApiService = {
         return httpService.get(`${baseUrl}/finishround`);
     },
 
+    closeRound(): Promise<AxiosResponse<ApiResponseResult<boolean>>> {
+        return httpService.get(`${baseUrl}/closeround`);
+    },
+
     getRounds(): Promise<AxiosResponse<ApiResponseResult<GetRoundApiModel[]>>> {
         return httpService.get(`${baseUrl}/allrounds`);
     },

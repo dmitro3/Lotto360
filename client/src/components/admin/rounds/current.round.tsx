@@ -26,7 +26,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
     handleUpdateButton,
 }) => {
     const [showTicketTable, setshowTicketTable] = useState(false);
-    const [drawWaiting, setDrawWaiting] = useState(false);
+    const [waiting, setwaiting] = useState(false);
 
     if (!currentRound.cid) return <div></div>;
     const {
@@ -45,7 +45,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
     const totalBnb = totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;
 
     const drawCurrentRound = () => {
-        setDrawWaiting(true);
+        setwaiting(true);
         RoundApiService.finishRound()
             .then((res) => {
                 if (res && res.data && res.data.success) {
@@ -56,7 +56,22 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                 }
             })
             .catch((err) => console.log(err))
-            .finally(() => setDrawWaiting(false));
+            .finally(() => setwaiting(false));
+    };
+
+    const closeCurrentRound = () => {
+        setwaiting(true);
+        RoundApiService.closeRound()
+            .then((res) => {
+                if (res && res.data && res.data.success) {
+                    toast.success("round closed successfully");
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 10000);
+                }
+            })
+            .catch((err) => console.log(err))
+            .finally(() => setwaiting(false));
     };
 
     return (
@@ -66,25 +81,35 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                 {status === RoundStatus.Open && (
                     <>
                         <button
-                            disabled={drawWaiting}
+                            disabled={waiting}
                             className="btn btn-warning ms-3"
                             onClick={() => handleUpdateButton(true)}
                         >
                             <i className="fa-duotone fa-pen-to-square fa-xl me-2"></i>
                             edit round
                         </button>
-                        <button
-                            disabled={drawWaiting}
-                            className="btn btn-primary ms-auto"
-                            onClick={() => drawCurrentRound()}
-                        >
-                            {drawWaiting ? (
-                                <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
-                            ) : (
-                                <i className="fa-duotone fa-award fa-xl me-2"></i>
-                            )}
-                            Draw round
-                        </button>
+
+                        {status === RoundStatus.Open ? (
+                            <button
+                                disabled={waiting}
+                                className="btn btn-primary ms-auto"
+                                onClick={() => closeCurrentRound()}
+                            >
+                                {renderWaiting(waiting)}
+                                Close round
+                            </button>
+                        ) : (
+                            status === RoundStatus.Close && (
+                                <button
+                                    disabled={waiting}
+                                    className="btn btn-primary ms-auto"
+                                    onClick={() => drawCurrentRound()}
+                                >
+                                    {renderWaiting(waiting)}
+                                    Draw round
+                                </button>
+                            )
+                        )}
                     </>
                 )}
             </div>
@@ -172,3 +197,10 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
 };
 
 export default CurrentRound;
+
+const renderWaiting = (waiting: boolean) =>
+    waiting ? (
+        <i className="fa-solid fa-1x me-2 fa-spinner-third fa-spin"></i>
+    ) : (
+        <i className="fa-duotone fa-award fa-xl me-2"></i>
+    );
