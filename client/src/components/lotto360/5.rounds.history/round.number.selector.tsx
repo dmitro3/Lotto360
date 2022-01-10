@@ -1,7 +1,7 @@
 import { FunctionComponent, useState } from "react";
 import { toast } from "react-toastify";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface RoundNumberSelectorProps {
     fetchAnotherRound: (num: number) => void;

@@ -7,7 +7,7 @@ import moment from "moment";
 import { Withdraws as IWithdraws } from "../../../interfaces/dashboard";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { HelperApiService } from "../../../api/helper.api.service";
-import { flexItemsCenter } from "../../site/constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import { TicketAttrs } from "../../../api/models/round.model";
 
 interface WithdrawsProps {}

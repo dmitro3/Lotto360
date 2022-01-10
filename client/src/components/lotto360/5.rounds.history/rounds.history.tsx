@@ -5,7 +5,7 @@ import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { RoundApiService } from "../../../api/round.api.service";
 import TimeAndTotalAmount from "../shared/time.total.amount";
 import RoundNumberSelector from "./round.number.selector";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import PrizePerMatch from "../shared/prize.per.match";
 import UserTickets from "../shared/user.tickets";
 import HistoryHeader from "./history.header";

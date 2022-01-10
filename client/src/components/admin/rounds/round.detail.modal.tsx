@@ -1,10 +1,10 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import moment from "moment";
 
-import TimeAndTotalAmount from "../../site/shared/time.total.amount";
+import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
 import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { flexItemsCenter } from "../../site/constants/classes";
-import PrizePerMatch from "../../site/shared/prize.per.match";
+import { flexItemsCenter } from "../../constants/classes";
+import PrizePerMatch from "../../lotto360/shared/prize.per.match";
 import { RoundApiService } from "../../../api/round.api.service";
 import {
     getPlayersCount,

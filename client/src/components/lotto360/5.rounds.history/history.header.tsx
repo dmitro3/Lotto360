@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import TargetNavigation from "../shared/target.nav.link";
 
 interface HistoryHeaderProps {

@@ -6,12 +6,12 @@ import axios, { AxiosResponse } from "axios";
 import Web3 from "web3";
 
 import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
-import BuyTicketModal from "./components/site/0.ticket.modal/buy.ticket.modal";
+import BuyTicketModal from "./components/lotto360/0.ticket.modal/buy.ticket.modal";
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
 import AdminPanel from "./components/admin/admin.panel";
 import { ChainMethods } from "./provider/chain.methods";
-import MainSite from "./components/site/main.site";
+import MainSite from "./components/main.site";
 import Signin from "./components/admin/auth/login";
 import { getWeb3 } from "./provider/web3";
 

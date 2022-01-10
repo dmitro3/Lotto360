@@ -7,7 +7,7 @@ import moment from "moment";
 import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 import { RoundApiService } from "../../../api/round.api.service";
-import { flexItemsCenter } from "../../site/constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import { HashLoader } from "react-spinners";
 
 interface HistoryProps {

@@ -5,7 +5,7 @@ import { cloneDeep } from "lodash";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { RoundApiService } from "../../../api/round.api.service";
-import { flexItemsCenter } from "../../site/constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import { initialRound } from "./reducer/round.list.reducer";
 import RoundDetailModal from "./round.detail.modal";
 import AddRoundButton from "./button.add.round";

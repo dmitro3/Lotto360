@@ -1,8 +1,8 @@
 import Web3 from "web3";
-import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../api/models/round.model";
-import { contract } from "./contracts";
-import { bnToNumber } from "../utilities/string.numbers.util";
 import { toast } from "react-toastify";
+import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../api/models/round.model";
+import { lotto360Contract as contract } from "./contracts";
+import { bnToNumber } from "../utilities/string.numbers.util";
 import { CustomToastWithLink } from "../utilities/toastLink";
 
 export const ChainMethods = {

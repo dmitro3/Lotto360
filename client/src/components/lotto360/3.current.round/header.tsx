@@ -1,6 +1,6 @@
 import moment from "moment";
 import { FunctionComponent } from "react";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface PrizeBoxHeaderProps {
     endTime: number;

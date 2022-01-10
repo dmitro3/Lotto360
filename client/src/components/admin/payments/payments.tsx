@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { HelperApiService } from "../../../api/helper.api.service";
 import { blockExplorerUrl } from "../../../config/config";
 import { PaymentAttrs } from "../../../interfaces/payments";
-import { flexItemsCenter } from "../../site/constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface PaymentsProps {}
 

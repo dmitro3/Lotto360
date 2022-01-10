@@ -1,7 +1,7 @@
 import moment from "moment";
 import { FunctionComponent } from "react";
 import { currencyFormat } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface TimeAndTotalAmountProps {
     bnbPrice: number;

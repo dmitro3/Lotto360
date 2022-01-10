@@ -5,8 +5,8 @@ import { HelperApiService } from "../../../api/helper.api.service";
 import { CustomToastWithLink } from "../../../utilities/toastLink";
 import { web3 } from "../../../provider/web3";
 import TokenTransfer from "./token.transfer";
-import ButtonWaiting from "../../site/shared/btn.waiting";
-import { flexItemsCenter } from "../../site/constants/classes";
+import ButtonWaiting from "../../lotto360/shared/btn.waiting";
+import { flexItemsCenter } from "../../constants/classes";
 import { HashLoader } from "react-spinners";
 
 interface SettingProps {}

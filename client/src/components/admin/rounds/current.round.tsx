@@ -7,10 +7,10 @@ import {
     ticketNumToStr,
 } from "../../../utilities/string.numbers.util";
 import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import TimeAndTotalAmount from "../../site/shared/time.total.amount";
+import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
 import { RoundApiService } from "../../../api/round.api.service";
-import { flexItemsCenter } from "../../site/constants/classes";
-import PrizePerMatch from "../../site/shared/prize.per.match";
+import { flexItemsCenter } from "../../constants/classes";
+import PrizePerMatch from "../../lotto360/shared/prize.per.match";
 import TicketsTable from "../shared/tickets.table";
 import AddedBnb from "./added.bnb";
 

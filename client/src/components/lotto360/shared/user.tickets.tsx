@@ -1,6 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface UserTicketsProps {
     winningTicket: number;

@@ -4,7 +4,7 @@ import Web3 from "web3";
 import { TicketState } from "../../../interfaces/ticket.state";
 import { ChainMethods } from "../../../provider/chain.methods";
 import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import ButtonWaiting from "../shared/btn.waiting";
 
 interface BuyTicketButtonProps {

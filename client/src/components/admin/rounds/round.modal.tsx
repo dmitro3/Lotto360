@@ -4,7 +4,7 @@ import { Button, Col, Form, Modal, Row } from "react-bootstrap";
 import Datetime from "react-datetime";
 import { HelperApiService } from "../../../api/helper.api.service";
 import { GetRoundApiModel, PoolAttrs } from "../../../api/models/round.model";
-import ButtonWaiting from "../../site/shared/btn.waiting";
+import ButtonWaiting from "../../lotto360/shared/btn.waiting";
 
 interface RoundModalProps {
     changeRoundValues: Function;

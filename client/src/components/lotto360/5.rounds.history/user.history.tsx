@@ -2,7 +2,7 @@ import moment from "moment";
 import { FunctionComponent, useState } from "react";
 import { GetRoundApiModel } from "../../../api/models/round.model";
 import { RoundApiService } from "../../../api/round.api.service";
-import { flexItemsCenter } from "../constants/classes";
+import { flexItemsCenter } from "../../constants/classes";
 import ButtonWaiting from "../shared/btn.waiting";
 
 interface UserHistoryProps {
