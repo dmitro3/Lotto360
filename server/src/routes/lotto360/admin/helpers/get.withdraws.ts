@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import { requireAuth } from "../../../../middlewares/require-auth";
-import { contract } from "../../../../provider/contracts";
+import { lotto360Contract } from "../../../../provider/contracts";
 import { responseMaker } from "../../../response.maker";
 import { bnToNumber } from "../../../../utils/ethers";
 
@@ -19,7 +19,7 @@ router.get("/api/getwithdraws", requireAuth, async (req: Request, res: Response)
         const withdrawsModels: Withdraws[] = [];
 
         // get all withdraws
-        const withdraws = await contract.getWithdraws();
+        const withdraws = await lotto360Contract.getWithdraws();
 
         if (withdraws && withdraws.length) {
             for (let i = 0; i < withdraws[1].length; i++) {

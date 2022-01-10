@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { TicketAttrs } from "../../../../database/model/ticket/interface.enum";
 import { requireAuth } from "../../../../middlewares/require-auth";
-import { contract } from "../../../../provider/contracts";
+import { lotto360Contract } from "../../../../provider/contracts";
 import { responseMaker } from "../../../response.maker";
 
 const router = express.Router();
@@ -10,7 +10,7 @@ const router = express.Router();
 router.get("/api/alltickets", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        const tickets: any[][] = await contract.getAllTickets();
+        const tickets: any[][] = await lotto360Contract.getAllTickets();
         const ticketArray: TicketAttrs[] = [];
         if (tickets.length === 4) {
             const count = tickets[0].length;

@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { ResponseMessageType } from "../../../../middlewares/error-handler";
 import { BadRequestError } from "../../../../errors/bad-request-error";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { responseMaker } from "../../../response.maker";
 import { generateSeed } from "../../../../utils/util";
@@ -17,7 +17,7 @@ router.get("/api/finishround", requireAuth, async (req: Request, res: Response) 
         const random = generateSeed();
 
         // send transaction
-        const tx = await contract.makeRoundClaimableAndPickWinningNumber(random, {
+        const tx = await lotto360Contract.makeRoundClaimableAndPickWinningNumber(random, {
             gasLimit: 1000000,
         });
 

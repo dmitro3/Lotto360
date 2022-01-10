@@ -6,7 +6,7 @@ import { RoundAttrs } from "../../../../database/model/round/interface.enum";
 import { TicketAttrs } from "../../../../database/model/ticket/interface.enum";
 import { NotFoundError } from "../../../../errors/not-found-error";
 import { requireAuth } from "../../../../middlewares/require-auth";
-import { contract } from "../../../../provider/contracts";
+import { lotto360Contract } from "../../../../provider/contracts";
 import { getPlayersCount } from "../../../../utils/util";
 import { responseMaker } from "../../../response.maker";
 import { bnToNumber } from "../../../../utils/ethers";
@@ -19,9 +19,9 @@ router.get("/api/round/:id", requireAuth, async (req: Request, res: Response) =>
         const roundId = req.params.id;
         if (!roundId) throw new NotFoundError("round id not found");
 
-        const roundResult = await contract.getRoundById(roundId);
-        const tickets: any[][] = await contract.getTicketsInRound(roundId);
-        const poolsBn: BigNumber[] = await contract.getPoolsInRound(roundId);
+        const roundResult = await lotto360Contract.getRoundById(roundId);
+        const tickets: any[][] = await lotto360Contract.getTicketsInRound(roundId);
+        const poolsBn: BigNumber[] = await lotto360Contract.getPoolsInRound(roundId);
 
         let pools: PoolAttrs[] = [];
         pools = poolsBn.map((bn, i) => {

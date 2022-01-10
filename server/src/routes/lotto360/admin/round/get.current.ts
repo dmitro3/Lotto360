@@ -6,7 +6,7 @@ import { RoundAttrs } from "../../../../database/model/round/interface.enum";
 import { PoolAttrs } from "../../../../database/model/pool/interface.enum";
 import { NotFoundError } from "../../../../errors/not-found-error";
 import { requireAuth } from "../../../../middlewares/require-auth";
-import { contract } from "../../../../provider/contracts";
+import { lotto360Contract } from "../../../../provider/contracts";
 import { getPlayersCount } from "../../../../utils/util";
 import { responseMaker } from "../../../response.maker";
 import { bnToNumber } from "../../../../utils/ethers";
@@ -16,9 +16,9 @@ const router = express.Router();
 router.get("/api/round", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        const roundResult = await contract.getCurrentRound();
-        const tickets: any[][] = await contract.getCurrentRoundTickets();
-        const poolsBn: BigNumber[] = await contract.getCurrentRoundPools();
+        const roundResult = await lotto360Contract.getCurrentRound();
+        const tickets: any[][] = await lotto360Contract.getCurrentRoundTickets();
+        const poolsBn: BigNumber[] = await lotto360Contract.getCurrentRoundPools();
 
         let pools: PoolAttrs[] = [];
         pools = poolsBn.map((bn, i) => {

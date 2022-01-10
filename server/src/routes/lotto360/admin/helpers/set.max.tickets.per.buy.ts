@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { ResponseMessageType } from "../../../../middlewares/error-handler";
 import { BadRequestError } from "../../../../errors/bad-request-error";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { NotFoundError } from "../../../../errors/not-found-error";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { responseMaker } from "../../../response.maker";
@@ -20,9 +20,12 @@ router.post(
 
         // send transaction to blockchain
         try {
-            const tx = await contract.setMaxNumberTicketsPerBuyOrClaim(numberOfTickets, {
-                gasLimit: 1000000,
-            });
+            const tx = await lotto360Contract.setMaxNumberTicketsPerBuyOrClaim(
+                numberOfTickets,
+                {
+                    gasLimit: 1000000,
+                }
+            );
 
             // get tx hash
             transactionHash = tx.hash;

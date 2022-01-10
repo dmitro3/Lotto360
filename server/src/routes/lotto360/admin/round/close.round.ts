@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 
 import { ResponseMessageType } from "../../../../middlewares/error-handler";
 import { BadRequestError } from "../../../../errors/bad-request-error";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { responseMaker } from "../../../response.maker";
 
@@ -14,7 +14,7 @@ router.get("/api/closeround", requireAuth, async (req: Request, res: Response) =
     // send transaction to blockchain
     try {
         // send transaction
-        const tx = await contract.closeCurrentRound({
+        const tx = await lotto360Contract.closeCurrentRound({
             gasLimit: 1000000,
         });
 

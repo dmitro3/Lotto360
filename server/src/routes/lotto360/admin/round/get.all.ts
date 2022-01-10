@@ -3,7 +3,7 @@ import express, { Request, Response } from "express";
 import { RoundAttrs } from "../../../../database/model/round/interface.enum";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { Round } from "../../../../database/model/round/round";
-import { contract } from "../../../../provider/contracts";
+import { lotto360Contract } from "../../../../provider/contracts";
 import { responseMaker } from "../../../response.maker";
 import { bnToNumber } from "../../../../utils/ethers";
 
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get("/api/allrounds", requireAuth, async (req: Request, res: Response) => {
     // send transaction to blockchain
     try {
-        let roundResult = await contract.getCurrentRound();
+        let roundResult = await lotto360Contract.getCurrentRound();
         // @ts-ignore
         const dbRounds: any[] = await Round.find({}, { cid: 1, _id: 0 });
 
@@ -24,13 +24,13 @@ router.get("/api/allrounds", requireAuth, async (req: Request, res: Response) =>
         const promiseArray: Promise<any>[] = [];
         if (currentRound > 1) {
             for (let i = currentRound - 1; i > 0; i--) {
-                const roundResult = contract.getRoundById(i);
-                promiseArray.push(roundResult);
+                const roundRes = await lotto360Contract.getRoundById(i);
+                promiseArray.push(roundRes);
             }
             const values = await Promise.all(promiseArray);
-            values.forEach((roundResult: any) => {
-                const round: RoundAttrs = convertChaindataToRound(roundResult, dbRounds);
-                roundArray.push(round);
+            values.forEach((r: any) => {
+                const roundData: RoundAttrs = convertChaindataToRound(r, dbRounds);
+                roundArray.push(roundData);
             });
         }
 

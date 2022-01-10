@@ -6,7 +6,7 @@ import { ResponseMessageType } from "../../../../middlewares/error-handler";
 import { validateRequest } from "../../../../middlewares/validate-request";
 import { BadRequestError } from "../../../../errors/bad-request-error";
 import { addRoundValidatorSchema } from "../../validation/schemas";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { responseMaker } from "../../../response.maker";
 
@@ -35,7 +35,7 @@ router.post(
 
         // send transaction to blockchain
         try {
-            const tx = await contract.startNewRound(
+            const tx = await lotto360Contract.startNewRound(
                 endTime,
                 ethers.utils.parseEther(`${ticketPrice}`),
                 ethers.utils.parseEther(`${bonusBnbAmount}`),

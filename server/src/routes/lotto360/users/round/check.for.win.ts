@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { RoundWinBrief } from "../../../../database/model/round/interface.enum";
 import { ResponseMessageType } from "../../../../middlewares/error-handler";
 import { BadRequestError } from "../../../../errors/bad-request-error";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { Round } from "../../../../database/model/round/round";
 import { responseMaker } from "../../../response.maker";
 import {
@@ -170,7 +170,7 @@ router.post("/api/user/checkwin/:id", async (req: Request, res: Response) => {
         });
 
         // transfer money to user account
-        const tx = await contract.claimPrize(
+        const tx = await lotto360Contract.claimPrize(
             roundIds,
             ticketIds,
             userAddress,

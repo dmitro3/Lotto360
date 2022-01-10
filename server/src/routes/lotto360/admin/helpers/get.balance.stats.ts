@@ -2,10 +2,10 @@ import express, { Request, Response } from "express";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 
-import { CONTRACT_ADDRESS } from "../../../../config/blockchain.configs";
+import { LOTTO360_CONTRACT_ADDRESS } from "../../../../config/blockchain.configs";
 import { NotFoundError } from "../../../../errors/not-found-error";
 import { requireAuth } from "../../../../middlewares/require-auth";
-import { contract, provider } from "../../../../provider/contracts";
+import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { Round } from "../../../../database/model/round/round";
 import { responseMaker } from "../../../response.maker";
 import { bnToNumber } from "../../../../utils/ethers";
@@ -15,11 +15,13 @@ const router = express.Router();
 router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Response) => {
     try {
         // get contract balance
-        const contractBalanceBn: BigNumber = await provider.getBalance(CONTRACT_ADDRESS);
+        const contractBalanceBn: BigNumber = await provider.getBalance(
+            LOTTO360_CONTRACT_ADDRESS
+        );
         const contractBalance = parseFloat(ethers.utils.formatEther(contractBalanceBn));
 
         // get bnb in current round
-        const roundResult = await contract.getCurrentRound();
+        const roundResult = await lotto360Contract.getCurrentRound();
         if (!roundResult || !roundResult.length)
             throw new NotFoundError("Current round not found");
 
@@ -59,7 +61,7 @@ router.get("/api/getbalancestats", requireAuth, async (req: Request, res: Respon
         }
 
         // get all withdraws
-        const withdraws = await contract.getWithdraws();
+        const withdraws = await lotto360Contract.getWithdraws();
 
         if (withdraws && withdraws.length) {
             for (let i = 0; i < withdraws[1].length; i++) {
