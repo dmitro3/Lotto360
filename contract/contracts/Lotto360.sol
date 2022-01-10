@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.10;
+pragma solidity ^0.8.11;
 pragma experimental ABIEncoderV2;
 
 contract Lotto360 {
@@ -92,6 +92,7 @@ contract Lotto360 {
     );
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event PrizeTransferred(address indexed winnerAddress, uint256 indexed amount);
+    event InjectFunds(address indexed sender);
 
     /**************************************************************************************************
      * @dev these are functions for user
@@ -266,6 +267,10 @@ contract Lotto360 {
         address oldOwner = owner;
         owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
+    }
+
+    function FundsInject() external payable onlyOwner {
+        emit InjectFunds(msg.sender);
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

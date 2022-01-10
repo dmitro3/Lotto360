@@ -5,8 +5,8 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("📡 Deploying contracts with the account:", deployer.address);
     console.log("💰 Account balance:", (await deployer.getBalance()).toString());
-    const Dezdesag = await ethers.getContractFactory("Lotto360");
-    const contract = await Dezdesag.deploy();
+    const Lotto360 = await ethers.getContractFactory("Lotto360");
+    const contract = await Lotto360.deploy();
     console.log("🛰  Contract deployed at:", contract.address);
 
     const obj = JSON.parse(
