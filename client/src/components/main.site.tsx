@@ -17,8 +17,15 @@ interface MainSiteProps {
 }
 
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
-    const { address, web3, ticketPrice, currentRound, bnbPrice, maxTicketsPerBuy } =
-        state;
+    const {
+        address,
+        web3,
+        ticketPrice,
+        currentRound,
+        bnbPrice,
+        maxTicketsPerBuy,
+        userBalance,
+    } = state;
 
     useEffect(() => {
         if (!address || !web3) return;
@@ -31,7 +38,19 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
             <Header address={address} dispatch={dispatch} />
 
             <Switch>
-                <Route path="/dice" render={() => <Dice360 />} />
+                <Route
+                    path="/dice"
+                    render={() =>
+                        address &&
+                        web3 && (
+                            <Dice360
+                                address={address}
+                                balance={userBalance}
+                                web3={web3}
+                            />
+                        )
+                    }
+                />
 
                 <Route
                     path="/"

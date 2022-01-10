@@ -5,7 +5,7 @@ import { lotto360Contract as contract } from "./contracts";
 import { bnToNumber } from "../utilities/string.numbers.util";
 import { CustomToastWithLink } from "../utilities/toastLink";
 
-export const ChainMethods = {
+export const lotto360ChainMethods = {
     // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getMaxTicketsPerBuy: async (web3: Web3) => {
         try {

@@ -10,7 +10,7 @@ import BuyTicketModal from "./components/lotto360/0.ticket.modal/buy.ticket.moda
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
 import AdminPanel from "./components/admin/admin.panel";
-import { ChainMethods } from "./provider/chain.methods";
+import { lotto360ChainMethods } from "./provider/lotto360.chain.methods";
 import MainSite from "./components/main.site";
 import Signin from "./components/admin/auth/login";
 import { getWeb3 } from "./provider/web3";
@@ -84,7 +84,8 @@ const getCurrentRoundAndBnbPrice = (
     web3: Web3
 ) => {
     if (networkId !== targetNetworkId || !address) return;
-    ChainMethods.getCurrentRoundForUser(address, web3)
+    lotto360ChainMethods
+        .getCurrentRoundForUser(address, web3)
         .then((res) => {
             if (!res) return;
             dispatch({
@@ -94,7 +95,8 @@ const getCurrentRoundAndBnbPrice = (
         })
         .catch((err) => console.error(err));
 
-    ChainMethods.getMaxTicketsPerBuy(web3)
+    lotto360ChainMethods
+        .getMaxTicketsPerBuy(web3)
         .then((res) => {
             if (!res) return;
             dispatch({
@@ -104,7 +106,8 @@ const getCurrentRoundAndBnbPrice = (
         })
         .catch((err) => console.error(err));
 
-    ChainMethods.getUserBalance(address, web3)
+    lotto360ChainMethods
+        .getUserBalance(address, web3)
         .then((res) => {
             if (!res || res === "0") return;
             const balance =

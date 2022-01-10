@@ -24,7 +24,8 @@ body {
 
 .logo-hor {
     height: 60px;
-    position: relative;top: -2px;
+    position: relative;
+    top: -2px;
 }
 
 .admin-fl {
@@ -469,4 +470,32 @@ body {
 
 .rounded-100 {
     border-radius: 100%;
+}
+
+.dice-sec {
+    min-height: 100vh;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,600;1,800&display=swap");
+
+.big-title {
+    font-size: 4rem;
+    font-family: "Montserrat", sans-serif;
+}
+
+.purchase-box,
+.drop-box {
+    max-width: 400px;
+    min-width: 400px;
+    margin: 20px 0;
+}
+
+.drop-box i.active {
+    color: var(--bs-info);
+}
+
+.drop-box i {
+    transition: 0.5s ease-in-out;
+    height: 37px;
+    border-radius: 0.3rem;
 }

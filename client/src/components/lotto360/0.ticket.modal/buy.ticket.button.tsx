@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { TicketState } from "../../../interfaces/ticket.state";
-import { ChainMethods } from "../../../provider/chain.methods";
+import { lotto360ChainMethods } from "../../../provider/lotto360.chain.methods";
 import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
 import { flexItemsCenter } from "../../constants/classes";
 import ButtonWaiting from "../shared/btn.waiting";
@@ -48,7 +48,7 @@ const BuyTicketFromContract: FunctionComponent<BuyTicketButtonProps> = ({
                         (num) => 1000000 + parseInt(num)
                     );
                     setWaiting(true);
-                    const result = await ChainMethods.buyTickets(
+                    const result = await lotto360ChainMethods.buyTickets(
                         address,
                         roundId,
                         numericArray,

@@ -157,7 +157,7 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function DropRoll(
+    function DropDice(
         uint8 guess,
         uint256 seed,
         uint256 rollId,
@@ -214,7 +214,7 @@ contract Dice360 {
         uint256[] memory userRolls = UserRolls[user];
         for (uint256 i = 0; i < userRolls.length; i++) {
             uint256 rollId = userRolls[i];
-            if (Rolls[rollId].status == RollStatus.Ready) {
+            if (Rolls[rollId - 1].status == RollStatus.Ready) {
                 return true;
             }
         }
@@ -248,13 +248,13 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetReadyRoll(address user) public view returns (Roll memory) {
-        uint256[] memory userRolls = UserRolls[user];
+    function GetReadyRoll() public view returns (Roll memory) {
+        uint256[] memory userRolls = UserRolls[msg.sender];
         Roll memory roll;
         for (uint256 i = 0; i < userRolls.length; i++) {
             uint256 rollId = userRolls[i];
-            if (Rolls[rollId].status == RollStatus.Ready) {
-                roll = Rolls[rollId];
+            if (Rolls[rollId - 1].status == RollStatus.Ready) {
+                roll = Rolls[rollId - 1];
             }
         }
         return roll;
@@ -277,5 +277,54 @@ contract Dice360 {
             rolls[i] = Rolls[rollId - 1];
         }
         return rolls;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GetMyHistory() public view returns (Roll[] memory) {
+        uint256[] memory userRolls = UserRolls[msg.sender];
+        uint256 size = userRolls.length;
+        Roll[] memory rolls = new Roll[](currentRollId);
+
+        for (uint256 i = 0; i < size; i++) {
+            uint256 rollId = userRolls[i];
+            rolls[i] = Rolls[rollId - 1];
+        }
+        return rolls;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GetSettingForUser()
+        public
+        view
+        returns (
+            uint8,
+            uint256,
+            uint256
+        )
+    {
+        return (prizeMultiplier, minRollAmount, maxRollAmount);
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GetSettingForAdmin()
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            uint256,
+            uint256,
+            uint256,
+            address
+        )
+    {
+        return (
+            prizeMultiplier,
+            minRollAmount,
+            maxRollAmount,
+            ctFee,
+            currentRollId,
+            owner
+        );
     }
 }
