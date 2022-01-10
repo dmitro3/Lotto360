@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import obj from "./abi/lotto.360.contract.abi.json";
+import obj from "./abi/Lotto360.abi.json";
 import { ACCOUNT_PRIVATE_KEY, CONTRACT_ADDRESS } from "../config/blockchain.configs";
 
 const provider = new ethers.providers.InfuraProvider("rinkeby");

@@ -6,34 +6,11 @@ import express from "express";
 import cors = require("cors");
 import "express-async-errors";
 
-import { setMaxTicketsPerBuyRouter } from "./routes/admin/helpers/set.max.tickets.per.buy";
-import { getRoundByIdAdminFromDbRouter } from "./routes/admin/round/get.round.by.id.db";
-import { getRemainingBnbRouter } from "./routes/admin/helpers/calculate.remain.bnb";
-import { getUserPaymentsRouter } from "./routes/admin/payments/get.user.payment";
-import { getBalanceStatsRouter } from "./routes/admin/helpers/get.balance.stats";
-import { getRoundByIdAdminRouter } from "./routes/admin/round/get.round.by.id";
-import { checkUserHistoryRouter } from "./routes/users/round/get.user.history";
-import { transferOwnerRouter } from "./routes/admin/helpers/transfer.owner";
-import { getAllTicketsRouter } from "./routes/admin/ticket/get.all.tickets";
-import { getRoundByIdForUserRouter } from "./routes/users/round/get.by.id";
-import { getWithdrawsRouter } from "./routes/admin/helpers/get.withdraws";
-import { getCurrentRoundRouter } from "./routes/admin/round/get.current";
-import { getPaymentsRouter } from "./routes/admin/payments/get.payments";
-import { getSettingsRouter } from "./routes/admin/helpers/get.settings";
-import { updateCurrentRoundRouter } from "./routes/admin/round/update";
-import { checkForWinRouter } from "./routes/users/round/check.for.win";
-import { currentUserRouter } from "./routes/admin/auth/current.user";
-import { fetchRoundRouter } from "./routes/admin/round/fetch.round";
-import { closeRoundRouter } from "./routes/admin/round/close.round";
-import { createRoundRouter } from "./routes/admin/round/add.round";
-import { drawRoundRouter } from "./routes/admin/round/draw.round";
-import { getAllRoundsRouter } from "./routes/admin/round/get.all";
-import { withdrawRouter } from "./routes/admin/helpers/withdraw";
-import { signoutRouter } from "./routes/admin/auth/signout";
 import { errorHandler } from "./middlewares/error-handler";
-import { signinRouter } from "./routes/admin/auth/signin";
 import { NotFoundError } from "./errors/not-found-error";
 import { currentUser } from "./middlewares/current-user";
+import { registerLotto360Routes } from "./start/lotto360.routes";
+import { registerDice360Routes } from "./start/dice360.routes";
 
 const app = express();
 
@@ -56,31 +33,8 @@ app.use(limiter);
 app.use(currentUser);
 
 // register routes
-app.use(getRoundByIdAdminFromDbRouter);
-app.use(getRoundByIdForUserRouter);
-app.use(setMaxTicketsPerBuyRouter);
-app.use(updateCurrentRoundRouter);
-app.use(getRoundByIdAdminRouter);
-app.use(checkUserHistoryRouter);
-app.use(getCurrentRoundRouter);
-app.use(getRemainingBnbRouter);
-app.use(getUserPaymentsRouter);
-app.use(getBalanceStatsRouter);
-app.use(transferOwnerRouter);
-app.use(getAllTicketsRouter);
-app.use(getAllRoundsRouter);
-app.use(getWithdrawsRouter);
-app.use(getSettingsRouter);
-app.use(createRoundRouter);
-app.use(checkForWinRouter);
-app.use(currentUserRouter);
-app.use(getPaymentsRouter);
-app.use(fetchRoundRouter);
-app.use(closeRoundRouter);
-app.use(drawRoundRouter);
-app.use(withdrawRouter);
-app.use(signoutRouter);
-app.use(signinRouter);
+registerLotto360Routes(app);
+registerDice360Routes(app);
 
 // error handler
 app.all("*", async (req) => {
