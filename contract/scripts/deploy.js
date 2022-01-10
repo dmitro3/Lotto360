@@ -5,28 +5,42 @@ async function main() {
     const [deployer] = await ethers.getSigners();
     console.log("📡 Deploying contracts with the account:", deployer.address);
     console.log("💰 Account balance:", (await deployer.getBalance()).toString());
-    const Lotto360 = await ethers.getContractFactory("Lotto360");
-    const contract = await Lotto360.deploy();
-    console.log("🛰  Contract deployed at:", contract.address);
 
-    const obj = JSON.parse(
-        fs.readFileSync(
-            path.join(__dirname, "../artifacts/contracts/Lotto360.sol/Lotto360.json"),
-            "utf8"
-        )
-    );
+    const contracts = ["Lotto360", "Dice360"];
 
-    fs.writeFileSync(
-        path.join(__dirname, "../../client/src/provider/abi/lotto.360.contract.abi.json"),
-        JSON.stringify(obj.abi, null, 2),
-        "utf-8"
-    );
+    for (let contractName of contracts) {
+        const factory = await ethers.getContractFactory(contractName);
+        const contract = await factory.deploy();
+        console.log(`\n🛰  ${contractName} deployed at:`, contract.address);
 
-    fs.writeFileSync(
-        path.join(__dirname, "../../server/src/provider/abi/lotto.360.contract.abi.json"),
-        JSON.stringify(obj.abi, null, 2),
-        "utf-8"
-    );
+        const obj = JSON.parse(
+            fs.readFileSync(
+                path.join(
+                    __dirname,
+                    `../artifacts/contracts/${contractName}.sol/${contractName}.json`
+                ),
+                "utf8"
+            )
+        );
+
+        fs.writeFileSync(
+            path.join(
+                __dirname,
+                `../../client/src/provider/abi/${contractName}.abi.json`
+            ),
+            JSON.stringify(obj.abi, null, 2),
+            "utf-8"
+        );
+
+        fs.writeFileSync(
+            path.join(
+                __dirname,
+                `../../server/src/provider/abi/${contractName}.abi.json`
+            ),
+            JSON.stringify(obj.abi, null, 2),
+            "utf-8"
+        );
+    }
 }
 
 main()
