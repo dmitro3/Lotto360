@@ -165,7 +165,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![0].percentage}
+                            value={pools[0].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -181,7 +181,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![1].percentage}
+                            value={pools[1].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -197,7 +197,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![2].percentage}
+                            value={pools[2].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -216,7 +216,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![3].percentage}
+                            value={pools[3].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -232,7 +232,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![4].percentage}
+                            value={pools[4].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -248,7 +248,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![5].percentage}
+                            value={pools[5].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -266,7 +266,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     <Col sm="2">
                         <Form.Control
-                            value={pools![6].percentage}
+                            value={pools[6].percentage}
                             type="number"
                             min={0}
                             placeholder="%"
@@ -302,6 +302,5 @@ function generatePool(formValues: GetRoundApiModel, value: string, index: number
     if (formValues.pools) pl = formValues.pools;
     if (value) pl[index].percentage = parseFloat(value);
     else pl[index].percentage = 0;
-    const newState = { ...formValues, pools: pl };
-    return newState;
+    return { ...formValues, pools: pl };
 }

@@ -119,17 +119,19 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                         <div className="fs-5 me-2">
                             {moment(startTime * 1000).format("MMMM Do YYYY, h:mm a")}
                         </div>
-                        {status === RoundStatus.Open ? (
+                        {status === RoundStatus.Open && (
                             <span className="badge rounded-pill bg-primary fs-6">
                                 Open
                             </span>
-                        ) : status === RoundStatus.Claimable ? (
+                        )}
+                        {status === RoundStatus.Claimable && (
                             <span className="badge rounded-pill bg-secondary">
                                 Claimable
                             </span>
-                        ) : (
+                        )}
+                        {status === RoundStatus.Close && (
                             <span className="badge rounded-pill bg-secondary">
-                                closed
+                                Closed
                             </span>
                         )}
                     </div>

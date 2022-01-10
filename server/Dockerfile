@@ -1,5 +1,6 @@
 #  Stage 1
 FROM node:17-alpine3.14 as ts-compiler
+LABEL stage="build-stage"
 
 WORKDIR /app
 COPY package*.json ./

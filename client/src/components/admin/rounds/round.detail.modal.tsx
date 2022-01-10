@@ -84,7 +84,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
             </div>
 
             <div className="container rounded shadow bg-white py-3">
-                {cid ? (
+                {cid && (
                     <div>
                         <div className="container bg-white py-3">
                             <div className={`${flexItemsCenter} mb-3`}>
@@ -94,11 +94,12 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                                         "MMMM Do YYYY, h:mm a"
                                     )}
                                 </div>
-                                {status === RoundStatus.Open ? (
+                                {status === RoundStatus.Open && (
                                     <span className="badge rounded-pill bg-primary fs-6">
                                         Open
                                     </span>
-                                ) : (
+                                )}
+                                {status === RoundStatus.Close && (
                                     <span className="badge rounded-pill bg-secondary">
                                         closed
                                     </span>
@@ -174,7 +175,8 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                             {showTicketTable && <TicketsTable tickets={tickets} />}
                         </div>
                     </div>
-                ) : (
+                )}
+                {!cid && (
                     <div className={flexItemsCenter}>
                         <HashLoader />
                     </div>

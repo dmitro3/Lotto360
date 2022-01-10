@@ -1,5 +1,6 @@
 # Stage 1
 FROM node:16-alpine as build-stage
+LABEL stage="build-stage"
 
 WORKDIR /app
 COPY package*.json ./
