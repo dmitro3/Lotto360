@@ -1,10 +1,11 @@
 # Lotto360 project
 
-this project is consist of four parts:
-1- Reactjs frontend
-2- Nodejs backend
-3- Solidity hardhat for block-chain
-4- Mongodb for database
+This project is consist of four parts:
+
+1. Reactjs frontend
+2. Nodejs backend
+3. Solidity hardhat for block-chain
+4. Mongodb for database
 
 ## How to run
 
