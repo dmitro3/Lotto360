@@ -4,6 +4,7 @@ import { ActionModel, LottoActions } from "../../../reducer/reducer";
 import logo from "../../../contents/images/horizontal-logo.svg";
 import Wallet from "./wallet";
 import Menu from "./menu";
+import { NavLink } from "react-router-dom";
 
 interface HeaderProps {
     address?: string;
@@ -12,14 +13,14 @@ interface HeaderProps {
 
 const Header: FunctionComponent<HeaderProps> = ({ address, dispatch }) => {
     return (
-        <nav className="navbar navbar-expand-lg border-dark navbar-light">
+        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
             <div className="container-fluid">
-                <a
+                <NavLink
                     className="navbar-brand megering d-flex justify-content-between align-items-center"
-                    href="/"
+                    to="/"
                 >
                     <img src={logo} alt="logo" className="logo-hor" />
-                </a>
+                </NavLink>
                 <button
                     className="navbar-toggler"
                     type="button"

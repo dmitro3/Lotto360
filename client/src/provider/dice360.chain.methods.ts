@@ -28,6 +28,7 @@ export const dice360ChainMethods = {
             return null;
         }
     },
+
     userReadyRoll: async (address: string, web3: Web3) => {
         try {
             return await dice360Contract(web3)
@@ -38,6 +39,7 @@ export const dice360ChainMethods = {
             return null;
         }
     },
+
     userHistory: async (web3: Web3) => {
         try {
             const rolls = await dice360Contract(web3).methods.GetMyHistory().call();
@@ -47,6 +49,7 @@ export const dice360ChainMethods = {
             return null;
         }
     },
+
     getSettingForUser: async (web3: Web3): Promise<UserSetting | null> => {
         try {
             const settings = await dice360Contract(web3)

@@ -81,4 +81,4 @@ router.post(
     }
 );
 
-export { router as createRoundRouter };
+export { router as rollDiceRouter };

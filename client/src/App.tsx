@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Dispatch, useEffect, useReducer, useState } from "react";
-import { Slide, ToastContainer } from "react-toastify";
+import { Zoom, ToastContainer } from "react-toastify";
 import { Route, Switch } from "react-router";
 import axios, { AxiosResponse } from "axios";
 import Web3 from "web3";
@@ -63,8 +63,8 @@ function App() {
                 autoClose={10000}
                 theme={"colored"}
                 limit={10}
-                position="top-right"
-                transition={Slide}
+                position="bottom-right"
+                transition={Zoom}
             />
 
             {state.currentRound && state.showModal && (
