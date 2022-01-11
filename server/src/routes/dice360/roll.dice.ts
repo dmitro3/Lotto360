@@ -29,7 +29,6 @@ router.post(
     async (req: Request, res: Response) => {
         // extract body
         const { guess, rollId, address } = req.body;
-
         let transactionHash: string = "";
 
         // send transaction to blockchain
@@ -45,7 +44,6 @@ router.post(
             );
 
             // get tx hash
-            console.info("add round transaction hash:", tx.hash);
             transactionHash = tx.hash;
 
             // get tx result

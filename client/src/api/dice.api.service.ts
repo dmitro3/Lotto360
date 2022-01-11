@@ -8,7 +8,7 @@ export const DiceApiService = {
         guess: number,
         rollId: number,
         address: string
-    ): Promise<AxiosResponse<ApiResponseResult<number>>> => {
-        return httpService.post(`${baseUrl}/user/round`, { guess, rollId, address });
+    ): Promise<AxiosResponse<ApiResponseResult<any>>> => {
+        return httpService.post(`${baseUrl}/rolldice`, { guess, rollId, address });
     },
 };

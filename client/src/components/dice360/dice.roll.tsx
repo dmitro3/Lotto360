@@ -1,8 +1,10 @@
 import { FunctionComponent, useState } from "react";
+import ButtonWaiting from "../lotto360/shared/btn.waiting";
 
 interface DiceRollProps {
     alreadyPurchased: boolean;
     btnSmallInfo: JSX.Element;
+    buttonLoading: boolean;
     rollDice: (n: number) => void;
 }
 
@@ -11,11 +13,13 @@ const diceClass = "fa-solid pointer fs-1";
 const DiceRoll: FunctionComponent<DiceRollProps> = ({
     alreadyPurchased,
     btnSmallInfo,
+    buttonLoading,
     rollDice,
 }) => {
     const [choosedDice, setChoosedDice] = useState<number | undefined>();
 
     const getButtonText = () => {
+        if (buttonLoading) return <ButtonWaiting />;
         if (!alreadyPurchased) return "first purchase";
         else if (!choosedDice) return "choose number";
         else return "drop";
@@ -44,15 +48,14 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
                     <i
                         key={i}
                         onClick={() => handleDiceClick(num)}
-                        className={`${diceClass} fa-dice-${numberToWord(num)} ${active(
-                            num,
-                            choosedDice
-                        )}`}
+                        className={`${diceClass} dice fa-dice-${numberToWord(
+                            num
+                        )} ${active(num, choosedDice)}`}
                     ></i>
                 ))}
             </div>
             <button
-                disabled={!choosedDice || !alreadyPurchased}
+                disabled={!choosedDice || !alreadyPurchased || buttonLoading}
                 type="button"
                 className="btn btn-success w-100 mt-3"
                 onClick={() => choosedDice && rollDice(choosedDice)}

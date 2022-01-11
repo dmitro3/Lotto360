@@ -352,6 +352,77 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "rollId",
+        "type": "uint256"
+      }
+    ],
+    "name": "GetRoleById",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchaseTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rollTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ctFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "multiplier",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "guess",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "enum Dice360.RollStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Dice360.Roll",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "GetRolls",
     "outputs": [
@@ -605,6 +676,77 @@
     "name": "SetPrizeMultiplier",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "rollId",
+        "type": "uint256"
+      }
+    ],
+    "name": "UserGetRoleById",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchaseTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "rollTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ctFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "multiplier",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "guess",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "enum Dice360.RollStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct Dice360.Roll",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {

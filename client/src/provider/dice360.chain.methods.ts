@@ -16,7 +16,7 @@ export const dice360ChainMethods = {
                     from: address,
                     value: Web3.utils.toWei(`${1}`, "ether"),
                 });
-                */
+            */
             return dice360Contract(web3)
                 .methods.PurchaseRoll()
                 .send({
@@ -40,10 +40,9 @@ export const dice360ChainMethods = {
         }
     },
 
-    userHistory: async (web3: Web3) => {
+    userHistory: async (address: string, web3: Web3) => {
         try {
-            const rolls = await dice360Contract(web3).methods.GetMyHistory().call();
-            return rolls;
+            return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
         } catch (err) {
             console.error("Error checking ready rolls:", err);
             return null;
@@ -61,6 +60,17 @@ export const dice360ChainMethods = {
                 maxBet: parseFloat(Web3.utils.fromWei(settings[2], "ether")),
             };
             return result;
+        } catch (err) {
+            console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+
+    getRollById: async (id: string, address: string, web3: Web3) => {
+        try {
+            return dice360Contract(web3)
+                .methods.UserGetRoleById(id)
+                .call({ from: address });
         } catch (err) {
             console.error("Error checking ready rolls:", err);
             return null;

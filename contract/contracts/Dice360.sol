@@ -248,6 +248,20 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GetRoleById(uint256 rollId) public view onlyOwner returns (Roll memory) {
+        return Rolls[rollId - 1];
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function UserGetRoleById(uint256 rollId) public view returns (Roll memory) {
+        Roll memory roll;
+        if (Rolls[rollId - 1].user == msg.sender) {
+            roll = Rolls[rollId - 1];
+        }
+        return roll;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function GetReadyRoll() public view returns (Roll memory) {
         uint256[] memory userRolls = UserRolls[msg.sender];
         Roll memory roll;
@@ -270,7 +284,7 @@ contract Dice360 {
     {
         uint256[] memory userRolls = UserRolls[userAddress];
         uint256 size = userRolls.length;
-        Roll[] memory rolls = new Roll[](currentRollId);
+        Roll[] memory rolls = new Roll[](size);
 
         for (uint256 i = 0; i < size; i++) {
             uint256 rollId = userRolls[i];
@@ -283,7 +297,7 @@ contract Dice360 {
     function GetMyHistory() public view returns (Roll[] memory) {
         uint256[] memory userRolls = UserRolls[msg.sender];
         uint256 size = userRolls.length;
-        Roll[] memory rolls = new Roll[](currentRollId);
+        Roll[] memory rolls = new Roll[](size);
 
         for (uint256 i = 0; i < size; i++) {
             uint256 rollId = userRolls[i];

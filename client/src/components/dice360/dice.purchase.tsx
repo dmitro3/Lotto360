@@ -1,10 +1,13 @@
 import { Dispatch, FunctionComponent } from "react";
 
+import ButtonWaiting from "../lotto360/shared/btn.waiting";
+
 interface DicePurchaseProps {
     alreadyPurchased: boolean;
     balance: number;
     betAmount: number;
     btnSmallInfo: JSX.Element;
+    buttonLoading: boolean;
     maxBet: number;
     minBet: number;
     multiplier: number;
@@ -17,12 +20,19 @@ const DicePurchase: FunctionComponent<DicePurchaseProps> = ({
     balance,
     betAmount,
     btnSmallInfo,
+    buttonLoading,
     maxBet,
     minBet,
     multiplier,
     purchaseRoll,
     setBetAmount,
 }) => {
+    const getButtonText = () => {
+        if (buttonLoading) return <ButtonWaiting />;
+        else if (alreadyPurchased) return "already purchased roll";
+        else return "purchase roll";
+    };
+
     return (
         <div
             className={`purchase-box rounded bg-white shadow p-4 ${
@@ -40,7 +50,7 @@ const DicePurchase: FunctionComponent<DicePurchaseProps> = ({
             <div className="input-group mb-3">
                 <input
                     className="form-control"
-                    disabled={alreadyPurchased}
+                    disabled={alreadyPurchased || buttonLoading}
                     type="number"
                     placeholder="enter bet amount"
                     value={betAmount}
@@ -69,11 +79,13 @@ const DicePurchase: FunctionComponent<DicePurchaseProps> = ({
                 type="button"
                 className="btn btn-success w-100 mt-3"
                 disabled={
-                    !(betAmount >= minBet && betAmount <= maxBet) || alreadyPurchased
+                    !(betAmount >= minBet && betAmount <= maxBet) ||
+                    alreadyPurchased ||
+                    buttonLoading
                 }
                 onClick={() => purchaseRoll()}
             >
-                {alreadyPurchased ? "already purchased roll" : "purchase roll"}
+                {getButtonText()}
             </button>
         </div>
     );

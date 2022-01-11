@@ -476,7 +476,7 @@ body {
     color: var(--bs-warning);
 }
 
-.drop-box i {
+.drop-box i.dice {
     transition: 0.3s ease-in-out;
     height: 37px;
     border-radius: 0.3rem;
