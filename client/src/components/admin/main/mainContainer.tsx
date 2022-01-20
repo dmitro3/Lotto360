@@ -6,12 +6,17 @@ import SideBar from "../sidebar/sideBar";
 import Settings from "../settings/settings";
 import Withdraws from "../withdraws/withdraws";
 import Payments from "../payments/payments";
+import Roll from "../dice/roll";
+import RollSettings from "../dice/roll.settings";
+import Web3 from "web3";
 
 interface MainContainerProps {
+    address: string;
+    web3: Web3;
     bnbPrice: number;
 }
 
-const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
+const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }) => {
     return (
         <div className="fluid-container admin-fl">
             <div className="container-fluid admin-fl">
@@ -28,6 +33,16 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice }) => {
                             <Route path="/admin/settings" component={Settings} />
                             <Route path="/admin/withdraws" component={Withdraws} />
                             <Route path="/admin/payments" component={Payments} />
+                            <Route
+                                path="/admin/rollsettings"
+                                render={() => (
+                                    <RollSettings address={address} web3={web3} />
+                                )}
+                            />
+                            <Route
+                                path="/admin/rolls"
+                                render={() => <Roll address={address} web3={web3} />}
+                            />
                             <Route path="/admin" component={Dashboard} />
 
                             <Redirect from="/" exact to="/" />

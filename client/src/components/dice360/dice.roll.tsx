@@ -37,7 +37,7 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
         >
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-2 me-2"></i>
-                Drop roll
+                Drop dice
             </h4>
             <p>
                 {btnSmallInfo}

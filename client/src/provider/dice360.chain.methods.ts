@@ -10,13 +10,6 @@ export interface UserSetting {
 export const dice360ChainMethods = {
     purchaseRoll: async (address: string, value: number, web3: Web3) => {
         try {
-            /**  return dice360Contract(web3)
-                .methods.FundsInject()
-                .send({
-                    from: address,
-                    value: Web3.utils.toWei(`${1}`, "ether"),
-                });
-            */
             return dice360Contract(web3)
                 .methods.PurchaseRoll()
                 .send({
@@ -25,6 +18,90 @@ export const dice360ChainMethods = {
                 });
         } catch (err) {
             console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+
+    injectFund: async (address: string, value: number, web3: Web3) => {
+        try {
+            return dice360Contract(web3)
+                .methods.FundsInject()
+                .send({
+                    from: address,
+                    value: Web3.utils.toWei(`${value}`, "ether"),
+                });
+        } catch (err) {
+            console.error("Error injecting funds:", err);
+            return null;
+        }
+    },
+
+    setContractFee: async (address: string, value: number, web3: Web3) => {
+        try {
+            return dice360Contract(web3).methods.SetContractFee(value).send({
+                from: address,
+            });
+        } catch (err) {
+            console.error("Error setting house fee:", err);
+            return null;
+        }
+    },
+
+    setPrizeMultiplier: async (address: string, value: number, web3: Web3) => {
+        try {
+            return dice360Contract(web3).methods.SetPrizeMultiplier(value).send({
+                from: address,
+            });
+        } catch (err) {
+            console.error("Error setting multiplier:", err);
+            return null;
+        }
+    },
+
+    setMinRollAmount: async (address: string, value: number, web3: Web3) => {
+        try {
+            return dice360Contract(web3)
+                .methods.SetMinRollAmount(Web3.utils.toWei(`${value}`, "ether"))
+                .send({
+                    from: address,
+                });
+        } catch (err) {
+            console.error("Error setting min roll value:", err);
+            return null;
+        }
+    },
+
+    setMaxRollAmount: async (address: string, value: number, web3: Web3) => {
+        try {
+            return dice360Contract(web3)
+                .methods.SetMaxRollAmount(Web3.utils.toWei(`${value}`, "ether"))
+                .send({
+                    from: address,
+                });
+        } catch (err) {
+            console.error("Error setting max roll value:", err);
+            return null;
+        }
+    },
+
+    transferOwnership: async (address: string, newOwner: string, web3: Web3) => {
+        try {
+            return dice360Contract(web3).methods.transferOwnership(newOwner).send({
+                from: address,
+            });
+        } catch (err) {
+            console.error("Error transferring owner:", err);
+            return null;
+        }
+    },
+
+    getSettingForAdmin: async (address: string, web3: Web3) => {
+        try {
+            return dice360Contract(web3).methods.GetSettingForAdmin().call({
+                from: address,
+            });
+        } catch (err) {
+            console.error("Error transferring owner:", err);
             return null;
         }
     },

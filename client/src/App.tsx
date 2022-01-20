@@ -52,7 +52,16 @@ function App() {
                 />
                 <ProtectedRoute
                     path="/admin"
-                    render={() => <AdminPanel bnbPrice={state.bnbPrice} />}
+                    render={() =>
+                        state.address &&
+                        state.web3 && (
+                            <AdminPanel
+                                address={state.address}
+                                bnbPrice={state.bnbPrice}
+                                web3={state.web3}
+                            />
+                        )
+                    }
                 />
                 <Route
                     path="/"

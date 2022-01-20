@@ -24,6 +24,8 @@ const dashboardItems: SideBarItem[] = [
     new SideBarItem("Settings", "gear"),
     new SideBarItem("Withdraws", "money-from-bracket"),
     new SideBarItem("Payments", "money-from-bracket"),
+    new SideBarItem("Rolls", "dice"),
+    new SideBarItem("RollSettings", "dice"),
 ];
 
 const SideBar: React.FC<SideBarProps> = () => {
