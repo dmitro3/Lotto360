@@ -1,5 +1,6 @@
 import Web3 from "web3";
-import { dice360Contract } from "./contracts";
+import { convertRoll } from "../../interfaces/roll";
+import { dice360Contract } from "../contracts";
 
 export interface UserSetting {
     multiplier: number;
@@ -22,6 +23,56 @@ export const dice360ChainMethods = {
         }
     },
 
+    userReadyRoll: async (address: string, web3: Web3) => {
+        try {
+            return await dice360Contract(web3)
+                .methods.GetReadyRoll()
+                .call({ from: address });
+        } catch (err) {
+            console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+
+    userHistory: async (address: string, web3: Web3) => {
+        try {
+            return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
+        } catch (err) {
+            console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+
+    getSettingForUser: async (web3: Web3): Promise<UserSetting | null> => {
+        try {
+            const settings = await dice360Contract(web3)
+                .methods.GetSettingForUser()
+                .call();
+            const result: UserSetting = {
+                multiplier: parseInt(settings[0]),
+                minBet: parseFloat(Web3.utils.fromWei(settings[1], "ether")),
+                maxBet: parseFloat(Web3.utils.fromWei(settings[2], "ether")),
+            };
+            return result;
+        } catch (err) {
+            console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+
+    getRollById: async (id: string, address: string, web3: Web3) => {
+        try {
+            return dice360Contract(web3)
+                .methods.UserGetRoleById(id)
+                .call({ from: address });
+        } catch (err) {
+            console.error("Error checking ready rolls:", err);
+            return null;
+        }
+    },
+};
+
+export const dice360AdminChainMethods = {
     injectFund: async (address: string, value: number, web3: Web3) => {
         try {
             return dice360Contract(web3)
@@ -106,50 +157,45 @@ export const dice360ChainMethods = {
         }
     },
 
-    userReadyRoll: async (address: string, web3: Web3) => {
+    getRolls: async (address: string, web3: Web3) => {
         try {
-            return await dice360Contract(web3)
-                .methods.GetReadyRoll()
-                .call({ from: address });
+            const result: any[] = await dice360Contract(web3).methods.GetRolls().call({
+                from: address,
+            });
+
+            return convertRoll(result);
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error getting rolls:", err);
             return null;
         }
     },
 
-    userHistory: async (address: string, web3: Web3) => {
+    getUserRolls: async (address: string, userAddress: string, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
+            const result: any[] = await dice360Contract(web3)
+                .methods.GetUserRolls(userAddress)
+                .call({
+                    from: address,
+                });
+
+            return convertRoll(result);
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error getting rolls:", err);
             return null;
         }
     },
 
-    getSettingForUser: async (web3: Web3): Promise<UserSetting | null> => {
+    getRoleById: async (address: string, rollId: string, web3: Web3) => {
         try {
-            const settings = await dice360Contract(web3)
-                .methods.GetSettingForUser()
-                .call();
-            const result: UserSetting = {
-                multiplier: parseInt(settings[0]),
-                minBet: parseFloat(Web3.utils.fromWei(settings[1], "ether")),
-                maxBet: parseFloat(Web3.utils.fromWei(settings[2], "ether")),
-            };
-            return result;
-        } catch (err) {
-            console.error("Error checking ready rolls:", err);
-            return null;
-        }
-    },
+            const result: any[] = await dice360Contract(web3)
+                .methods.GetRoleById(rollId)
+                .call({
+                    from: address,
+                });
 
-    getRollById: async (id: string, address: string, web3: Web3) => {
-        try {
-            return dice360Contract(web3)
-                .methods.UserGetRoleById(id)
-                .call({ from: address });
+            return convertRoll([result]);
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error getting roll:", err);
             return null;
         }
     },

@@ -1,7 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import { dice360ChainMethods } from "../../../provider/dice360.chain.methods";
+import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
 import InputSetting from "./set.inputs";
 
 interface RollSettingsProps {
@@ -30,10 +30,9 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
     const [currentRollId, setCurrentRollId] = useState(0);
 
     useEffect(() => {
-        dice360ChainMethods
+        dice360AdminChainMethods
             .getSettingForAdmin(address, web3)
             .then((res) => {
-                console.info(res);
                 setMultiplier(res[0]);
                 setMin(parseFloat(Web3.utils.fromWei(res[1], "ether")));
                 setMax(parseFloat(Web3.utils.fromWei(res[2], "ether")));
@@ -46,7 +45,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const sendFund = () => {
         setFundLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .injectFund(address, fund, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${fund} BNB added to contract`);
@@ -57,7 +56,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setFeeContract = () => {
         setFeeLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .setContractFee(address, fee, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${fee}% fee set to contract`);
@@ -68,7 +67,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMultiplier = () => {
         setMultiplierLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .setPrizeMultiplier(address, multiplier, web3)
             .then((res) => {
                 if (res && res.status)
@@ -80,7 +79,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMin = () => {
         setMinLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .setMinRollAmount(address, min, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${min} BNB min set to contract`);
@@ -91,7 +90,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMax = () => {
         setMaxLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .setMaxRollAmount(address, max, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${max} BNB max set to contract`);
@@ -102,7 +101,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractNewOwner = () => {
         setNewOwnerLoading(true);
-        dice360ChainMethods
+        dice360AdminChainMethods
             .transferOwnership(address, newOwner, web3)
             .then((res) => {
                 if (res && res.status)

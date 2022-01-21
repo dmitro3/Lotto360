@@ -2,7 +2,7 @@ import { Dispatch, FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 
-import { dice360ChainMethods, UserSetting } from "../../provider/dice360.chain.methods";
+import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import { DiceApiService } from "../../api/dice.api.service";
 import { Roll, RollStatus } from "../../interfaces/roll";
 import FullScreenLoader from "../admin/shared/loader";

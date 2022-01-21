@@ -485,3 +485,7 @@ body {
 .navig.active {
     background-color: transparent !important;
 }
+
+.input-group > .btn {
+    margin-left: 5px !important;
+}

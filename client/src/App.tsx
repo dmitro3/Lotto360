@@ -10,10 +10,10 @@ import BuyTicketModal from "./components/lotto360/0.ticket.modal/buy.ticket.moda
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
 import AdminPanel from "./components/admin/admin.panel";
-import { lotto360ChainMethods } from "./provider/lotto360.chain.methods";
 import MainSite from "./components/main.site";
 import Signin from "./components/admin/auth/login";
 import { getWeb3 } from "./provider/web3";
+import { lotto360ChainMethods } from "./provider/chain.methods/lotto360";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);

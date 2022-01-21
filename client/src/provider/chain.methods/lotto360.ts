@@ -1,21 +1,22 @@
 import Web3 from "web3";
 import { toast } from "react-toastify";
-import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../api/models/round.model";
-import { lotto360Contract as contract } from "./contracts";
-import { bnToNumber } from "../utilities/string.numbers.util";
-import { CustomToastWithLink } from "../utilities/toastLink";
+import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../../api/models/round.model";
+import { bnToNumber } from "../../utilities/string.numbers.util";
+import { CustomToastWithLink } from "../../utilities/toastLink";
+import { lotto360Contract } from "../contracts";
 
 export const lotto360ChainMethods = {
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     getMaxTicketsPerBuy: async (web3: Web3) => {
         try {
-            return contract(web3).methods.getMaxNumberTicketsPerBuyOrClaim().call();
+            return lotto360Contract(web3)
+                .methods.getMaxNumberTicketsPerBuyOrClaim()
+                .call();
         } catch (err) {
             console.error("Error check max tickets per buy:", err);
             return null;
         }
     },
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     getUserBalance: async (address: string, web3: Web3) => {
         try {
             return await web3.eth.getBalance(address);
@@ -24,14 +25,14 @@ export const lotto360ChainMethods = {
             return null;
         }
     },
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     getCurrentRoundForUser: async (address: string, web3: Web3) => {
         try {
-            const roundResult = await contract(web3)
+            const roundResult = await lotto360Contract(web3)
                 .methods.getCurrentRoundForUser()
                 .call({ from: address });
 
-            const ticketsResult = await contract(web3)
+            const ticketsResult = await lotto360Contract(web3)
                 .methods.getUserTicketsInCurrentRound()
                 .call({ from: address });
 
@@ -47,7 +48,7 @@ export const lotto360ChainMethods = {
                 }
             }
 
-            const poolsBn: any[] = await contract(web3)
+            const poolsBn: any[] = await lotto360Contract(web3)
                 .methods.getPoolsInCurrentRoundForUser()
                 .call({ from: address });
 
@@ -82,7 +83,7 @@ export const lotto360ChainMethods = {
             return null;
         }
     },
-    // * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     buyTickets: async (
         userAddress: string,
         roundId: number,
@@ -95,7 +96,7 @@ export const lotto360ChainMethods = {
                 if (num < 1000000 || num > 1999999) toast.error("Invalid ticket numbers");
             });
             const amount = tickets.length * ticketPrice;
-            const result = await contract(web3)
+            const result = await lotto360Contract(web3)
                 .methods.buyTickets(roundId, tickets)
                 .send({
                     from: userAddress,

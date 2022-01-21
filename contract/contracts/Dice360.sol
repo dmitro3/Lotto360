@@ -170,7 +170,7 @@ contract Dice360 {
         require(roll.status == RollStatus.Ready, "Roll is dropped before");
         require(user == roll.user, "Roll belongs to other user");
 
-        uint8 result = _generateRandomDice(seed, roll);
+        uint8 result = uint8(_generateRandomDice(seed, roll));
 
         Rolls[rollId - 1].rollTime = block.timestamp;
         Rolls[rollId - 1].guess = guess;
@@ -191,7 +191,7 @@ contract Dice360 {
         view
         onlyOwner
         nonContract
-        returns (uint8)
+        returns (uint256)
     {
         uint256 number = uint256(
             keccak256(
@@ -206,6 +206,9 @@ contract Dice360 {
             )
         );
 
+        uint8 firstResult = uint8((number % 6) + 1);
+        uint256 newGuess = roll.guess;
+
         bool go = true;
         while (go) {
             if (
@@ -215,18 +218,42 @@ contract Dice360 {
             ) {
                 go = false;
             } else {
-                if ((number % 6) + 1 == roll.guess) {
-                    if (roll.guess > 1) {
-                        return roll.guess - 1;
+                if (firstResult == newGuess) {
+                    if (newGuess > 3) {
+                        return
+                            (uint256(
+                                keccak256(
+                                    abi.encodePacked(
+                                        _seed,
+                                        block.number,
+                                        block.coinbase,
+                                        block.gaslimit,
+                                        block.timestamp,
+                                        blockhash(block.number - 1)
+                                    )
+                                )
+                            ) % 6) + 1;
                     } else {
-                        return roll.guess + 1;
+                        return
+                            (uint256(
+                                keccak256(
+                                    abi.encodePacked(
+                                        _seed,
+                                        block.number,
+                                        block.coinbase,
+                                        block.gaslimit,
+                                        block.timestamp,
+                                        blockhash(block.number - 1)
+                                    )
+                                )
+                            ) % 6) + 1;
                     }
                 }
             }
             go = false;
         }
 
-        return uint8((number % 6) + 1);
+        return firstResult;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -273,6 +300,25 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    function GetUserRolls(address userAddress)
+        public
+        view
+        onlyOwner
+        nonContract
+        returns (Roll[] memory)
+    {
+        uint256[] memory userRolls = UserRolls[userAddress];
+        uint256 size = userRolls.length;
+        Roll[] memory rolls = new Roll[](size);
+
+        for (uint256 i = 0; i < size; i++) {
+            uint256 rollId = userRolls[i];
+            rolls[i] = Rolls[rollId - 1];
+        }
+        return rolls;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function UserGetRoleById(uint256 rollId) public view returns (Roll memory) {
         Roll memory roll;
         if (Rolls[rollId - 1].user == msg.sender) {
@@ -292,25 +338,6 @@ contract Dice360 {
             }
         }
         return roll;
-    }
-
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetUserRolls(address userAddress)
-        public
-        view
-        onlyOwner
-        nonContract
-        returns (Roll[] memory)
-    {
-        uint256[] memory userRolls = UserRolls[userAddress];
-        uint256 size = userRolls.length;
-        Roll[] memory rolls = new Roll[](size);
-
-        for (uint256 i = 0; i < size; i++) {
-            uint256 rollId = userRolls[i];
-            rolls[i] = Rolls[rollId - 1];
-        }
-        return rolls;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -25,6 +25,10 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
             <Modal.Body>
                 <h4 className="fw-bold"># {roll.id}</h4>
                 <div className="d-flex justify-content-between">
+                    <span>User: </span>
+                    <span className="fw-bold">{roll.user}</span>
+                </div>
+                <div className="d-flex justify-content-between">
                     <span>Amount: </span>
                     <span className="fw-bold">
                         {Web3.utils.fromWei(roll.amount, "ether")}

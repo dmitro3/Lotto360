@@ -2,7 +2,7 @@ import { FunctionComponent } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { TicketState } from "../../../interfaces/ticket.state";
-import { lotto360ChainMethods } from "../../../provider/lotto360.chain.methods";
+import { lotto360ChainMethods } from "../../../provider/chain.methods/lotto360";
 import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
 import { flexItemsCenter } from "../../constants/classes";
 import ButtonWaiting from "../shared/btn.waiting";
