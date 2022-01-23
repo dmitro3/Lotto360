@@ -2,47 +2,47 @@ import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import Web3 from "web3";
-import { Roll as IRoll } from "../../../interfaces/roll";
-import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
-import DiceResultModal from "../../dice360/dice.result.modal";
+import { Spin as ISpin } from "../../../interfaces/spin";
+import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
+import BeastResultModal from "../../666/666.result.modal";
 import ButtonWaiting from "../../lotto360/shared/btn.waiting";
 
-interface RollProps {
+interface SpinProps {
     address: string;
     web3: Web3;
 }
 
-const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
+const Spin: FunctionComponent<SpinProps> = ({ address, web3 }) => {
     const [userAddress, setUserAddress] = useState("");
     const [searchButtonLoading, setSearchButtonLoading] = useState(false);
-    const [selectedRoll, setSelectedRoll] = useState<IRoll>();
-    const [rolls, setRolls] = useState<IRoll[]>();
+    const [selectedSpin, setSelectedSpin] = useState<ISpin>();
+    const [spins, setSpins] = useState<ISpin[]>();
 
     useEffect(() => {
-        dice360AdminChainMethods
-            .getRolls(address, web3)
-            .then((res) => res && setRolls(res))
+        beastAdminChainMethods
+            .getSpins(address, web3)
+            .then((res) => res && setSpins(res))
             .catch((err) => console.error(err));
     }, [address, web3]);
 
-    const getRollsByUserAddress = () => {
+    const getSpinsByUserAddress = () => {
         setSearchButtonLoading(true);
         if (Number(userAddress)) {
-            dice360AdminChainMethods
-                .getRollById(address, userAddress, web3)
-                .then((res) => res && setRolls(res))
+            beastAdminChainMethods
+                .getSpinById(address, userAddress, web3)
+                .then((res) => res && setSpins(res))
                 .catch((err) => console.error(err))
                 .finally(() => setSearchButtonLoading(false));
         } else if (userAddress) {
-            dice360AdminChainMethods
-                .getUserRolls(address, userAddress, web3)
-                .then((res) => res && setRolls(res))
+            beastAdminChainMethods
+                .getUserSpins(address, userAddress, web3)
+                .then((res) => res && setSpins(res))
                 .catch((err) => console.error(err))
                 .finally(() => setSearchButtonLoading(false));
         } else {
-            dice360AdminChainMethods
-                .getRolls(address, web3)
-                .then((res) => res && setRolls(res))
+            beastAdminChainMethods
+                .getSpins(address, web3)
+                .then((res) => res && setSpins(res))
                 .catch((err) => console.error(err))
                 .finally(() => setSearchButtonLoading(false));
         }
@@ -50,7 +50,7 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
 
     return (
         <>
-            <h4 className="fw-bold mb-3 d-flex">Rolls:</h4>
+            <h4 className="fw-bold mb-3 d-flex">Spins:</h4>
             <div className="d-flex col col-4 col-sm-12 col-md-12 col-lg-4 col-xl-4">
                 <div className="input-group mb-3">
                     <input
@@ -68,14 +68,14 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                         className="btn btn-primary"
                         type="button"
                         id="button-addon2"
-                        onClick={() => getRollsByUserAddress()}
+                        onClick={() => getSpinsByUserAddress()}
                     >
                         {searchButtonLoading ? <ButtonWaiting /> : "search"}
                     </button>
                 </div>
             </div>
 
-            {rolls ? (
+            {spins ? (
                 <Table striped bordered hover responsive>
                     <thead className="table-dark">
                         <tr>
@@ -83,13 +83,12 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                             <th>User</th>
                             <th>Amount</th>
                             <th>Purchase time</th>
-                            <th>Guess</th>
                             <th>Result</th>
                             <th>Info</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {rolls.map((r, i) => (
+                        {spins.map((r, i) => (
                             <tr key={i}>
                                 <td>{r.id}</td>
                                 <td>{r.user}</td>
@@ -99,12 +98,11 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                                         "DD/MM/YYYY - hh:mm:ss"
                                     )}
                                 </td>
-                                <td>{r.guess}</td>
                                 <td>{r.result}</td>
                                 <td>
                                     <button
                                         className="btn btn-sm btn-secondary"
-                                        onClick={() => setSelectedRoll(r)}
+                                        onClick={() => setSelectedSpin(r)}
                                     >
                                         info
                                     </button>
@@ -114,18 +112,18 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                     </tbody>
                 </Table>
             ) : (
-                <span className="fw-bold text-info">No roll found</span>
+                <span className="fw-bold text-info">No spin found</span>
             )}
 
-            {selectedRoll && (
-                <DiceResultModal
-                    roll={selectedRoll}
-                    showModal={!!selectedRoll}
-                    setShowModal={setSelectedRoll}
+            {selectedSpin && (
+                <BeastResultModal
+                    spin={selectedSpin}
+                    showModal={!!selectedSpin}
+                    setShowModal={setSelectedSpin}
                 />
             )}
         </>
     );
 };
 
-export default Roll;
+export default Spin;

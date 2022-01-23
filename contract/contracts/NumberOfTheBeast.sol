@@ -6,35 +6,34 @@ pragma experimental ABIEncoderV2;
 contract NumberOfTheBeast {
     address private owner;
     uint256 ctFee = 5;
-    uint256 private currentRoundId = 0;
+    uint256 private currentSpinId = 0;
     uint8 public prizeMultiplier = 20;
-    uint256 public minRoundAmount = 10000000000000000; // 0.01 bnb
-    uint256 public maxRoundAmount = 200000000000000000; // 0.2 bnb
+    uint256 public minSpinAmount = 10000000000000000; // 0.01 bnb
+    uint256 public maxSpinAmount = 200000000000000000; // 0.2 bnb
 
     constructor() {
         owner = msg.sender;
     }
 
-    enum RoundStatus {
+    enum SpinStatus {
         Ready,
         Closed
     }
 
-    struct Round {
+    struct Spin {
         uint256 id;
         uint256 amount;
         uint256 purchaseTime;
         uint256 spinTime;
         uint256 ctFee;
         uint8 multiplier;
-        uint256 guess;
         uint256 result;
         address user;
-        RoundStatus status;
+        SpinStatus status;
     }
 
-    mapping(uint256 => Round) private Rounds;
-    mapping(address => uint256[]) private UserRounds;
+    mapping(uint256 => Spin) private Spins;
+    mapping(address => uint256[]) private UserSpins;
 
     /**************************************************************************************************
      * @dev modifiers
@@ -52,27 +51,19 @@ contract NumberOfTheBeast {
     /**************************************************************************************************
      * @dev events
      **************************************************************************************************/
-    event RoundPurchased(uint256 id, address user, uint256 amount, uint256 time, uint256 multiplier);
+    event SpinPurchased(uint256 id, address user, uint256 amount, uint256 time, uint256 multiplier);
 
-    event RoundDropped(
-        uint256 id,
-        address user,
-        uint256 amount,
-        uint8 guess,
-        uint8 result,
-        uint256 time,
-        uint256 multiplier
-    );
+    event SlotSpined(uint256 id, address user, uint256 amount, uint256 result, uint256 time, uint256 multiplier);
 
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
-    event MinRoundAmountUpdated(uint256 minRoundAmount);
-    event MaxRoundAmountUpdated(uint256 maxRoundAmount);
+    event MinSpinAmountUpdated(uint256 minSpinAmount);
+    event MaxSpinAmountUpdated(uint256 maxSpinAmount);
     event TokenTransferred(address to, uint256 amount);
     event MultiplierUpdated(uint8 multiplier);
     event InjectFunds(address indexed sender);
 
     /**************************************************************************************************
-     * @dev Controunder Functions
+     * @dev Contspiner Functions
      **************************************************************************************************/
     function FundsInject() public payable {
         emit InjectFunds(msg.sender);
@@ -87,14 +78,14 @@ contract NumberOfTheBeast {
         emit MultiplierUpdated(prizeMultiplier);
     }
 
-    function SetMinRoundAmount(uint256 _minRoundAmount) external onlyOwner nonContract {
-        minRoundAmount = _minRoundAmount;
-        emit MinRoundAmountUpdated(minRoundAmount);
+    function SetMinSpinAmount(uint256 _minSpinAmount) external onlyOwner nonContract {
+        minSpinAmount = _minSpinAmount;
+        emit MinSpinAmountUpdated(minSpinAmount);
     }
 
-    function SetMaxRoundAmount(uint256 _maxRoundAmount) external onlyOwner nonContract {
-        maxRoundAmount = _maxRoundAmount;
-        emit MaxRoundAmountUpdated(maxRoundAmount);
+    function SetMaxSpinAmount(uint256 _maxSpinAmount) external onlyOwner nonContract {
+        maxSpinAmount = _maxSpinAmount;
+        emit MaxSpinAmountUpdated(maxSpinAmount);
     }
 
     function transferOwnership(address newOwner) external onlyOwner nonContract {
@@ -106,65 +97,61 @@ contract NumberOfTheBeast {
     /**************************************************************************************************
      * @dev MainGame Functions
      **************************************************************************************************/
-    function PurchaseRound() public payable nonContract {
-        require(msg.value >= minRoundAmount, "Round amount must be greater than minimum amount");
-        require(msg.value <= maxRoundAmount, "Round amount must be less than maximum amount");
+    function PurchaseSpin() public payable nonContract {
+        require(msg.value >= minSpinAmount, "Spin amount must be greater than minimum amount");
+        require(msg.value <= maxSpinAmount, "Spin amount must be less than maximum amount");
 
-        require(!_anyReadyRounds(msg.sender), "You already purchase a round");
+        require(!_anyReadySpins(msg.sender), "You already purchase a spin");
 
         uint256 toPay = ((msg.value - ((msg.value / 100) * ctFee)) * prizeMultiplier);
-        require(address(this).balance > toPay, "Round prize is bigger than contract balance, try small amount");
+        require(address(this).balance > toPay, "Spin prize is bigger than contract balance, try small amount");
 
-        currentRoundId++;
+        currentSpinId++;
 
-        Rounds[currentRoundId - 1] = Round({
-            id: currentRoundId,
+        Spins[currentSpinId - 1] = Spin({
+            id: currentSpinId,
             amount: msg.value,
             purchaseTime: block.timestamp,
             spinTime: 0,
             ctFee: ctFee,
             multiplier: prizeMultiplier,
-            guess: 0,
             result: 0,
             user: msg.sender,
-            status: RoundStatus.Ready
+            status: SpinStatus.Ready
         });
 
-        UserRounds[msg.sender].push(currentRoundId);
+        UserSpins[msg.sender].push(currentSpinId);
 
-        emit RoundPurchased(currentRoundId, msg.sender, msg.value, block.timestamp, prizeMultiplier);
+        emit SpinPurchased(currentSpinId, msg.sender, msg.value, block.timestamp, prizeMultiplier);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function Spin(
-        uint8 guess,
+    function SpinSlot(
         uint256 seed,
-        uint256 roundId,
+        uint256 spinId,
         address user
     ) public onlyOwner nonContract returns (uint256) {
-        require(guess < 0, "Number should not be negative");
-        require(guess < 2000, "Number should be less than 999");
+        Spin memory spin = Spins[spinId - 1];
+        require(spin.status == SpinStatus.Ready, "Spin is spinned before");
+        require(user == spin.user, "Spin belongs to other user");
 
-        Round memory round = Rounds[roundId - 1];
-        require(round.status == RoundStatus.Ready, "Round is spinned before");
-        require(user == round.user, "Round belongs to other user");
+        uint256 result = uint256(_generateRandomNumber(seed));
 
-        uint256 result = uint256(_generateRandomDice(seed));
+        Spins[spinId - 1].spinTime = block.timestamp;
+        Spins[spinId - 1].result = result;
+        Spins[spinId - 1].status = SpinStatus.Closed;
 
-        Rounds[roundId - 1].spinTime = block.timestamp;
-        Rounds[roundId - 1].guess = guess;
-        Rounds[roundId - 1].result = result;
-        Rounds[roundId - 1].status = RoundStatus.Closed;
-
-        if (guess == result) {
-            uint256 toPay = ((round.amount - ((round.amount / 100) * ctFee)) * prizeMultiplier);
-            _transferTokens(round.user, toPay);
+        if (666 == result) {
+            uint256 toPay = ((spin.amount - ((spin.amount / 100) * ctFee)) * prizeMultiplier);
+            _transferTokens(spin.user, toPay);
         }
+
+        emit SlotSpined(spin.id, spin.user, spin.amount, spin.result, block.timestamp, spin.multiplier);
         return result;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _generateRandomDice(uint256 _seed) private view onlyOwner nonContract returns (uint256) {
+    function _generateRandomNumber(uint256 _seed) private view onlyOwner nonContract returns (uint256) {
         uint256 number = uint256(
             keccak256(
                 abi.encodePacked(
@@ -182,11 +169,11 @@ contract NumberOfTheBeast {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _anyReadyRounds(address user) private view returns (bool) {
-        uint256[] memory userRounds = UserRounds[user];
-        for (uint256 i = 0; i < userRounds.length; i++) {
-            uint256 roundId = userRounds[i];
-            if (Rounds[roundId - 1].status == RoundStatus.Ready) {
+    function _anyReadySpins(address user) private view returns (bool) {
+        uint256[] memory userSpins = UserSpins[user];
+        for (uint256 i = 0; i < userSpins.length; i++) {
+            uint256 spinId = userSpins[i];
+            if (Spins[spinId - 1].status == SpinStatus.Ready) {
                 return true;
             }
         }
@@ -211,65 +198,65 @@ contract NumberOfTheBeast {
     /**************************************************************************************************
      * @dev Getter Functions
      **************************************************************************************************/
-    function GetRounds() public view onlyOwner nonContract returns (Round[] memory) {
-        Round[] memory rounds = new Round[](currentRoundId);
-        for (uint256 i = 0; i < currentRoundId; i++) {
-            rounds[i] = Rounds[i];
+    function GetSpins() public view onlyOwner nonContract returns (Spin[] memory) {
+        Spin[] memory spins = new Spin[](currentSpinId);
+        for (uint256 i = 0; i < currentSpinId; i++) {
+            spins[i] = Spins[i];
         }
-        return rounds;
+        return spins;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetSpinById(uint256 roundId) public view onlyOwner returns (Round memory) {
-        return Rounds[roundId - 1];
+    function GetSpinById(uint256 spinId) public view onlyOwner returns (Spin memory) {
+        return Spins[spinId - 1];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetUserRounds(address userAddress) public view onlyOwner nonContract returns (Round[] memory) {
-        uint256[] memory userRounds = UserRounds[userAddress];
-        uint256 size = userRounds.length;
-        Round[] memory rounds = new Round[](size);
+    function GetUserSpins(address userAddress) public view onlyOwner nonContract returns (Spin[] memory) {
+        uint256[] memory userSpins = UserSpins[userAddress];
+        uint256 size = userSpins.length;
+        Spin[] memory spins = new Spin[](size);
 
         for (uint256 i = 0; i < size; i++) {
-            uint256 roundId = userRounds[i];
-            rounds[i] = Rounds[roundId - 1];
+            uint256 spinId = userSpins[i];
+            spins[i] = Spins[spinId - 1];
         }
-        return rounds;
+        return spins;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function UserGetSpinById(uint256 roundId) public view returns (Round memory) {
-        Round memory round;
-        if (Rounds[roundId - 1].user == msg.sender) {
-            round = Rounds[roundId - 1];
+    function UserGetSpinById(uint256 spinId) public view returns (Spin memory) {
+        Spin memory spin;
+        if (Spins[spinId - 1].user == msg.sender) {
+            spin = Spins[spinId - 1];
         }
-        return round;
+        return spin;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetReadyRound() public view returns (Round memory) {
-        uint256[] memory userRounds = UserRounds[msg.sender];
-        Round memory round;
-        for (uint256 i = 0; i < userRounds.length; i++) {
-            uint256 roundId = userRounds[i];
-            if (Rounds[roundId - 1].status == RoundStatus.Ready) {
-                round = Rounds[roundId - 1];
+    function GetReadySpin() public view returns (Spin memory) {
+        uint256[] memory userSpins = UserSpins[msg.sender];
+        Spin memory spin;
+        for (uint256 i = 0; i < userSpins.length; i++) {
+            uint256 spinId = userSpins[i];
+            if (Spins[spinId - 1].status == SpinStatus.Ready) {
+                spin = Spins[spinId - 1];
             }
         }
-        return round;
+        return spin;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetMyHistory() public view returns (Round[] memory) {
-        uint256[] memory userRounds = UserRounds[msg.sender];
-        uint256 size = userRounds.length;
-        Round[] memory rounds = new Round[](size);
+    function GetMyHistory() public view returns (Spin[] memory) {
+        uint256[] memory userSpins = UserSpins[msg.sender];
+        uint256 size = userSpins.length;
+        Spin[] memory spins = new Spin[](size);
 
         for (uint256 i = 0; i < size; i++) {
-            uint256 roundId = userRounds[i];
-            rounds[i] = Rounds[roundId - 1];
+            uint256 spinId = userSpins[i];
+            spins[i] = Spins[spinId - 1];
         }
-        return rounds;
+        return spins;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -282,7 +269,7 @@ contract NumberOfTheBeast {
             uint256
         )
     {
-        return (prizeMultiplier, minRoundAmount, maxRoundAmount);
+        return (prizeMultiplier, minSpinAmount, maxSpinAmount);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -298,6 +285,6 @@ contract NumberOfTheBeast {
             address
         )
     {
-        return (prizeMultiplier, minRoundAmount, maxRoundAmount, ctFee, currentRoundId, owner);
+        return (prizeMultiplier, minSpinAmount, maxSpinAmount, ctFee, currentSpinId, owner);
     }
 }

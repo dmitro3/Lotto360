@@ -12,13 +12,16 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
     const [splideInstance, setSplideInstance] = useState<SplideJs>();
     const [autoplayComponent, setAutoplay] = useState<AutoplayComponent>();
     const [move, setMove] = useState<MoveComponent>();
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    const handleOnMove = (index: number) => {
-        if (index === stopNumber && autoplayComponent) autoplayComponent.pause();
-    };
-
-    if (autoPlay && splideInstance && autoplayComponent) autoplayComponent.play();
-    if (!autoPlay && splideInstance && autoplayComponent) {
+    if (currentIndex === stopNumber && stopNumber !== undefined && !!autoplayComponent) {
+        console.info("TargetHit");
+        autoplayComponent.pause();
+    } else if (autoPlay && !!splideInstance && !!autoplayComponent && !stopNumber) {
+        console.info("Play");
+        autoplayComponent.play();
+    } else if (!autoPlay && !!splideInstance && !!autoplayComponent) {
+        console.info("Reset");
         autoplayComponent.pause();
         move?.jump(0);
     }
@@ -47,7 +50,7 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
                 setAutoplay(Autoplay);
                 setMove(Move);
             }}
-            onMoved={(_splide, index, _prev, _dest) => handleOnMove(index)}
+            onMoved={(_splide, index, _prev, _dest) => setCurrentIndex(index)}
         >
             <SplideSlide>
                 <div className="fw-bold display-4 text-center py-4 px-4">0</div>

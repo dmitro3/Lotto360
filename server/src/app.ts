@@ -10,7 +10,7 @@ import { errorHandler } from "./middlewares/error-handler";
 import { NotFoundError } from "./errors/not-found-error";
 import { currentUser } from "./middlewares/current-user";
 import { registerLotto360Routes } from "./start/lotto360.routes";
-import { registerDice360Routes } from "./start/dice360.routes";
+import { registerDice360Routes } from "./start/other.routes";
 
 const app = express();
 

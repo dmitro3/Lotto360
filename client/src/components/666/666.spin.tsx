@@ -1,37 +1,29 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import ButtonWaiting from "../lotto360/shared/btn.waiting";
 import Spinner from "./spinner";
 import "@splidejs/splide/dist/css/splide.min.css";
 
 interface BeastSpinProps {
     alreadyPurchased: boolean;
+    autoPlay: boolean;
     btnSmallInfo: JSX.Element;
     buttonLoading: boolean;
-    spinBeast: (n: number) => void;
+    spinResult: string;
+    spinSlot: () => void;
 }
 
 const BeastSpin: FunctionComponent<BeastSpinProps> = ({
     alreadyPurchased,
+    autoPlay,
     btnSmallInfo,
     buttonLoading,
-    spinBeast,
+    spinResult,
+    spinSlot,
 }) => {
-    // TODO remove it
-    alreadyPurchased = true;
-
-    const [firstSpinner, setFirstSpinner] = useState<number>();
-    const [secondSpinner, setSecondSpinner] = useState<number>();
-    const [thirdSpinner, setThirdSpinner] = useState<number>();
-    const [autoPlay, setAutoPlay] = useState(false);
-
     const getButtonText = () => {
         if (buttonLoading) return <ButtonWaiting />;
-        if (!alreadyPurchased) return "first purchase";
+        if (!alreadyPurchased) return "purchase first";
         else return "Spin";
-    };
-
-    const spin = () => {
-        setAutoPlay(!autoPlay);
     };
 
     return (
@@ -48,17 +40,29 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
                 {btnSmallInfo}
                 Hit Spin button
             </p>
-            <div className="d-flex justify-content-between bg3 rounded shadow py-1">
-                <Spinner autoPlay={autoPlay} stopNumber={firstSpinner} speed={60} />
-                <Spinner autoPlay={autoPlay} stopNumber={secondSpinner} speed={60} />
-                <Spinner autoPlay={autoPlay} stopNumber={thirdSpinner} speed={60} />
+            <div className="d-flex justify-content-between bg3 rounded py-1">
+                <Spinner
+                    autoPlay={autoPlay}
+                    stopNumber={spinResult ? Number(spinResult[1]) : undefined}
+                    speed={60}
+                />
+                <Spinner
+                    autoPlay={autoPlay}
+                    stopNumber={spinResult ? Number(spinResult[2]) : undefined}
+                    speed={60}
+                />
+                <Spinner
+                    autoPlay={autoPlay}
+                    stopNumber={spinResult ? Number(spinResult[3]) : undefined}
+                    speed={60}
+                />
             </div>
             <div className="d-flex justify-content-around my-1"></div>
             <button
-                disabled={!alreadyPurchased || buttonLoading}
+                disabled={!alreadyPurchased || buttonLoading || !!spinResult}
                 type="button"
                 className="btn btn-success w-100 mt-3"
-                onClick={() => spin()}
+                onClick={() => spinSlot()}
             >
                 {getButtonText()}
             </button>

@@ -1,15 +1,15 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
+import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
 import InputSetting from "../shared/set.inputs";
 
-interface RollSettingsProps {
+interface SpinSettingsProps {
     address: string;
     web3: Web3;
 }
 
-const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) => {
+const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) => {
     const [fund, setFund] = useState(0.01);
     const [fundLoading, setFundLoading] = useState(false);
 
@@ -27,17 +27,17 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const [newOwner, setNewOwner] = useState("");
     const [newOwnerLoading, setNewOwnerLoading] = useState(false);
-    const [currentRollId, setCurrentRollId] = useState(0);
+    const [currentSpinId, setCurrentSpinId] = useState(0);
 
     useEffect(() => {
-        dice360AdminChainMethods
+        beastAdminChainMethods
             .getSettingForAdmin(address, web3)
             .then((res) => {
                 setMultiplier(res[0]);
                 setMin(parseFloat(Web3.utils.fromWei(res[1], "ether")));
                 setMax(parseFloat(Web3.utils.fromWei(res[2], "ether")));
                 setFee(res[3]);
-                setCurrentRollId(res[4]);
+                setCurrentSpinId(res[4]);
                 setNewOwner(res[5]);
             })
             .catch((err) => console.error(err));
@@ -45,7 +45,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const sendFund = () => {
         setFundLoading(true);
-        dice360AdminChainMethods
+        beastAdminChainMethods
             .injectFund(address, fund, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${fund} BNB added to contract`);
@@ -56,7 +56,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setFeeContract = () => {
         setFeeLoading(true);
-        dice360AdminChainMethods
+        beastAdminChainMethods
             .setContractFee(address, fee, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${fee}% fee set to contract`);
@@ -67,7 +67,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMultiplier = () => {
         setMultiplierLoading(true);
-        dice360AdminChainMethods
+        beastAdminChainMethods
             .setPrizeMultiplier(address, multiplier, web3)
             .then((res) => {
                 if (res && res.status)
@@ -79,8 +79,8 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMin = () => {
         setMinLoading(true);
-        dice360AdminChainMethods
-            .setMinRollAmount(address, min, web3)
+        beastAdminChainMethods
+            .setMinSpinAmount(address, min, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${min} BNB min set to contract`);
             })
@@ -90,8 +90,8 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractMax = () => {
         setMaxLoading(true);
-        dice360AdminChainMethods
-            .setMaxRollAmount(address, max, web3)
+        beastAdminChainMethods
+            .setMaxSpinAmount(address, max, web3)
             .then((res) => {
                 if (res && res.status) toast.success(`${max} BNB max set to contract`);
             })
@@ -101,7 +101,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     const setContractNewOwner = () => {
         setNewOwnerLoading(true);
-        dice360AdminChainMethods
+        beastAdminChainMethods
             .transferOwnership(address, newOwner, web3)
             .then((res) => {
                 if (res && res.status)
@@ -113,7 +113,7 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     return (
         <>
-            <h3 className="fw-bold mb-5 text-primary">Current Roll: {currentRollId}</h3>
+            <h3 className="fw-bold mb-5 text-primary">Current Spin: {currentSpinId}</h3>
 
             <div className="col col-6 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <InputSetting
@@ -174,4 +174,4 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
     );
 };
 
-export default RollSettings;
+export default SpinSettings;

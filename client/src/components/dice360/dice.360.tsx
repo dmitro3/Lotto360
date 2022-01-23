@@ -90,7 +90,6 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
             return;
         }
         const { id, user } = purchasedBet;
-        console.info(id);
         if (user.toLowerCase() !== address.toLowerCase()) {
             toast.error("Purchased roll not belong to you");
             return;

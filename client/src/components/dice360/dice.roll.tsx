@@ -20,7 +20,7 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
 
     const getButtonText = () => {
         if (buttonLoading) return <ButtonWaiting />;
-        if (!alreadyPurchased) return "first purchase";
+        if (!alreadyPurchased) return "purchase first";
         else if (!choosedDice) return "choose number";
         else return "drop";
     };

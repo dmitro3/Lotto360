@@ -15,6 +15,8 @@ const BeastResultModal: FunctionComponent<BeastResultModalProps> = ({
     showModal,
     setShowModal,
 }) => {
+    const result = spin.result.substring(1);
+
     return (
         <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header>
@@ -50,25 +52,21 @@ const BeastResultModal: FunctionComponent<BeastResultModalProps> = ({
                         )}
                     </span>
                 </div>
-                <div className="d-flex justify-content-between">
-                    <span>Guessed number: </span>
-                    <span className="fw-bold">{spin.guess}</span>
-                </div>
                 <hr />
                 <div
                     className={`text-center fs-4 fw-bold mt-2 ${
-                        spin.guess === spin.result ? "text-success" : "text-danger"
+                        "666" === result ? "text-success" : "text-danger"
                     }`}
                 >
-                    Result: {spin.result}
-                    {spin.guess !== spin.result ? (
+                    Result: {result}
+                    {"666" !== result ? (
                         <i className="ms-3 fa-solid fa-heart-crack"></i>
                     ) : (
                         <i className="ms-3 fa-solid fa-gem"></i>
                     )}
                 </div>
 
-                {spin.guess === spin.result && (
+                {"666" === result && (
                     <div className="text-center fs-6 fw-bold mt-2 text-dark">
                         {calculatePrize(spin).toFixed(6)} BNB sent to your wallet
                     </div>

@@ -22,7 +22,7 @@ interface BeastProps {
 const initialUsreSetting = {
     minBet: 0.01,
     maxBet: 0.2,
-    multiplier: 4,
+    multiplier: 20,
 };
 
 const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
@@ -32,7 +32,9 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
     const [betAmount, setBetAmount] = useState<number>(0.01);
     const [purchaseLoading, setPurchaseLoading] = useState<boolean>(false);
     const [spinBeastLoading, setSpinBeastLoading] = useState<boolean>(false);
+    const [spinAutoPlay, setSpinAutoPlay] = useState<boolean>(false);
     const [spinHistory, setSpinHistory] = useState<Spin[]>();
+    const [spinResult, setSpinResult] = useState("");
 
     useEffect(() => {
         beastChainMethods
@@ -67,7 +69,7 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
             .purchaseSpin(address, betAmount, web3)
             .then((res) => {
                 if (res.status) {
-                    toast.success("Spin purchased. time to drop your beast");
+                    toast.success("Spin purchased, time to spin.");
                     getUserPurchasedSpin(
                         address,
                         web3,
@@ -84,29 +86,39 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
             .finally(() => setPurchaseLoading(false));
     };
 
-    const spinBeast = (beastNumber: number) => {
+    const spinSlot = () => {
         if (!purchasedBet) {
             toast.error("Please purchase spin first");
             return;
         }
         const { id, user } = purchasedBet;
-        console.info(id);
         if (user.toLowerCase() !== address.toLowerCase()) {
             toast.error("Purchased spin not belong to you");
             return;
         }
+        setSpinAutoPlay(true);
         setSpinBeastLoading(true);
-        BeastApiService.spinBeast(beastNumber, parseInt(id), address)
+        BeastApiService.spinSlot(parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
                     const spin = await beastChainMethods.getSpinById(id, address, web3);
-                    setModalSpin(spin);
-                    setPurchasedBet(undefined);
                     getUserHistory(setSpinHistory, address, web3);
+                    setSpinResult(spin.result);
+                    setTimeout(() => {
+                        setPurchasedBet(undefined);
+                        setSpinAutoPlay(false);
+                        setModalSpin(spin);
+                        setSpinResult("");
+                    }, 4000);
                 }
             })
-            .catch((err) => console.error("error droping beast:", err))
-            .finally(() => setSpinBeastLoading(false));
+            .catch((err) => {
+                console.error("error droping beast:", err);
+                setSpinAutoPlay(false);
+            })
+            .finally(() => {
+                setSpinBeastLoading(false);
+            });
     };
 
     return (
@@ -131,9 +143,11 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
 
                         <BeastSpin
                             alreadyPurchased={purchasedBet !== undefined}
+                            autoPlay={spinAutoPlay}
                             btnSmallInfo={btnSmallInfo}
                             buttonLoading={spinBeastLoading}
-                            spinBeast={spinBeast}
+                            spinSlot={spinSlot}
+                            spinResult={spinResult}
                         />
                     </div>
 
@@ -147,7 +161,6 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                                             <th>#Id</th>
                                             <th>Amount</th>
                                             <th>Drop time</th>
-                                            <th>Guess</th>
                                             <th>Result</th>
                                             <th>Detail</th>
                                         </tr>
@@ -167,8 +180,7 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                                                         parseInt(r.spinTime) * 1000
                                                     ).format("DD/MM/YYYY, h:mm a")}
                                                 </td>
-                                                <td>{r.guess}</td>
-                                                <td>{r.result}</td>
+                                                <td>{r.result.substring(1)}</td>
                                                 <td>
                                                     <button
                                                         className="btn btn-secondary"

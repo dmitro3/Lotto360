@@ -10,6 +10,9 @@ if (!process.env.LOTTO360_CONTRACT_ADDRESS) {
 if (!process.env.DICE360_CONTRACT_ADDRESS) {
     throw new Error("dice 360 contract address not set");
 }
+if (!process.env.NUMBEROFTHEBEAST_CONTRACT_ADDRESS) {
+    throw new Error("number of the beast contract address not set");
+}
 if (!process.env.WITHDRAW_PHRASE) {
     throw new Error("withdraw phrase not set");
 }
@@ -19,4 +22,6 @@ export const ACCOUNT_ADDRESS = process.env.OWNER_ACCOUNT_ADDRESS;
 
 export const LOTTO360_CONTRACT_ADDRESS = process.env.LOTTO360_CONTRACT_ADDRESS;
 export const DICE360_CONTRACT_ADDRESS = process.env.DICE360_CONTRACT_ADDRESS;
+export const NUMBEROFTHEBEAST_CONTRACT_ADDRESS =
+    process.env.NUMBEROFTHEBEAST_CONTRACT_ADDRESS;
 export const WITHDRAW_PHRASE = process.env.WITHDRAW_PHRASE;

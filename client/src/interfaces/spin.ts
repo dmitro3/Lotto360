@@ -1,7 +1,6 @@
 export interface Spin {
     amount: string;
     ctFee: string;
-    guess: string;
     id: string;
     multiplier: string;
     purchaseTime: string;
@@ -22,7 +21,6 @@ export const convertSpin = (chainSpins: any[]) => {
         spins.push({
             amount: r.amount,
             ctFee: r.ctFee,
-            guess: r.guess,
             id: r.id,
             multiplier: r.multiplier,
             purchaseTime: r.purchaseTime,

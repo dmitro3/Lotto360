@@ -7,7 +7,7 @@ import {
 } from "../config/config";
 import lotto360Abi from "./abi/Lotto360.abi.json";
 import dice360Abi from "./abi/Dice360.abi.json";
-import beastAbi from "./abi/Beast.abi.json";
+import beastAbi from "./abi/NumberOfTheBeast.abi.json";
 
 export const lotto360Contract = (web3: Web3) =>
     new web3.eth.Contract(lotto360Abi as AbiItem[], lotto360ContractAddress);

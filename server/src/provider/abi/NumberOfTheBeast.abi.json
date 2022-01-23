@@ -23,11 +23,11 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "maxRollAmount",
+        "name": "maxSpinAmount",
         "type": "uint256"
       }
     ],
-    "name": "MaxRollAmountUpdated",
+    "name": "MaxSpinAmountUpdated",
     "type": "event"
   },
   {
@@ -36,11 +36,11 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "minRollAmount",
+        "name": "minSpinAmount",
         "type": "uint256"
       }
     ],
-    "name": "MinRollAmountUpdated",
+    "name": "MinSpinAmountUpdated",
     "type": "event"
   },
   {
@@ -98,15 +98,9 @@
       },
       {
         "indexed": false,
-        "internalType": "uint8",
-        "name": "guess",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint8",
+        "internalType": "uint256",
         "name": "result",
-        "type": "uint8"
+        "type": "uint256"
       },
       {
         "indexed": false,
@@ -121,7 +115,7 @@
         "type": "uint256"
       }
     ],
-    "name": "RollDropped",
+    "name": "SlotSpined",
     "type": "event"
   },
   {
@@ -158,7 +152,7 @@
         "type": "uint256"
       }
     ],
-    "name": "RollPurchased",
+    "name": "SpinPurchased",
     "type": "event"
   },
   {
@@ -179,40 +173,6 @@
     ],
     "name": "TokenTransferred",
     "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint8",
-        "name": "guess",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint256",
-        "name": "seed",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "rollId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "user",
-        "type": "address"
-      }
-    ],
-    "name": "DropDice",
-    "outputs": [
-      {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
   },
   {
     "inputs": [],
@@ -244,7 +204,7 @@
           },
           {
             "internalType": "uint256",
-            "name": "rollTime",
+            "name": "spinTime",
             "type": "uint256"
           },
           {
@@ -258,14 +218,9 @@
             "type": "uint8"
           },
           {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
+            "internalType": "uint256",
             "name": "result",
-            "type": "uint8"
+            "type": "uint256"
           },
           {
             "internalType": "address",
@@ -273,12 +228,12 @@
             "type": "address"
           },
           {
-            "internalType": "enum Dice360.RollStatus",
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
             "name": "status",
             "type": "uint8"
           }
         ],
-        "internalType": "struct Dice360.Roll[]",
+        "internalType": "struct NumberOfTheBeast.Spin[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -288,7 +243,7 @@
   },
   {
     "inputs": [],
-    "name": "GetReadyRoll",
+    "name": "GetReadySpin",
     "outputs": [
       {
         "components": [
@@ -309,7 +264,7 @@
           },
           {
             "internalType": "uint256",
-            "name": "rollTime",
+            "name": "spinTime",
             "type": "uint256"
           },
           {
@@ -323,14 +278,9 @@
             "type": "uint8"
           },
           {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
+            "internalType": "uint256",
             "name": "result",
-            "type": "uint8"
+            "type": "uint256"
           },
           {
             "internalType": "address",
@@ -338,150 +288,14 @@
             "type": "address"
           },
           {
-            "internalType": "enum Dice360.RollStatus",
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
             "name": "status",
             "type": "uint8"
           }
         ],
-        "internalType": "struct Dice360.Roll",
+        "internalType": "struct NumberOfTheBeast.Spin",
         "name": "",
         "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "rollId",
-        "type": "uint256"
-      }
-    ],
-    "name": "GetRollById",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "purchaseTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "rollTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ctFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "multiplier",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "result",
-            "type": "uint8"
-          },
-          {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-          },
-          {
-            "internalType": "enum Dice360.RollStatus",
-            "name": "status",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct Dice360.Roll",
-        "name": "",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "GetRolls",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "purchaseTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "rollTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "ctFee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint8",
-            "name": "multiplier",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
-            "name": "result",
-            "type": "uint8"
-          },
-          {
-            "internalType": "address",
-            "name": "user",
-            "type": "address"
-          },
-          {
-            "internalType": "enum Dice360.RollStatus",
-            "name": "status",
-            "type": "uint8"
-          }
-        ],
-        "internalType": "struct Dice360.Roll[]",
-        "name": "",
-        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -551,12 +365,12 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "userAddress",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "spinId",
+        "type": "uint256"
       }
     ],
-    "name": "GetUserRolls",
+    "name": "GetSpinById",
     "outputs": [
       {
         "components": [
@@ -577,7 +391,7 @@
           },
           {
             "internalType": "uint256",
-            "name": "rollTime",
+            "name": "spinTime",
             "type": "uint256"
           },
           {
@@ -591,14 +405,9 @@
             "type": "uint8"
           },
           {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
+            "internalType": "uint256",
             "name": "result",
-            "type": "uint8"
+            "type": "uint256"
           },
           {
             "internalType": "address",
@@ -606,12 +415,138 @@
             "type": "address"
           },
           {
-            "internalType": "enum Dice360.RollStatus",
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
             "name": "status",
             "type": "uint8"
           }
         ],
-        "internalType": "struct Dice360.Roll[]",
+        "internalType": "struct NumberOfTheBeast.Spin",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "GetSpins",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchaseTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "spinTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ctFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "multiplier",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "result",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct NumberOfTheBeast.Spin[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "userAddress",
+        "type": "address"
+      }
+    ],
+    "name": "GetUserSpins",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "purchaseTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "spinTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "ctFee",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "multiplier",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint256",
+            "name": "result",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
+            "name": "status",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct NumberOfTheBeast.Spin[]",
         "name": "",
         "type": "tuple[]"
       }
@@ -621,7 +556,7 @@
   },
   {
     "inputs": [],
-    "name": "PurchaseRoll",
+    "name": "PurchaseSpin",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -643,11 +578,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_maxRollAmount",
+        "name": "_maxSpinAmount",
         "type": "uint256"
       }
     ],
-    "name": "SetMaxRollAmount",
+    "name": "SetMaxSpinAmount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -656,11 +591,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_minRollAmount",
+        "name": "_minSpinAmount",
         "type": "uint256"
       }
     ],
-    "name": "SetMinRollAmount",
+    "name": "SetMinSpinAmount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -682,11 +617,40 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "rollId",
+        "name": "seed",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "spinId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "user",
+        "type": "address"
+      }
+    ],
+    "name": "SpinSlot",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
     ],
-    "name": "UserGetRollById",
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "spinId",
+        "type": "uint256"
+      }
+    ],
+    "name": "UserGetSpinById",
     "outputs": [
       {
         "components": [
@@ -707,7 +671,7 @@
           },
           {
             "internalType": "uint256",
-            "name": "rollTime",
+            "name": "spinTime",
             "type": "uint256"
           },
           {
@@ -721,14 +685,9 @@
             "type": "uint8"
           },
           {
-            "internalType": "uint8",
-            "name": "guess",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint8",
+            "internalType": "uint256",
             "name": "result",
-            "type": "uint8"
+            "type": "uint256"
           },
           {
             "internalType": "address",
@@ -736,12 +695,12 @@
             "type": "address"
           },
           {
-            "internalType": "enum Dice360.RollStatus",
+            "internalType": "enum NumberOfTheBeast.SpinStatus",
             "name": "status",
             "type": "uint8"
           }
         ],
-        "internalType": "struct Dice360.Roll",
+        "internalType": "struct NumberOfTheBeast.Spin",
         "name": "",
         "type": "tuple"
       }
@@ -769,7 +728,7 @@
   },
   {
     "inputs": [],
-    "name": "maxRollAmount",
+    "name": "maxSpinAmount",
     "outputs": [
       {
         "internalType": "uint256",
@@ -782,7 +741,7 @@
   },
   {
     "inputs": [],
-    "name": "minRollAmount",
+    "name": "minSpinAmount",
     "outputs": [
       {
         "internalType": "uint256",

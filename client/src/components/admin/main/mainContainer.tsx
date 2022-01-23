@@ -8,6 +8,8 @@ import Withdraws from "../withdraws/withdraws";
 import Payments from "../payments/payments";
 import Roll from "../dice/roll";
 import RollSettings from "../dice/roll.settings";
+import Spin from "../666/spin";
+import SpinSettings from "../666/spin.settings";
 import Web3 from "web3";
 
 interface MainContainerProps {
@@ -42,6 +44,16 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             <Route
                                 path="/admin/rolls"
                                 render={() => <Roll address={address} web3={web3} />}
+                            />
+                            <Route
+                                path="/admin/spinsettings"
+                                render={() => (
+                                    <SpinSettings address={address} web3={web3} />
+                                )}
+                            />
+                            <Route
+                                path="/admin/spins"
+                                render={() => <Spin address={address} web3={web3} />}
                             />
                             <Route path="/admin" component={Dashboard} />
 
