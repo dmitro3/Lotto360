@@ -29,7 +29,7 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
         setSearchButtonLoading(true);
         if (Number(userAddress)) {
             dice360AdminChainMethods
-                .getRoleById(address, userAddress, web3)
+                .getRollById(address, userAddress, web3)
                 .then((res) => res && setRolls(res))
                 .catch((err) => console.error(err))
                 .finally(() => setSearchButtonLoading(false));

@@ -1,6 +1,6 @@
 import Web3 from "web3";
-import { convertRoll } from "../../interfaces/roll";
-import { dice360Contract } from "../contracts";
+import { convertSpin } from "../../interfaces/spin";
+import { beastContract } from "../contracts";
 
 export interface UserSetting {
     multiplier: number;
@@ -8,46 +8,44 @@ export interface UserSetting {
     maxBet: number;
 }
 
-export const dice360ChainMethods = {
-    purchaseRoll: async (address: string, value: number, web3: Web3) => {
+export const beastChainMethods = {
+    purchaseSpin: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3)
-                .methods.PurchaseRoll()
+            return beastContract(web3)
+                .methods.PurchaseSpin()
                 .send({
                     from: address,
                     value: Web3.utils.toWei(`${value}`, "ether"),
                 });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error checking ready spins:", err);
             return null;
         }
     },
 
-    userReadyRoll: async (address: string, web3: Web3) => {
+    userReadySpin: async (address: string, web3: Web3) => {
         try {
-            return await dice360Contract(web3)
-                .methods.GetReadyRoll()
+            return await beastContract(web3)
+                .methods.GetReadySpin()
                 .call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error checking ready spins:", err);
             return null;
         }
     },
 
     userHistory: async (address: string, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
+            return beastContract(web3).methods.GetMyHistory().call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error checking ready spins:", err);
             return null;
         }
     },
 
     getSettingForUser: async (web3: Web3): Promise<UserSetting | null> => {
         try {
-            const settings = await dice360Contract(web3)
-                .methods.GetSettingForUser()
-                .call();
+            const settings = await beastContract(web3).methods.GetSettingForUser().call();
             const result: UserSetting = {
                 multiplier: parseInt(settings[0]),
                 minBet: parseFloat(Web3.utils.fromWei(settings[1], "ether")),
@@ -55,27 +53,27 @@ export const dice360ChainMethods = {
             };
             return result;
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error checking ready spins:", err);
             return null;
         }
     },
 
-    getRollById: async (id: string, address: string, web3: Web3) => {
+    getSpinById: async (id: string, address: string, web3: Web3) => {
         try {
-            return dice360Contract(web3)
-                .methods.UserGetRollById(id)
+            return beastContract(web3)
+                .methods.UserGetSpinById(id)
                 .call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error checking ready spins:", err);
             return null;
         }
     },
 };
 
-export const dice360AdminChainMethods = {
+export const beastAdminChainMethods = {
     injectFund: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3)
+            return beastContract(web3)
                 .methods.FundsInject()
                 .send({
                     from: address,
@@ -89,7 +87,7 @@ export const dice360AdminChainMethods = {
 
     setContractFee: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.SetContractFee(value).send({
+            return beastContract(web3).methods.SetContractFee(value).send({
                 from: address,
             });
         } catch (err) {
@@ -100,7 +98,7 @@ export const dice360AdminChainMethods = {
 
     setPrizeMultiplier: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.SetPrizeMultiplier(value).send({
+            return beastContract(web3).methods.SetPrizeMultiplier(value).send({
                 from: address,
             });
         } catch (err) {
@@ -109,35 +107,35 @@ export const dice360AdminChainMethods = {
         }
     },
 
-    setMinRollAmount: async (address: string, value: number, web3: Web3) => {
+    setMinSpinAmount: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3)
-                .methods.SetMinRollAmount(Web3.utils.toWei(`${value}`, "ether"))
+            return beastContract(web3)
+                .methods.SetMinSpinAmount(Web3.utils.toWei(`${value}`, "ether"))
                 .send({
                     from: address,
                 });
         } catch (err) {
-            console.error("Error setting min roll value:", err);
+            console.error("Error setting min spin value:", err);
             return null;
         }
     },
 
-    setMaxRollAmount: async (address: string, value: number, web3: Web3) => {
+    setMaxSpinAmount: async (address: string, value: number, web3: Web3) => {
         try {
-            return dice360Contract(web3)
-                .methods.SetMaxRollAmount(Web3.utils.toWei(`${value}`, "ether"))
+            return beastContract(web3)
+                .methods.SetMaxSpinAmount(Web3.utils.toWei(`${value}`, "ether"))
                 .send({
                     from: address,
                 });
         } catch (err) {
-            console.error("Error setting max roll value:", err);
+            console.error("Error setting max spin value:", err);
             return null;
         }
     },
 
     transferOwnership: async (address: string, newOwner: string, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.transferOwnership(newOwner).send({
+            return beastContract(web3).methods.transferOwnership(newOwner).send({
                 from: address,
             });
         } catch (err) {
@@ -148,7 +146,7 @@ export const dice360AdminChainMethods = {
 
     getSettingForAdmin: async (address: string, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.GetSettingForAdmin().call({
+            return beastContract(web3).methods.GetSettingForAdmin().call({
                 from: address,
             });
         } catch (err) {
@@ -157,45 +155,45 @@ export const dice360AdminChainMethods = {
         }
     },
 
-    getRolls: async (address: string, web3: Web3) => {
+    getSpins: async (address: string, web3: Web3) => {
         try {
-            const result: any[] = await dice360Contract(web3).methods.GetRolls().call({
+            const result: any[] = await beastContract(web3).methods.GetSpins().call({
                 from: address,
             });
 
-            return convertRoll(result);
+            return convertSpin(result);
         } catch (err) {
-            console.error("Error getting rolls:", err);
+            console.error("Error getting spins:", err);
             return null;
         }
     },
 
-    getUserRolls: async (address: string, userAddress: string, web3: Web3) => {
+    getUserSpins: async (address: string, userAddress: string, web3: Web3) => {
         try {
-            const result: any[] = await dice360Contract(web3)
-                .methods.GetUserRolls(userAddress)
+            const result: any[] = await beastContract(web3)
+                .methods.GetUserSpins(userAddress)
                 .call({
                     from: address,
                 });
 
-            return convertRoll(result);
+            return convertSpin(result);
         } catch (err) {
-            console.error("Error getting rolls:", err);
+            console.error("Error getting spins:", err);
             return null;
         }
     },
 
-    getRollById: async (address: string, rollId: string, web3: Web3) => {
+    getSpinById: async (address: string, spinId: string, web3: Web3) => {
         try {
-            const result: any[] = await dice360Contract(web3)
-                .methods.GetRollById(rollId)
+            const result: any[] = await beastContract(web3)
+                .methods.GetSpinById(spinId)
                 .call({
                     from: address,
                 });
 
-            return convertRoll([result]);
+            return convertSpin([result]);
         } catch (err) {
-            console.error("Error getting roll:", err);
+            console.error("Error getting spin:", err);
             return null;
         }
     },

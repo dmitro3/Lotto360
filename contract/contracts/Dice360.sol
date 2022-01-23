@@ -17,7 +17,7 @@ contract Dice360 {
 
     enum RollStatus {
         Ready,
-        Expired
+        Closed
     }
 
     struct Roll {
@@ -52,13 +52,7 @@ contract Dice360 {
     /**************************************************************************************************
      * @dev events
      **************************************************************************************************/
-    event RollPurchased(
-        uint256 id,
-        address user,
-        uint256 amount,
-        uint256 time,
-        uint256 multiplier
-    );
+    event RollPurchased(uint256 id, address user, uint256 amount, uint256 time, uint256 multiplier);
 
     event RollDropped(
         uint256 id,
@@ -113,22 +107,13 @@ contract Dice360 {
      * @dev MainGame Functions
      **************************************************************************************************/
     function PurchaseRoll() public payable nonContract {
-        require(
-            msg.value >= minRollAmount,
-            "Roll amount must be greater than minimum amount"
-        );
-        require(
-            msg.value <= maxRollAmount,
-            "Roll amount must be less than maximum amount"
-        );
+        require(msg.value >= minRollAmount, "Roll amount must be greater than minimum amount");
+        require(msg.value <= maxRollAmount, "Roll amount must be less than maximum amount");
 
         require(!_anyReadyRolls(msg.sender), "You already purchase a roll");
 
         uint256 toPay = ((msg.value - ((msg.value / 100) * ctFee)) * prizeMultiplier);
-        require(
-            address(this).balance > toPay,
-            "Roll prize is bigger than contract balance, try small amount"
-        );
+        require(address(this).balance > toPay, "Roll prize is bigger than contract balance, try small amount");
 
         currentRollId++;
 
@@ -147,13 +132,7 @@ contract Dice360 {
 
         UserRolls[msg.sender].push(currentRollId);
 
-        emit RollPurchased(
-            currentRollId,
-            msg.sender,
-            msg.value,
-            block.timestamp,
-            prizeMultiplier
-        );
+        emit RollPurchased(currentRollId, msg.sender, msg.value, block.timestamp, prizeMultiplier);
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -175,24 +154,17 @@ contract Dice360 {
         Rolls[rollId - 1].rollTime = block.timestamp;
         Rolls[rollId - 1].guess = guess;
         Rolls[rollId - 1].result = result;
-        Rolls[rollId - 1].status = RollStatus.Expired;
+        Rolls[rollId - 1].status = RollStatus.Closed;
 
         if (guess == result) {
-            uint256 toPay = ((roll.amount - ((roll.amount / 100) * ctFee)) *
-                prizeMultiplier);
+            uint256 toPay = (roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier;
             _transferTokens(roll.user, toPay);
         }
         return result;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _generateRandomDice(uint256 _seed, Roll memory roll)
-        private
-        view
-        onlyOwner
-        nonContract
-        returns (uint256)
-    {
+    function _generateRandomDice(uint256 _seed, Roll memory roll) private view onlyOwner nonContract returns (uint256) {
         uint256 number = uint256(
             keccak256(
                 abi.encodePacked(
@@ -295,18 +267,12 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetRoleById(uint256 rollId) public view onlyOwner returns (Roll memory) {
+    function GetRollById(uint256 rollId) public view onlyOwner returns (Roll memory) {
         return Rolls[rollId - 1];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function GetUserRolls(address userAddress)
-        public
-        view
-        onlyOwner
-        nonContract
-        returns (Roll[] memory)
-    {
+    function GetUserRolls(address userAddress) public view onlyOwner nonContract returns (Roll[] memory) {
         uint256[] memory userRolls = UserRolls[userAddress];
         uint256 size = userRolls.length;
         Roll[] memory rolls = new Roll[](size);
@@ -319,7 +285,7 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function UserGetRoleById(uint256 rollId) public view returns (Roll memory) {
+    function UserGetRollById(uint256 rollId) public view returns (Roll memory) {
         Roll memory roll;
         if (Rolls[rollId - 1].user == msg.sender) {
             roll = Rolls[rollId - 1];
@@ -379,13 +345,6 @@ contract Dice360 {
             address
         )
     {
-        return (
-            prizeMultiplier,
-            minRollAmount,
-            maxRollAmount,
-            ctFee,
-            currentRollId,
-            owner
-        );
+        return (prizeMultiplier, minRollAmount, maxRollAmount, ctFee, currentRollId, owner);
     }
 }

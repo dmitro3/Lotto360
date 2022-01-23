@@ -72,11 +72,7 @@ contract Lotto360 {
     /**************************************************************************************************
      * @dev these are events
      **************************************************************************************************/
-    event TicketsPurchase(
-        address indexed buyer,
-        uint256 indexed roundId,
-        uint256 numberTickets
-    );
+    event TicketsPurchase(address indexed buyer, uint256 indexed roundId, uint256 numberTickets);
     event RoundOpen(
         uint256 id,
         uint256 endTime,
@@ -85,11 +81,7 @@ contract Lotto360 {
         uint256 bnbAddedFromLastRound
     );
     event RoundNumberDrawn(uint256 indexed currentRoundId, uint256 finalNumber);
-    event RoundUpdated(
-        uint256 indexed currentRoundId,
-        uint256 endTime,
-        uint256 bonusBnbAmount
-    );
+    event RoundUpdated(uint256 indexed currentRoundId, uint256 endTime, uint256 bonusBnbAmount);
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
     event PrizeTransferred(address indexed winnerAddress, uint256 indexed amount);
     event InjectFunds(address indexed sender);
@@ -98,16 +90,9 @@ contract Lotto360 {
      * @dev these are functions for user
      **************************************************************************************************/
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers)
-        external
-        payable
-        nonContract
-    {
+    function buyTickets(uint256 _roundId, uint256[] calldata _ticketNumbers) external payable nonContract {
         require(_ticketNumbers.length != 0, "No ticket specified");
-        require(
-            _ticketNumbers.length <= maxNumberTicketsPerBuyOrClaim,
-            "Too many tickets"
-        );
+        require(_ticketNumbers.length <= maxNumberTicketsPerBuyOrClaim, "Too many tickets");
 
         require(rounds[_roundId].status == Status.Open, "Round is not open");
         require(block.timestamp < rounds[_roundId].endTime, "Round is over");
@@ -124,10 +109,7 @@ contract Lotto360 {
         // start for loop to add tickets
         for (uint256 i = 0; i < _ticketNumbers.length; i++) {
             uint256 ticketNumber = _ticketNumbers[i];
-            require(
-                (ticketNumber <= 1999999) && (ticketNumber >= 1000000),
-                "Ticket number is not valid"
-            );
+            require((ticketNumber <= 1999999) && (ticketNumber >= 1000000), "Ticket number is not valid");
 
             ticketsInEachRound[_roundId][ticketCountInEachRound[_roundId]] = Ticket({
                 cid: currentTicketId,
@@ -185,22 +167,12 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getPoolsInCurrentRoundForUser()
-        external
-        view
-        nonContract
-        returns (uint256[] memory)
-    {
+    function getPoolsInCurrentRoundForUser() external view nonContract returns (uint256[] memory) {
         return poolsInEachRound[currentRoundId];
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getRoundByIdForUser(uint256 _roundId)
-        external
-        view
-        nonContract
-        returns (Round memory)
-    {
+    function getRoundByIdForUser(uint256 _roundId) external view nonContract returns (Round memory) {
         return rounds[_roundId];
     }
 
@@ -240,22 +212,12 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getPoolsInRoundForUser(uint256 _roundId)
-        external
-        view
-        nonContract
-        returns (uint256[] memory)
-    {
+    function getPoolsInRoundForUser(uint256 _roundId) external view nonContract returns (uint256[] memory) {
         return poolsInEachRound[_roundId];
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getMaxNumberTicketsPerBuyOrClaim()
-        external
-        view
-        nonContract
-        returns (uint256)
-    {
+    function getMaxNumberTicketsPerBuyOrClaim() external view nonContract returns (uint256) {
         return maxNumberTicketsPerBuyOrClaim;
     }
 
@@ -298,11 +260,7 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function transferToken(address _targetAddress, uint256 _amount)
-        external
-        onlyOwner
-        nonContract
-    {
+    function transferToken(address _targetAddress, uint256 _amount) external onlyOwner nonContract {
         uint256 currentBalance = address(this).balance;
         require(currentBalance >= _amount, "insufficient contract balance");
         payable(_targetAddress).transfer(_amount);
@@ -380,13 +338,7 @@ contract Lotto360 {
             finalNumber: 1000000
         });
 
-        emit RoundOpen(
-            currentRoundId,
-            _endTime,
-            _ticketPrice,
-            _bonusBnbAmount,
-            _bnbAddedFromLastRound
-        );
+        emit RoundOpen(currentRoundId, _endTime, _ticketPrice, _bonusBnbAmount, _bnbAddedFromLastRound);
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -395,10 +347,7 @@ contract Lotto360 {
         uint256 _bonusBnbAmount,
         uint256[] calldata _pools
     ) external onlyOwner nonContract {
-        require(
-            rounds[currentRoundId].status == Status.Open,
-            "Current round is not open"
-        );
+        require(rounds[currentRoundId].status == Status.Open, "Current round is not open");
         require(_pools.length == 7, "Pool data is not correct");
         require(_endTime > block.timestamp, "Round endTime passed");
 
@@ -412,24 +361,14 @@ contract Lotto360 {
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     function closeCurrentRound() external onlyOwner nonContract {
-        require(
-            rounds[currentRoundId].status == Status.Open,
-            "Current round is not open"
-        );
-        require(
-            rounds[currentRoundId].endTime < block.timestamp,
-            "Round time is not finished"
-        );
+        require(rounds[currentRoundId].status == Status.Open, "Current round is not open");
+        require(rounds[currentRoundId].endTime < block.timestamp, "Round time is not finished");
 
         rounds[currentRoundId].status = Status.Close;
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function makeRoundClaimableAndPickWinningNumber(uint256 _seedNumber)
-        external
-        onlyOwner
-        nonContract
-    {
+    function makeRoundClaimableAndPickWinningNumber(uint256 _seedNumber) external onlyOwner nonContract {
         require(rounds[currentRoundId].status == Status.Close, "Round is not closed");
 
         rounds[currentRoundId].status = Status.Claimable;
@@ -458,13 +397,7 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getRoundById(uint256 _roundId)
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (Round memory)
-    {
+    function getRoundById(uint256 _roundId) external view onlyOwner nonContract returns (Round memory) {
         return rounds[_roundId];
     }
 
@@ -498,24 +431,12 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getPoolsInRound(uint256 _roundId)
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (uint256[] memory)
-    {
+    function getPoolsInRound(uint256 _roundId) external view onlyOwner nonContract returns (uint256[] memory) {
         return poolsInEachRound[_roundId];
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getCurrentRound()
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (Round memory)
-    {
+    function getCurrentRound() external view onlyOwner nonContract returns (Round memory) {
         return rounds[currentRoundId];
     }
 
@@ -549,13 +470,7 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function getCurrentRoundPools()
-        external
-        view
-        onlyOwner
-        nonContract
-        returns (uint256[] memory)
-    {
+    function getCurrentRoundPools() external view onlyOwner nonContract returns (uint256[] memory) {
         return poolsInEachRound[currentRoundId];
     }
 
@@ -607,11 +522,7 @@ contract Lotto360 {
     }
 
     // ✅ - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim)
-        external
-        onlyOwner
-        nonContract
-    {
+    function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim) external onlyOwner nonContract {
         maxNumberTicketsPerBuyOrClaim = _maxNumberTicketsPerBuyOrClaim;
     }
 }

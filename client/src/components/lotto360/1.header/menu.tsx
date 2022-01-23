@@ -35,7 +35,7 @@ const Menu: FunctionComponent<MenuProps> = () => {
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    othe games
+                    other games
                 </span>
                 <ul
                     className="dropdown-menu rounded overflow-hidden border-dark bg6"
@@ -48,6 +48,15 @@ const Menu: FunctionComponent<MenuProps> = () => {
                         >
                             <i className="fa-solid fa-dice me-2"></i>
                             Dice
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            className="dropdown-item fw-bold text-black navig"
+                            to={"/666"}
+                        >
+                            <i className="fa-solid fa-hand-horns me-2"></i>
+                            number of the beast
                         </NavLink>
                     </li>
                 </ul>

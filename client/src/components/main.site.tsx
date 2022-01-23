@@ -10,6 +10,7 @@ import Main from "./lotto360/2.main/main";
 import Footer from "./lotto360/7.footer/footer";
 import { Route, Switch } from "react-router";
 import Dice360 from "./dice360/dice.360";
+import Beast from "./666/666";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -48,6 +49,16 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                                 balance={userBalance}
                                 web3={web3}
                             />
+                        )
+                    }
+                />
+
+                <Route
+                    path="/666"
+                    render={() =>
+                        address &&
+                        web3 && (
+                            <Beast address={address} balance={userBalance} web3={web3} />
                         )
                     }
                 />

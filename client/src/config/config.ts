@@ -2,6 +2,7 @@ export const coinGeckoApi = "https://api.coingecko.com/api/v3/coins/binancecoin"
 
 export const lotto360ContractAddress = "0xB054ab4D273009Ce1B5e11d22e2B3512D80Ae089";
 export const dice360ContractAddress = "0xe295a430da04007E409b339bDc438fa1A66B62B0";
+export const beastContractAddress = "0xe295a430da04007E409b339bDc438fa1A66B62B0";
 
 // chain network info
 export const targetNetworkId = 4;
