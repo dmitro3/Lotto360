@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
-import { TicketState } from "../../../interfaces/ticket.state";
 import { ticketNumberIsValid } from "../../../utilities/string.numbers.util";
+import { TicketState } from "../../../interfaces/ticket.state";
 
 interface TicketNumbersInputProps {
     inputOnChange: (state: TicketState) => void;

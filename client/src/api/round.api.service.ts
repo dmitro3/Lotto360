@@ -1,9 +1,8 @@
-import { AxiosResponse } from "axios";
-
-import { baseUrl } from "../config/config";
-import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
+import { AxiosResponse } from "axios";
+import { baseUrl } from "../config/config";
 import { GetRoundApiModel } from "./models/round.model";
+import { httpService } from "./api.service";
 
 export const RoundApiService = {
     getRoundById(

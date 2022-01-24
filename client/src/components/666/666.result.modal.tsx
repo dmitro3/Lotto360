@@ -1,7 +1,7 @@
 import moment from "moment";
-import { Dispatch, FunctionComponent } from "react";
-import { Button, Modal } from "react-bootstrap";
 import Web3 from "web3";
+import { Button, Modal } from "react-bootstrap";
+import { Dispatch, FunctionComponent } from "react";
 import { Spin } from "../../interfaces/spin";
 
 interface BeastResultModalProps {

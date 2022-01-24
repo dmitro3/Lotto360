@@ -1,8 +1,8 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import InputSetting from "../shared/set.inputs";
 import Web3 from "web3";
 import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
-import InputSetting from "../shared/set.inputs";
+import { FunctionComponent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface SpinSettingsProps {
     address: string;

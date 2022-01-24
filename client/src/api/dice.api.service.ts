@@ -1,7 +1,7 @@
+import ApiResponseResult from "./models/response.model";
 import { AxiosResponse } from "axios";
 import { baseUrl } from "../config/config";
 import { httpService } from "./api.service";
-import ApiResponseResult from "./models/response.model";
 
 export const DiceApiService = {
     dropDice: async (

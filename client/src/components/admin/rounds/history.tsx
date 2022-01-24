@@ -1,14 +1,13 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
-import { CSVLink } from "react-csv";
-import { cloneDeep } from "lodash";
 import moment from "moment";
-
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { RoundApiService } from "../../../api/round.api.service";
+import { cloneDeep } from "lodash";
+import { CSVLink } from "react-csv";
 import { flexItemsCenter } from "../../constants/classes";
+import { FunctionComponent, useEffect, useState } from "react";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import { HashLoader } from "react-spinners";
+import { RoundApiService } from "../../../api/round.api.service";
+import { Table } from "react-bootstrap";
+import { ticketNumToStr } from "../../../utilities/string.numbers.util";
 
 interface HistoryProps {
     setRoundId: (val: number) => void;
@@ -52,7 +51,7 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                                 t.isClaimed,
                             ]),
                         ];
-                        console.info(data);
+                        console.table(data);
                         setCSVData({ ...csvData, [roundId]: data });
                     }
                 }

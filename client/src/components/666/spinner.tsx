@@ -1,6 +1,6 @@
-import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { AutoplayComponent, MoveComponent, Splide as SplideJs } from "@splidejs/splide";
 import { FunctionComponent, useState } from "react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 
 interface SpinnerProps {
     autoPlay: boolean;
@@ -15,13 +15,10 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
     const [currentIndex, setCurrentIndex] = useState(0);
 
     if (currentIndex === stopNumber && stopNumber !== undefined && !!autoplayComponent) {
-        console.info("TargetHit");
         autoplayComponent.pause();
     } else if (autoPlay && !!splideInstance && !!autoplayComponent && !stopNumber) {
-        console.info("Play");
         autoplayComponent.play();
     } else if (!autoPlay && !!splideInstance && !!autoplayComponent) {
-        console.info("Reset");
         autoplayComponent.pause();
         move?.jump(0);
     }
@@ -29,20 +26,26 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
     return (
         <Splide
             options={{
-                type: "loop",
                 arrows: false,
                 autoplay: autoPlay,
+                gap: 0,
+                direction: "ttb",
+                drag: false,
+                easing: "linear",
+                focus: "center",
+                heightRatio: 1.45,
+                interval: 0,
+                keyboard: false,
+                pagination: false,
+                pauseOnFocus: false,
+                pauseOnHover: false,
                 resetProgress: true,
                 rewind: true,
-                interval: speed,
-                speed: speed,
-                direction: "ttb",
-                heightRatio: 1.45,
-                pauseOnHover: false,
-                pauseOnFocus: false,
-                gap: 0,
-                easing: "linear",
-                pagination: false,
+                slideFocus: true,
+                speed: 105,
+                trimSpace: true,
+                type: "slide",
+                wheel: false,
             }}
             onMounted={(s) => {
                 setSplideInstance(s);

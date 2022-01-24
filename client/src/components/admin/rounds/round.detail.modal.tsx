@@ -1,22 +1,21 @@
-import { FunctionComponent, useEffect, useState } from "react";
+import AddedBnb from "./added.bnb";
 import moment from "moment";
-
-import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { flexItemsCenter } from "../../constants/classes";
+import PoolTables from "./pool.tables";
 import PrizePerMatch from "../../lotto360/shared/prize.per.match";
+import TicketsTable from "../shared/tickets.table";
+import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
+import { flexItemsCenter } from "../../constants/classes";
+import { FunctionComponent, useEffect, useState } from "react";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
+import { HashLoader } from "react-spinners";
+import { initialRound } from "./reducer/round.list.reducer";
 import { RoundApiService } from "../../../api/round.api.service";
+import { toast } from "react-toastify";
 import {
     getPlayersCount,
     getTicketCount,
     ticketNumToStr,
 } from "../../../utilities/string.numbers.util";
-import TicketsTable from "../shared/tickets.table";
-import { initialRound } from "./reducer/round.list.reducer";
-import { toast } from "react-toastify";
-import PoolTables from "./pool.tables";
-import AddedBnb from "./added.bnb";
-import { HashLoader } from "react-spinners";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
@@ -35,7 +34,6 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
     const [showTicketTable, setshowTicketTable] = useState(false);
 
     useEffect(() => {
-        console.info("here is me");
         if (!roundId) return;
         RoundApiService.getRoundByIdAdminFromDb(roundId)
             .then((result) => {
@@ -87,24 +85,7 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
                 {cid && (
                     <div>
                         <div className="container bg-white py-3">
-                            <div className={`${flexItemsCenter} mb-3`}>
-                                <span className="fs-5 fw-bold me-3">Start at: </span>
-                                <div className="fs-5 me-2">
-                                    {moment(startTime * 1000).format(
-                                        "MMMM Do YYYY, h:mm a"
-                                    )}
-                                </div>
-                                {status === RoundStatus.Open && (
-                                    <span className="badge rounded-pill bg-primary fs-6">
-                                        Open
-                                    </span>
-                                )}
-                                {status === RoundStatus.Close && (
-                                    <span className="badge rounded-pill bg-secondary">
-                                        closed
-                                    </span>
-                                )}
-                            </div>
+                            {renderHeader(startTime, status)}
 
                             <TimeAndTotalAmount
                                 time={endTime}
@@ -189,3 +170,20 @@ const RoundDetailModal: FunctionComponent<RoundDetailModalProps> = ({
 };
 
 export default RoundDetailModal;
+
+function renderHeader(startTime: number, status: RoundStatus) {
+    return (
+        <div className={`${flexItemsCenter} mb-3`}>
+            <span className="fs-5 fw-bold me-3">Start at: </span>
+            <div className="fs-5 me-2">
+                {moment(startTime * 1000).format("MMMM Do YYYY, h:mm a")}
+            </div>
+            {status === RoundStatus.Open && (
+                <span className="badge rounded-pill bg-primary fs-6">Open</span>
+            )}
+            {status === RoundStatus.Close && (
+                <span className="badge rounded-pill bg-secondary">closed</span>
+            )}
+        </div>
+    );
+}

@@ -1,14 +1,13 @@
 import express, { Request, Response } from "express";
-import { ethers } from "ethers";
-
-import { RoundAttrs } from "../../../../database/model/round/interface.enum";
-import { ResponseMessageType } from "../../../../middlewares/error-handler";
-import { validateRequest } from "../../../../middlewares/validate-request";
-import { BadRequestError } from "../../../../errors/bad-request-error";
 import { addRoundValidatorSchema } from "../../validation/schemas";
+import { BadRequestError } from "../../../../errors/bad-request-error";
+import { ethers } from "ethers";
 import { lotto360Contract, provider } from "../../../../provider/contracts";
 import { requireAuth } from "../../../../middlewares/require-auth";
 import { responseMaker } from "../../../response.maker";
+import { ResponseMessageType } from "../../../../middlewares/error-handler";
+import { RoundAttrs } from "../../../../database/model/round/interface.enum";
+import { validateRequest } from "../../../../middlewares/validate-request";
 
 const router = express.Router();
 
@@ -47,7 +46,6 @@ router.post(
             );
 
             // get tx hash
-            console.info("add round transaction hash:", tx.hash);
             transactionHash = tx.hash;
 
             // get tx result

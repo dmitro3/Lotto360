@@ -1,6 +1,6 @@
-import { FunctionComponent } from "react";
 import ButtonWaiting from "../lotto360/shared/btn.waiting";
 import Spinner from "./spinner";
+import { FunctionComponent } from "react";
 import "@splidejs/splide/dist/css/splide.min.css";
 
 interface BeastSpinProps {
@@ -44,17 +44,17 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
                 <Spinner
                     autoPlay={autoPlay}
                     stopNumber={spinResult ? Number(spinResult[1]) : undefined}
-                    speed={60}
+                    speed={100}
                 />
                 <Spinner
                     autoPlay={autoPlay}
                     stopNumber={spinResult ? Number(spinResult[2]) : undefined}
-                    speed={60}
+                    speed={100}
                 />
                 <Spinner
                     autoPlay={autoPlay}
                     stopNumber={spinResult ? Number(spinResult[3]) : undefined}
-                    speed={60}
+                    speed={100}
                 />
             </div>
             <div className="d-flex justify-content-around my-1"></div>

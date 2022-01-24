@@ -1,11 +1,10 @@
-import { AxiosResponse } from "axios";
-
-import { baseUrl } from "../config/config";
-import { DashboardModel, TransferTokenModel, Withdraws } from "../interfaces/dashboard";
-import { PaymentAttrs } from "../interfaces/payments";
-import { httpService } from "./api.service";
 import ApiResponseResult from "./models/response.model";
+import { AxiosResponse } from "axios";
+import { baseUrl } from "../config/config";
 import { CheckForWin, TicketAttrs } from "./models/round.model";
+import { DashboardModel, TransferTokenModel, Withdraws } from "../interfaces/dashboard";
+import { httpService } from "./api.service";
+import { PaymentAttrs } from "../interfaces/payments";
 
 export const HelperApiService = {
     setNewTicketPerBuy(amount: number): Promise<AxiosResponse<ApiResponseResult<void>>> {
