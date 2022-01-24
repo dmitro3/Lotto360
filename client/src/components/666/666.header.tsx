@@ -13,7 +13,7 @@ const BeastHeader: FunctionComponent<BeastHeaderProps> = ({ multiplier }) => {
                     <i className="fa-solid fa-circle-1 me-2"></i>Purchase spin
                 </span>
                 <span className="mx-3">
-                    <i className="fa-solid fa-circle-2 me-2"></i>Spin
+                    <i className="fa-solid fa-circle-2 me-2"></i>Spin to get 666
                 </span>
                 <span>
                     <i className="fa-solid fa-circle-3 me-2"></i>Get x{multiplier} prize

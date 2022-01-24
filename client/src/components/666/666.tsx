@@ -1,16 +1,16 @@
+import moment from "moment";
+import { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import { toast } from "react-toastify";
+import Web3 from "web3";
+import { BeastApiService } from "../../api/beast.api.service";
+import { Spin, SpinStatus } from "../../interfaces/spin";
+import { beastChainMethods, UserSetting } from "../../provider/chain.methods/beast";
+import FullScreenLoader from "../admin/shared/loader";
 import BeastHeader from "./666.header";
 import BeastPurchase from "./666.purchase";
 import BeastResultModal from "./666.result.modal";
 import BeastSpin from "./666.spin";
-import FullScreenLoader from "../admin/shared/loader";
-import moment from "moment";
-import Web3 from "web3";
-import { BeastApiService } from "../../api/beast.api.service";
-import { beastChainMethods, UserSetting } from "../../provider/chain.methods/beast";
-import { Dispatch, FunctionComponent, useEffect, useState } from "react";
-import { Spin, SpinStatus } from "../../interfaces/spin";
-import { Table } from "react-bootstrap";
-import { toast } from "react-toastify";
 
 interface BeastProps {
     address: string;
@@ -116,9 +116,7 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                 console.error("error droping beast:", err);
                 setSpinAutoPlay(false);
             })
-            .finally(() => {
-                setSpinBeastLoading(false);
-            });
+            .finally(() => setSpinBeastLoading(false));
     };
 
     return (

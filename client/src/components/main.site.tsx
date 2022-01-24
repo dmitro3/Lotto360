@@ -1,16 +1,16 @@
+import { Dispatch, FunctionComponent, useEffect } from "react";
+import { Route, Switch } from "react-router";
+import { GetRoundApiModel } from "../api/models/round.model";
+import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
 import Beast from "./666/666";
-import CheckWin from "./lotto360/4.check.win/checkwin";
 import Dice360 from "./dice360/dice.360";
-import Footer from "./lotto360/7.footer/footer";
-import GameInfo from "./lotto360/6.game.info/game.info";
 import Header from "./lotto360/1.header/header";
 import Main from "./lotto360/2.main/main";
 import PrizePot from "./lotto360/3.current.round/prize.pot";
+import CheckWin from "./lotto360/4.check.win/checkwin";
 import RoundsHistory from "./lotto360/5.rounds.history/rounds.history";
-import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
-import { Dispatch, FunctionComponent, useEffect } from "react";
-import { GetRoundApiModel } from "../api/models/round.model";
-import { Route, Switch } from "react-router";
+import GameInfo from "./lotto360/6.game.info/game.info";
+import Footer from "./lotto360/7.footer/footer";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
