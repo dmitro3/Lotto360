@@ -1,17 +1,16 @@
+import moment from "moment";
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-
-import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import { DiceApiService } from "../../api/dice.api.service";
 import { Roll, RollStatus } from "../../interfaces/roll";
+import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import FullScreenLoader from "../admin/shared/loader";
-import DiceResultModal from "./dice.result.modal";
-import DicePurchase from "./dice.purchase";
 import DiceHeader from "./dice.header";
+import DicePurchase from "./dice.purchase";
+import DiceResultModal from "./dice.result.modal";
 import DiceRoll from "./dice.roll";
-import { Table } from "react-bootstrap";
-import moment from "moment";
 
 interface Dice360Props {
     address: string;
@@ -98,14 +97,34 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
         DiceApiService.dropDice(diceNumber, parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
-                    const roll = await dice360ChainMethods.getRollById(id, address, web3);
-                    setModalRoll(roll);
-                    setPurchasedBet(undefined);
-                    getUserHistory(setRollHistory, address, web3);
+                    console.info(id);
+                    dice360ChainMethods
+                        .getRollById(id, address, web3)
+                        .then((roll: Roll) => {
+                            if (roll.guess === roll.result && roll.result === "0") {
+                                getRollAgain(
+                                    id,
+                                    address,
+                                    web3,
+                                    setModalRoll,
+                                    setPurchasedBet,
+                                    setRollDiceLoading,
+                                    setRollHistory
+                                );
+                            } else {
+                                setModalRoll(roll);
+                                setPurchasedBet(undefined);
+                                getUserHistory(setRollHistory, address, web3);
+                                setRollDiceLoading(false);
+                            }
+                        })
+                        .catch((err) => console.error(err));
                 }
             })
-            .catch((err) => console.error("error droping dice:", err))
-            .finally(() => setRollDiceLoading(false));
+            .catch((err) => {
+                console.error("error droping dice:", err);
+                setRollDiceLoading(false);
+            });
     };
 
     return (
@@ -226,4 +245,36 @@ function getUserHistory(setUserRolls: Dispatch<any>, address: string, web3: Web3
         .userHistory(address, web3)
         .then((res) => setUserRolls(res))
         .catch((err) => console.error("error getting history:", err));
+}
+
+function getRollAgain(
+    id: string,
+    address: string,
+    web3: Web3,
+    setModalRoll: Function,
+    setPurchasedBet: Function,
+    setRollDiceLoading: Function,
+    setRollHistory: Dispatch<any>
+) {
+    dice360ChainMethods
+        .getRollById(id, address, web3)
+        .then((roll: Roll) => {
+            if (roll.guess === roll.result && roll.result === "0") {
+                getRollAgain(
+                    id,
+                    address,
+                    web3,
+                    setModalRoll,
+                    setPurchasedBet,
+                    setRollDiceLoading,
+                    setRollHistory
+                );
+            } else {
+                setModalRoll(roll);
+                setPurchasedBet(undefined);
+                getUserHistory(setRollHistory, address, web3);
+                setRollDiceLoading(false);
+            }
+        })
+        .catch((err) => console.error(err));
 }

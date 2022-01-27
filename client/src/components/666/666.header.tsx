@@ -7,7 +7,8 @@ interface BeastHeaderProps {
 const BeastHeader: FunctionComponent<BeastHeaderProps> = ({ multiplier }) => {
     return (
         <>
-            <h1 className="pt-5 text-center big-title">Number of the Beast</h1>
+            <h1 className="pt-5 text-center big-title letter-space">666</h1>
+            <h2 className="pb-3 text-center fw-bold">Number of the Beast</h2>
             <p className="text-center fs-5 fw-bold mb-5">
                 <span>
                     <i className="fa-solid fa-circle-1 me-2"></i>Purchase spin

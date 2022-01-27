@@ -1,19 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, useEffect, useReducer, useState } from "react";
-import { Zoom, ToastContainer } from "react-toastify";
-import { Route, Switch } from "react-router";
 import axios, { AxiosResponse } from "axios";
+import { Dispatch, useEffect, useReducer, useState } from "react";
+import { Route, Switch } from "react-router";
+import { ToastContainer, Zoom } from "react-toastify";
 import Web3 from "web3";
-
-import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
+import AdminPanel from "./components/admin/admin.panel";
+import Signin from "./components/admin/auth/login";
 import BuyTicketModal from "./components/lotto360/0.ticket.modal/buy.ticket.modal";
+import MainSite from "./components/main.site";
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
-import AdminPanel from "./components/admin/admin.panel";
-import MainSite from "./components/main.site";
-import Signin from "./components/admin/auth/login";
-import { getWeb3 } from "./provider/web3";
 import { lotto360ChainMethods } from "./provider/chain.methods/lotto360";
+import { getWeb3 } from "./provider/web3";
+import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);
@@ -93,27 +92,27 @@ const getCurrentRoundAndBnbPrice = (
     web3: Web3
 ) => {
     if (networkId !== targetNetworkId || !address) return;
-    lotto360ChainMethods
-        .getCurrentRoundForUser(address, web3)
-        .then((res) => {
-            if (!res) return;
-            dispatch({
-                type: LottoActions.SET_CURRENT_ROUND,
-                payload: res,
-            });
-        })
-        .catch((err) => console.error(err));
+    // lotto360ChainMethods
+    //     .getCurrentRoundForUser(address, web3)
+    //     .then((res) => {
+    //         if (!res) return;
+    //         dispatch({
+    //             type: LottoActions.SET_CURRENT_ROUND,
+    //             payload: res,
+    //         });
+    //     })
+    //     .catch((err) => console.error(err));
 
-    lotto360ChainMethods
-        .getMaxTicketsPerBuy(web3)
-        .then((res) => {
-            if (!res) return;
-            dispatch({
-                type: LottoActions.SET_MAX_TICKETS,
-                payload: res,
-            });
-        })
-        .catch((err) => console.error(err));
+    // lotto360ChainMethods
+    //     .getMaxTicketsPerBuy(web3)
+    //     .then((res) => {
+    //         if (!res) return;
+    //         dispatch({
+    //             type: LottoActions.SET_MAX_TICKETS,
+    //             payload: res,
+    //         });
+    //     })
+    //     .catch((err) => console.error(err));
 
     lotto360ChainMethods
         .getUserBalance(address, web3)

@@ -68,6 +68,7 @@ router.post(
                 })
             );
         } catch (err: any) {
+            console.error(err);
             if (transactionHash)
                 throw new BadRequestError(
                     transactionHash,

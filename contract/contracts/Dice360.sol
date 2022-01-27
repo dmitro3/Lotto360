@@ -5,11 +5,11 @@ pragma experimental ABIEncoderV2;
 
 contract Dice360 {
     address private owner;
-    uint256 ctFee = 5;
+    uint256 private ctFee = 5;
     uint256 private currentRollId = 0;
     uint8 public prizeMultiplier = 8;
     uint256 public minRollAmount = 10000000000000000; // 0.01 bnb
-    uint256 public maxRollAmount = 200000000000000000; // 0.2 bnb
+    uint256 public maxRollAmount = 20000000000000000; // 0.2 bnb
 
     constructor() {
         owner = msg.sender;
@@ -160,6 +160,7 @@ contract Dice360 {
             uint256 toPay = (roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier;
             _transferTokens(roll.user, toPay);
         }
+        emit MultiplierUpdated(result);
         return result;
     }
 
@@ -200,7 +201,7 @@ contract Dice360 {
                                         block.number,
                                         block.coinbase,
                                         block.gaslimit,
-                                        block.timestamp,
+                                        block.timestamp + block.number,
                                         blockhash(block.number - 1)
                                     )
                                 )
@@ -211,7 +212,7 @@ contract Dice360 {
                                 keccak256(
                                     abi.encodePacked(
                                         _seed,
-                                        block.number,
+                                        block.number + block.gaslimit,
                                         block.coinbase,
                                         block.gaslimit,
                                         block.timestamp,

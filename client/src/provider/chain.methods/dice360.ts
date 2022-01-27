@@ -18,7 +18,7 @@ export const dice360ChainMethods = {
                     value: Web3.utils.toWei(`${value}`, "ether"),
                 });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error purchaseRoll:", err);
             return null;
         }
     },
@@ -29,7 +29,7 @@ export const dice360ChainMethods = {
                 .methods.GetReadyRoll()
                 .call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error userReadyRoll:", err);
             return null;
         }
     },
@@ -38,7 +38,7 @@ export const dice360ChainMethods = {
         try {
             return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error userHistory:", err);
             return null;
         }
     },
@@ -55,7 +55,7 @@ export const dice360ChainMethods = {
             };
             return result;
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error getSettingForUser:", err);
             return null;
         }
     },
@@ -66,7 +66,7 @@ export const dice360ChainMethods = {
                 .methods.UserGetRollById(id)
                 .call({ from: address });
         } catch (err) {
-            console.error("Error checking ready rolls:", err);
+            console.error("Error getRollById:", err);
             return null;
         }
     },

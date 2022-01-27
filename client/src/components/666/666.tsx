@@ -121,7 +121,7 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
 
     return (
         <>
-            <div className="beast-sec bg3 main-box pb-5">
+            <div className="beast-sec bg6 main-box beastbox pb-5">
                 <div className="container pb-5">
                     <BeastHeader multiplier={multiplier} />
 
