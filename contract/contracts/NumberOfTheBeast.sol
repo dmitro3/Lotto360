@@ -7,9 +7,9 @@ contract NumberOfTheBeast {
     address private owner;
     uint256 private ctFee = 5;
     uint256 private currentSpinId = 0;
-    uint8 public prizeMultiplier = 20;
+    uint8 public prizeMultiplier = 25;
     uint256 public minSpinAmount = 10000000000000000; // 0.01 bnb
-    uint256 public maxSpinAmount = 200000000000000000; // 0.2 bnb
+    uint256 public maxSpinAmount = 20000000000000000; // 0.02 bnb
 
     constructor() {
         owner = msg.sender;

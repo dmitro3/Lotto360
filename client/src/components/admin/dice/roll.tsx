@@ -4,7 +4,8 @@ import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { Roll as IRoll } from "../../../interfaces/roll";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
-import DiceResultModal from "../../dice360/dice.result.modal";
+import { getDiceClass } from "../../dice360/dice.360";
+import DiceResultModal, { numberToText } from "../../dice360/dice.result.modal";
 import ButtonWaiting from "../../lotto360/shared/btn.waiting";
 
 interface RollProps {
@@ -99,8 +100,22 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                                         "DD/MM/YYYY - hh:mm:ss"
                                     )}
                                 </td>
-                                <td>{r.guess}</td>
-                                <td>{r.result}</td>
+                                <td>
+                                    <i
+                                        className={`${getDiceClass(
+                                            r
+                                        )} fa-solid fa-2xl fa-dice-${numberToText(
+                                            r.guess
+                                        )}`}
+                                    ></i>
+                                </td>
+                                <td>
+                                    <i
+                                        className={`fa-solid text-secondary fa-2xl fa-dice-${numberToText(
+                                            r.result
+                                        )}`}
+                                    ></i>
+                                </td>
                                 <td>
                                     <button
                                         className="btn btn-sm btn-secondary"

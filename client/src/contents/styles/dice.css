@@ -1,0 +1,182 @@
+#cube .front {
+    transform: translateZ(100px);
+}
+
+#cube .back {
+    transform: rotateX(-180deg) translateZ(100px);
+}
+
+#cube .right {
+    transform: rotateY(90deg) translateZ(100px);
+}
+
+#cube .left {
+    transform: rotateY(-90deg) translateZ(100px);
+}
+
+#cube .top {
+    transform: rotateX(90deg) translateZ(100px);
+}
+
+#cube .bottom {
+    transform: rotateX(-90deg) translateZ(100px);
+}
+
+.container-dice {
+    margin: auto;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    perspective: 800px;
+    perspective-origin: 50% 100%;
+    z-index: 50000;
+    transform: scale(0.3);
+}
+
+@media (max-width: 900px) {
+    .container-dice {
+        display: none;
+    }
+}
+
+#cube {
+    width: 200px;
+    height: 200px;
+    top: -30px;
+    left: -70px;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: 1s;
+}
+
+#cube.dice1 {
+    transform: rotateX(0deg) !important;
+}
+#cube.dice2 {
+    transform: rotateX(180deg) !important;
+}
+#cube.dice3 {
+    transform: rotateY(270deg) !important;
+}
+#cube.dice4 {
+    transform: rotateY(90deg) !important;
+}
+#cube.dice5 {
+    transform: rotateX(270deg) !important;
+}
+#cube.dice6 {
+    transform: rotateX(90deg) !important;
+}
+
+#cube.roll {
+    transform: rotateX(-2400000deg) rotateY(240000deg);
+    transition: 120s linear !important;
+}
+
+#cube div {
+    display: block;
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    padding: 50px 0;
+    background: linear-gradient(to bottom, #323232 0%, #3f3f3f 40%, #1c1c1c 150%),
+        linear-gradient(to top, rgba(255, 255, 255, 0.4) 0%, rgba(0, 0, 0, 0.25) 200%);
+    background-blend-mode: multiply;
+}
+
+.dot {
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #fff;
+    border-radius: 15px;
+}
+
+.front .dot1 {
+    top: 85px;
+    left: 85px;
+}
+.back .dot1 {
+    top: 45px;
+    left: 45px;
+}
+.back .dot2 {
+    top: 125px;
+    left: 125px;
+}
+.right .dot1 {
+    top: 45px;
+    left: 45px;
+}
+.right .dot2 {
+    top: 85px;
+    left: 85px;
+}
+.right .dot3 {
+    top: 125px;
+    left: 125px;
+}
+.left .dot1 {
+    top: 45px;
+    left: 45px;
+}
+.left .dot2 {
+    top: 45px;
+    left: 125px;
+}
+.left .dot3 {
+    top: 125px;
+    left: 45px;
+}
+.left .dot4 {
+    top: 125px;
+    left: 125px;
+}
+.top .dot1 {
+    top: 45px;
+    left: 45px;
+}
+.top .dot2 {
+    top: 45px;
+    left: 125px;
+}
+.top .dot3 {
+    top: 85px;
+    left: 85px;
+}
+.top .dot4 {
+    top: 125px;
+    left: 45px;
+}
+.top .dot5 {
+    top: 125px;
+    left: 125px;
+}
+.bottom .dot1 {
+    top: 45px;
+    left: 45px;
+}
+.bottom .dot2 {
+    top: 45px;
+    left: 85px;
+}
+.bottom .dot3 {
+    top: 45px;
+    left: 125px;
+}
+.bottom .dot4 {
+    top: 125px;
+    left: 45px;
+}
+.bottom .dot5 {
+    top: 125px;
+    left: 85px;
+}
+.bottom .dot6 {
+    top: 125px;
+    left: 125px;
+}

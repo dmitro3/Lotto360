@@ -32,8 +32,8 @@
     },
     "scripts": {
         "start": "react-scripts --openssl-legacy-provider start",
-        "build": "react-scripts --openssl-legacy-provider build && rm build/static/js/*.map",
-        "buildlegacy": "react-scripts build && rm build/static/js/*.map",
+        "build": "react-scripts --openssl-legacy-provider build && rm build/static/**/*.map",
+        "buildlegacy": "react-scripts build && rm build/static/**/*.map",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

@@ -32,8 +32,8 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
     return (
         <div
             className={`drop-box rounded bg-white shadow p-4 ${
-                !alreadyPurchased ? "opacity-50" : ""
-            }`}
+                !alreadyPurchased ? "opacity-75" : ""
+            } d-flex flex-column justify-content-between`}
         >
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-2 me-2"></i>
@@ -57,7 +57,7 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
             <button
                 disabled={!choosedDice || !alreadyPurchased || buttonLoading}
                 type="button"
-                className="btn btn-success w-100 mt-3"
+                className="btn btn-success btn-lg w-100 mt-3"
                 onClick={() => choosedDice && rollDice(choosedDice)}
             >
                 {getButtonText()}
@@ -69,8 +69,9 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
 export default DiceRoll;
 
 const active = (number: number, diceNumber?: number) =>
-    diceNumber === number ? "active shadow" : "";
-const numberToWord = (n: number) => {
+    diceNumber === number ? "active " : "";
+
+export const numberToWord = (n: number) => {
     if (n === 1) return "one";
     else if (n === 2) return "two";
     else if (n === 3) return "three";

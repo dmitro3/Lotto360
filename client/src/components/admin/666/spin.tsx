@@ -1,11 +1,11 @@
+import moment from "moment";
+import { FunctionComponent, useEffect, useState } from "react";
+import { Table } from "react-bootstrap";
+import Web3 from "web3";
+import { Spin as ISpin } from "../../../interfaces/spin";
+import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
 import BeastResultModal from "../../666/666.result.modal";
 import ButtonWaiting from "../../lotto360/shared/btn.waiting";
-import moment from "moment";
-import Web3 from "web3";
-import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
-import { FunctionComponent, useEffect, useState } from "react";
-import { Spin as ISpin } from "../../../interfaces/spin";
-import { Table } from "react-bootstrap";
 
 interface SpinProps {
     address: string;

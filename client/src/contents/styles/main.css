@@ -493,3 +493,11 @@ body {
 .input-group > .btn {
     margin-left: 5px !important;
 }
+
+.dice-page-bg {
+    background-image: linear-gradient(135deg, #fff720 10%, #3cd500 100%);
+}
+
+td {
+    font-weight: bold;
+}

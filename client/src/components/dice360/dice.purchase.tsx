@@ -1,5 +1,4 @@
 import { Dispatch, FunctionComponent } from "react";
-
 import ButtonWaiting from "../lotto360/shared/btn.waiting";
 
 interface DicePurchaseProps {
@@ -77,7 +76,7 @@ const DicePurchase: FunctionComponent<DicePurchaseProps> = ({
             </p>
             <button
                 type="button"
-                className="btn btn-success w-100 mt-3"
+                className="btn btn-success btn-lg w-100 mt-3"
                 disabled={
                     !(betAmount >= minBet && betAmount <= maxBet) ||
                     alreadyPurchased ||

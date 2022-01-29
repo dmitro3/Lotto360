@@ -101,15 +101,16 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
         BeastApiService.spinSlot(parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
-                    const spin = await beastChainMethods.getSpinById(id, address, web3);
-                    getUserHistory(setSpinHistory, address, web3);
-                    setSpinResult(spin.result);
-                    setTimeout(() => {
-                        setPurchasedBet(undefined);
-                        setSpinAutoPlay(false);
-                        setModalSpin(spin);
-                        setSpinResult("");
-                    }, 4000);
+                    getSpinById(
+                        id,
+                        address,
+                        web3,
+                        setSpinHistory,
+                        setSpinResult,
+                        setPurchasedBet,
+                        setSpinAutoPlay,
+                        setModalSpin
+                    );
                 }
             })
             .catch((err) => {
@@ -209,6 +210,44 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
 };
 
 export default Beast;
+
+const getSpinById = (
+    id: string,
+    address: string,
+    web3: Web3,
+    setSpinHistory: Dispatch<any>,
+    setSpinResult: Function,
+    setPurchasedBet: Function,
+    setSpinAutoPlay: Function,
+    setModalSpin: Function
+) => {
+    beastChainMethods
+        .getSpinById(id, address, web3)
+        .then((spin: Spin) => {
+            if (spin.result === "0") {
+                getSpinById(
+                    id,
+                    address,
+                    web3,
+                    setSpinHistory,
+                    setSpinResult,
+                    setPurchasedBet,
+                    setSpinAutoPlay,
+                    setModalSpin
+                );
+            } else {
+                getUserHistory(setSpinHistory, address, web3);
+                setSpinResult(spin.result);
+                setTimeout(() => {
+                    setPurchasedBet(undefined);
+                    setSpinAutoPlay(false);
+                    setModalSpin(spin);
+                    setSpinResult("");
+                }, 4000);
+            }
+        })
+        .catch((err) => console.error(err));
+};
 
 function getUserPurchasedSpin(
     address: string,

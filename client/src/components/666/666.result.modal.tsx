@@ -1,7 +1,7 @@
 import moment from "moment";
-import Web3 from "web3";
-import { Button, Modal } from "react-bootstrap";
 import { Dispatch, FunctionComponent } from "react";
+import { Button, Modal } from "react-bootstrap";
+import Web3 from "web3";
 import { Spin } from "../../interfaces/spin";
 
 interface BeastResultModalProps {
@@ -40,7 +40,7 @@ const BeastResultModal: FunctionComponent<BeastResultModalProps> = ({
                     <span>Purchase time: </span>
                     <span className="fw-bold">
                         {moment(parseInt(spin.purchaseTime) * 1000).format(
-                            "Do MMMM YYYY, h:mm:ss a"
+                            "DD/MM/YYYY - h:mm a"
                         )}
                     </span>
                 </div>
@@ -48,7 +48,7 @@ const BeastResultModal: FunctionComponent<BeastResultModalProps> = ({
                     <span>Spin time: </span>
                     <span className="fw-bold">
                         {moment(parseInt(spin.spinTime) * 1000).format(
-                            "Do MMMM YYYY, h:mm:ss a"
+                            "DD/MM/YYYY - h:mm a"
                         )}
                     </span>
                 </div>

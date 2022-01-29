@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import { convertRoll } from "../../interfaces/roll";
+import { convertRoll, Roll } from "../../interfaces/roll";
 import { dice360Contract } from "../contracts";
 
 export interface UserSetting {
@@ -36,7 +36,12 @@ export const dice360ChainMethods = {
 
     userHistory: async (address: string, web3: Web3) => {
         try {
-            return dice360Contract(web3).methods.GetMyHistory().call({ from: address });
+            const rolls: Roll[] = await dice360Contract(web3)
+                .methods.GetMyHistory()
+                .call({ from: address });
+            return convertRoll(rolls)
+                .reverse()
+                .filter((r) => r.result);
         } catch (err) {
             console.error("Error userHistory:", err);
             return null;
@@ -163,7 +168,7 @@ export const dice360AdminChainMethods = {
                 from: address,
             });
 
-            return convertRoll(result);
+            return convertRoll(result).reverse();
         } catch (err) {
             console.error("Error getting rolls:", err);
             return null;
@@ -178,7 +183,7 @@ export const dice360AdminChainMethods = {
                     from: address,
                 });
 
-            return convertRoll(result);
+            return convertRoll(result).reverse();
         } catch (err) {
             console.error("Error getting rolls:", err);
             return null;

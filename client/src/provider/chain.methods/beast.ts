@@ -161,7 +161,7 @@ export const beastAdminChainMethods = {
                 from: address,
             });
 
-            return convertSpin(result);
+            return convertSpin(result).reverse();
         } catch (err) {
             console.error("Error getting spins:", err);
             return null;
@@ -176,7 +176,7 @@ export const beastAdminChainMethods = {
                     from: address,
                 });
 
-            return convertSpin(result);
+            return convertSpin(result).reverse();
         } catch (err) {
             console.error("Error getting spins:", err);
             return null;

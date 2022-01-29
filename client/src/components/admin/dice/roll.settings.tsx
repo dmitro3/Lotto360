@@ -1,6 +1,7 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
+import { dice360ContractAddress } from "../../../config/config";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
 import InputSetting from "../shared/set.inputs";
 
@@ -10,6 +11,8 @@ interface RollSettingsProps {
 }
 
 const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) => {
+    const [balance, setBalance] = useState("");
+
     const [fund, setFund] = useState(0.01);
     const [fundLoading, setFundLoading] = useState(false);
 
@@ -40,6 +43,11 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
                 setCurrentRollId(res[4]);
                 setNewOwner(res[5]);
             })
+            .catch((err) => console.error(err));
+
+        web3.eth
+            .getBalance(dice360ContractAddress)
+            .then((res) => res && setBalance(Web3.utils.fromWei(res, "ether")))
             .catch((err) => console.error(err));
     }, [address, web3]);
 
@@ -113,8 +121,12 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
 
     return (
         <>
-            <h3 className="fw-bold mb-5 text-primary">Current Roll: {currentRollId}</h3>
-
+            <h3 className="fw-bold text-primary">Current Roll: {currentRollId}</h3>
+            <h4 className="fw-bold mb-5">
+                <span className="badge bg3 text-black rounded-pill shadow">
+                    Balance: {balance} BNB
+                </span>
+            </h4>
             <div className="col col-6 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <InputSetting
                     loading={fundLoading}

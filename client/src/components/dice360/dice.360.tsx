@@ -7,9 +7,10 @@ import { DiceApiService } from "../../api/dice.api.service";
 import { Roll, RollStatus } from "../../interfaces/roll";
 import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import FullScreenLoader from "../admin/shared/loader";
+import Dice from "./dice";
 import DiceHeader from "./dice.header";
 import DicePurchase from "./dice.purchase";
-import DiceResultModal from "./dice.result.modal";
+import DiceResultModal, { numberToText } from "./dice.result.modal";
 import DiceRoll from "./dice.roll";
 
 interface Dice360Props {
@@ -97,28 +98,15 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
         DiceApiService.dropDice(diceNumber, parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
-                    console.info(id);
-                    dice360ChainMethods
-                        .getRollById(id, address, web3)
-                        .then((roll: Roll) => {
-                            if (roll.guess === roll.result && roll.result === "0") {
-                                getRollAgain(
-                                    id,
-                                    address,
-                                    web3,
-                                    setModalRoll,
-                                    setPurchasedBet,
-                                    setRollDiceLoading,
-                                    setRollHistory
-                                );
-                            } else {
-                                setModalRoll(roll);
-                                setPurchasedBet(undefined);
-                                getUserHistory(setRollHistory, address, web3);
-                                setRollDiceLoading(false);
-                            }
-                        })
-                        .catch((err) => console.error(err));
+                    getRollAgain(
+                        id,
+                        address,
+                        web3,
+                        setModalRoll,
+                        setPurchasedBet,
+                        setRollDiceLoading,
+                        setRollHistory
+                    );
                 }
             })
             .catch((err) => {
@@ -129,10 +117,9 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
 
     return (
         <>
-            <div className="dice-sec bg3 main-box pb-5">
+            <div className="dice-sec dice-page-bg main-box pb-5">
+                <DiceHeader multiplier={userSetting.multiplier} />
                 <div className="container pb-5">
-                    <DiceHeader multiplier={multiplier} />
-
                     <div className="d-flex justify-content-evenly flex-wrap">
                         <DicePurchase
                             alreadyPurchased={purchasedBet !== undefined}
@@ -158,7 +145,7 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
                     {rollHistory && rollHistory.length > 0 && (
                         <div>
                             <h4 className="text-center fw-bold mt-5">Your History</h4>
-                            <div className="bg-white rounded overflow-hidden">
+                            <div className="bg-white rounded overflow-hidden shadow">
                                 <Table className="mb-0" striped bordered hover responsive>
                                     <thead className="table-dark">
                                         <tr>
@@ -183,13 +170,27 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
                                                 <td>
                                                     {moment(
                                                         parseInt(r.rollTime) * 1000
-                                                    ).format("DD/MM/YYYY, h:mm a")}
+                                                    ).format("DD/MM/YYYY - h:mm a")}
                                                 </td>
-                                                <td>{r.guess}</td>
-                                                <td>{r.result}</td>
+                                                <td>
+                                                    <i
+                                                        className={`${getDiceClass(
+                                                            r
+                                                        )} fa-solid fa-2xl fa-dice-${numberToText(
+                                                            r.guess
+                                                        )}`}
+                                                    ></i>
+                                                </td>
+                                                <td>
+                                                    <i
+                                                        className={`fa-solid text-secondary fa-2xl fa-dice-${numberToText(
+                                                            r.result
+                                                        )}`}
+                                                    ></i>
+                                                </td>
                                                 <td>
                                                     <button
-                                                        className="btn btn-secondary"
+                                                        className="btn btn-warning"
                                                         onClick={() => setModalRoll(r)}
                                                     >
                                                         detail
@@ -203,6 +204,7 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
                         </div>
                     )}
                 </div>
+                <Dice diceNumber={rollDiceLoading ? "0" : modalRoll?.result} />
             </div>
 
             {modalRoll && (
@@ -278,3 +280,6 @@ function getRollAgain(
         })
         .catch((err) => console.error(err));
 }
+
+export const getDiceClass = (r: Roll) =>
+    r.result === r.guess ? "text-success" : "text-danger";

@@ -1,6 +1,6 @@
-import { groupBy, forOwn } from "lodash";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
+import { forOwn, groupBy } from "lodash";
 import { TicketAttrs } from "../api/models/round.model";
 
 // ..........................................................................................

@@ -1,10 +1,9 @@
 import { Dispatch, FunctionComponent } from "react";
-
-import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import logo from "../../../contents/images/horizontal-logo.svg";
-import Wallet from "./wallet";
-import Menu from "./menu";
 import { NavLink } from "react-router-dom";
+import logo from "../../../contents/images/horizontal-logo.svg";
+import { ActionModel, LottoActions } from "../../../reducer/reducer";
+import Menu from "./menu";
+import Wallet from "./wallet";
 
 interface HeaderProps {
     address?: string;
@@ -13,7 +12,7 @@ interface HeaderProps {
 
 const Header: FunctionComponent<HeaderProps> = ({ address, dispatch }) => {
     return (
-        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light shadow">
+        <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-white border-0 shadow">
             <div className="container-fluid">
                 <NavLink
                     className="navbar-brand megering d-flex justify-content-between align-items-center"

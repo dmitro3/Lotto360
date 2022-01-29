@@ -3,6 +3,7 @@ import { Dispatch, FunctionComponent } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Web3 from "web3";
 import { Roll } from "../../interfaces/roll";
+import { simplifyString } from "../../utilities/string.numbers.util";
 
 interface DiceResultModalProps {
     roll: Roll;
@@ -26,7 +27,7 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                 <h4 className="fw-bold"># {roll.id}</h4>
                 <div className="d-flex justify-content-between">
                     <span>User: </span>
-                    <span className="fw-bold">{roll.user}</span>
+                    <span className="fw-bold">{simplifyString(roll.user)}</span>
                 </div>
                 <div className="d-flex justify-content-between">
                     <span>Amount: </span>
@@ -38,7 +39,7 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                     <span>Purchase time: </span>
                     <span className="fw-bold">
                         {moment(parseInt(roll.purchaseTime) * 1000).format(
-                            "Do MMMM YYYY, h:mm:ss a"
+                            "DD/MM/YYYY - h:mm:ss a"
                         )}
                     </span>
                 </div>
@@ -46,13 +47,19 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                     <span>Roll time: </span>
                     <span className="fw-bold">
                         {moment(parseInt(roll.rollTime) * 1000).format(
-                            "Do MMMM YYYY, h:mm:ss a"
+                            "DD/MM/YYYY - h:mm:ss a"
                         )}
                     </span>
                 </div>
-                <div className="d-flex justify-content-between">
+                <div className="d-flex justify-content-between mt-3">
                     <span>Guessed number: </span>
-                    <span className="fw-bold">{roll.guess}</span>
+                    <span className="fw-bold">
+                        <i
+                            className={`text-dark fa-solid fa-2xl fa-dice-${numberToText(
+                                roll.guess
+                            )}`}
+                        ></i>
+                    </span>
                 </div>
                 <hr />
                 <div
@@ -60,7 +67,12 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                         roll.guess === roll.result ? "text-success" : "text-danger"
                     }`}
                 >
-                    Result: {roll.result}
+                    Result:{" "}
+                    <i
+                        className={`fa-solid fa-xl ms-2 fa-dice-${numberToText(
+                            roll.result
+                        )}`}
+                    ></i>
                     {roll.guess !== roll.result ? (
                         <i className="ms-3 fa-solid fa-heart-crack"></i>
                     ) : (
@@ -89,4 +101,13 @@ const calculatePrize = (roll: Roll) => {
     const amount = parseFloat(Web3.utils.fromWei(roll.amount, "ether"));
 
     return (amount - (amount / 100) * parseInt(roll.ctFee)) * parseInt(roll.multiplier);
+};
+
+export const numberToText = (number: string) => {
+    if (number === "1") return "one";
+    if (number === "2") return "two";
+    if (number === "3") return "three";
+    if (number === "4") return "four";
+    if (number === "5") return "five";
+    if (number === "6") return "six";
 };
