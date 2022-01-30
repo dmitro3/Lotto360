@@ -1,5 +1,6 @@
 body {
     overflow-x: hidden;
+    padding-top: 86px;
 }
 
 .big-logo {
@@ -11,7 +12,7 @@ body {
 }
 
 .main-box {
-    padding-top: 140px !important;
+    padding-top: 60px !important;
 }
 
 .beastbox {
@@ -500,4 +501,65 @@ body {
 
 td {
     font-weight: bold;
+}
+
+.bg-other-games {
+    background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
+}
+
+.bg-666 {
+    background-image: url(../images/devilvert.png), url(../images/devil.png);
+    background-position: left center, right center;
+    background-size: 400px;
+    background-color: rgb(204, 15, 15);
+    background-repeat: no-repeat;
+    transition: 3s;
+}
+
+.bg-666-animate {
+    animation: slit 2.5s linear infinite reverse;
+}
+
+@keyframes slit {
+    0% {
+        background-position: left center, right center;
+    }
+    25% {
+        background-position: left top, right bottom;
+    }
+    50% {
+        background-position: left center, right center;
+    }
+    75% {
+        background-position: left bottom, right top;
+    }
+    100% {
+        background-position: left center, right center;
+    }
+}
+
+@-webkit-keyframes slit {
+    0% {
+        background-position: left center, right center;
+    }
+    25% {
+        background-position: left top, right bottom;
+    }
+    50% {
+        background-position: left center, right center;
+    }
+    75% {
+        background-position: left bottom, right top;
+    }
+    100% {
+        background-position: left center, right center;
+    }
+}
+
+.bg-666-spiner {
+    background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
+}
+
+.spinner-devil-pic {
+    height: 70px;
 }

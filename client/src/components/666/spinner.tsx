@@ -1,6 +1,7 @@
+import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { AutoplayComponent, MoveComponent, Splide as SplideJs } from "@splidejs/splide";
 import { FunctionComponent, useState } from "react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import devil from "../../contents/images/devil.png";
 
 interface SpinnerProps {
     autoPlay: boolean;
@@ -33,7 +34,7 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
                 drag: false,
                 easing: "linear",
                 focus: "center",
-                heightRatio: 1.45,
+                height: 110,
                 interval: 0,
                 keyboard: false,
                 pagination: false,
@@ -55,38 +56,21 @@ const Spinner: FunctionComponent<SpinnerProps> = ({ autoPlay, speed, stopNumber 
             }}
             onMoved={(_splide, index, _prev, _dest) => setCurrentIndex(index)}
         >
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">0</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">1</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">2</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">3</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">4</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">5</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">6</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">7</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">8</div>
-            </SplideSlide>
-            <SplideSlide>
-                <div className="fw-bold display-4 text-center py-4 px-4">9</div>
-            </SplideSlide>
+            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => renderSplideSlide(n))}
         </Splide>
     );
 };
 
 export default Spinner;
+
+const renderSplideSlide = (num: number) => (
+    <SplideSlide key={num}>
+        <div className="fw-bold display-4 text-center h-100 w-100 d-flex justify-content-center align-items-center">
+            {num !== 6 ? (
+                <span>{num}</span>
+            ) : (
+                <img className="spinner-devil-pic" src={devil} alt="devil" />
+            )}
+        </div>
+    </SplideSlide>
+);

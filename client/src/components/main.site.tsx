@@ -3,6 +3,7 @@ import { Route, Switch } from "react-router";
 import { NavLink } from "react-router-dom";
 import { GetRoundApiModel } from "../api/models/round.model";
 import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
+import Beast from "./666/666";
 import Dice360 from "./dice360/dice.360";
 import Header from "./lotto360/1.header/header";
 import Footer from "./lotto360/7.footer/footer";
@@ -50,19 +51,19 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
 
                 <Route
                     path="/666"
-                    render={
-                        () => (
-                            <div className="d-flex flex-column justify-content-center align-items-center bg6 min-height">
-                                <h1 className="text-center p-5 fw-bold">Coming soon</h1>
-                                <NavLink to={"/dice"}>
-                                    <button className="btn btn-primary">Play Dice</button>
-                                </NavLink>
-                            </div>
-                        )
-                        // address &&
-                        // web3 && (
-                        //     <Beast address={address} balance={userBalance} web3={web3} />
+                    render={() =>
+                        // (
+                        //     <div className="d-flex flex-column justify-content-center align-items-center bg6 min-height">
+                        //         <h1 className="text-center p-5 fw-bold">Coming soon</h1>
+                        //         <NavLink to={"/dice"}>
+                        //             <button className="btn btn-primary">Play Dice</button>
+                        //         </NavLink>
+                        //     </div>
                         // )
+                        address &&
+                        web3 && (
+                            <Beast address={address} balance={userBalance} web3={web3} />
+                        )
                     }
                 />
 

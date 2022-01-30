@@ -7,29 +7,32 @@ const Menu: FunctionComponent<MenuProps> = () => {
     return (
         <ul className="navbar-nav me-auto text-uppercase">
             <li className="nav-item">
-                <a className="nav-link text-dark text-decoration-none" href="#buy-ticket">
+                <a
+                    className="nav-link text-dark text-decoration-none"
+                    href="/#buy-ticket"
+                >
                     Buy ticket
                     <span className="visually-hidden">(current)</span>
                 </a>
             </li>
             <li className="nav-item">
-                <a className="nav-link text-dark text-decoration-none" href="#check-win">
+                <a className="nav-link text-dark text-decoration-none" href="/#check-win">
                     Check for win
                 </a>
             </li>
             <li className="nav-item">
-                <a className="nav-link text-dark text-decoration-none" href="#history">
+                <a className="nav-link text-dark text-decoration-none" href="/#history">
                     History
                 </a>
             </li>
             <li className="nav-item">
-                <a className="nav-link text-dark text-decoration-none" href="#how-to">
+                <a className="nav-link text-dark text-decoration-none" href="/#how-to">
                     How to play
                 </a>
             </li>
             <li className="nav-item dropdown">
                 <span
-                    className="nav-link text-decoration-none dropdown-toggle bg-info rounded text-black"
+                    className="nav-link text-decoration-none dropdown-toggle bg-other-games rounded text-black"
                     id="navbarDropdownMenuLink"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -38,7 +41,7 @@ const Menu: FunctionComponent<MenuProps> = () => {
                     other games
                 </span>
                 <ul
-                    className="dropdown-menu rounded overflow-hidden border-dark bg-info"
+                    className="dropdown-menu rounded overflow-hidden border-dark bg-other-games"
                     aria-labelledby="navbarDropdownMenuLink"
                 >
                     <li>

@@ -1,7 +1,7 @@
 import { Dispatch, FunctionComponent } from "react";
+import { getWeb3 } from "../../../provider/web3";
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
 import { simplifyString } from "../../../utilities/string.numbers.util";
-import { getWeb3 } from "../../../provider/web3";
 
 interface WalletProps {
     address?: string;
@@ -15,7 +15,9 @@ const Wallet: FunctionComponent<WalletProps> = ({ address, dispatch }) => {
     return (
         <button
             className={
-                address ? "btn my-2 my-sm-0 btn-primary" : "btn my-2 my-sm-0 btn-warning"
+                address
+                    ? "btn btn-lg my-2 my-sm-0 btn-primary"
+                    : "btn my-2 my-sm-0 btn-warning"
             }
             type="button"
             onClick={() => getAccount()}

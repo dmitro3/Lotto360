@@ -29,7 +29,7 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
     return (
         <div
             className={`drop-box rounded bg-white shadow p-4 ${
-                !alreadyPurchased ? "opacity-50" : ""
+                !alreadyPurchased ? "opacity-100" : ""
             }`}
         >
             <h4 className="fw-bold mb-4">
@@ -40,7 +40,7 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
                 {btnSmallInfo}
                 Hit Spin button
             </p>
-            <div className="d-flex justify-content-between bg6 rounded py-1">
+            <div className="d-flex justify-content-around bg-666-spiner rounded py-1">
                 <Spinner
                     autoPlay={autoPlay}
                     stopNumber={spinResult ? Number(spinResult[1]) : undefined}
@@ -58,13 +58,20 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
                 />
             </div>
             <div className="d-flex justify-content-around my-1"></div>
-            <button
+            {/* <button
                 disabled={!alreadyPurchased || buttonLoading || !!spinResult}
                 type="button"
-                className="btn btn-success w-100 mt-3"
+                className="btn btn-lg btn-success w-100 mt-3"
                 onClick={() => spinSlot()}
             >
                 {getButtonText()}
+            </button> */}
+            <button
+                type="button"
+                className="btn btn-lg btn-success w-100 mt-3"
+                disabled={true}
+            >
+                coming soon
             </button>
         </div>
     );

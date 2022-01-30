@@ -1,5 +1,4 @@
 import { Dispatch, FunctionComponent } from "react";
-
 import ButtonWaiting from "../lotto360/shared/btn.waiting";
 
 interface BeastPurchaseProps {
@@ -36,7 +35,7 @@ const BeastPurchase: FunctionComponent<BeastPurchaseProps> = ({
     return (
         <div
             className={`purchase-box rounded bg-white shadow p-4 ${
-                alreadyPurchased ? "opacity-50" : ""
+                alreadyPurchased ? "opacity-75" : ""
             }`}
         >
             <h4 className="fw-bold mb-4">
@@ -75,9 +74,9 @@ const BeastPurchase: FunctionComponent<BeastPurchaseProps> = ({
                 Win amount x{multiplier}:
                 <span className="fw-bold ms-2">{betAmount * multiplier || 0} BNB</span>
             </p>
-            <button
+            {/* <button
                 type="button"
-                className="btn btn-success w-100 mt-3"
+                className="btn btn-lg btn-success w-100 mt-3"
                 disabled={
                     !(betAmount >= minBet && betAmount <= maxBet) ||
                     alreadyPurchased ||
@@ -86,6 +85,13 @@ const BeastPurchase: FunctionComponent<BeastPurchaseProps> = ({
                 onClick={() => purchaseSpin()}
             >
                 {getButtonText()}
+            </button> */}
+            <button
+                type="button"
+                className="btn btn-lg btn-success w-100 mt-3"
+                disabled={true}
+            >
+                coming soon
             </button>
         </div>
     );

@@ -6,10 +6,10 @@ interface BeastHeaderProps {
 
 const BeastHeader: FunctionComponent<BeastHeaderProps> = ({ multiplier }) => {
     return (
-        <>
-            <h1 className="pt-5 text-center big-title letter-space">666</h1>
-            <h2 className="pb-3 text-center fw-bold">Number of the Beast</h2>
-            <p className="text-center fs-5 fw-bold mb-3">
+        <div>
+            <h1 className="text-center text-light big-title letter-space">666</h1>
+            <h2 className="pb-3 text-center text-light fw-bold">Number of the Beast</h2>
+            <p className="text-center fs-5 text-light fw-bold mb-3">
                 <span>
                     <i className="fa-solid fa-circle-1 me-2"></i>Purchase spin
                 </span>
@@ -20,7 +20,7 @@ const BeastHeader: FunctionComponent<BeastHeaderProps> = ({ multiplier }) => {
                     <i className="fa-solid fa-circle-3 me-2"></i>Get x{multiplier} prize
                 </span>
             </p>
-        </>
+        </div>
     );
 };
 
