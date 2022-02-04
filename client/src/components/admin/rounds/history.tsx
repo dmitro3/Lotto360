@@ -1,13 +1,13 @@
-import moment from "moment";
 import { cloneDeep } from "lodash";
-import { CSVLink } from "react-csv";
-import { flexItemsCenter } from "../../constants/classes";
+import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { HashLoader } from "react-spinners";
-import { RoundApiService } from "../../../api/round.api.service";
 import { Table } from "react-bootstrap";
+import { CSVLink } from "react-csv";
+import { HashLoader } from "react-spinners";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
+import { flexItemsCenter } from "../../constants/classes";
 
 interface HistoryProps {
     setRoundId: (val: number) => void;
@@ -76,7 +76,9 @@ const History: FunctionComponent<HistoryProps> = ({ setRoundId, setShowModal }) 
                 {roundsArray.map((r, i) => (
                     <tr key={i}>
                         <td>{r.cid}</td>
-                        <td>{moment(r.endTime * 1000).format("Do MMMM YYYY, h:mm a")}</td>
+                        <td>
+                            {moment(r.endTime * 1000).format("Do MMMM YYYY - h:mm a")}
+                        </td>
                         <td>
                             {r.status === RoundStatus.Open && (
                                 <span className="text-success fw-bold">Open</span>

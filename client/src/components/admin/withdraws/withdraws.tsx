@@ -1,14 +1,13 @@
+import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
-import { HashLoader } from "react-spinners";
 import { Table } from "react-bootstrap";
 import { CSVLink } from "react-csv";
-import moment from "moment";
-
+import { HashLoader } from "react-spinners";
+import { HelperApiService } from "../../../api/helper.api.service";
+import { TicketAttrs } from "../../../api/models/round.model";
 import { Withdraws as IWithdraws } from "../../../interfaces/dashboard";
 import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { HelperApiService } from "../../../api/helper.api.service";
 import { flexItemsCenter } from "../../constants/classes";
-import { TicketAttrs } from "../../../api/models/round.model";
 
 interface WithdrawsProps {}
 
@@ -43,7 +42,7 @@ const Withdraws: FunctionComponent<WithdrawsProps> = () => {
             w.id,
             w.amount,
             w.address,
-            moment(w.time * 1000).format("Do MMMM YYYY, h:mm a"),
+            moment(w.time * 1000).format("Do MMMM YYYY - h:mm a"),
         ]),
     ];
 
@@ -94,7 +93,7 @@ const Withdraws: FunctionComponent<WithdrawsProps> = () => {
                             <td>{w.amount}</td>
                             <td>{w.address}</td>
                             <td>
-                                {moment(w.time * 1000).format("Do MMMM YYYY, h:mm a")}
+                                {moment(w.time * 1000).format("Do MMMM YYYY - h:mm a")}
                             </td>
                         </tr>
                     ))}

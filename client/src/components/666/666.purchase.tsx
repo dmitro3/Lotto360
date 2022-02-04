@@ -74,7 +74,7 @@ const BeastPurchase: FunctionComponent<BeastPurchaseProps> = ({
                 Win amount x{multiplier}:
                 <span className="fw-bold ms-2">{betAmount * multiplier || 0} BNB</span>
             </p>
-            {/* <button
+            <button
                 type="button"
                 className="btn btn-lg btn-success w-100 mt-3"
                 disabled={
@@ -85,13 +85,6 @@ const BeastPurchase: FunctionComponent<BeastPurchaseProps> = ({
                 onClick={() => purchaseSpin()}
             >
                 {getButtonText()}
-            </button> */}
-            <button
-                type="button"
-                className="btn btn-lg btn-success w-100 mt-3"
-                disabled={true}
-            >
-                coming soon
             </button>
         </div>
     );

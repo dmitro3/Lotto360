@@ -86,7 +86,7 @@ const UserHistory: FunctionComponent<UserHistoryProps> = ({
                                         <td>{`# ${round.cid}`}</td>
                                         <td>
                                             {moment(round.endTime * 1000).format(
-                                                "MMMM Do, YYYY, h:mm a"
+                                                "MMMM Do, YYYY - h:mm a"
                                             )}
                                         </td>
                                         <td>{round.tickets.length}</td>

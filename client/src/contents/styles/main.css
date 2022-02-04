@@ -496,7 +496,11 @@ body {
 }
 
 .dice-page-bg {
-    background-image: linear-gradient(135deg, #fff720 10%, #3cd500 100%);
+    background-image: linear-gradient(135deg, #81fbb8 10%, #28c76f 100%);
+}
+
+.bg-dice {
+    transition: 3s;
 }
 
 td {
@@ -511,7 +515,7 @@ td {
     background-image: url(../images/devilvert.png), url(../images/devil.png);
     background-position: left center, right center;
     background-size: 400px;
-    background-color: rgb(204, 15, 15);
+    background-color: rgb(253, 22, 22);
     background-repeat: no-repeat;
     transition: 3s;
 }
@@ -557,7 +561,7 @@ td {
 }
 
 .bg-666-spiner {
-    background-image: linear-gradient(60deg, #abecd6 0%, #fbed96 100%);
+    background-color: rgb(253, 22, 22);
 }
 
 .spinner-devil-pic {

@@ -9,7 +9,7 @@ const MyHeader: React.FC<MyHeaderProps> = (): ReactElement => {
 
     const handleLogout = () => {
         AuthenticationApiService.signout()
-            .then((res) => {})
+            .then((res) => console.info(res))
             .finally(() => {
                 localStorage.clear();
                 setRedirect(true);
@@ -20,7 +20,7 @@ const MyHeader: React.FC<MyHeaderProps> = (): ReactElement => {
 
     return (
         <header
-            className="navbar navbar-dark sticky-top bg-primary flex-md-nowrap p-0 
+            className="navbar navbar-dark navbar-expand-lg fixed-top bg-primary p-3
         shadow justify-content-start"
         >
             <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fw-bold fs-4" href="/">

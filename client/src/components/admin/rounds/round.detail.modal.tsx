@@ -1,21 +1,21 @@
-import AddedBnb from "./added.bnb";
 import moment from "moment";
-import PoolTables from "./pool.tables";
-import PrizePerMatch from "../../lotto360/shared/prize.per.match";
-import TicketsTable from "../shared/tickets.table";
-import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
-import { flexItemsCenter } from "../../constants/classes";
 import { FunctionComponent, useEffect, useState } from "react";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
 import { HashLoader } from "react-spinners";
-import { initialRound } from "./reducer/round.list.reducer";
-import { RoundApiService } from "../../../api/round.api.service";
 import { toast } from "react-toastify";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 import {
     getPlayersCount,
     getTicketCount,
     ticketNumToStr,
 } from "../../../utilities/string.numbers.util";
+import { flexItemsCenter } from "../../constants/classes";
+import PrizePerMatch from "../../lotto360/shared/prize.per.match";
+import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
+import TicketsTable from "../shared/tickets.table";
+import AddedBnb from "./added.bnb";
+import PoolTables from "./pool.tables";
+import { initialRound } from "./reducer/round.list.reducer";
 
 interface RoundDetailModalProps {
     bnbPrice: number;
@@ -176,7 +176,7 @@ function renderHeader(startTime: number, status: RoundStatus) {
         <div className={`${flexItemsCenter} mb-3`}>
             <span className="fs-5 fw-bold me-3">Start at: </span>
             <div className="fs-5 me-2">
-                {moment(startTime * 1000).format("MMMM Do YYYY, h:mm a")}
+                {moment(startTime * 1000).format("MMMM Do YYYY - h:mm a")}
             </div>
             {status === RoundStatus.Open && (
                 <span className="badge rounded-pill bg-primary fs-6">Open</span>

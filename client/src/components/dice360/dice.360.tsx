@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { DiceApiService } from "../../api/dice.api.service";
+import { dice360ContractAddress } from "../../config/config";
 import { Roll, RollStatus } from "../../interfaces/roll";
 import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import FullScreenLoader from "../admin/shared/loader";
@@ -16,6 +17,7 @@ import DiceRoll from "./dice.roll";
 interface Dice360Props {
     address: string;
     balance: number;
+    bnbPrice: number;
     web3: Web3;
 }
 
@@ -25,7 +27,12 @@ const initialUsreSetting = {
     multiplier: 4,
 };
 
-const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) => {
+const Dice360: FunctionComponent<Dice360Props> = ({
+    address,
+    balance,
+    bnbPrice,
+    web3,
+}) => {
     const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
     const [purchasedBet, setPurchasedBet] = useState<Roll>();
     const [modalRoll, setModalRoll] = useState<Roll>();
@@ -33,12 +40,21 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
     const [purchaseLoading, setPurchaseLoading] = useState<boolean>(false);
     const [rollDiceLoading, setRollDiceLoading] = useState<boolean>(false);
     const [rollHistory, setRollHistory] = useState<Roll[]>();
+    const [contractBalance, setContractBalance] = useState(0);
 
     useEffect(() => {
         dice360ChainMethods
             .getSettingForUser(web3)
             .then((res) => res && setUserSetting(res))
             .catch((err) => console.error("erroe getting settings:", err));
+
+        web3.eth
+            .getBalance(dice360ContractAddress)
+            .then((b) => {
+                const bnbBalance = Web3.utils.fromWei(b, "ether");
+                setContractBalance(parseFloat(bnbBalance));
+            })
+            .catch((err) => console.error("error getting dice 360 balance:", err));
 
         getUserPurchasedRoll(
             address,
@@ -49,7 +65,7 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
         );
 
         getUserHistory(setRollHistory, address, web3);
-    }, [address, web3]);
+    }, [address, web3, bnbPrice]);
 
     if (!userSetting) return <FullScreenLoader />;
 
@@ -119,6 +135,11 @@ const Dice360: FunctionComponent<Dice360Props> = ({ address, balance, web3 }) =>
         <>
             <div className="dice-sec dice-page-bg main-box pb-5">
                 <DiceHeader multiplier={userSetting.multiplier} />
+                <h3 className="d-flex justify-content-center mb-4">
+                    <span className="badge bg-black shadow">
+                        {contractBalance} BNB ~ ${(contractBalance * bnbPrice).toFixed(3)}
+                    </span>
+                </h3>
                 <div className="container pb-5">
                     <div className="d-flex justify-content-evenly flex-wrap">
                         <DicePurchase

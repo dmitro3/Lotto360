@@ -4,6 +4,7 @@ import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { BeastApiService } from "../../api/beast.api.service";
+import { beastContractAddress } from "../../config/config";
 import { Spin, SpinStatus } from "../../interfaces/spin";
 import { beastChainMethods, UserSetting } from "../../provider/chain.methods/beast";
 import FullScreenLoader from "../admin/shared/loader";
@@ -11,10 +12,12 @@ import BeastHeader from "./666.header";
 import BeastPurchase from "./666.purchase";
 import BeastResultModal from "./666.result.modal";
 import BeastSpin from "./666.spin";
+import IronMaiden from "./ironMaiden";
 
 interface BeastProps {
     address: string;
     balance: number;
+    bnbPrice: number;
     web3: Web3;
 }
 
@@ -24,22 +27,30 @@ const initialUsreSetting = {
     multiplier: 20,
 };
 
-const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
+const Beast: FunctionComponent<BeastProps> = ({ address, balance, bnbPrice, web3 }) => {
     const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
     const [purchasedBet, setPurchasedBet] = useState<Spin>();
     const [modalSpin, setModalSpin] = useState<Spin>();
     const [betAmount, setBetAmount] = useState<number>(0.01);
     const [purchaseLoading, setPurchaseLoading] = useState<boolean>(false);
-    const [spinBeastLoading, setSpinBeastLoading] = useState<boolean>(false);
     const [spinAutoPlay, setSpinAutoPlay] = useState<boolean>(false);
     const [spinHistory, setSpinHistory] = useState<Spin[]>();
     const [spinResult, setSpinResult] = useState("");
+    const [contractBalance, setContractBalance] = useState(0);
 
     useEffect(() => {
         beastChainMethods
             .getSettingForUser(web3)
             .then((res) => res && setUserSetting(res))
             .catch((err) => console.error("erroe getting settings:", err));
+
+        web3.eth
+            .getBalance(beastContractAddress)
+            .then((b) => {
+                const bnbBalance = Web3.utils.fromWei(b, "ether");
+                setContractBalance(parseFloat(bnbBalance));
+            })
+            .catch((err) => console.error("error getting dice 360 balance:", err));
 
         getUserPurchasedSpin(
             address,
@@ -50,7 +61,7 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
         );
 
         getUserHistory(setSpinHistory, address, web3);
-    }, [address, web3]);
+    }, [address, bnbPrice, web3]);
 
     if (!userSetting) return <FullScreenLoader />;
 
@@ -97,7 +108,6 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
             return;
         }
         setSpinAutoPlay(true);
-        setSpinBeastLoading(true);
         BeastApiService.spinSlot(parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
@@ -116,20 +126,24 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
             .catch((err) => {
                 console.error("error droping beast:", err);
                 setSpinAutoPlay(false);
-            })
-            .finally(() => setSpinBeastLoading(false));
+            });
     };
 
     return (
         <>
             <div
                 className={`beast-sec bg-666 main-box beastbox pb-5 ${
-                    spinBeastLoading ? "bg-666-animate" : ""
+                    spinAutoPlay ? "bg-666-animate" : ""
                 }`}
             >
                 <div className="container pb-5">
                     <BeastHeader multiplier={multiplier} />
-
+                    <h3 className="d-flex justify-content-center mb-4">
+                        <span className="badge bg-black shadow">
+                            {contractBalance} BNB ~ $
+                            {(contractBalance * bnbPrice).toFixed(3)}
+                        </span>
+                    </h3>
                     <div className="d-flex justify-content-evenly flex-wrap">
                         <BeastPurchase
                             alreadyPurchased={purchasedBet !== undefined}
@@ -148,7 +162,6 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                             alreadyPurchased={purchasedBet !== undefined}
                             autoPlay={spinAutoPlay}
                             btnSmallInfo={btnSmallInfo}
-                            buttonLoading={spinBeastLoading}
                             spinSlot={spinSlot}
                             spinResult={spinResult}
                         />
@@ -181,12 +194,12 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                                                 <td>
                                                     {moment(
                                                         parseInt(r.spinTime) * 1000
-                                                    ).format("DD/MM/YYYY, h:mm a")}
+                                                    ).format("DD/MM/YYYY - h:mm a")}
                                                 </td>
                                                 <td>{r.result.substring(1)}</td>
                                                 <td>
                                                     <button
-                                                        className="btn btn-secondary"
+                                                        className="btn btn-warning"
                                                         onClick={() => setModalSpin(r)}
                                                     >
                                                         detail
@@ -201,6 +214,8 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, web3 }) => {
                     )}
                 </div>
             </div>
+
+            <IronMaiden />
 
             {modalSpin && (
                 <BeastResultModal

@@ -7,7 +7,6 @@ interface BeastSpinProps {
     alreadyPurchased: boolean;
     autoPlay: boolean;
     btnSmallInfo: JSX.Element;
-    buttonLoading: boolean;
     spinResult: string;
     spinSlot: () => void;
 }
@@ -16,12 +15,11 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
     alreadyPurchased,
     autoPlay,
     btnSmallInfo,
-    buttonLoading,
     spinResult,
     spinSlot,
 }) => {
     const getButtonText = () => {
-        if (buttonLoading) return <ButtonWaiting />;
+        if (autoPlay) return <ButtonWaiting />;
         if (!alreadyPurchased) return "purchase first";
         else return "Spin";
     };
@@ -29,7 +27,7 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
     return (
         <div
             className={`drop-box rounded bg-white shadow p-4 ${
-                !alreadyPurchased ? "opacity-100" : ""
+                !alreadyPurchased ? "opacity-75" : ""
             }`}
         >
             <h4 className="fw-bold mb-4">
@@ -58,20 +56,13 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
                 />
             </div>
             <div className="d-flex justify-content-around my-1"></div>
-            {/* <button
-                disabled={!alreadyPurchased || buttonLoading || !!spinResult}
+            <button
+                disabled={!alreadyPurchased || autoPlay}
                 type="button"
                 className="btn btn-lg btn-success w-100 mt-3"
                 onClick={() => spinSlot()}
             >
                 {getButtonText()}
-            </button> */}
-            <button
-                type="button"
-                className="btn btn-lg btn-success w-100 mt-3"
-                disabled={true}
-            >
-                coming soon
             </button>
         </div>
     );

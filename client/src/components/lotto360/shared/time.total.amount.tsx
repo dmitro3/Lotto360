@@ -31,7 +31,7 @@ const TimeAndTotalAmount: FunctionComponent<TimeAndTotalAmountProps> = ({
             <div className={flexItemsCenter}>
                 <i className="fa-duotone fa-alarm-clock me-2 fa-lg"></i>
                 <div className="fs-5">
-                    {moment(time * 1000).format("MMMM Do YYYY, h:mm a")}
+                    {moment(time * 1000).format("MMMM Do YYYY - h:mm a")}
                 </div>
             </div>
         </div>

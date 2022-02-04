@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import Web3 from "web3";
 import { dice360ContractAddress } from "../../../config/config";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
+import ButtonWaiting from "../../lotto360/shared/btn.waiting";
 import InputSetting from "../shared/set.inputs";
 
 interface RollSettingsProps {
@@ -31,6 +32,10 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
     const [newOwner, setNewOwner] = useState("");
     const [newOwnerLoading, setNewOwnerLoading] = useState(false);
     const [currentRollId, setCurrentRollId] = useState(0);
+
+    const [withdrawLoading, setWithdrawLoading] = useState(false);
+    const [withdrawAddress, setWithdrawAddress] = useState("");
+    const [withdrawAmount, setWithdrawAmount] = useState("");
 
     useEffect(() => {
         dice360AdminChainMethods
@@ -119,6 +124,19 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
             .finally(() => setNewOwnerLoading(false));
     };
 
+    const handleWithdraw = () => {
+        console.info(withdrawAddress);
+        console.info(withdrawAmount);
+        setWithdrawLoading(true);
+        dice360AdminChainMethods
+            .withdrawToken(withdrawAmount, address, withdrawAddress, web3)
+            .then((res) => {
+                if (res && res.status) toast.success("successfull withdraw");
+            })
+            .catch((_err) => toast.error("fail to withdraw"))
+            .finally(() => setWithdrawLoading(false));
+    };
+
     return (
         <>
             <h3 className="fw-bold text-primary">Current Roll: {currentRollId}</h3>
@@ -181,6 +199,43 @@ const RollSettings: FunctionComponent<RollSettingsProps> = ({ address, web3 }) =
                     btnTitle="set new owner"
                     value={newOwner}
                 />
+
+                <div>
+                    <h4 className="fw-bold">Withdraw</h4>
+                    <div className="input-group mb-3">
+                        <input
+                            disabled={withdrawLoading}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter address"
+                            aria-label="Enter address"
+                            aria-describedby="button-addon2"
+                            value={withdrawAddress}
+                            onChange={(e) => setWithdrawAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className="input-group mb-3">
+                        <input
+                            disabled={withdrawLoading}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter amount"
+                            aria-label="Enter amount"
+                            aria-describedby="button-addon2"
+                            value={withdrawAmount}
+                            onChange={(e) => setWithdrawAmount(e.target.value)}
+                        />
+                        <button
+                            disabled={withdrawLoading}
+                            className="btn btn-primary"
+                            type="button"
+                            id="button-addon2"
+                            onClick={() => handleWithdraw()}
+                        >
+                            {withdrawLoading ? <ButtonWaiting /> : "Withdraw"}
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
     );

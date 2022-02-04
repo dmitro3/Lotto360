@@ -80,7 +80,7 @@ const Payments: FunctionComponent<PaymentsProps> = () => {
                         <tr key={i}>
                             <td>{p.address}</td>
                             <td>{p.amount}</td>
-                            <td>{moment(p.date).format("Do MMMM YYYY, h:mm a")}</td>
+                            <td>{moment(p.date).format("Do MMMM YYYY - h:mm a")}</td>
                             <td>
                                 <a
                                     target="_blank"

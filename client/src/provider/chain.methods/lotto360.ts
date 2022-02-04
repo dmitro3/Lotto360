@@ -1,5 +1,5 @@
-import Web3 from "web3";
 import { toast } from "react-toastify";
+import Web3 from "web3";
 import { GetRoundApiModel, PoolAttrs, TicketAttrs } from "../../api/models/round.model";
 import { bnToNumber } from "../../utilities/string.numbers.util";
 import { CustomToastWithLink } from "../../utilities/toastLink";

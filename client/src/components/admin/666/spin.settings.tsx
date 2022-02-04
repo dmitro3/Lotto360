@@ -1,8 +1,10 @@
-import InputSetting from "../shared/set.inputs";
-import Web3 from "web3";
-import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import Web3 from "web3";
+import { beastContractAddress } from "../../../config/config";
+import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
+import ButtonWaiting from "../../lotto360/shared/btn.waiting";
+import InputSetting from "../shared/set.inputs";
 
 interface SpinSettingsProps {
     address: string;
@@ -10,6 +12,8 @@ interface SpinSettingsProps {
 }
 
 const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) => {
+    const [balance, setBalance] = useState("");
+
     const [fund, setFund] = useState(0.01);
     const [fundLoading, setFundLoading] = useState(false);
 
@@ -29,6 +33,10 @@ const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) =
     const [newOwnerLoading, setNewOwnerLoading] = useState(false);
     const [currentSpinId, setCurrentSpinId] = useState(0);
 
+    const [withdrawLoading, setWithdrawLoading] = useState(false);
+    const [withdrawAddress, setWithdrawAddress] = useState("");
+    const [withdrawAmount, setWithdrawAmount] = useState("");
+
     useEffect(() => {
         beastAdminChainMethods
             .getSettingForAdmin(address, web3)
@@ -40,6 +48,11 @@ const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) =
                 setCurrentSpinId(res[4]);
                 setNewOwner(res[5]);
             })
+            .catch((err) => console.error(err));
+
+        web3.eth
+            .getBalance(beastContractAddress)
+            .then((res) => res && setBalance(Web3.utils.fromWei(res, "ether")))
             .catch((err) => console.error(err));
     }, [address, web3]);
 
@@ -111,10 +124,28 @@ const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) =
             .finally(() => setNewOwnerLoading(false));
     };
 
+    const handleWithdraw = () => {
+        console.info(withdrawAddress);
+        console.info(withdrawAmount);
+        setWithdrawLoading(true);
+        beastAdminChainMethods
+            .withdrawToken(withdrawAmount, address, withdrawAddress, web3)
+            .then((res) => {
+                console.info(res);
+                if (res && res.status) toast.success("successfull withdraw");
+            })
+            .catch((_err) => toast.error("fail to withdraw"))
+            .finally(() => setWithdrawLoading(false));
+    };
+
     return (
         <>
-            <h3 className="fw-bold mb-5 text-primary">Current Spin: {currentSpinId}</h3>
-
+            <h3 className="fw-bold text-primary">Current Spin: {currentSpinId}</h3>
+            <h4 className="fw-bold mb-5">
+                <span className="badge bg3 text-black rounded-pill shadow">
+                    Balance: {balance} BNB
+                </span>
+            </h4>
             <div className="col col-6 col-sm-12 col-md-12 col-lg-6 col-xl-6">
                 <InputSetting
                     loading={fundLoading}
@@ -169,6 +200,43 @@ const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) =
                     btnTitle="set new owner"
                     value={newOwner}
                 />
+
+                <div>
+                    <h4 className="fw-bold">Withdraw</h4>
+                    <div className="input-group mb-3">
+                        <input
+                            disabled={withdrawLoading}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter address"
+                            aria-label="Enter address"
+                            aria-describedby="button-addon2"
+                            value={withdrawAddress}
+                            onChange={(e) => setWithdrawAddress(e.target.value)}
+                        />
+                    </div>
+                    <div className="input-group mb-3">
+                        <input
+                            disabled={withdrawLoading}
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter amount"
+                            aria-label="Enter amount"
+                            aria-describedby="button-addon2"
+                            value={withdrawAmount}
+                            onChange={(e) => setWithdrawAmount(e.target.value)}
+                        />
+                        <button
+                            disabled={withdrawLoading}
+                            className="btn btn-primary"
+                            type="button"
+                            id="button-addon2"
+                            onClick={() => handleWithdraw()}
+                        >
+                            {withdrawLoading ? <ButtonWaiting /> : "Withdraw"}
+                        </button>
+                    </div>
+                </div>
             </div>
         </>
     );

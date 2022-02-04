@@ -197,4 +197,17 @@ export const beastAdminChainMethods = {
             return null;
         }
     },
+
+    withdrawToken: async (amount: string, address: string, to: string, web3: Web3) => {
+        try {
+            return await beastContract(web3)
+                .methods.WithdrawToken(to, Web3.utils.toWei(amount, "ether"))
+                .send({
+                    from: address,
+                });
+        } catch (err) {
+            console.error("Error widraw:", err);
+            return null;
+        }
+    },
 };

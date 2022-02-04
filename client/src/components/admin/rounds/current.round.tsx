@@ -1,16 +1,16 @@
+import moment from "moment";
 import { FunctionComponent, useState } from "react";
 import { toast } from "react-toastify";
-import moment from "moment";
+import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
+import { RoundApiService } from "../../../api/round.api.service";
 import {
     getPlayersCount,
     getTicketCount,
     ticketNumToStr,
 } from "../../../utilities/string.numbers.util";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
-import { RoundApiService } from "../../../api/round.api.service";
 import { flexItemsCenter } from "../../constants/classes";
 import PrizePerMatch from "../../lotto360/shared/prize.per.match";
+import TimeAndTotalAmount from "../../lotto360/shared/time.total.amount";
 import TicketsTable from "../shared/tickets.table";
 import AddedBnb from "./added.bnb";
 
@@ -117,7 +117,7 @@ const CurrentRound: FunctionComponent<CurrentRoundProps> = ({
                     <div className={`${flexItemsCenter} mb-3`}>
                         <span className="fs-5 fw-bold me-3">Start at: </span>
                         <div className="fs-5 me-2">
-                            {moment(startTime * 1000).format("MMMM Do YYYY, h:mm a")}
+                            {moment(startTime * 1000).format("MMMM Do YYYY - h:mm a")}
                         </div>
                         {status === RoundStatus.Open && (
                             <span className="badge rounded-pill bg-primary fs-6">

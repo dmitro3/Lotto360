@@ -9,7 +9,7 @@ contract NumberOfTheBeast {
     uint256 private currentSpinId = 0;
     uint8 public prizeMultiplier = 25;
     uint256 public minSpinAmount = 10000000000000000; // 0.01 bnb
-    uint256 public maxSpinAmount = 20000000000000000; // 0.02 bnb
+    uint256 public maxSpinAmount = 50000000000000000; // 0.05 bnb
 
     constructor() {
         owner = msg.sender;
@@ -141,12 +141,12 @@ contract NumberOfTheBeast {
         Spins[spinId - 1].result = result;
         Spins[spinId - 1].status = SpinStatus.Closed;
 
-        if (666 == result) {
+        if (1666 == result) {
             uint256 toPay = ((spin.amount - ((spin.amount / 100) * ctFee)) * prizeMultiplier);
             _transferTokens(spin.user, toPay);
         }
 
-        emit SlotSpined(spin.id, spin.user, spin.amount, spin.result, block.timestamp, spin.multiplier);
+        emit SlotSpined(spin.id, spin.user, spin.amount, result, block.timestamp, spin.multiplier);
         return result;
     }
 
@@ -276,6 +276,7 @@ contract NumberOfTheBeast {
     function GetSettingForAdmin()
         public
         view
+        onlyOwner
         returns (
             uint256,
             uint256,
