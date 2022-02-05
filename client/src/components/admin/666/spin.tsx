@@ -4,8 +4,8 @@ import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { Spin as ISpin } from "../../../interfaces/spin";
 import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
-import BeastResultModal from "../../666/666.result.modal";
-import ButtonWaiting from "../../lotto360/shared/btn.waiting";
+import BeastResultModal from "../../1.666/666.result.modal";
+import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
 
 interface SpinProps {
     address: string;

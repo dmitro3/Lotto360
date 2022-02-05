@@ -8,7 +8,8 @@ async function main() {
 
   const contracts = [
     // "Dice360",
-    "NumberOfTheBeast",
+    // "NumberOfTheBeast",
+    "Fruitland",
   ];
 
   for (let contractName of contracts) {

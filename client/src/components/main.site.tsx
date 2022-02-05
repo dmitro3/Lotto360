@@ -3,9 +3,10 @@ import { Redirect, Route, Switch } from "react-router";
 import { Footer } from "rsuite";
 import { GetRoundApiModel } from "../api/models/round.model";
 import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
-import Beast from "./666/666";
-import Dice360 from "./dice360/dice.360";
-import Header from "./lotto360/1.header/header";
+import Beast from "./1.666/666";
+import Dice360 from "./2.dice360/dice.360";
+import Fruit from "./3.fruitland/fruit";
+import Header from "./4.lotto360/1.header/header";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -55,6 +56,21 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                         address &&
                         web3 && (
                             <Beast
+                                address={address}
+                                balance={userBalance}
+                                bnbPrice={bnbPrice}
+                                web3={web3}
+                            />
+                        )
+                    }
+                />
+
+                <Route
+                    path="/fruit"
+                    render={() =>
+                        address &&
+                        web3 && (
+                            <Fruit
                                 address={address}
                                 balance={userBalance}
                                 bnbPrice={bnbPrice}

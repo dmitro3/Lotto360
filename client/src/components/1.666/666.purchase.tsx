@@ -1,5 +1,5 @@
 import { Dispatch, FunctionComponent } from "react";
-import ButtonWaiting from "../lotto360/shared/btn.waiting";
+import ButtonWaiting from "../4.lotto360/shared/btn.waiting";
 
 interface BeastPurchaseProps {
     alreadyPurchased: boolean;

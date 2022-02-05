@@ -567,3 +567,7 @@ td {
 .spinner-devil-pic {
     height: 70px;
 }
+
+.bg-fruit {
+    background-image: linear-gradient(135deg, #ffa8a8 10%, #fcff00 100%);
+}

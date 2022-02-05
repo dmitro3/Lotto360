@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import Web3 from "web3";
 import { dice360ContractAddress } from "../../../config/config";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
-import ButtonWaiting from "../../lotto360/shared/btn.waiting";
+import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
 import InputSetting from "../shared/set.inputs";
 
 interface RollSettingsProps {
