@@ -33,11 +33,7 @@ const DicePurchase: FunctionComponent<DicePurchaseProps> = ({
     };
 
     return (
-        <div
-            className={`purchase-box rounded bg-white shadow p-4 ${
-                alreadyPurchased ? "opacity-75" : ""
-            }`}
-        >
+        <div className="purchase-box rounded bg-white shadow p-4">
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-1 me-2"></i>
                 Purchase roll

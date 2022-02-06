@@ -29,15 +29,16 @@ const initialUsreSetting = {
 };
 
 const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3 }) => {
-    const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
-    const [purchasedBet, setPurchasedBet] = useState<Spin>();
-    const [modalSpin, setModalSpin] = useState<Spin>();
     const [betAmount, setBetAmount] = useState<number>(0.01);
-    const [purchaseLoading, setPurchaseLoading] = useState<boolean>(false);
-    const [spinAutoPlay, setSpinAutoPlay] = useState<boolean>(false);
+    const [contractBalance, setContractBalance] = useState(0);
+    const [choosedFruits, setChoosedFruit] = useState("000000");
+    const [modalSpin, setModalSpin] = useState<Spin>();
+    const [purchasedBet, setPurchasedBet] = useState<Spin>();
+    const [purchaseLoading, setPurchaseLoading] = useState(false);
+    const [spinAutoPlay, setSpinAutoPlay] = useState(false);
     const [spinHistory, setSpinHistory] = useState<Spin[]>();
     const [spinResult, setSpinResult] = useState("");
-    const [contractBalance, setContractBalance] = useState(0);
+    const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
 
     useEffect(() => {
         fruitChainMethods
@@ -162,6 +163,8 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                         <FruitSpin
                             alreadyPurchased={purchasedBet !== undefined}
                             autoPlay={spinAutoPlay}
+                            choosedFruits={choosedFruits}
+                            setChoosedFruits={setChoosedFruit}
                             btnSmallInfo={btnSmallInfo}
                             spinSlot={spinSlot}
                             spinResult={spinResult}

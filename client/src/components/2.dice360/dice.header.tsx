@@ -7,7 +7,7 @@ interface DiceHeaderProps {
 const DiceHeader: FunctionComponent<DiceHeaderProps> = ({ multiplier }) => {
     return (
         <>
-            <h1 className="pt-0 text-center text-black big-title">DICE</h1>
+            <h1 className="pt-0 text-center text-black big-title">Dice</h1>
             <p className="text-center fs-5 text-black fw-bold mb-3">
                 <span>
                     <i className="fa-solid fa-circle-1 me-2"></i>Purchase roll

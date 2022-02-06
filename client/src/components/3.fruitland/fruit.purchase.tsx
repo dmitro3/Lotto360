@@ -34,9 +34,7 @@ const FruitPurchase: FunctionComponent<FruitPurchaseProps> = ({
 
     return (
         <div
-            className={`purchase-box rounded bg-white shadow p-4 ${
-                alreadyPurchased ? "opacity-75" : ""
-            }`}
+            className={`purchase-box rounded bg-white shadow p-4 d-flex flex-column justify-content-between`}
         >
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-1 me-2"></i>

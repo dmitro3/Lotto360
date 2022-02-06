@@ -70,3 +70,5 @@ const renderSplideSlide = (fruit: string, i: number) => (
         </div>
     </SplideSlide>
 );
+
+export const getFruit = (num: number) => fruitList[num];

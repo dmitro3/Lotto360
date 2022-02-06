@@ -25,11 +25,7 @@ const BeastSpin: FunctionComponent<BeastSpinProps> = ({
     };
 
     return (
-        <div
-            className={`drop-box rounded bg-white shadow p-4 ${
-                !alreadyPurchased ? "opacity-75" : ""
-            }`}
-        >
+        <div className="drop-box rounded bg-white shadow p-4">
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-2 me-2"></i>
                 Spin

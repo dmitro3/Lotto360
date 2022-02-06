@@ -62,6 +62,15 @@ const Menu: FunctionComponent<MenuProps> = () => {
                             number of the beast
                         </NavLink>
                     </li>
+                    <li>
+                        <NavLink
+                            className="dropdown-item fw-bold text-black navig"
+                            to={"/fruit"}
+                        >
+                            <i className="fa-regular fa-banana me-2"></i>
+                            fruitland
+                        </NavLink>
+                    </li>
                 </ul>
             </li>
         </ul>

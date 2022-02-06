@@ -10,9 +10,12 @@ import Signin from "./components/admin/auth/login";
 import MainSite from "./components/main.site";
 import ProtectedRoute from "./components/security/protected.route";
 import { coinGeckoApi, targetNetworkId } from "./config/config";
+import { declarePrototypes } from "./interfaces/prototype";
 import { lotto360ChainMethods } from "./provider/chain.methods/lotto360";
 import { getWeb3 } from "./provider/web3";
 import lottoReducer, { ActionModel, initialState, LottoActions } from "./reducer/reducer";
+
+declarePrototypes();
 
 function App() {
     const [state, dispatch] = useReducer(lottoReducer, initialState);

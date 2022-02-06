@@ -31,9 +31,7 @@ const DiceRoll: FunctionComponent<DiceRollProps> = ({
 
     return (
         <div
-            className={`drop-box rounded bg-white shadow p-4 ${
-                !alreadyPurchased ? "opacity-75" : ""
-            } d-flex flex-column justify-content-between`}
+            className={`drop-box rounded bg-white shadow p-4 d-flex flex-column justify-content-between`}
         >
             <h4 className="fw-bold mb-4">
                 <i className="fa-regular fa-circle-2 me-2"></i>
