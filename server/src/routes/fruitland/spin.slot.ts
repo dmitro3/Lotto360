@@ -4,44 +4,43 @@ import { body } from "express-validator";
 import { BadRequestError } from "../../errors/bad-request-error";
 import { ResponseMessageType } from "../../middlewares/error-handler";
 import { validateRequest } from "../../middlewares/validate-request";
-import { dice360Contract, provider } from "../../provider/contracts";
+import { numberOfTheBeastContract, provider } from "../../provider/contracts";
 import { generateSeed } from "../../utils/util";
 import { responseMaker } from "../response.maker";
 
 const router = express.Router();
 
 router.post(
-    "/api/rolldice",
+    "/api/spinslotfruit",
     [
-        body("guess")
-            .isInt({ gt: 0, lt: 7 })
-            .not()
-            .isEmpty()
-            .withMessage("please enter guess"),
-        body("rollId")
+        body("spinId")
             .isInt({ gt: 0 })
             .not()
             .isEmpty()
-            .withMessage("please enter roll id"),
+            .withMessage("please enter spin id"),
         body("address")
             .isEthereumAddress()
             .isString()
             .not()
             .isEmpty()
             .withMessage("please enter address"),
+        body("guess")
+            .isInt({ gt: 1000000, lt: 2000000 })
+            .not()
+            .isEmpty()
+            .withMessage("please enter guess"),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
         // extract body
-        const { guess, rollId, address } = req.body;
+        const { spinId, address } = req.body;
         let transactionHash: string = "";
 
         // send transaction to blockchain
         try {
-            const tx = await dice360Contract.DropDice(
-                ethers.BigNumber.from(guess),
+            const tx = await numberOfTheBeastContract.SpinSlot(
                 ethers.BigNumber.from(generateSeed()),
-                ethers.BigNumber.from(rollId),
+                ethers.BigNumber.from(spinId),
                 address,
                 {
                     gasLimit: 1000000,
@@ -73,16 +72,14 @@ router.post(
                 })
             );
         } catch (err: any) {
-            console.error(err);
             if (transactionHash)
                 throw new BadRequestError(
                     transactionHash,
                     ResponseMessageType.TRANSACTION
                 );
-            else
-                throw new BadRequestError("bad request", ResponseMessageType.TRANSACTION);
+            else throw new BadRequestError("bad request", ResponseMessageType.ERROR, err);
         }
     }
 );
 
-export { router as rollDiceRouter };
+export { router as spinSlotFruitlandRouter };

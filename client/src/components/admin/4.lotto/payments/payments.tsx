@@ -3,10 +3,10 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { HashLoader } from "react-spinners";
 import { toast } from "react-toastify";
-import { HelperApiService } from "../../../api/helper.api.service";
-import { blockExplorerUrl } from "../../../config/config";
-import { PaymentAttrs } from "../../../interfaces/payments";
-import { flexItemsCenter } from "../../constants/classes";
+import { HelperApiService } from "../../../../api/helper.api.service";
+import { blockExplorerUrl } from "../../../../config/config";
+import { PaymentAttrs } from "../../../../interfaces/payments";
+import { flexItemsCenter } from "../../../constants/classes";
 
 interface PaymentsProps {}
 

@@ -3,7 +3,7 @@ import {
     defaultPools,
     GetRoundApiModel,
     RoundStatus,
-} from "../../../../api/models/round.model";
+} from "../../../../../api/models/round.model";
 
 export let initialRound: GetRoundApiModel = {
     cid: 0,

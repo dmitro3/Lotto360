@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Web3 from "web3";
 import { FruitApiService } from "../../api/fruit.api.service";
 import { fruitContractAddress } from "../../config/config";
-import { Spin, SpinStatus } from "../../interfaces/spin";
+import { FruitSpin as ISpin, SpinStatus } from "../../interfaces/spin";
 import { UserSetting } from "../../provider/chain.methods/beast";
 import { fruitChainMethods } from "../../provider/chain.methods/fruit";
 import FullScreenLoader from "../admin/shared/loader";
@@ -22,6 +22,17 @@ interface FruitProps {
     web3: Web3;
 }
 
+interface IGetSpin {
+    id: string;
+    address: string;
+    web3: Web3;
+    setSpinHistory: Dispatch<any>;
+    setSpinResult: Function;
+    setPurchasedBet: Function;
+    setSpinAutoPlay: Function;
+    setModalSpin: Function;
+}
+
 const initialUsreSetting = {
     minBet: 0.01,
     maxBet: 0.2,
@@ -32,11 +43,11 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
     const [betAmount, setBetAmount] = useState<number>(0.01);
     const [contractBalance, setContractBalance] = useState(0);
     const [choosedFruits, setChoosedFruit] = useState("000000");
-    const [modalSpin, setModalSpin] = useState<Spin>();
-    const [purchasedBet, setPurchasedBet] = useState<Spin>();
+    const [modalSpin, setModalSpin] = useState<ISpin>();
+    const [purchasedBet, setPurchasedBet] = useState<ISpin>();
     const [purchaseLoading, setPurchaseLoading] = useState(false);
     const [spinAutoPlay, setSpinAutoPlay] = useState(false);
-    const [spinHistory, setSpinHistory] = useState<Spin[]>();
+    const [spinHistory, setSpinHistory] = useState<ISpin[]>();
     const [spinResult, setSpinResult] = useState("");
     const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
 
@@ -110,10 +121,11 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
             return;
         }
         setSpinAutoPlay(true);
-        FruitApiService.spinSlot(parseInt(id), address)
+        const numericFruits = 1000000 + Number(choosedFruits);
+        FruitApiService.spinSlot(parseInt(id), address, numericFruits)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
-                    getSpinById(
+                    getSpinById({
                         id,
                         address,
                         web3,
@@ -121,8 +133,8 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                         setSpinResult,
                         setPurchasedBet,
                         setSpinAutoPlay,
-                        setModalSpin
-                    );
+                        setModalSpin,
+                    });
                 }
             })
             .catch((err) => {
@@ -234,21 +246,21 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
 
 export default Fruit;
 
-const getSpinById = (
-    id: string,
-    address: string,
-    web3: Web3,
-    setSpinHistory: Dispatch<any>,
-    setSpinResult: Function,
-    setPurchasedBet: Function,
-    setSpinAutoPlay: Function,
-    setModalSpin: Function
-) => {
+const getSpinById = ({
+    id,
+    address,
+    web3,
+    setSpinHistory,
+    setSpinResult,
+    setPurchasedBet,
+    setSpinAutoPlay,
+    setModalSpin,
+}: IGetSpin) => {
     fruitChainMethods
         .getSpinById(id, address, web3)
-        .then((spin: Spin) => {
+        .then((spin: ISpin) => {
             if (spin.result === "0") {
-                getSpinById(
+                getSpinById({
                     id,
                     address,
                     web3,
@@ -256,8 +268,8 @@ const getSpinById = (
                     setSpinResult,
                     setPurchasedBet,
                     setSpinAutoPlay,
-                    setModalSpin
-                );
+                    setModalSpin,
+                });
             } else {
                 getUserHistory(setSpinHistory, address, web3);
                 setSpinResult(spin.result);
@@ -275,13 +287,13 @@ const getSpinById = (
 function getUserPurchasedSpin(
     address: string,
     web3: Web3,
-    setPurchasedBet: Dispatch<React.SetStateAction<Spin | undefined>>,
+    setPurchasedBet: Dispatch<React.SetStateAction<ISpin | undefined>>,
     setBetAmount: Dispatch<React.SetStateAction<number>>,
     setUserSetting: Dispatch<React.SetStateAction<UserSetting>>
 ) {
     fruitChainMethods
         .userReadySpin(address, web3)
-        .then((res: Spin) => {
+        .then((res: ISpin) => {
             if (res.status === SpinStatus.Ready && parseInt(res.id)) {
                 setPurchasedBet(res);
                 setBetAmount(parseFloat(Web3.utils.fromWei(res.amount, "ether")));

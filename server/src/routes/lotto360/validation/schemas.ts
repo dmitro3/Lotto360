@@ -40,5 +40,10 @@ export const updateRoundValidatorSchema = [
 
 export const getRoundSchema = [
     body("roundId").not().isEmpty().isInt({ gt: 0 }).withMessage("please enter round id"),
-    body("address").not().isEmpty().isString().withMessage("please enter address"),
+    body("address")
+        .isEthereumAddress()
+        .not()
+        .isEmpty()
+        .isString()
+        .withMessage("please enter address"),
 ];

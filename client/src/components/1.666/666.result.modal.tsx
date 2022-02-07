@@ -54,11 +54,11 @@ const BeastResultModal: FunctionComponent<BeastResultModalProps> = ({
                 </div>
                 <hr />
                 <div
-                    className={`text-center fs-4 fw-bold mt-2 ${
+                    className={`text-center fs-4 fw-bold mt-2 d-flex justify-content-between align-items-center ${
                         "666" === result ? "text-success" : "text-danger"
                     }`}
                 >
-                    Result: {result}
+                    Result: <span>{result}</span>
                     {"666" !== result ? (
                         <i className="ms-3 fa-solid fa-heart-crack"></i>
                     ) : (

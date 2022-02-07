@@ -1,7 +1,7 @@
-import Web3 from "web3";
 import { cloneDeep } from "lodash";
+import Web3 from "web3";
 import { GetRoundApiModel } from "../api/models/round.model";
-import { initialRound } from "../components/admin/rounds/reducer/round.list.reducer";
+import { initialRound } from "../components/admin/4.lotto/rounds/reducer/round.list.reducer";
 import { maxTicketsEachBuy } from "../config/config";
 
 export interface ActionModel<T> {

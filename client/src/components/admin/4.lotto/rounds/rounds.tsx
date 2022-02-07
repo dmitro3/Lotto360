@@ -1,18 +1,17 @@
-import { FunctionComponent, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import { cloneDeep } from "lodash";
-
-import { GetRoundApiModel } from "../../../api/models/round.model";
-import { CustomToastWithLink } from "../../../utilities/toastLink";
-import { RoundApiService } from "../../../api/round.api.service";
-import { flexItemsCenter } from "../../constants/classes";
-import { initialRound } from "./reducer/round.list.reducer";
-import RoundDetailModal from "./round.detail.modal";
+import { FunctionComponent, useEffect, useState } from "react";
+import { HashLoader } from "react-spinners";
+import { toast } from "react-toastify";
+import { GetRoundApiModel } from "../../../../api/models/round.model";
+import { RoundApiService } from "../../../../api/round.api.service";
+import { CustomToastWithLink } from "../../../../utilities/toastLink";
+import { flexItemsCenter } from "../../../constants/classes";
 import AddRoundButton from "./button.add.round";
 import CurrentRound from "./current.round";
-import RoundModal from "./round.modal";
 import History from "./history";
-import { HashLoader } from "react-spinners";
+import { initialRound } from "./reducer/round.list.reducer";
+import RoundDetailModal from "./round.detail.modal";
+import RoundModal from "./round.modal";
 
 interface RoundsProps {
     bnbPrice: number;

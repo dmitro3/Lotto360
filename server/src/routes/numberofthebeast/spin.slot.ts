@@ -4,7 +4,7 @@ import { body } from "express-validator";
 import { BadRequestError } from "../../errors/bad-request-error";
 import { ResponseMessageType } from "../../middlewares/error-handler";
 import { validateRequest } from "../../middlewares/validate-request";
-import { nnumberOfTheBeastContract, provider } from "../../provider/contracts";
+import { numberOfTheBeastContract, provider } from "../../provider/contracts";
 import { generateSeed } from "../../utils/util";
 import { responseMaker } from "../response.maker";
 
@@ -18,7 +18,12 @@ router.post(
             .not()
             .isEmpty()
             .withMessage("please enter spin id"),
-        body("address").isString().not().isEmpty().withMessage("please enter address"),
+        body("address")
+            .isEthereumAddress()
+            .isString()
+            .not()
+            .isEmpty()
+            .withMessage("please enter address"),
     ],
     validateRequest,
     async (req: Request, res: Response) => {
@@ -28,7 +33,7 @@ router.post(
 
         // send transaction to blockchain
         try {
-            const tx = await nnumberOfTheBeastContract.SpinSlot(
+            const tx = await numberOfTheBeastContract.SpinSlot(
                 ethers.BigNumber.from(generateSeed()),
                 ethers.BigNumber.from(spinId),
                 address,

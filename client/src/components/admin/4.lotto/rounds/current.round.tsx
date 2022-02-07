@@ -1,17 +1,17 @@
 import moment from "moment";
 import { FunctionComponent, useState } from "react";
 import { toast } from "react-toastify";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
+import { GetRoundApiModel, RoundStatus } from "../../../../api/models/round.model";
+import { RoundApiService } from "../../../../api/round.api.service";
 import {
     getPlayersCount,
     getTicketCount,
     ticketNumToStr,
-} from "../../../utilities/string.numbers.util";
-import PrizePerMatch from "../../4.lotto360/shared/prize.per.match";
-import TimeAndTotalAmount from "../../4.lotto360/shared/time.total.amount";
-import { flexItemsCenter } from "../../constants/classes";
-import TicketsTable from "../shared/tickets.table";
+} from "../../../../utilities/string.numbers.util";
+import PrizePerMatch from "../../../4.lotto360/shared/prize.per.match";
+import TimeAndTotalAmount from "../../../4.lotto360/shared/time.total.amount";
+import { flexItemsCenter } from "../../../constants/classes";
+import TicketsTable from "../../shared/tickets.table";
 import AddedBnb from "./added.bnb";
 
 interface CurrentRoundProps {

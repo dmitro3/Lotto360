@@ -145,6 +145,8 @@ contract Fruitland {
         Spin memory spin = Spins[spinId - 1];
         require(spin.status == SpinStatus.Ready, "Spin is spinned before");
         require(user == spin.user, "Spin belongs to other user");
+        require(guess > 999999, "Guessed number is too low");
+        require(guess < 2000000, "Guessed number is too high");
 
         uint256 result = uint256(_generateRandomNumber(seed));
 
@@ -154,7 +156,7 @@ contract Fruitland {
         Spins[spinId - 1].status = SpinStatus.Closed;
 
         if (guess == result) {
-            uint256 toPay = ((spin.amount - ((spin.amount / 100) * ctFee)) * prizeMultiplier);
+            uint256 toPay = (spin.amount - ((spin.amount / 100) * ctFee)) * prizeMultiplier;
             _transferTokens(spin.user, toPay);
         }
 

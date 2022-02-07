@@ -2,10 +2,12 @@ import { ethers } from "ethers";
 import {
     ACCOUNT_PRIVATE_KEY,
     DICE360_CONTRACT_ADDRESS,
+    FRUITLAND_CONTRACT_ADDRESS,
     LOTTO360_CONTRACT_ADDRESS,
     NUMBEROFTHEBEAST_CONTRACT_ADDRESS,
 } from "../config/blockchain.configs";
 import dice360Abi from "./abi/Dice360.abi.json";
+import fruitlandAbi from "./abi/Fruitland.abi.json";
 import lotto360Abi from "./abi/Lotto360.abi.json";
 import numberOfTheBeastAbi from "./abi/NumberOfTheBeast.abi.json";
 
@@ -27,8 +29,14 @@ export const dice360Contract = new ethers.Contract(
     wallet
 );
 
-export const nnumberOfTheBeastContract = new ethers.Contract(
+export const numberOfTheBeastContract = new ethers.Contract(
     NUMBEROFTHEBEAST_CONTRACT_ADDRESS,
     numberOfTheBeastAbi,
+    wallet
+);
+
+export const fruitlandContract = new ethers.Contract(
+    FRUITLAND_CONTRACT_ADDRESS,
+    fruitlandAbi,
     wallet
 );

@@ -3,11 +3,11 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { CSVLink } from "react-csv";
 import { HashLoader } from "react-spinners";
-import { HelperApiService } from "../../../api/helper.api.service";
-import { TicketAttrs } from "../../../api/models/round.model";
-import { Withdraws as IWithdraws } from "../../../interfaces/dashboard";
-import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../../constants/classes";
+import { HelperApiService } from "../../../../api/helper.api.service";
+import { TicketAttrs } from "../../../../api/models/round.model";
+import { Withdraws as IWithdraws } from "../../../../interfaces/dashboard";
+import { ticketNumToStr } from "../../../../utilities/string.numbers.util";
+import { flexItemsCenter } from "../../../constants/classes";
 
 interface WithdrawsProps {}
 

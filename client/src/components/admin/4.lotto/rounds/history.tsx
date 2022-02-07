@@ -4,10 +4,10 @@ import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import { CSVLink } from "react-csv";
 import { HashLoader } from "react-spinners";
-import { GetRoundApiModel, RoundStatus } from "../../../api/models/round.model";
-import { RoundApiService } from "../../../api/round.api.service";
-import { ticketNumToStr } from "../../../utilities/string.numbers.util";
-import { flexItemsCenter } from "../../constants/classes";
+import { GetRoundApiModel, RoundStatus } from "../../../../api/models/round.model";
+import { RoundApiService } from "../../../../api/round.api.service";
+import { ticketNumToStr } from "../../../../utilities/string.numbers.util";
+import { flexItemsCenter } from "../../../constants/classes";
 
 interface HistoryProps {
     setRoundId: (val: number) => void;

@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import { PoolWinnersAttr, WinningTicketAttrs } from "../../../api/models/round.model";
+import { PoolWinnersAttr, WinningTicketAttrs } from "../../../../api/models/round.model";
 
 interface PoolTablesProps {
     winnersInPools: PoolWinnersAttr;

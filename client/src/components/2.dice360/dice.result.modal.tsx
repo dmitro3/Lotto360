@@ -63,7 +63,7 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                 </div>
                 <hr />
                 <div
-                    className={`text-center fs-4 fw-bold mt-2 ${
+                    className={`text-center fs-4 fw-bold mt-2 d-flex justify-content-between align-items-center ${
                         roll.guess === roll.result ? "text-success" : "text-danger"
                     }`}
                 >

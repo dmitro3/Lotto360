@@ -1,16 +1,16 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Web3 from "web3";
-import Spin from "../666/spin";
-import SpinSettings from "../666/spin.settings";
+import Spin from "../1.666/spin";
+import SpinSettings from "../1.666/spin.settings";
+import Roll from "../2.dice/roll";
+import RollSettings from "../2.dice/roll.settings";
+import Payments from "../4.lotto/payments/payments";
+import Rounds from "../4.lotto/rounds/rounds";
+import Settings from "../4.lotto/settings/settings";
+import Withdraws from "../4.lotto/withdraws/withdraws";
 import Dashboard from "../dashboard/dashboard";
-import Roll from "../dice/roll";
-import RollSettings from "../dice/roll.settings";
-import Payments from "../payments/payments";
-import Rounds from "../rounds/rounds";
-import Settings from "../settings/settings";
 import SideBar from "../sidebar/sideBar";
-import Withdraws from "../withdraws/withdraws";
 
 interface MainContainerProps {
     address: string;
