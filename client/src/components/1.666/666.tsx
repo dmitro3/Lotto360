@@ -7,6 +7,7 @@ import { BeastApiService } from "../../api/beast.api.service";
 import { beastContractAddress } from "../../config/config";
 import { Spin, SpinStatus } from "../../interfaces/spin";
 import { beastChainMethods, UserSetting } from "../../provider/chain.methods/beast";
+import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import BeastHeader from "./666.header";
 import BeastPurchase from "./666.purchase";
@@ -19,6 +20,17 @@ interface BeastProps {
     balance: number;
     bnbPrice: number;
     web3: Web3;
+}
+
+interface IGetSpin {
+    id: string;
+    address: string;
+    web3: Web3;
+    setSpinHistory: Dispatch<any>;
+    setSpinResult: Function;
+    setPurchasedBet: Function;
+    setSpinAutoPlay: Function;
+    setModalSpin: Function;
 }
 
 const initialUsreSetting = {
@@ -111,7 +123,13 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, bnbPrice, web3
         BeastApiService.spinSlot(parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
-                    getSpinById(
+                    toast.success(
+                        CustomToastWithLink(
+                            res.data.result["transactionHash"],
+                            "transaction done click link for detail"
+                        )
+                    );
+                    getSpinById({
                         id,
                         address,
                         web3,
@@ -119,8 +137,8 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, bnbPrice, web3
                         setSpinResult,
                         setPurchasedBet,
                         setSpinAutoPlay,
-                        setModalSpin
-                    );
+                        setModalSpin,
+                    });
                 }
             })
             .catch((err) => {
@@ -230,21 +248,21 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, bnbPrice, web3
 
 export default Beast;
 
-const getSpinById = (
-    id: string,
-    address: string,
-    web3: Web3,
-    setSpinHistory: Dispatch<any>,
-    setSpinResult: Function,
-    setPurchasedBet: Function,
-    setSpinAutoPlay: Function,
-    setModalSpin: Function
-) => {
+const getSpinById = ({
+    id,
+    address,
+    web3,
+    setSpinHistory,
+    setSpinResult,
+    setPurchasedBet,
+    setSpinAutoPlay,
+    setModalSpin,
+}: IGetSpin) => {
     beastChainMethods
         .getSpinById(id, address, web3)
         .then((spin: Spin) => {
             if (spin.result === "0") {
-                getSpinById(
+                getSpinById({
                     id,
                     address,
                     web3,
@@ -252,8 +270,8 @@ const getSpinById = (
                     setSpinResult,
                     setPurchasedBet,
                     setSpinAutoPlay,
-                    setModalSpin
-                );
+                    setModalSpin,
+                });
             } else {
                 getUserHistory(setSpinHistory, address, web3);
                 setSpinResult(spin.result);

@@ -4,7 +4,7 @@ import { body } from "express-validator";
 import { BadRequestError } from "../../errors/bad-request-error";
 import { ResponseMessageType } from "../../middlewares/error-handler";
 import { validateRequest } from "../../middlewares/validate-request";
-import { numberOfTheBeastContract, provider } from "../../provider/contracts";
+import { fruitlandContract, provider } from "../../provider/contracts";
 import { generateSeed } from "../../utils/util";
 import { responseMaker } from "../response.maker";
 
@@ -33,13 +33,14 @@ router.post(
     validateRequest,
     async (req: Request, res: Response) => {
         // extract body
-        const { spinId, address } = req.body;
+        const { spinId, address, guess } = req.body;
         let transactionHash: string = "";
 
         // send transaction to blockchain
         try {
-            const tx = await numberOfTheBeastContract.SpinSlot(
+            const tx = await fruitlandContract.SpinSlot(
                 ethers.BigNumber.from(generateSeed()),
+                ethers.BigNumber.from(guess),
                 ethers.BigNumber.from(spinId),
                 address,
                 {

@@ -57,6 +57,7 @@ const FruitResultModal: FunctionComponent<FruitResultModalProps> = ({
                     <div>
                         {[...Array(6)].map((_val, i) => (
                             <span
+                                key={i}
                                 style={{ fontSize: "1.5rem" }}
                                 className={`m-1 p-1 border border-3 rounded${
                                     guess[i + 1] === result[i + 1]
@@ -79,6 +80,7 @@ const FruitResultModal: FunctionComponent<FruitResultModalProps> = ({
                     <div>
                         {[...Array(6)].map((_val, i) => (
                             <span
+                                key={i}
                                 style={{ fontSize: "1.5rem" }}
                                 className={`m-1 p-1 border border-3 border-dark rounded`}
                             >

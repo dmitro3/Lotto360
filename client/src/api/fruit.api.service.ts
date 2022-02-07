@@ -12,7 +12,7 @@ export const FruitApiService = {
         return httpService.post(`${baseUrl}/spinslotfruit`, {
             spinId,
             address,
-            numericFruits,
+            guess: numericFruits,
         });
     },
 };

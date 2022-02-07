@@ -8,12 +8,14 @@ import { fruitContractAddress } from "../../config/config";
 import { FruitSpin as ISpin, SpinStatus } from "../../interfaces/spin";
 import { UserSetting } from "../../provider/chain.methods/beast";
 import { fruitChainMethods } from "../../provider/chain.methods/fruit";
+import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import FruitHeader from "./fruit.header";
 import FruitMusic from "./fruit.music";
 import FruitPurchase from "./fruit.purchase";
 import FruitResultModal from "./fruit.result.modal";
 import FruitSpin from "./fruit.spin";
+import { getFruit } from "./spinner";
 
 interface FruitProps {
     address: string;
@@ -125,6 +127,12 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
         FruitApiService.spinSlot(parseInt(id), address, numericFruits)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
+                    toast.success(
+                        CustomToastWithLink(
+                            res.data.result["transactionHash"],
+                            "transaction done click link for detail"
+                        )
+                    );
                     getSpinById({
                         id,
                         address,
@@ -193,6 +201,7 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                                             <th>#Id</th>
                                             <th>Amount</th>
                                             <th>Drop time</th>
+                                            <th>Guess</th>
                                             <th>Result</th>
                                             <th>Detail</th>
                                         </tr>
@@ -212,7 +221,32 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                                                         parseInt(r.spinTime) * 1000
                                                     ).format("DD/MM/YYYY - h:mm a")}
                                                 </td>
-                                                <td>{r.result.substring(1)}</td>
+                                                <td>
+                                                    {[...Array(6)].map((_v, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="p-2 table-fruit"
+                                                        >
+                                                            {getFruit(
+                                                                Number(r.guess[index + 1])
+                                                            )}
+                                                        </span>
+                                                    ))}
+                                                </td>
+                                                <td>
+                                                    {[...Array(6)].map((_v, index) => (
+                                                        <span
+                                                            key={index}
+                                                            className="p-2 table-fruit"
+                                                        >
+                                                            {getFruit(
+                                                                Number(
+                                                                    r.result[index + 1]
+                                                                )
+                                                            )}
+                                                        </span>
+                                                    ))}
+                                                </td>
                                                 <td>
                                                     <button
                                                         className="btn btn-warning"

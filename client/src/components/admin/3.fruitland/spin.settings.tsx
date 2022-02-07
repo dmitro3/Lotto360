@@ -11,7 +11,7 @@ interface SpinSettingsProps {
     web3: Web3;
 }
 
-const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) => {
+const FruitSpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) => {
     const [balance, setBalance] = useState("");
 
     const [fund, setFund] = useState(0.01);
@@ -242,4 +242,4 @@ const SpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) =
     );
 };
 
-export default SpinSettings;
+export default FruitSpinSettings;

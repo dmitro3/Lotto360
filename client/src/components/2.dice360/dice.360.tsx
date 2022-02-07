@@ -7,6 +7,7 @@ import { DiceApiService } from "../../api/dice.api.service";
 import { dice360ContractAddress } from "../../config/config";
 import { Roll, RollStatus } from "../../interfaces/roll";
 import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
+import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import Dice from "./dice";
 import DiceHeader from "./dice.header";
@@ -114,6 +115,12 @@ const Dice360: FunctionComponent<Dice360Props> = ({
         DiceApiService.dropDice(diceNumber, parseInt(id), address)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
+                    toast.success(
+                        CustomToastWithLink(
+                            res.data.result["transactionHash"],
+                            "transaction done click link for detail"
+                        )
+                    );
                     getRollAgain(
                         id,
                         address,

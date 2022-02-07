@@ -84,7 +84,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/"
                     render={() => (
                         <>
-                            <Redirect to="/666" />
+                            <Redirect to="/fruit" />
                             {/* <Main
                                 currentPrizeAmount={totalBnb}
                                 dispatch={dispatch}

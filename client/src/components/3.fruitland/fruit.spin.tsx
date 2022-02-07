@@ -50,6 +50,7 @@ const FruitSpin: FunctionComponent<FruitSpinProps> = ({
                 <div className="d-flex justify-content-between">
                     {[...Array(6)].map((_v, i) => (
                         <div
+                            key={i}
                             className="p-1 rounded display-6 border border-3 border-dark pointer"
                             onClick={() => {
                                 setShowFruitModal(true);
@@ -138,6 +139,5 @@ const randomFruits = () => {
     const chars = "0123456789";
     let result = "";
     for (let i = 6; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
-    console.info(result);
     return result;
 };

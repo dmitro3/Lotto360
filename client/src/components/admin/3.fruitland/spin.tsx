@@ -12,7 +12,7 @@ interface SpinProps {
     web3: Web3;
 }
 
-const Spin: FunctionComponent<SpinProps> = ({ address, web3 }) => {
+const FruitSpinComponent: FunctionComponent<SpinProps> = ({ address, web3 }) => {
     const [userAddress, setUserAddress] = useState("");
     const [searchButtonLoading, setSearchButtonLoading] = useState(false);
     const [selectedSpin, setSelectedSpin] = useState<FruitSpin>();
@@ -126,4 +126,4 @@ const Spin: FunctionComponent<SpinProps> = ({ address, web3 }) => {
     );
 };
 
-export default Spin;
+export default FruitSpinComponent;

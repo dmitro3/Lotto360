@@ -5,6 +5,8 @@ import Spin from "../1.666/spin";
 import SpinSettings from "../1.666/spin.settings";
 import Roll from "../2.dice/roll";
 import RollSettings from "../2.dice/roll.settings";
+import FruitSpinComponent from "../3.fruitland/spin";
+import FruitSpinSettings from "../3.fruitland/spin.settings";
 import Payments from "../4.lotto/payments/payments";
 import Rounds from "../4.lotto/rounds/rounds";
 import Settings from "../4.lotto/settings/settings";
@@ -54,6 +56,18 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             <Route
                                 path="/admin/spins"
                                 render={() => <Spin address={address} web3={web3} />}
+                            />
+                            <Route
+                                path="/admin/fruitspinsettings"
+                                render={() => (
+                                    <FruitSpinSettings address={address} web3={web3} />
+                                )}
+                            />
+                            <Route
+                                path="/admin/fruitspins"
+                                render={() => (
+                                    <FruitSpinComponent address={address} web3={web3} />
+                                )}
                             />
                             <Route path="/admin" component={Dashboard} />
 

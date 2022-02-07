@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import SideBarItems from "./sideBarItems";
 
 interface SideBarProps {}
@@ -28,6 +27,8 @@ const dashboardItems: SideBarItem[] = [
     new SideBarItem("RollSettings", "dice-five"),
     new SideBarItem("Spins", "6"),
     new SideBarItem("SpinSettings", "6"),
+    new SideBarItem("FruitSpins", "banana"),
+    new SideBarItem("FruitSpinSettings", "banana"),
 ];
 
 const SideBar: React.FC<SideBarProps> = () => {
