@@ -1,14 +1,15 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { HashLoader } from "react-spinners";
-
 import { HelperApiService } from "../../../api/helper.api.service";
 import { DashboardModel } from "../../../interfaces/dashboard";
 
 const { Chart } = require("react-google-charts");
 
-interface DashboardProps {}
+interface DashboardProps {
+    overalBalance: String;
+}
 
-const Dashboard: FunctionComponent<DashboardProps> = () => {
+const Dashboard: FunctionComponent<DashboardProps> = ({ overalBalance }) => {
     const [dashboardStats, setDashboardStats] = useState<DashboardModel>();
     const [loading, setLoading] = useState(false);
 
@@ -30,7 +31,8 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
             </div>
         );
 
-    if (!dashboardStats) return <></>;
+    if (!dashboardStats)
+        return <h4 className="fw-bold">Overal Balance: {overalBalance}</h4>;
 
     const {
         contractBalance,
@@ -42,6 +44,7 @@ const Dashboard: FunctionComponent<DashboardProps> = () => {
 
     return (
         <div>
+            <h4 className="fw-bold mb-3">Overal Balance: {overalBalance}</h4>
             <h4 className="fw-bold mb-3">Stats:</h4>
             <div className="bg-light rounded">
                 <div className="px-3 py-2 fw-bold fs-6">

@@ -1,19 +1,21 @@
 import { FunctionComponent, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import { fruitContractAddress } from "../../../config/config";
 import { fruitAdminChainMethods } from "../../../provider/chain.methods/fruit";
 import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 import InputSetting from "../shared/set.inputs";
 
 interface SpinSettingsProps {
     address: string;
+    balance: string;
     web3: Web3;
 }
 
-const FruitSpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3 }) => {
-    const [balance, setBalance] = useState("");
-
+const FruitSpinSettings: FunctionComponent<SpinSettingsProps> = ({
+    address,
+    balance,
+    web3,
+}) => {
     const [fund, setFund] = useState(0.01);
     const [fundLoading, setFundLoading] = useState(false);
 
@@ -48,11 +50,6 @@ const FruitSpinSettings: FunctionComponent<SpinSettingsProps> = ({ address, web3
                 setCurrentSpinId(res[4]);
                 setNewOwner(res[5]);
             })
-            .catch((err) => console.error(err));
-
-        web3.eth
-            .getBalance(fruitContractAddress)
-            .then((res) => res && setBalance(Web3.utils.fromWei(res, "ether")))
             .catch((err) => console.error(err));
     }, [address, web3]);
 

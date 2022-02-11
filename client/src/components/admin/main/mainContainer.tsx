@@ -1,6 +1,13 @@
-import React from "react";
+import { BigNumber } from "ethers";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Web3 from "web3";
+import {
+    beastContractAddress,
+    dice360ContractAddress,
+    fruitContractAddress,
+} from "../../../config/config";
+import { BN, weiToEther } from "../../../utilities/ethers";
 import Spin from "../1.666/spin";
 import SpinSettings from "../1.666/spin.settings";
 import Roll from "../2.dice/roll";
@@ -21,6 +28,22 @@ interface MainContainerProps {
 }
 
 const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }) => {
+    const [diceBalance, setDiceBalances] = useState(BN(0));
+    const [beastBalance, setBeastBalances] = useState(BN(0));
+    const [fruitBalance, setFruitBalances] = useState(BN(0));
+    useEffect(() => {
+        getBalances(web3, setDiceBalances, setBeastBalances, setFruitBalances);
+    }, [web3]);
+
+    const overalBalance = weiToEther(diceBalance.add(beastBalance).add(fruitBalance));
+    const dashboard = (
+        <Dashboard
+            overalBalance={`${overalBalance} ~ ${(
+                Number(overalBalance) * bnbPrice
+            ).toFixed(3)}$`}
+        />
+    );
+
     return (
         <div className="fluid-container admin-fl">
             <div className="container-fluid admin-fl">
@@ -28,8 +51,8 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                     <SideBar />
                     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4 pb-5">
                         <Switch>
-                            <Route path="/admin/dashboard" component={Dashboard} />
-                            <Route path="/admin/users" component={Dashboard} />
+                            <Route path="/admin/dashboard" render={() => dashboard} />
+                            <Route path="/admin/users" render={() => dashboard} />
                             <Route
                                 path="/admin/rounds"
                                 render={() => <Rounds bnbPrice={bnbPrice} />}
@@ -40,7 +63,11 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             <Route
                                 path="/admin/rollsettings"
                                 render={() => (
-                                    <RollSettings address={address} web3={web3} />
+                                    <RollSettings
+                                        address={address}
+                                        balance={weiToEther(diceBalance)}
+                                        web3={web3}
+                                    />
                                 )}
                             />
                             <Route
@@ -50,7 +77,11 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             <Route
                                 path="/admin/spinsettings"
                                 render={() => (
-                                    <SpinSettings address={address} web3={web3} />
+                                    <SpinSettings
+                                        address={address}
+                                        balance={weiToEther(beastBalance)}
+                                        web3={web3}
+                                    />
                                 )}
                             />
                             <Route
@@ -60,7 +91,11 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             <Route
                                 path="/admin/fruitspinsettings"
                                 render={() => (
-                                    <FruitSpinSettings address={address} web3={web3} />
+                                    <FruitSpinSettings
+                                        address={address}
+                                        balance={weiToEther(fruitBalance)}
+                                        web3={web3}
+                                    />
                                 )}
                             />
                             <Route
@@ -69,7 +104,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                                     <FruitSpinComponent address={address} web3={web3} />
                                 )}
                             />
-                            <Route path="/admin" component={Dashboard} />
+                            <Route path="/admin" render={() => dashboard} />
 
                             <Redirect from="/" exact to="/" />
                         </Switch>
@@ -81,3 +116,23 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
 };
 
 export default MainContainer;
+
+const getBalances = (
+    web3: Web3,
+    setDiceBalances: Dispatch<SetStateAction<BigNumber>>,
+    setBeastBalances: Dispatch<SetStateAction<BigNumber>>,
+    setFruitBalances: Dispatch<SetStateAction<BigNumber>>
+) => {
+    web3.eth
+        .getBalance(dice360ContractAddress)
+        .then((res) => setDiceBalances(BN(res)))
+        .catch((err) => console.error(err));
+    web3.eth
+        .getBalance(fruitContractAddress)
+        .then((res) => setFruitBalances(BN(res)))
+        .catch((err) => console.error(err));
+    web3.eth
+        .getBalance(beastContractAddress)
+        .then((res) => setBeastBalances(BN(res)))
+        .catch((err) => console.error(err));
+};
