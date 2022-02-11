@@ -1,12 +1,13 @@
 import { Dispatch, FunctionComponent, useEffect } from "react";
-import { Redirect, Route, Switch } from "react-router";
-import { Footer } from "rsuite";
+import { Route, Switch } from "react-router";
 import { GetRoundApiModel } from "../api/models/round.model";
 import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
 import Beast from "./1.666/666";
 import Dice from "./2.dice/dice";
 import Fruit from "./3.fruitland/fruit";
 import Header from "./4.lotto/1.header/header";
+import Footer from "./4.lotto/7.footer/footer";
+import GameSelect from "./game.select";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -84,7 +85,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/"
                     render={() => (
                         <>
-                            <Redirect to="/fruit" />
+                            <GameSelect />
                             {/* <Main
                                 currentPrizeAmount={totalBnb}
                                 dispatch={dispatch}
