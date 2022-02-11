@@ -4,9 +4,9 @@ import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { Roll as IRoll } from "../../../interfaces/roll";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
-import { getDiceClass } from "../../2.dice360/dice.360";
-import DiceResultModal, { numberToText } from "../../2.dice360/dice.result.modal";
-import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
+import { getDiceClass } from "../../2.dice/dice";
+import DiceResultModal, { numberToText } from "../../2.dice/dice.result.modal";
+import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 
 interface RollProps {
     address: string;

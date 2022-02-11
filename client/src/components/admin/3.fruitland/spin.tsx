@@ -5,7 +5,7 @@ import Web3 from "web3";
 import { FruitSpin } from "../../../interfaces/spin";
 import { fruitAdminChainMethods } from "../../../provider/chain.methods/fruit";
 import FruitResultModal from "../../3.fruitland/fruit.result.modal";
-import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 
 interface SpinProps {
     address: string;

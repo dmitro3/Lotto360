@@ -3,7 +3,7 @@ import { Redirect } from "react-router";
 import { AuthenticationApiService } from "../../../api/auth.service";
 import { LoginApiModel } from "../../../api/models/auth.models";
 import { ActionModel, LottoActions } from "../../../reducer/reducer";
-import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 
 interface SigninProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;

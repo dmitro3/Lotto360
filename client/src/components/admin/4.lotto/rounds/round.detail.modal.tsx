@@ -9,8 +9,8 @@ import {
     getTicketCount,
     ticketNumToStr,
 } from "../../../../utilities/string.numbers.util";
-import PrizePerMatch from "../../../4.lotto360/shared/prize.per.match";
-import TimeAndTotalAmount from "../../../4.lotto360/shared/time.total.amount";
+import PrizePerMatch from "../../../4.lotto/shared/prize.per.match";
+import TimeAndTotalAmount from "../../../4.lotto/shared/time.total.amount";
 import { flexItemsCenter } from "../../../constants/classes";
 import TicketsTable from "../../shared/tickets.table";
 import AddedBnb from "./added.bnb";

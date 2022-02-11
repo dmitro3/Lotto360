@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import Web3 from "web3";
 import { fruitContractAddress } from "../../../config/config";
 import { fruitAdminChainMethods } from "../../../provider/chain.methods/fruit";
-import ButtonWaiting from "../../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 import InputSetting from "../shared/set.inputs";
 
 interface SpinSettingsProps {

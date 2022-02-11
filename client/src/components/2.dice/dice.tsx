@@ -9,13 +9,13 @@ import { Roll, RollStatus } from "../../interfaces/roll";
 import { dice360ChainMethods, UserSetting } from "../../provider/chain.methods/dice360";
 import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
-import Dice from "./dice";
+import DiceComponent from "./dice.component";
 import DiceHeader from "./dice.header";
 import DicePurchase from "./dice.purchase";
 import DiceResultModal, { numberToText } from "./dice.result.modal";
 import DiceRoll from "./dice.roll";
 
-interface Dice360Props {
+interface DiceProps {
     address: string;
     balance: number;
     bnbPrice: number;
@@ -28,12 +28,7 @@ const initialUsreSetting = {
     multiplier: 4,
 };
 
-const Dice360: FunctionComponent<Dice360Props> = ({
-    address,
-    balance,
-    bnbPrice,
-    web3,
-}) => {
+const Dice: FunctionComponent<DiceProps> = ({ address, balance, bnbPrice, web3 }) => {
     const [userSetting, setUserSetting] = useState<UserSetting>(initialUsreSetting);
     const [purchasedBet, setPurchasedBet] = useState<Roll>();
     const [modalRoll, setModalRoll] = useState<Roll>();
@@ -232,7 +227,7 @@ const Dice360: FunctionComponent<Dice360Props> = ({
                         </div>
                     )}
                 </div>
-                <Dice diceNumber={rollDiceLoading ? "0" : modalRoll?.result} />
+                <DiceComponent diceNumber={rollDiceLoading ? "0" : modalRoll?.result} />
             </div>
 
             {modalRoll && (
@@ -246,7 +241,7 @@ const Dice360: FunctionComponent<Dice360Props> = ({
     );
 };
 
-export default Dice360;
+export default Dice;
 
 function getUserPurchasedRoll(
     address: string,

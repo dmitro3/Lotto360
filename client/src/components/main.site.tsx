@@ -4,9 +4,9 @@ import { Footer } from "rsuite";
 import { GetRoundApiModel } from "../api/models/round.model";
 import { ActionModel, LottoActions, LottoState } from "../reducer/reducer";
 import Beast from "./1.666/666";
-import Dice360 from "./2.dice360/dice.360";
+import Dice from "./2.dice/dice";
 import Fruit from "./3.fruitland/fruit";
-import Header from "./4.lotto360/1.header/header";
+import Header from "./4.lotto/1.header/header";
 
 interface MainSiteProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -40,7 +40,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     render={() =>
                         address &&
                         web3 && (
-                            <Dice360
+                            <Dice
                                 address={address}
                                 balance={userBalance}
                                 bnbPrice={bnbPrice}

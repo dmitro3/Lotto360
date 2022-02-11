@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { HelperApiService } from "../../../../api/helper.api.service";
 import { TransferTokenModel } from "../../../../interfaces/dashboard";
 import { CustomToastWithLink } from "../../../../utilities/toastLink";
-import ButtonWaiting from "../../../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../../../4.lotto/shared/btn.waiting";
 
 interface TokenTransferProps {}
 

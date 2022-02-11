@@ -1,5 +1,5 @@
 import { FunctionComponent, useState } from "react";
-import ButtonWaiting from "../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../4.lotto/shared/btn.waiting";
 
 interface DiceRollProps {
     alreadyPurchased: boolean;

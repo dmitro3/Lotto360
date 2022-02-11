@@ -43,3 +43,7 @@
 .text-black {
     color: #000 !important;
 }
+
+.letter-space {
+    letter-spacing: 10px !important;
+}

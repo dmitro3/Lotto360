@@ -4,7 +4,7 @@ import { Dispatch, useEffect, useReducer, useState } from "react";
 import { Route, Switch } from "react-router";
 import { ToastContainer, Zoom } from "react-toastify";
 import Web3 from "web3";
-import BuyTicketModal from "./components/4.lotto360/0.ticket.modal/buy.ticket.modal";
+import BuyTicketModal from "./components/4.lotto/0.ticket.modal/buy.ticket.modal";
 import AdminPanel from "./components/admin/admin.panel";
 import Signin from "./components/admin/auth/login";
 import MainSite from "./components/main.site";

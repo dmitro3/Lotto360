@@ -1,7 +1,7 @@
 import "@splidejs/splide/dist/css/splide.min.css";
 import { Dispatch, FunctionComponent, useState } from "react";
 import { Modal } from "react-bootstrap";
-import ButtonWaiting from "../4.lotto360/shared/btn.waiting";
+import ButtonWaiting from "../4.lotto/shared/btn.waiting";
 import Spinner, { fruitList, getFruit } from "./spinner";
 
 interface FruitSpinProps {

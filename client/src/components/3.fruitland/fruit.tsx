@@ -11,7 +11,6 @@ import { fruitChainMethods } from "../../provider/chain.methods/fruit";
 import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import FruitHeader from "./fruit.header";
-import FruitMusic from "./fruit.music";
 import FruitPurchase from "./fruit.purchase";
 import FruitResultModal from "./fruit.result.modal";
 import FruitSpin from "./fruit.spin";
@@ -265,7 +264,7 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                 </div>
             </div>
 
-            <FruitMusic />
+            {/* <FruitMusic /> */}
 
             {modalSpin && (
                 <FruitResultModal

@@ -5,7 +5,7 @@ interface DiceProps {
     diceNumber?: string;
 }
 
-const Dice: FunctionComponent<DiceProps> = ({ diceNumber }) => {
+const DiceComponent: FunctionComponent<DiceProps> = ({ diceNumber }) => {
     return (
         <div className="container-dice mb-3">
             <div id="cube" className={getRotateBaseOnNumber(diceNumber)}>
@@ -47,7 +47,7 @@ const Dice: FunctionComponent<DiceProps> = ({ diceNumber }) => {
     );
 };
 
-export default Dice;
+export default DiceComponent;
 
 const getRotateBaseOnNumber = (num?: string) => {
     if (num === "1") return "dice1";
