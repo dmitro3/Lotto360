@@ -1,6 +1,4 @@
-import moment from "moment";
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { BeastApiService } from "../../api/beast.api.service";
@@ -10,6 +8,7 @@ import { beastChainMethods, UserSetting } from "../../provider/chain.methods/bea
 import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import BeastHeader from "./666.header";
+import BeastHistory from "./666.history";
 import BeastPurchase from "./666.purchase";
 import BeastResultModal from "./666.result.modal";
 import BeastSpin from "./666.spin";
@@ -193,44 +192,10 @@ const Beast: FunctionComponent<BeastProps> = ({ address, balance, bnbPrice, web3
                                 </span>
                             </h3>
                             <div className="bg-white shadow rounded overflow-hidden">
-                                <Table className="mb-0" striped bordered hover responsive>
-                                    <thead className="table-dark">
-                                        <tr>
-                                            <th>#Id</th>
-                                            <th>Amount</th>
-                                            <th>Drop time</th>
-                                            <th>Result</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {spinHistory.map((r, i) => (
-                                            <tr key={i}>
-                                                <td>{r.id}</td>
-                                                <td>
-                                                    {Web3.utils.fromWei(
-                                                        r.amount,
-                                                        "ether"
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {moment(
-                                                        parseInt(r.spinTime) * 1000
-                                                    ).format("DD/MM/YYYY - h:mm a")}
-                                                </td>
-                                                <td>{r.result.substring(1)}</td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-sm btn-warning"
-                                                        onClick={() => setModalSpin(r)}
-                                                    >
-                                                        detail
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
+                                <BeastHistory
+                                    data={spinHistory}
+                                    setModalSpin={setModalSpin}
+                                />
                             </div>
                         </div>
                     )}

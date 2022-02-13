@@ -189,18 +189,6 @@ body {
     border-bottom: 2px dashed #ccc;
 }
 
-/* .divider1 {
-    background: url(../images/dollar.png) no-repeat;
-    -webkit-animation: move2 3s ease-in-out 0.2s infinite normal none running;
-    animation: move2 3s ease-in-out 0.2s infinite normal none running;
-}
-
-.divider2 {
-    background: url(../images/dollar.png) no-repeat;
-    -webkit-animation: move1 3s ease-in-out 0.2s infinite normal none running;
-    animation: move1 3s ease-in-out 0.2s infinite normal none running;
-} */
-
 .main-side-pic {
     max-width: 20%;
     height: 300px;
@@ -497,10 +485,28 @@ body {
 
 .dice-page-bg {
     background-image: url(../images/bg-dice.svg);
-    background-position: center;
-    background-repeat: repeat-y;
+    background-position: top;
+    background-repeat: no-repeat;
     background-size: cover;
-    background-color: #764b9e;
+    background-color: #6249a0;
+    min-height: 110vh;
+}
+
+.bg-fruit {
+    background-image: url(../images/bg-fruit.svg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #f6851f;
+    min-height: 110vh;
+}
+
+.bg-666 {
+    background-image: url(../images/bg-beast.svg);
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #ad1c20;
     min-height: 110vh;
 }
 
@@ -514,15 +520,6 @@ td {
 
 .bg-other-games {
     background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
-}
-
-.bg-666 {
-    background-image: url(../images/bg-beast.svg);
-    background-position: center;
-    background-repeat: repeat-y;
-    background-size: cover;
-    background-color: #764b9e;
-    min-height: 110vh;
 }
 
 .bg-666-animate {
@@ -566,20 +563,12 @@ td {
 }
 
 .bg-666-spiner {
-    background-color: rgb(253, 22, 22);
+    /* background-color: rgb(253, 22, 22); */
+    color: red;
 }
 
 .spinner-devil-pic {
     height: 70px;
-}
-
-.bg-fruit {
-    background-image: url(../images/bg-fruit.svg);
-    background-position: center;
-    background-repeat: repeat-y;
-    background-size: cover;
-    background-color: #fbb03d;
-    min-height: 110vh;
 }
 
 .title-fruit {

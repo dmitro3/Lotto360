@@ -1,6 +1,4 @@
-import moment from "moment";
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { FruitApiService } from "../../api/fruit.api.service";
@@ -11,10 +9,10 @@ import { fruitChainMethods } from "../../provider/chain.methods/fruit";
 import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import FruitHeader from "./fruit.header";
+import FruitHistory from "./fruit.history";
 import FruitPurchase from "./fruit.purchase";
 import FruitResultModal from "./fruit.result.modal";
 import FruitSpin from "./fruit.spin";
-import { getFruit } from "./spinner";
 
 interface FruitProps {
     address: string;
@@ -198,70 +196,10 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                                 </span>
                             </h3>
                             <div className="bg-white shadow rounded overflow-hidden">
-                                <Table className="mb-0" striped bordered hover responsive>
-                                    <thead className="table-dark">
-                                        <tr>
-                                            <th>#Id</th>
-                                            <th>Amount</th>
-                                            <th>Drop time</th>
-                                            <th>Guess</th>
-                                            <th>Result</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {spinHistory.map((r, i) => (
-                                            <tr key={i}>
-                                                <td>{r.id}</td>
-                                                <td>
-                                                    {Web3.utils.fromWei(
-                                                        r.amount,
-                                                        "ether"
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {moment(
-                                                        parseInt(r.spinTime) * 1000
-                                                    ).format("DD/MM/YYYY - h:mm a")}
-                                                </td>
-                                                <td>
-                                                    {[...Array(6)].map((_v, index) => (
-                                                        <span
-                                                            key={index}
-                                                            className="p-2 table-fruit"
-                                                        >
-                                                            {getFruit(
-                                                                Number(r.guess[index + 1])
-                                                            )}
-                                                        </span>
-                                                    ))}
-                                                </td>
-                                                <td>
-                                                    {[...Array(6)].map((_v, index) => (
-                                                        <span
-                                                            key={index}
-                                                            className="p-2 table-fruit"
-                                                        >
-                                                            {getFruit(
-                                                                Number(
-                                                                    r.result[index + 1]
-                                                                )
-                                                            )}
-                                                        </span>
-                                                    ))}
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-sm btn-warning"
-                                                        onClick={() => setModalSpin(r)}
-                                                    >
-                                                        detail
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
+                                <FruitHistory
+                                    data={spinHistory}
+                                    setModalSpin={setModalSpin}
+                                />
                             </div>
                         </div>
                     )}

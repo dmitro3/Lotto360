@@ -1,6 +1,4 @@
-import moment from "moment";
 import { Dispatch, FunctionComponent, useEffect, useState } from "react";
-import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import Web3 from "web3";
 import { DiceApiService } from "../../api/dice.api.service";
@@ -11,8 +9,9 @@ import { CustomToastWithLink } from "../../utilities/toastLink";
 import FullScreenLoader from "../admin/shared/loader";
 import DiceComponent from "./dice.component";
 import DiceHeader from "./dice.header";
+import DiceHistory from "./dice.history";
 import DicePurchase from "./dice.purchase";
-import DiceResultModal, { numberToText } from "./dice.result.modal";
+import DiceResultModal from "./dice.result.modal";
 import DiceRoll from "./dice.roll";
 
 interface DiceProps {
@@ -173,60 +172,10 @@ const Dice: FunctionComponent<DiceProps> = ({ address, balance, bnbPrice, web3 }
                                 </span>
                             </h3>
                             <div className="bg-white rounded overflow-hidden shadow">
-                                <Table className="mb-0" striped bordered hover responsive>
-                                    <thead className="table-dark">
-                                        <tr>
-                                            <th>#Id</th>
-                                            <th>Amount</th>
-                                            <th>Drop time</th>
-                                            <th>Guess</th>
-                                            <th>Result</th>
-                                            <th>Detail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {rollHistory.map((r, i) => (
-                                            <tr key={i}>
-                                                <td>{r.id}</td>
-                                                <td>
-                                                    {Web3.utils.fromWei(
-                                                        r.amount,
-                                                        "ether"
-                                                    )}
-                                                </td>
-                                                <td>
-                                                    {moment(
-                                                        parseInt(r.rollTime) * 1000
-                                                    ).format("DD/MM/YYYY - h:mm a")}
-                                                </td>
-                                                <td>
-                                                    <i
-                                                        className={`${getDiceClass(
-                                                            r
-                                                        )} fa-solid fa-2xl fa-dice-${numberToText(
-                                                            r.guess
-                                                        )}`}
-                                                    ></i>
-                                                </td>
-                                                <td>
-                                                    <i
-                                                        className={`fa-solid text-secondary fa-2xl fa-dice-${numberToText(
-                                                            r.result
-                                                        )}`}
-                                                    ></i>
-                                                </td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-sm btn-warning"
-                                                        onClick={() => setModalRoll(r)}
-                                                    >
-                                                        detail
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
+                                <DiceHistory
+                                    data={rollHistory}
+                                    setModalRoll={setModalRoll}
+                                />
                             </div>
                         </div>
                     )}
