@@ -189,7 +189,7 @@ body {
     border-bottom: 2px dashed #ccc;
 }
 
-.divider1 {
+/* .divider1 {
     background: url(../images/dollar.png) no-repeat;
     -webkit-animation: move2 3s ease-in-out 0.2s infinite normal none running;
     animation: move2 3s ease-in-out 0.2s infinite normal none running;
@@ -199,7 +199,7 @@ body {
     background: url(../images/dollar.png) no-repeat;
     -webkit-animation: move1 3s ease-in-out 0.2s infinite normal none running;
     animation: move1 3s ease-in-out 0.2s infinite normal none running;
-}
+} */
 
 .main-side-pic {
     max-width: 20%;
@@ -496,7 +496,12 @@ body {
 }
 
 .dice-page-bg {
-    background-image: linear-gradient(135deg, #81fbb8 10%, #28c76f 100%);
+    background-image: url(../images/bg-dice.svg);
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-color: #764b9e;
+    min-height: 110vh;
 }
 
 .bg-dice {
@@ -512,12 +517,12 @@ td {
 }
 
 .bg-666 {
-    background-image: url(../images/devilvert.png), url(../images/devil.png);
-    background-position: left center, right center;
-    background-size: 400px;
-    background-color: rgb(253, 22, 22);
-    background-repeat: no-repeat;
-    transition: 3s;
+    background-image: url(../images/bg-beast.svg);
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-color: #764b9e;
+    min-height: 110vh;
 }
 
 .bg-666-animate {
@@ -569,8 +574,22 @@ td {
 }
 
 .bg-fruit {
-    background-image: linear-gradient(135deg, #ffa8a8 10%, #fcff00 100%);
+    background-image: url(../images/bg-fruit.svg);
+    background-position: center;
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-color: #fbb03d;
+    min-height: 110vh;
 }
+
+.title-fruit {
+    height: 120px;
+}
+
+.title-beast {
+    height: 150px;
+}
+
 .table-fruit {
     font-size: 1.5rem;
 }

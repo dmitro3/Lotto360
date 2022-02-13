@@ -192,8 +192,12 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
 
                     {spinHistory && spinHistory.length > 0 && (
                         <div>
-                            <h4 className="text-center fw-bold mt-5">Your History</h4>
-                            <div className="bg-white rounded overflow-hidden">
+                            <h3 className="d-flex justify-content-center mt-5 p-3">
+                                <span className="badge bg-black shadow">
+                                    Your History
+                                </span>
+                            </h3>
+                            <div className="bg-white shadow rounded overflow-hidden">
                                 <Table className="mb-0" striped bordered hover responsive>
                                     <thead className="table-dark">
                                         <tr>
@@ -248,7 +252,7 @@ const Fruit: FunctionComponent<FruitProps> = ({ address, balance, bnbPrice, web3
                                                 </td>
                                                 <td>
                                                     <button
-                                                        className="btn btn-warning"
+                                                        className="btn btn-sm btn-warning"
                                                         onClick={() => setModalSpin(r)}
                                                     >
                                                         detail

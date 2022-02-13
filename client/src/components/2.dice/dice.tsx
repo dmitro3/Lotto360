@@ -138,7 +138,7 @@ const Dice: FunctionComponent<DiceProps> = ({ address, balance, bnbPrice, web3 }
             <div className="dice-sec dice-page-bg main-box pb-5">
                 <DiceHeader multiplier={userSetting.multiplier} />
                 <h3 className="d-flex justify-content-center mb-4">
-                    <span className="badge bg-black shadow">
+                    <span className="badge bg-light shadow">
                         {contractBalance} BNB ~ ${(contractBalance * bnbPrice).toFixed(3)}
                     </span>
                 </h3>
@@ -167,7 +167,11 @@ const Dice: FunctionComponent<DiceProps> = ({ address, balance, bnbPrice, web3 }
 
                     {rollHistory && rollHistory.length > 0 && (
                         <div>
-                            <h4 className="text-center fw-bold mt-5">Your History</h4>
+                            <h3 className="d-flex justify-content-center mt-5 p-3">
+                                <span className="badge bg-light shadow">
+                                    Your History
+                                </span>
+                            </h3>
                             <div className="bg-white rounded overflow-hidden shadow">
                                 <Table className="mb-0" striped bordered hover responsive>
                                     <thead className="table-dark">
@@ -213,7 +217,7 @@ const Dice: FunctionComponent<DiceProps> = ({ address, balance, bnbPrice, web3 }
                                                 </td>
                                                 <td>
                                                     <button
-                                                        className="btn btn-warning"
+                                                        className="btn btn-sm btn-warning"
                                                         onClick={() => setModalRoll(r)}
                                                     >
                                                         detail
