@@ -6,10 +6,18 @@ import { DashboardModel } from "../../../interfaces/dashboard";
 const { Chart } = require("react-google-charts");
 
 interface DashboardProps {
-    overalBalance: String;
+    beastBalance: string;
+    diceBalance: string;
+    fruitBalance: string;
+    overalBalance: string;
 }
 
-const Dashboard: FunctionComponent<DashboardProps> = ({ overalBalance }) => {
+const Dashboard: FunctionComponent<DashboardProps> = ({
+    beastBalance,
+    diceBalance,
+    fruitBalance,
+    overalBalance,
+}) => {
     const [dashboardStats, setDashboardStats] = useState<DashboardModel>();
     const [loading, setLoading] = useState(false);
 
@@ -31,8 +39,24 @@ const Dashboard: FunctionComponent<DashboardProps> = ({ overalBalance }) => {
             </div>
         );
 
-    if (!dashboardStats)
-        return <h4 className="fw-bold">Overal Balance: {overalBalance}</h4>;
+    const headBalance = (
+        <>
+            <h4 className="mb-3">
+                Overal Balance: <span className="text-dark fw-bold">{overalBalance}</span>
+            </h4>
+            <h6 className="mb-1">
+                Beast Balance: <span className="fw-bold text-dark">{beastBalance}</span>
+            </h6>
+            <h6 className="mb-1">
+                Dice Balance: <span className="fw-bold text-dark">{diceBalance}</span>
+            </h6>
+            <h6 className="mb-1">
+                Fruit Balance: <span className="fw-bold text-dark">{fruitBalance}</span>
+            </h6>
+        </>
+    );
+
+    if (!dashboardStats) return headBalance;
 
     const {
         contractBalance,
@@ -44,7 +68,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({ overalBalance }) => {
 
     return (
         <div>
-            <h4 className="fw-bold mb-3">Overal Balance: {overalBalance}</h4>
+            {headBalance}
             <h4 className="fw-bold mb-3">Stats:</h4>
             <div className="bg-light rounded">
                 <div className="px-3 py-2 fw-bold fs-6">

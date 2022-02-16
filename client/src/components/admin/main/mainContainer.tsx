@@ -35,12 +35,17 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
         getBalances(web3, setDiceBalances, setBeastBalances, setFruitBalances);
     }, [web3]);
 
+    const bnString = (value: string) =>
+        `${value} ~ ${(Number(value) * bnbPrice).toFixed(3)}$`;
+
     const overalBalance = weiToEther(diceBalance.add(beastBalance).add(fruitBalance));
+
     const dashboard = (
         <Dashboard
-            overalBalance={`${overalBalance} ~ ${(
-                Number(overalBalance) * bnbPrice
-            ).toFixed(3)}$`}
+            overalBalance={bnString(overalBalance)}
+            diceBalance={bnString(weiToEther(diceBalance))}
+            beastBalance={bnString(weiToEther(beastBalance))}
+            fruitBalance={bnString(weiToEther(fruitBalance))}
         />
     );
 
