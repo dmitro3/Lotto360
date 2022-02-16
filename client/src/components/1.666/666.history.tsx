@@ -16,7 +16,7 @@ const BeastHistory: FunctionComponent<BeastHistoryProps> = ({ data, setModalSpin
         return {
             id: r.id,
             amount: Web3.utils.fromWei(r.amount, "ether"),
-            spinTime: moment(parseInt(r.spinTime) * 1000).format("DD/MM/YYYY - h:mm a"),
+            spinTime: moment(parseInt(r.spinTime) * 1000).fromNow(),
 
             result: r.result.substring(1),
             detail: (

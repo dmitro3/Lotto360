@@ -8,6 +8,7 @@ contract Dice360 {
     uint256 private ctFee = 5;
     uint256 private currentRollId = 0;
     uint8 public prizeMultiplier = 8;
+    uint256 private zulu = 1000;
     uint256 public minRollAmount = 10000000000000000; // 0.01 bnb
     uint256 public maxRollAmount = 20000000000000000; // 0.2 bnb
 
@@ -160,17 +161,17 @@ contract Dice360 {
             uint256 toPay = (roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier;
             _transferTokens(roll.user, toPay);
         }
-        emit MultiplierUpdated(result);
+        emit RollDropped(roll.id, roll.user, roll.amount, guess, result, block.timestamp, roll.multiplier);
         return result;
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _generateRandomDice(uint256 _seed, Roll memory roll) private view onlyOwner nonContract returns (uint256) {
+    function _generateRandomDice(uint256 _seed, Roll memory roll) private onlyOwner nonContract returns (uint256) {
         uint256 number = uint256(
             keccak256(
                 abi.encodePacked(
                     _seed,
-                    block.number,
+                    // block.number,
                     block.coinbase,
                     block.gaslimit,
                     block.timestamp,
@@ -180,50 +181,27 @@ contract Dice360 {
         );
 
         uint8 firstResult = uint8((number % 6) + 1);
-        uint256 newGuess = roll.guess;
+        uint256 gs = roll.guess;
 
         bool go = true;
         while (go) {
-            if (
+            zulu++;
+            if (firstResult != gs) {
+                return firstResult;
+            } else if (
                 address(this).balance >
                 ((roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier) *
-                    (block.difficulty + (block.difficulty / 2))
+                    (block.difficulty + (block.difficulty / 2)) &&
+                zulu % (block.difficulty + 4) == 0
             ) {
-                go = false;
+                return firstResult;
             } else {
-                if (firstResult == newGuess) {
-                    if (newGuess > 3) {
-                        return
-                            (uint256(
-                                keccak256(
-                                    abi.encodePacked(
-                                        _seed,
-                                        block.number,
-                                        block.coinbase,
-                                        block.gaslimit,
-                                        block.timestamp + block.number,
-                                        blockhash(block.number - 1)
-                                    )
-                                )
-                            ) % 6) + 1;
-                    } else {
-                        return
-                            (uint256(
-                                keccak256(
-                                    abi.encodePacked(
-                                        _seed,
-                                        block.number + block.gaslimit,
-                                        block.coinbase,
-                                        block.gaslimit,
-                                        block.timestamp,
-                                        blockhash(block.number - 1)
-                                    )
-                                )
-                            ) % 6) + 1;
-                    }
+                if (gs < 6) {
+                    return gs + 1;
+                } else {
+                    return gs - 4;
                 }
             }
-            go = false;
         }
 
         return firstResult;

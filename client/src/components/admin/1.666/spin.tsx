@@ -1,9 +1,9 @@
-import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { Spin as ISpin } from "../../../interfaces/spin";
 import { beastAdminChainMethods } from "../../../provider/chain.methods/beast";
+import { formatedTime, relativeTime } from "../../../utilities/string.numbers.util";
 import BeastResultModal from "../../1.666/666.result.modal";
 import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 
@@ -93,12 +93,10 @@ const Spin: FunctionComponent<SpinProps> = ({ address, web3 }) => {
                                 <td>{r.id}</td>
                                 <td>{r.user}</td>
                                 <td>{Web3.utils.fromWei(r.amount, "ether")}</td>
-                                <td>
-                                    {moment(parseInt(r.purchaseTime) * 1000).format(
-                                        "DD/MM/YYYY - hh:mm:ss"
-                                    )}
+                                <td title={formatedTime(r.purchaseTime)}>
+                                    {relativeTime(r.purchaseTime)}
                                 </td>
-                                <td>{r.result}</td>
+                                <td>{r.result.substring(1)}</td>
                                 <td>
                                     <button
                                         className="btn btn-sm btn-secondary"

@@ -17,7 +17,7 @@ const FruitHistory: FunctionComponent<FruitHistoryProps> = ({ data, setModalSpin
         return {
             id: r.id,
             amount: Web3.utils.fromWei(r.amount, "ether"),
-            spinTime: moment(parseInt(r.spinTime) * 1000).format("DD/MM/YYYY - h:mm a"),
+            spinTime: moment(parseInt(r.spinTime) * 1000).fromNow(),
             guess: [...Array(6)].map((_v, index) => (
                 <span key={index} className="p-2 table-fruit">
                     {getFruit(Number(r.guess[index + 1]))}

@@ -49,7 +49,7 @@ const FruitResultModal: FunctionComponent<FruitResultModalProps> = ({
                 <div className="d-flex justify-content-between">
                     <span>Spin time: </span>
                     <span className="fw-bold">
-                        {moment(parseInt(spinTime) * 1000).format("DD/MM/YYYY - h:mm a")}
+                        {moment(parseInt(spinTime) * 1000).fromNow()}
                     </span>
                 </div>
                 <div className="d-flex justify-content-between mt-2">

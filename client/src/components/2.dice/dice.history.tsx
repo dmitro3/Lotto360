@@ -18,7 +18,7 @@ const DiceHistory: FunctionComponent<DiceHistoryProps> = ({ data, setModalRoll }
         return {
             id: r.id,
             amount: Web3.utils.fromWei(r.amount, "ether"),
-            rollTime: moment(parseInt(r.rollTime) * 1000).format("DD/MM/YYYY - h:mm a"),
+            rollTime: moment(parseInt(r.rollTime) * 1000).fromNow(),
             guess: (
                 <i
                     className={`${getDiceClass(r)} fa-solid fa-2xl fa-dice-${numberToText(

@@ -1,9 +1,9 @@
-import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { Roll as IRoll } from "../../../interfaces/roll";
 import { dice360AdminChainMethods } from "../../../provider/chain.methods/dice360";
+import { formatedTime, relativeTime } from "../../../utilities/string.numbers.util";
 import { getDiceClass } from "../../2.dice/dice";
 import DiceResultModal, { numberToText } from "../../2.dice/dice.result.modal";
 import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
@@ -95,10 +95,8 @@ const Roll: FunctionComponent<RollProps> = ({ address, web3 }) => {
                                 <td>{r.id}</td>
                                 <td>{r.user}</td>
                                 <td>{Web3.utils.fromWei(r.amount, "ether")}</td>
-                                <td>
-                                    {moment(parseInt(r.purchaseTime) * 1000).format(
-                                        "DD/MM/YYYY - hh:mm:ss"
-                                    )}
+                                <td title={formatedTime(r.purchaseTime)}>
+                                    {relativeTime(r.purchaseTime)}
                                 </td>
                                 <td>
                                     <i

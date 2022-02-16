@@ -1,6 +1,7 @@
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import { forOwn, groupBy } from "lodash";
+import moment from "moment";
 import { TicketAttrs } from "../api/models/round.model";
 
 // ..........................................................................................
@@ -60,6 +61,13 @@ const ticketNumberIsValid = (value: string) => {
         return false;
     }
 };
+
+// ..........................................................................................
+export const formatedTime = (str: string) =>
+    moment(parseInt(str) * 1000).format("DD/MM/YYYY - hh:mm:ss");
+
+// ..........................................................................................
+export const relativeTime = (str: string) => moment(parseInt(str) * 1000).fromNow();
 
 export {
     get6DigitsRandomString,

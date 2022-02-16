@@ -1,5 +1,5 @@
 #  Stage 1
-FROM node:17-alpine3.14 as ts-compiler
+FROM node:17.4.0-alpine3.15 as ts-compiler
 LABEL stage="build-stage"
 
 WORKDIR /app
@@ -10,14 +10,14 @@ COPY . .
 RUN npm run build
 
 # Stage 2
-FROM node:17-alpine3.14 as ts-remover
+FROM node:17.4.0-alpine3.15 as ts-remover
 WORKDIR /app
 COPY --from=ts-compiler /app/package*.json ./
 COPY --from=ts-compiler /app/build ./
 RUN npm install --only=production
 
 # Stage 3
-FROM node:17-alpine3.14
+FROM node:17.4.0-alpine3.15
 WORKDIR /app
 COPY --from=ts-remover /app ./
 

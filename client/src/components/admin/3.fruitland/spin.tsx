@@ -1,9 +1,9 @@
-import moment from "moment";
 import { FunctionComponent, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import Web3 from "web3";
 import { FruitSpin } from "../../../interfaces/spin";
 import { fruitAdminChainMethods } from "../../../provider/chain.methods/fruit";
+import { formatedTime, relativeTime } from "../../../utilities/string.numbers.util";
 import FruitResultModal from "../../3.fruitland/fruit.result.modal";
 import ButtonWaiting from "../../4.lotto/shared/btn.waiting";
 
@@ -83,6 +83,7 @@ const FruitSpinComponent: FunctionComponent<SpinProps> = ({ address, web3 }) => 
                             <th>User</th>
                             <th>Amount</th>
                             <th>Purchase time</th>
+                            <th>Guess</th>
                             <th>Result</th>
                             <th>Info</th>
                         </tr>
@@ -93,12 +94,11 @@ const FruitSpinComponent: FunctionComponent<SpinProps> = ({ address, web3 }) => 
                                 <td>{r.id}</td>
                                 <td>{r.user}</td>
                                 <td>{Web3.utils.fromWei(r.amount, "ether")}</td>
-                                <td>
-                                    {moment(parseInt(r.purchaseTime) * 1000).format(
-                                        "DD/MM/YYYY - hh:mm:ss"
-                                    )}
+                                <td title={formatedTime(r.purchaseTime)}>
+                                    {relativeTime(r.purchaseTime)}
                                 </td>
-                                <td>{r.result}</td>
+                                <td>{r.guess.substring(1)}</td>
+                                <td>{r.result.substring(1)}</td>
                                 <td>
                                     <button
                                         className="btn btn-sm btn-secondary"
