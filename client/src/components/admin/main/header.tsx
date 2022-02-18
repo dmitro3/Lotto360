@@ -20,7 +20,7 @@ const MyHeader: React.FC<MyHeaderProps> = (): ReactElement => {
 
     return (
         <header
-            className="navbar navbar-dark navbar-expand-lg fixed-top bg-primary p-3
+            className="navbar navbar-light navbar-expand-lg fixed-top bg-other-games p-3
         shadow justify-content-start"
         >
             <a className="navbar-brand col-md-3 col-lg-2 me-0 px-3 fw-bold fs-4" href="/">
@@ -30,7 +30,7 @@ const MyHeader: React.FC<MyHeaderProps> = (): ReactElement => {
                 <li className="nav-item text-nowrap position-relative dropdown">
                     <span
                         id="bd-versions"
-                        className="nav-link dropdown-toggle"
+                        className="nav-link dropdown-toggle taxt-black"
                         data-bs-toggle="dropdown"
                         aria-expanded="true"
                         data-bs-display="static"

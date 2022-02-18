@@ -44,7 +44,7 @@ const SideBar: React.FC<SideBarProps> = () => {
     return (
         <nav
             id="sidebarMenu"
-            className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse"
+            className="col-md-3 col-lg-2 d-md-block bg-white sidebar collapse shadow"
         >
             <div className="position-sticky pt-3">
                 <SideBarItems

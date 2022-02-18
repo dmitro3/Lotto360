@@ -33,7 +33,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
     const [fruitBalance, setFruitBalances] = useState(BN(0));
     useEffect(() => {
         getBalances(web3, setDiceBalances, setBeastBalances, setFruitBalances);
-    }, [web3]);
+    }, [bnbPrice, web3]);
 
     const bnString = (value: string) =>
         `${value} ~ ${(Number(value) * bnbPrice).toFixed(3)}$`;

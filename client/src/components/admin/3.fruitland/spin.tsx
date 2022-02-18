@@ -97,7 +97,15 @@ const FruitSpinComponent: FunctionComponent<SpinProps> = ({ address, web3 }) => 
                                 <td title={formatedTime(r.purchaseTime)}>
                                     {relativeTime(r.purchaseTime)}
                                 </td>
-                                <td>{r.guess.substring(1)}</td>
+                                <td
+                                    className={
+                                        r.guess === r.result
+                                            ? "text-success"
+                                            : "text-danger"
+                                    }
+                                >
+                                    {r.guess.substring(1)}
+                                </td>
                                 <td>{r.result.substring(1)}</td>
                                 <td>
                                     <button

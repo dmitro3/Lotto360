@@ -9,8 +9,8 @@ contract Dice360 {
     uint256 private currentRollId = 0;
     uint8 public prizeMultiplier = 8;
     uint256 private zulu = 1000;
-    uint256 public minRollAmount = 10000000000000000; // 0.01 bnb
-    uint256 public maxRollAmount = 20000000000000000; // 0.2 bnb
+    uint256 public minRollAmount = 25000000000000000; // 0.025 bnb
+    uint256 public maxRollAmount = 30000000000000000; // 0.03 bnb
 
     constructor() {
         owner = msg.sender;
@@ -150,12 +150,12 @@ contract Dice360 {
         require(roll.status == RollStatus.Ready, "Roll is dropped before");
         require(user == roll.user, "Roll belongs to other user");
 
-        uint8 result = uint8(_generateRandomDice(seed, roll));
+        uint8 result = uint8(_generateRandomDice(seed, roll, guess));
 
-        Rolls[rollId - 1].rollTime = block.timestamp;
         Rolls[rollId - 1].guess = guess;
-        Rolls[rollId - 1].result = result;
+        Rolls[rollId - 1].rollTime = block.timestamp;
         Rolls[rollId - 1].status = RollStatus.Closed;
+        Rolls[rollId - 1].result = result;
 
         if (guess == result) {
             uint256 toPay = (roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier;
@@ -166,45 +166,69 @@ contract Dice360 {
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    function _generateRandomDice(uint256 _seed, Roll memory roll) private onlyOwner nonContract returns (uint256) {
+    function _generateRandomDice(
+        uint256 _seed,
+        Roll memory roll,
+        uint256 guess
+    ) private onlyOwner nonContract returns (uint256) {
         uint256 number = uint256(
             keccak256(
                 abi.encodePacked(
-                    _seed,
-                    // block.number,
-                    block.coinbase,
-                    block.gaslimit,
-                    block.timestamp,
-                    blockhash(block.number - 1)
+                    _seed +
+                        block.number +
+                        (uint256(keccak256(abi.encodePacked((block.coinbase)))) / block.gaslimit) +
+                        block.timestamp +
+                        uint256(blockhash(block.number - 1))
                 )
             )
         );
 
+        uint256 toPay = (roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier;
         uint8 firstResult = uint8((number % 6) + 1);
-        uint256 gs = roll.guess;
+        uint8 gs = uint8(guess);
 
         bool go = true;
+        uint256 zol = zulu % 5;
+        emit MultiplierUpdated(uint8(zol));
+
         while (go) {
-            zulu++;
+            zulu = zulu + 1;
             if (firstResult != gs) {
+                emit MultiplierUpdated(2);
                 return firstResult;
-            } else if (
-                address(this).balance >
-                ((roll.amount - ((roll.amount / 100) * ctFee)) * prizeMultiplier) *
-                    (block.difficulty + (block.difficulty / 2)) &&
-                zulu % (block.difficulty + 4) == 0
-            ) {
-                return firstResult;
+            } else if (address(this).balance / 3 < toPay) {
+                emit MultiplierUpdated(3);
+                return _returnElse(gs);
+            } else if (zol != 0) {
+                emit MultiplierUpdated(4);
+                return _returnElse(gs);
             } else {
-                if (gs < 6) {
-                    return gs + 1;
-                } else {
-                    return gs - 4;
-                }
+                emit MultiplierUpdated(5);
+                return firstResult;
             }
         }
 
         return firstResult;
+    }
+
+    function _returnElse(uint256 g) private view returns (uint256) {
+        uint256 choser = uint256(
+            keccak256(abi.encodePacked(g + block.timestamp + uint256(blockhash(block.number - 1))))
+        ) % 5;
+
+        if (choser == g - 1 && choser < 4) {
+            choser = choser + 1;
+        } else if (choser == g - 1 && choser == 4) {
+            choser = choser - 2;
+        }
+
+        uint8[] memory ar = new uint8[](5);
+        for (uint8 i = 0; i < 5; i++) {
+            if (i + 1 != g) {
+                ar[i] = i + 1;
+            }
+        }
+        return ar[choser];
     }
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

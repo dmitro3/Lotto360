@@ -32,28 +32,35 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
             .finally(() => setLoading(false));
     }, []);
 
-    if (loading)
+    if (loading) {
         return (
             <div className="ps-3 pt-3 d-flex justify-content-center align-items-center">
                 <HashLoader />
             </div>
         );
+    }
+
+    const objectArray = [
+        { header: "Overal Balance:", text: overalBalance },
+        { header: "Beast Balance:", text: beastBalance },
+        { header: "Dice Balance:", text: diceBalance },
+        { header: "Fruit Balance:", text: fruitBalance },
+    ];
 
     const headBalance = (
-        <>
-            <h4 className="mb-3">
-                Overal Balance: <span className="text-dark fw-bold">{overalBalance}</span>
-            </h4>
-            <h6 className="mb-1">
-                Beast Balance: <span className="fw-bold text-dark">{beastBalance}</span>
-            </h6>
-            <h6 className="mb-1">
-                Dice Balance: <span className="fw-bold text-dark">{diceBalance}</span>
-            </h6>
-            <h6 className="mb-1">
-                Fruit Balance: <span className="fw-bold text-dark">{fruitBalance}</span>
-            </h6>
-        </>
+        <div style={{ maxWidth: "20rem" }}>
+            {objectArray.map((a, i) => (
+                <div
+                    key={i}
+                    className="card bg-select-game text-black mb-3 border-0 rounded shadow"
+                >
+                    <div className="card-header bg-tranparent fw-bold">{a.header}</div>
+                    <div className="card-body">
+                        <h5 className="fw-bold mb-0">{a.text}</h5>
+                    </div>
+                </div>
+            ))}
+        </div>
     );
 
     if (!dashboardStats) return headBalance;
