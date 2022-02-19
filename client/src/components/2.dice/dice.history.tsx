@@ -59,16 +59,16 @@ const DiceHistory: FunctionComponent<DiceHistoryProps> = ({ data, setModalRoll }
                 sortColumn={"id"}
                 sortType={"asc"}
             >
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Id</HeaderCell>
                     <Cell dataKey="id" />
                 </Column>
 
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Amount</HeaderCell>
                     <Cell dataKey="amount" />
                 </Column>
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Roll Time</HeaderCell>
                     <Cell dataKey="rollTime" />
                 </Column>

@@ -573,6 +573,8 @@ td {
 
 .title-fruit {
     height: 120px;
+    max-width: 487px;
+    width: 100%;
 }
 
 .title-beast {

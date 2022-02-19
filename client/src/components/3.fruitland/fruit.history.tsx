@@ -54,16 +54,16 @@ const FruitHistory: FunctionComponent<FruitHistoryProps> = ({ data, setModalSpin
                 sortColumn={"id"}
                 sortType={"asc"}
             >
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Id</HeaderCell>
                     <Cell dataKey="id" />
                 </Column>
 
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Amount</HeaderCell>
                     <Cell dataKey="amount" />
                 </Column>
-                <Column fixed resizable>
+                <Column resizable>
                     <HeaderCell>Spin Time</HeaderCell>
                     <Cell dataKey="spinTime" />
                 </Column>
