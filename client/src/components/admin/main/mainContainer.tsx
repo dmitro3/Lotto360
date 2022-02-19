@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Web3 from "web3";
 import {
@@ -27,6 +27,8 @@ interface MainContainerProps {
     bnbPrice: number;
 }
 
+let ov = "0";
+
 const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }) => {
     const [diceBalance, setDiceBalances] = useState(BN(0));
     const [beastBalance, setBeastBalances] = useState(BN(0));
@@ -35,10 +37,25 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
         getBalances(web3, setDiceBalances, setBeastBalances, setFruitBalances);
     }, [bnbPrice, web3]);
 
+    const audioUrlCashIn = "https://freesound.org/data/previews/184/184438_850742-lq.mp3";
+    const audioUrlCashOut =
+        "https://freesound.org/data/previews/372/372200_6687700-lq.mp3";
+
+    const memoizedCashIn = useMemo(() => new Audio(audioUrlCashIn), [audioUrlCashIn]);
+    const memoizedCashOut = useMemo(() => new Audio(audioUrlCashOut), [audioUrlCashOut]);
+
     const bnString = (value: string) =>
         `${value} ~ ${(Number(value) * bnbPrice).toFixed(3)}$`;
 
     const overalBalance = weiToEther(diceBalance.add(beastBalance).add(fruitBalance));
+
+    if (Number(ov) < Number(overalBalance)) {
+        ov = overalBalance;
+        memoizedCashIn.play();
+    } else if (Number(ov) > Number(overalBalance)) {
+        ov = overalBalance;
+        memoizedCashOut.play();
+    }
 
     const dashboard = (
         <Dashboard

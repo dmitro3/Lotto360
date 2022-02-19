@@ -52,7 +52,7 @@ const Dashboard: FunctionComponent<DashboardProps> = ({
             {objectArray.map((a, i) => (
                 <div
                     key={i}
-                    className="card bg-select-game text-black mb-3 border-0 rounded shadow"
+                    className="card bg-select-game text-black mb-3 border-0 rounded shadow overflow-hidden"
                 >
                     <div className="card-header bg-tranparent fw-bold">{a.header}</div>
                     <div className="card-body">
