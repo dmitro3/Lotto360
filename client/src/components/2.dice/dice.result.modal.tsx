@@ -11,17 +11,11 @@ interface DiceResultModalProps {
     setShowModal: Dispatch<any>;
 }
 
-const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
-    roll,
-    showModal,
-    setShowModal,
-}) => {
+const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({ roll, showModal, setShowModal }) => {
     return (
         <Modal show={showModal} aria-labelledby="contained-modal-title-vcenter" centered>
             <Modal.Header>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Roll information
-                </Modal.Title>
+                <Modal.Title id="contained-modal-title-vcenter">Roll information</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <h4 className="fw-bold"># {roll.id}</h4>
@@ -31,34 +25,24 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                 </div>
                 <div className="d-flex justify-content-between">
                     <span>Amount: </span>
-                    <span className="fw-bold">
-                        {Web3.utils.fromWei(roll.amount, "ether")}
-                    </span>
+                    <span className="fw-bold">{Web3.utils.fromWei(roll.amount, "ether")}</span>
                 </div>
                 <div className="d-flex justify-content-between">
                     <span>Purchase time: </span>
                     <span className="fw-bold">
-                        {moment(parseInt(roll.purchaseTime) * 1000).format(
-                            "DD/MM/YYYY - h:mm:ss a"
-                        )}
+                        {moment(parseInt(roll.purchaseTime) * 1000).format("DD/MM/YYYY - h:mm:ss a")}
                     </span>
                 </div>
                 <div className="d-flex justify-content-between">
                     <span>Roll time: </span>
                     <span className="fw-bold">
-                        {moment(parseInt(roll.rollTime) * 1000).format(
-                            "DD/MM/YYYY - h:mm:ss a"
-                        )}
+                        {moment(parseInt(roll.rollTime) * 1000).format("DD/MM/YYYY - h:mm:ss a")}
                     </span>
                 </div>
                 <div className="d-flex justify-content-between mt-3">
                     <span>Guessed number: </span>
                     <span className="fw-bold">
-                        <i
-                            className={`text-dark fa-solid fa-2xl fa-dice-${numberToText(
-                                roll.guess
-                            )}`}
-                        ></i>
+                        <i className={`text-dark fa-solid fa-2xl fa-dice-${numberToText(roll.guess)}`}></i>
                     </span>
                 </div>
                 <hr />
@@ -67,12 +51,7 @@ const DiceResultModal: FunctionComponent<DiceResultModalProps> = ({
                         roll.guess === roll.result ? "text-success" : "text-danger"
                     }`}
                 >
-                    Result:{" "}
-                    <i
-                        className={`fa-solid fa-xl ms-2 fa-dice-${numberToText(
-                            roll.result
-                        )}`}
-                    ></i>
+                    Result: <i className={`fa-solid fa-xl ms-2 fa-dice-${numberToText(roll.result)}`}></i>
                     {roll.guess !== roll.result ? (
                         <i className="ms-3 fa-solid fa-heart-crack"></i>
                     ) : (

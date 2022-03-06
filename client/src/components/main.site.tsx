@@ -7,6 +7,7 @@ import Dice from "./2.dice/dice";
 import Fruit from "./3.fruitland/fruit";
 import Header from "./4.lotto/1.header/header";
 import Footer from "./4.lotto/7.footer/footer";
+import Colors from "./5.colors/colors";
 import GameSelect from "./game.select";
 
 interface MainSiteProps {
@@ -15,15 +16,7 @@ interface MainSiteProps {
 }
 
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
-    const {
-        address,
-        web3,
-        ticketPrice,
-        currentRound,
-        bnbPrice,
-        maxTicketsPerBuy,
-        userBalance,
-    } = state;
+    const { address, web3, ticketPrice, currentRound, bnbPrice, maxTicketsPerBuy, userBalance } = state;
 
     useEffect(() => {
         if (!address || !web3) return;
@@ -40,14 +33,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/dice"
                     render={() =>
                         address &&
-                        web3 && (
-                            <Dice
-                                address={address}
-                                balance={userBalance}
-                                bnbPrice={bnbPrice}
-                                web3={web3}
-                            />
-                        )
+                        web3 && <Dice address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
                     }
                 />
 
@@ -55,14 +41,7 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/666"
                     render={() =>
                         address &&
-                        web3 && (
-                            <Beast
-                                address={address}
-                                balance={userBalance}
-                                bnbPrice={bnbPrice}
-                                web3={web3}
-                            />
-                        )
+                        web3 && <Beast address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
                     }
                 />
 
@@ -70,14 +49,15 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/fruit"
                     render={() =>
                         address &&
-                        web3 && (
-                            <Fruit
-                                address={address}
-                                balance={userBalance}
-                                bnbPrice={bnbPrice}
-                                web3={web3}
-                            />
-                        )
+                        web3 && <Fruit address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
+                    }
+                />
+
+                <Route
+                    path="/colors"
+                    render={() =>
+                        address &&
+                        web3 && <Colors address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
                     }
                 />
 
@@ -119,8 +99,5 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
 export default MainSite;
 
 // ..........................................................................................
-const calculateTotalAmount = ({
-    bnbAddedFromLastRound,
-    bonusBnbAmount,
-    totalBnbAmount,
-}: GetRoundApiModel) => totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;
+const calculateTotalAmount = ({ bnbAddedFromLastRound, bonusBnbAmount, totalBnbAmount }: GetRoundApiModel) =>
+    totalBnbAmount + bonusBnbAmount + bnbAddedFromLastRound;

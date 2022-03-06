@@ -4,6 +4,7 @@ export const lotto360ContractAddress = "0xB054ab4D273009Ce1B5e11d22e2B3512D80Ae0
 export const dice360ContractAddress = "0x34B9A506A9EFa36C1de062b672f34218dC9bfe86";
 export const beastContractAddress = "0x8E168563b96DDb381A5Bf2ea150877F714CD8B5A";
 export const fruitContractAddress = "0xEC767B3093EfFDB12B20B4A8aa17A7b969bA3887";
+export const colorsContractAddress = "0xEC767B3093EfFDB12B20B4A8aa17A7b969bA3887";
 
 // chain network info
 export const targetNetworkId = 56;

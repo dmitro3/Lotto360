@@ -14,6 +14,8 @@ export interface FruitSpin extends Spin {
     guess: string;
 }
 
+export interface ColorsSpin extends FruitSpin {}
+
 export enum SpinStatus {
     Ready = "0",
     Expired = "1",
