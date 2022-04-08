@@ -1,74 +1,49 @@
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import { AutoplayComponent, MoveComponent, Splide as SplideJs } from "@splidejs/splide";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
+import "../../contents/styles/colorspin.css";
 
 interface SpinnerColorsProps {
+    alreadyPurchased: boolean;
     autoPlay: boolean;
+    handleSpin: Function;
     stopNumber?: number;
 }
 
-export const colorsList = ["🍏", "🍐", "🍊", "🍉", "🍇", "🍓", "🍌", "🍒", "🍑", "🍆"];
-
-const SpinnerColors: FunctionComponent<SpinnerColorsProps> = ({ autoPlay, stopNumber }) => {
-    const [splideInstance, setSplideInstance] = useState<SplideJs>();
-    const [autoplayComponent, setAutoplay] = useState<AutoplayComponent>();
-    const [move, setMove] = useState<MoveComponent>();
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    if (currentIndex === stopNumber && stopNumber !== undefined && !!autoplayComponent) {
-        autoplayComponent.pause();
-    } else if (autoPlay && !!splideInstance && !!autoplayComponent && !stopNumber) {
-        autoplayComponent.play();
-    } else if (!autoPlay && !!splideInstance && !!autoplayComponent) {
-        autoplayComponent.pause();
-        move?.jump(0);
-    }
-
+const SpinnerColors: FunctionComponent<SpinnerColorsProps> = ({
+    alreadyPurchased,
+    autoPlay,
+    handleSpin,
+    stopNumber,
+}) => {
     return (
-        <Splide
-            options={{
-                arrows: false,
-                autoplay: autoPlay,
-                gap: 0,
-                direction: "ttb",
-                drag: false,
-                easing: "linear",
-                focus: "center",
-                height: 110,
-                interval: 0,
-                keyboard: false,
-                pagination: false,
-                pauseOnFocus: false,
-                pauseOnHover: false,
-                resetProgress: true,
-                rewind: true,
-                slideFocus: true,
-                speed: 105,
-                trimSpace: true,
-                type: "slide",
-                wheel: false,
-            }}
-            onMounted={(s) => {
-                setSplideInstance(s);
-                const { Autoplay, Move } = s.Components;
-                setAutoplay(Autoplay);
-                setMove(Move);
-            }}
-            onMoved={(_splide, index, _prev, _dest) => setCurrentIndex(index)}
-        >
-            {colorsList.map((n, i) => renderSplideSlide(n, i))}
-        </Splide>
+        <div className="color-spin-box rounded mt-4">
+            <div className="mainbox d-flex align-items-center justify-content-center overflow-hidden">
+                <div className={`box border-dark ${autoPlay ? "active" : ""}`}>
+                    <div className="box1">
+                        <span className="c1"></span>
+                        <span className="c2"></span>
+                        <span className="c3"></span>
+                        <span className="c4"></span>
+                    </div>
+                    <div className="box2">
+                        <span className="c5"></span>
+                        <span className="c6"></span>
+                        <span className="c7"></span>
+                        <span className="c8"></span>
+                    </div>
+                </div>
+
+                <button
+                    className="spin btn btn-warning"
+                    disabled={autoPlay || !alreadyPurchased}
+                    onClick={() => handleSpin()}
+                >
+                    SPIN
+                </button>
+            </div>
+
+            <i className="fa-solid fa-arrow-left fa-2xl text-dark"></i>
+        </div>
     );
 };
 
 export default SpinnerColors;
-
-const renderSplideSlide = (colors: string, i: number) => (
-    <SplideSlide key={i}>
-        <div className="fw-bold display-4 text-center h-100 w-100 d-flex justify-content-center align-items-center">
-            {colors}
-        </div>
-    </SplideSlide>
-);
-
-export const getColors = (num: number) => colorsList[num];

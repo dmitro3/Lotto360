@@ -3,7 +3,6 @@ import { FunctionComponent, useState } from "react";
 import { Pagination, Table } from "rsuite";
 import Web3 from "web3";
 import { ColorsSpin } from "../../interfaces/spin";
-import { getColors } from "./spinner";
 
 interface ColorsHistoryProps {
     data: ColorsSpin[];
@@ -18,16 +17,8 @@ const ColorsHistory: FunctionComponent<ColorsHistoryProps> = ({ data, setModalSp
             id: r.id,
             amount: Web3.utils.fromWei(r.amount, "ether"),
             spinTime: moment(parseInt(r.spinTime) * 1000).fromNow(),
-            guess: [...Array(6)].map((_v, index) => (
-                <span key={index} className="p-2 table-colors">
-                    {getColors(Number(r.guess[index + 1]))}
-                </span>
-            )),
-            result: [...Array(6)].map((_v, index) => (
-                <span key={index} className="p-2 table-colors">
-                    {getColors(Number(r.result[index + 1]))}
-                </span>
-            )),
+            guess: [...Array(6)].map((_v, index) => <span key={index} className="p-2 table-colors"></span>),
+            result: [...Array(6)].map((_v, index) => <span key={index} className="p-2 table-colors"></span>),
             detail: (
                 <span className="text-primary pointer" onClick={() => setModalSpin(r)}>
                     detail

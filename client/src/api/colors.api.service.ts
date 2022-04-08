@@ -7,12 +7,12 @@ export const ColorsApiService = {
     spinSlot: async (
         spinId: number,
         address: string,
-        numericColorss: number
+        numericcolors: number
     ): Promise<AxiosResponse<ApiResponseResult<any>>> => {
         return httpService.post(`${baseUrl}/spincolors`, {
             spinId,
             address,
-            guess: numericColorss,
+            guess: numericcolors,
         });
     },
 };

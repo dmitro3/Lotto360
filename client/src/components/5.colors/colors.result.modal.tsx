@@ -3,7 +3,6 @@ import { Dispatch, FunctionComponent } from "react";
 import { Button, Modal } from "react-bootstrap";
 import Web3 from "web3";
 import { ColorsSpin } from "../../interfaces/spin";
-import { getColors } from "./spinner";
 
 interface ColorsResultModalProps {
     spin: ColorsSpin;
@@ -48,9 +47,7 @@ const ColorsResultModal: FunctionComponent<ColorsResultModalProps> = ({ spin, sh
                                 className={`m-1 p-1 border border-3 rounded${
                                     guess[i + 1] === result[i + 1] ? " border-success" : " border-danger"
                                 }`}
-                            >
-                                {getColors(Number(guess[i + 1]))}
-                            </span>
+                            ></span>
                         ))}
                     </div>
                 </div>
@@ -67,9 +64,7 @@ const ColorsResultModal: FunctionComponent<ColorsResultModalProps> = ({ spin, sh
                                 key={i}
                                 style={{ fontSize: "1.5rem" }}
                                 className={`m-1 p-1 border border-3 border-dark rounded`}
-                            >
-                                {getColors(Number(result[i + 1]))}
-                            </span>
+                            ></span>
                         ))}
                     </div>
                     {guess !== result ? (

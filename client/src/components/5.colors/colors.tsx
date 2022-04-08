@@ -41,7 +41,7 @@ const initialUsreSetting = {
 const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, web3 }) => {
     const [betAmount, setBetAmount] = useState<number>(0.01);
     const [contractBalance, setContractBalance] = useState(0);
-    const [choosedColorss, setChoosedColors] = useState("000000");
+    const [choosedcolor, setChoosedColor] = useState("0");
     const [modalSpin, setModalSpin] = useState<ISpin>();
     const [purchasedBet, setPurchasedBet] = useState<ISpin>();
     const [purchaseLoading, setPurchaseLoading] = useState(false);
@@ -94,7 +94,7 @@ const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, we
             .finally(() => setPurchaseLoading(false));
     };
 
-    const spinSlot = () => {
+    const handleSpin = () => {
         setSpinAutoPlay(true);
         if (!purchasedBet) {
             toast.error("Please purchase spin first");
@@ -106,8 +106,8 @@ const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, we
             return;
         }
         setSpinAutoPlay(true);
-        const numericColorss = 1000000 + Number(choosedColorss);
-        ColorsApiService.spinSlot(parseInt(id), address, numericColorss)
+        const numericcolors = 1000000 + Number(choosedcolor);
+        ColorsApiService.spinSlot(parseInt(id), address, numericcolors)
             .then(async (res) => {
                 if (res && res.data && res.data.result.status) {
                     toast.success(
@@ -136,7 +136,7 @@ const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, we
 
     return (
         <>
-            <div className={`colors-sec bg-colors main-box colorsbox pb-5 ${spinAutoPlay ? "bg-colors-animate" : ""}`}>
+            <div className={`colors-sec bg-fruit main-box colorsbox pb-5 ${spinAutoPlay ? "bg-colors-animate" : ""}`}>
                 <div className="container pb-5">
                     <ColorsHeader multiplier={multiplier} />
                     <h3 className="d-flex justify-content-center mb-4">
@@ -161,10 +161,10 @@ const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, we
                         <ColorsSpin
                             alreadyPurchased={purchasedBet !== undefined}
                             autoPlay={spinAutoPlay}
-                            choosedColors={choosedColorss}
-                            setChoosedColorss={setChoosedColors}
+                            choosedColor={choosedcolor}
+                            setChoosedcolor={setChoosedColor}
                             btnSmallInfo={btnSmallInfo}
-                            spinSlot={spinSlot}
+                            handleSpin={handleSpin}
                             spinResult={spinResult}
                         />
                     </div>
@@ -181,8 +181,6 @@ const Colors: FunctionComponent<ColorsProps> = ({ address, balance, bnbPrice, we
                     )}
                 </div>
             </div>
-
-            {/* <ColorsMusic /> */}
 
             {modalSpin && <ColorsResultModal spin={modalSpin} setShowModal={setModalSpin} showModal={!!modalSpin} />}
         </>

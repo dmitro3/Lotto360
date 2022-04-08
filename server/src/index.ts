@@ -1,5 +1,6 @@
 require("dotenv").config();
 import { connectToMongodb } from "./database/database";
+import { Telegram } from "./utils/telegram";
 
 const startUp = async () => {
     connectToMongodb();
@@ -12,6 +13,7 @@ const startUp = async () => {
         done();
     });
     */
+    Telegram.sendMessage();
 };
 console.info("Booting");
 startUp();

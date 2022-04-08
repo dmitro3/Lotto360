@@ -1,0 +1,167 @@
+.color-spin-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 245px;
+    width: 100%;
+    overflow: hidden;
+    background-size: cover;
+}
+
+.color-spin-box * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    outline: none;
+}
+
+.mainbox {
+    position: relative;
+    width: 250px;
+    height: 250px;
+}
+
+.color-spin-box > i {
+    right: -10px;
+    position: relative;
+}
+
+.box {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid;
+    transform: rotateZ(22.5deg);
+}
+
+.box.active {
+    animation: rotate 0.3s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateZ(45deg);
+    }
+
+    100% {
+        transform: rotateZ(450deg);
+    }
+}
+
+.box1 {
+    width: 100%;
+    height: 100%;
+}
+
+.box2 {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-135deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.box span {
+    width: 50%;
+    height: 50%;
+    display: inline-block;
+    position: absolute;
+}
+
+.c1,
+.c5 {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    top: 0;
+    left: 0;
+}
+.c2,
+.c6 {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    top: 50%;
+    left: 0;
+}
+.c3,
+.c7 {
+    clip-path: polygon(0 0, 0 100%, 100% 100%);
+    bottom: 0;
+    left: 50%;
+}
+.c4,
+.c8 {
+    clip-path: polygon(0 100%, 100% 0, 100% 100%);
+    top: 0;
+    left: 50%;
+}
+
+.c1,
+.cl1 {
+    background-color: #d23be7;
+}
+
+.c2,
+.cl2 {
+    background-color: #4355db;
+}
+
+.c3,
+.cl3 {
+    background-color: #34bbe6;
+}
+
+.c4,
+.cl4 {
+    background-color: #49da9a;
+}
+
+.c5,
+.cl5 {
+    background-color: #a3e048;
+}
+
+.c6,
+.cl6 {
+    background-color: #f7d038;
+}
+
+.c7,
+.cl7 {
+    background-color: #eb7532;
+}
+
+.c8,
+.cl8 {
+    background-color: #e6261f;
+}
+
+.btn.spin {
+    transition: 0.3s ease-in-out;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 65px;
+    height: 65px;
+    border-radius: 50% !important;
+    box-shadow: 0 5px 20px #000;
+    font-weight: bold;
+    color: #333 !important;
+    cursor: pointer;
+}
+
+.spin.active {
+    width: 60px;
+    height: 60px;
+}
+
+.color-box > span {
+    height: 40px;
+    width: 40px;
+    transition: 0.3s ease-in-out;
+}
+
+.color-box > span.active {
+    border: 4px solid #000;
+}

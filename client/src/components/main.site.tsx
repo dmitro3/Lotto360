@@ -7,7 +7,6 @@ import Dice from "./2.dice/dice";
 import Fruit from "./3.fruitland/fruit";
 import Header from "./4.lotto/1.header/header";
 import Footer from "./4.lotto/7.footer/footer";
-import Colors from "./5.colors/colors";
 import GameSelect from "./game.select";
 
 interface MainSiteProps {
@@ -53,13 +52,13 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     }
                 />
 
-                <Route
+                {/* <Route
                     path="/colors"
                     render={() =>
                         address &&
                         web3 && <Colors address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
                     }
-                />
+                /> */}
 
                 <Route
                     path="/"

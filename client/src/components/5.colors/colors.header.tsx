@@ -14,7 +14,7 @@ const ColorsHeader: FunctionComponent<ColorsHeaderProps> = ({ multiplier }) => {
                     <i className="fa-solid fa-circle-1 me-2"></i>Purchase spin
                 </span>
                 <span className="mx-3">
-                    <i className="fa-solid fa-circle-2 me-2"></i>Choose your colorss
+                    <i className="fa-solid fa-circle-2 me-2"></i>Choose your color
                 </span>
                 <span>
                     <i className="fa-solid fa-circle-3 me-2"></i>Get x{multiplier} prize
