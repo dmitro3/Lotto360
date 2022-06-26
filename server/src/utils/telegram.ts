@@ -12,15 +12,19 @@ const bot = new Telegraf(BOT_TOKEN);
 
 export const Telegram = {
     sendMessage: async () => {
-        const beastBalance = await provider.getBalance(NUMBEROFTHEBEAST_CONTRACT_ADDRESS);
-        const diceBalance = await provider.getBalance(DICE360_CONTRACT_ADDRESS);
-        const fruitBalance = await provider.getBalance(FRUITLAND_CONTRACT_ADDRESS);
+        try {
+            const beastBalance = await provider.getBalance(NUMBEROFTHEBEAST_CONTRACT_ADDRESS);
+            const diceBalance = await provider.getBalance(DICE360_CONTRACT_ADDRESS);
+            const fruitBalance = await provider.getBalance(FRUITLAND_CONTRACT_ADDRESS);
 
-        const total = beastBalance.add(diceBalance).add(fruitBalance);
+            const total = beastBalance.add(diceBalance).add(fruitBalance);
 
-        bot.telegram
-            .sendMessage(CHAT_ID, `New balance: ${ethers.utils.formatEther(total)}`)
-            .then((res) => console.info("messageId:", res.message_id))
-            .catch((err) => console.error(err));
+            bot.telegram
+                .sendMessage(CHAT_ID, `New balance: ${ethers.utils.formatEther(total)}`)
+                .then((res) => console.info("messageId:", res.message_id))
+                .catch((err) => console.error(err));
+        } catch (err) {
+            console.error(err);
+        }
     },
 };

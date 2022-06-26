@@ -6,7 +6,7 @@ interface MenuProps {}
 const Menu: FunctionComponent<MenuProps> = () => {
     return (
         <ul className="navbar-nav me-auto text-uppercase">
-            <li className="nav-item">
+            {/* <li className="nav-item">
                 <a className="nav-link text-dark text-decoration-none" href="/#buy-ticket">
                     Buy ticket
                     <span className="visually-hidden">(current)</span>
@@ -66,7 +66,27 @@ const Menu: FunctionComponent<MenuProps> = () => {
                         </NavLink>
                     </li>
                 </ul>
+            </li> */}
+            <li className="nav-item ms-3">
+                <NavLink className="nav-link text-dark text-decoration-none" to={"/dice"}>
+                    dice
+                </NavLink>
             </li>
+            <li className="nav-item">
+                <NavLink className="nav-link text-dark text-decoration-none" to={"/666"}>
+                    number of the beast
+                </NavLink>
+            </li>
+            <li className="nav-item">
+                <NavLink className="nav-link text-dark text-decoration-none" to={"/fruit"}>
+                    fruitland
+                </NavLink>
+            </li>
+            {/* <li className="nav-item">
+                <NavLink className="nav-link text-dark text-decoration-none" to={"/colors"}>
+                            colors
+                </NavLink>
+            </li> */}
         </ul>
     );
 };
