@@ -5,11 +5,15 @@
     "dependencies": {
         "@metamask/detect-provider": "^1.2.0",
         "@splidejs/react-splide": "^0.6.19",
+        "@types/node": "^16.10.1",
+        "@types/react": "^17.0.24",
+        "@types/react-dom": "^17.0.9",
         "axios": "^0.24.0",
         "bootstrap": "^5.1.1",
         "ethers": "^5.4.7",
         "formik": "^2.2.9",
         "jsonwebtoken": "^8.5.1",
+        "moment": "^2.29.3",
         "react": "^17.0.2",
         "react-bootstrap": "^2.0.0-rc.0",
         "react-csv": "^2.0.3",
@@ -18,19 +22,19 @@
         "react-google-charts": "^3.0.15",
         "react-router": "^5.2.1",
         "react-router-dom": "^5.3.0",
-        "react-scripts": "^5.0.1",
+        "react-scripts": "^4.0.3",
         "react-spinners": "^0.11.0",
         "react-toastify": "^8.0.3",
         "rsuite": "^5.0.1",
         "typescript": "^4.4.3",
         "web-vitals": "^1.1.2",
-        "web3": "^0.20.7",
+        "web3": "^1.5.3",
         "yup": "^0.32.9"
     },
     "scripts": {
         "start": "react-scripts --openssl-legacy-provider start",
-        "build": "react-scripts --openssl-legacy-provider build && rm build/static/**/*.map",
-        "buildlegacy": "react-scripts build && rm build/static/**/*.map",
+        "build": "react-scripts --openssl-legacy-provider build && rm build/static/js/*.map",
+        "buildlegacy": "react-scripts build && rm build/static/js/*.map",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -54,10 +58,7 @@
     },
     "devDependencies": {
         "@types/jsonwebtoken": "^8.5.5",
-        "@types/node": "^16.10.1",
-        "@types/react": "^17.0.24",
         "@types/react-csv": "^1.1.2",
-        "@types/react-dom": "^17.0.9",
         "@types/react-router-dom": "^5.3.0"
     }
 }

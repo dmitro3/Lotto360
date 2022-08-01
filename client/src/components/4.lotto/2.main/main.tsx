@@ -1,11 +1,11 @@
 /* eslint-disable eqeqeq */
 import { Dispatch, FunctionComponent } from "react";
 
+import { RoundStatus } from "../../../api/models/round.model";
+import logo from "../../../contents/images/main-logo.png";
 import { ActionModel, LottoActions, LottoState } from "../../../reducer/reducer";
 import { currencyFormat } from "../../../utilities/string.numbers.util";
-import { RoundStatus } from "../../../api/models/round.model";
 import BuyTicketButton from "../shared/buy.ticket.button";
-import logo from "../../../contents/images/main-logo.svg";
 
 interface MainProps {
     dispatch: Dispatch<ActionModel<LottoActions>>;
@@ -31,9 +31,7 @@ const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, stat
                         >
                             <div>
                                 <span className="fs-2 fw-bold">Prize:</span>
-                                <span className="ms-2 fs-2 fw-bold">
-                                    {calcPrize(currentPrizeAmount)}
-                                </span>
+                                <span className="ms-2 fs-2 fw-bold">{calcPrize(currentPrizeAmount)}</span>
                             </div>
                             <div className="pb-2 d-flex justify-content-center align-items-center">
                                 <span className="fs-3 fw-bold">
@@ -51,21 +49,18 @@ const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, stat
                             </span>
                         </div>
                     )}
-                    {state.currentRound.cid > 0 &&
-                        state.currentRound.status == RoundStatus.Open && (
-                            <div
-                                className="max-content px-3 py-1 d-flex mb-5
+                    {state.currentRound.cid > 0 && state.currentRound.status == RoundStatus.Open && (
+                        <div
+                            className="max-content px-3 py-1 d-flex mb-5
                     justify-content-center align-items-center mx-auto rounded text-black"
-                            >
-                                <BuyTicketButton dispatch={dispatch} state={state} />
-                            </div>
-                        )}
+                        >
+                            <BuyTicketButton dispatch={dispatch} state={state} />
+                        </div>
+                    )}
                 </div>
                 <div className="main-side-pic divider2"></div>
 
-                {state.currentRound.status == RoundStatus.Open && (
-                    <div className="divider-blue"></div>
-                )}
+                {state.currentRound.status == RoundStatus.Open && <div className="divider-blue"></div>}
             </div>
         </>
     );
@@ -74,13 +69,8 @@ const Main: FunctionComponent<MainProps> = ({ dispatch, currentPrizeAmount, stat
 export default Main;
 
 // ........................................................................................
-const calcPrizeinUsd = (
-    currentPrizeAmount: number | undefined,
-    bnbPriceInUSD: number | undefined
-) => {
-    return currentPrizeAmount && bnbPriceInUSD
-        ? currencyFormat(currentPrizeAmount * bnbPriceInUSD, "$")
-        : "$ 0";
+const calcPrizeinUsd = (currentPrizeAmount: number | undefined, bnbPriceInUSD: number | undefined) => {
+    return currentPrizeAmount && bnbPriceInUSD ? currencyFormat(currentPrizeAmount * bnbPriceInUSD, "$") : "$ 0";
 };
 
 // ........................................................................................

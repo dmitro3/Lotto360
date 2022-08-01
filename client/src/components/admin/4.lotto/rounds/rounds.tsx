@@ -55,12 +55,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
                         .then((res) => {
                             if (res.data.result) setCurrentRound(res.data.result);
                             closeFormModal();
-                            toast.success(
-                                CustomToastWithLink(
-                                    result.data.messages![0].message,
-                                    "round added"
-                                )
-                            );
+                            toast.success(CustomToastWithLink(result.data.messages![0].message, "round added"));
                         })
                         .catch((err) => console.error(err));
                 }
@@ -80,12 +75,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
                     RoundApiService.getCurrentRound()
                         .then((res) => {
                             if (res.data.result) setCurrentRound(res.data.result);
-                            toast.success(
-                                CustomToastWithLink(
-                                    result.data.messages![0].message,
-                                    "round updated"
-                                )
-                            );
+                            toast.success(CustomToastWithLink(result.data.messages![0].message, "round updated"));
                         })
                         .catch((err) => console.error(err));
                 }
@@ -118,11 +108,7 @@ const Rounds: FunctionComponent<RoundsProps> = ({ bnbPrice }) => {
             )}
 
             {currentRound && (
-                <CurrentRound
-                    bnbPrice={bnbPrice}
-                    currentRound={currentRound}
-                    handleUpdateButton={setShowUpdateModal}
-                />
+                <CurrentRound bnbPrice={bnbPrice} currentRound={currentRound} handleUpdateButton={setShowUpdateModal} />
             )}
 
             <h4 className="mt-5 fw-bold">Rounds</h4>

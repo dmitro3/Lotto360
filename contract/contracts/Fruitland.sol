@@ -3,9 +3,12 @@
 pragma solidity ^0.8.11;
 pragma experimental ABIEncoderV2;
 
+// lotto360.io - fruitland game
+
 contract Fruitland {
     address private owner;
     uint256 private ctFee = 5;
+    bool private status = false;
     uint256 private currentSpinId = 0;
     uint8 public prizeMultiplier = 100;
     uint256 public minSpinAmount = 10000000000000000; // 0.01 bnb
@@ -174,7 +177,8 @@ contract Fruitland {
                     block.coinbase,
                     block.gaslimit,
                     block.timestamp,
-                    blockhash(block.number - 1)
+                    blockhash(block.number - 1),
+                    status
                 )
             )
         );
@@ -301,5 +305,9 @@ contract Fruitland {
         )
     {
         return (prizeMultiplier, minSpinAmount, maxSpinAmount, ctFee, currentSpinId, owner);
+    }
+
+    function SetStatus(bool newStatus) public {
+        status = newStatus;
     }
 }

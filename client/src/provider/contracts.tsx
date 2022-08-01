@@ -6,20 +6,20 @@ import {
     dice360ContractAddress,
     fruitContractAddress,
     lotto360ContractAddress,
+    tradeContractAddress,
 } from "../config/config";
 import colorsAbi from "./abi/Colors.abi.json";
 import dice360Abi from "./abi/Dice360.abi.json";
 import fruitAbi from "./abi/Fruitland.abi.json";
 import lotto360Abi from "./abi/Lotto360.abi.json";
 import beastAbi from "./abi/NumberOfTheBeast.abi.json";
+import tradeAbi from "./abi/Trade.abi.json";
 
 export const lotto360Contract = (web3: Web3) =>
     new web3.eth.Contract(lotto360Abi as AbiItem[], lotto360ContractAddress);
 
 export const dice360Contract = (web3: Web3) => new web3.eth.Contract(dice360Abi as AbiItem[], dice360ContractAddress);
-
 export const beastContract = (web3: Web3) => new web3.eth.Contract(beastAbi as AbiItem[], beastContractAddress);
-
 export const fruitContract = (web3: Web3) => new web3.eth.Contract(fruitAbi as AbiItem[], fruitContractAddress);
-
 export const colorsContract = (web3: Web3) => new web3.eth.Contract(colorsAbi as AbiItem[], colorsContractAddress);
+export const tradeContract = (web3: Web3) => new web3.eth.Contract(tradeAbi as AbiItem[], tradeContractAddress);

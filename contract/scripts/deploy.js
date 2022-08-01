@@ -7,9 +7,9 @@ async function main() {
   console.log("💰 Account balance:", (await deployer.getBalance()).toString());
 
   const contracts = [
-    "Dice360",
+    // "Dice360",
     // "NumberOfTheBeast",
-    // "Fruitland",
+    "Fruitland",
   ];
 
   for (let contractName of contracts) {

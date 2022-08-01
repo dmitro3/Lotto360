@@ -2,11 +2,7 @@ import { BigNumber } from "ethers";
 import React, { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import Web3 from "web3";
-import {
-    beastContractAddress,
-    dice360ContractAddress,
-    fruitContractAddress,
-} from "../../../config/config";
+import { beastContractAddress, dice360ContractAddress, fruitContractAddress } from "../../../config/config";
 import { BN, weiToEther } from "../../../utilities/ethers";
 import Spin from "../1.666/spin";
 import SpinSettings from "../1.666/spin.settings";
@@ -15,7 +11,7 @@ import RollSettings from "../2.dice/roll.settings";
 import FruitSpinComponent from "../3.fruitland/spin";
 import FruitSpinSettings from "../3.fruitland/spin.settings";
 import Payments from "../4.lotto/payments/payments";
-import Rounds from "../4.lotto/rounds/rounds";
+// import Rounds from "../4.lotto/rounds/rounds";
 import Settings from "../4.lotto/settings/settings";
 import Withdraws from "../4.lotto/withdraws/withdraws";
 import Dashboard from "../dashboard/dashboard";
@@ -38,14 +34,12 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
     }, [bnbPrice, web3]);
 
     const audioUrlCashIn = "https://freesound.org/data/previews/184/184438_850742-lq.mp3";
-    const audioUrlCashOut =
-        "https://freesound.org/data/previews/372/372200_6687700-lq.mp3";
+    const audioUrlCashOut = "https://freesound.org/data/previews/372/372200_6687700-lq.mp3";
 
     const memoizedCashIn = useMemo(() => new Audio(audioUrlCashIn), [audioUrlCashIn]);
     const memoizedCashOut = useMemo(() => new Audio(audioUrlCashOut), [audioUrlCashOut]);
 
-    const bnString = (value: string) =>
-        `${value} ~ ${(Number(value) * bnbPrice).toFixed(3)}$`;
+    const bnString = (value: string) => `${value} ~ ${(Number(value) * bnbPrice).toFixed(3)}$`;
 
     const overalBalance = weiToEther(diceBalance.add(beastBalance).add(fruitBalance));
 
@@ -75,41 +69,27 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                         <Switch>
                             <Route path="/admin/dashboard" render={() => dashboard} />
                             <Route path="/admin/users" render={() => dashboard} />
-                            <Route
+                            {/* <Route
                                 path="/admin/rounds"
                                 render={() => <Rounds bnbPrice={bnbPrice} />}
-                            />
+                            /> */}
                             <Route path="/admin/settings" component={Settings} />
                             <Route path="/admin/withdraws" component={Withdraws} />
                             <Route path="/admin/payments" component={Payments} />
                             <Route
                                 path="/admin/rollsettings"
                                 render={() => (
-                                    <RollSettings
-                                        address={address}
-                                        balance={weiToEther(diceBalance)}
-                                        web3={web3}
-                                    />
+                                    <RollSettings address={address} balance={weiToEther(diceBalance)} web3={web3} />
                                 )}
                             />
-                            <Route
-                                path="/admin/rolls"
-                                render={() => <Roll address={address} web3={web3} />}
-                            />
+                            <Route path="/admin/rolls" render={() => <Roll address={address} web3={web3} />} />
                             <Route
                                 path="/admin/spinsettings"
                                 render={() => (
-                                    <SpinSettings
-                                        address={address}
-                                        balance={weiToEther(beastBalance)}
-                                        web3={web3}
-                                    />
+                                    <SpinSettings address={address} balance={weiToEther(beastBalance)} web3={web3} />
                                 )}
                             />
-                            <Route
-                                path="/admin/spins"
-                                render={() => <Spin address={address} web3={web3} />}
-                            />
+                            <Route path="/admin/spins" render={() => <Spin address={address} web3={web3} />} />
                             <Route
                                 path="/admin/fruitspinsettings"
                                 render={() => (
@@ -122,9 +102,7 @@ const MainContainer: React.FC<MainContainerProps> = ({ bnbPrice, address, web3 }
                             />
                             <Route
                                 path="/admin/fruitspins"
-                                render={() => (
-                                    <FruitSpinComponent address={address} web3={web3} />
-                                )}
+                                render={() => <FruitSpinComponent address={address} web3={web3} />}
                             />
                             <Route path="/admin" render={() => dashboard} />
 

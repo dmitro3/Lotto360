@@ -1,6 +1,6 @@
-import Web3 from "web3";
 import { Dispatch } from "react";
-import { ActionModel, LottoActions } from "../reducer/reducer";
+import { toast } from "react-toastify";
+import Web3 from "web3";
 import {
     blockExplorerUrl,
     chainName,
@@ -10,7 +10,7 @@ import {
     rpcUrl,
     targetNetworkId,
 } from "../config/config";
-import { toast } from "react-toastify";
+import { ActionModel, LottoActions } from "../reducer/reducer";
 
 let web3: Web3;
 let allowShow = true;
@@ -39,9 +39,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                         try {
                             await window.ethereum.request({
                                 method: "wallet_switchEthereumChain",
-                                params: [
-                                    { chainId: web3.utils.numberToHex(targetNetworkId) },
-                                ],
+                                params: [{ chainId: web3.utils.numberToHex(targetNetworkId) }],
                             });
                         } catch (err: any) {
                             // This error code indicates that the chain has not been added to MetaMask.
@@ -51,10 +49,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
                                         method: "wallet_addEthereumChain",
                                         params: [
                                             {
-                                                chainId:
-                                                    web3.utils.numberToHex(
-                                                        targetNetworkId
-                                                    ),
+                                                chainId: web3.utils.numberToHex(targetNetworkId),
                                                 chainName: chainName,
                                                 nativeCurrency: {
                                                     name: chainNativeCurrency,
@@ -108,9 +103,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
             });
 
             window.ethereum.on("disconnect", (code: any, reason: any) => {
-                console.log(
-                    `Ethereum Provider connection closed: ${reason}. Code: ${code}`
-                );
+                console.log(`Ethereum Provider connection closed: ${reason}. Code: ${code}`);
             });
         } catch (e) {
             console.log("can't connect to metamask");
@@ -121,7 +114,7 @@ const getWeb3 = async (dispatch: Dispatch<ActionModel<LottoActions>>) => {
         web3 = new Web3(window.web3.currentProvider);
     }
     // Non-DApp Browsers
-    else alert("You have to install MetaMask!");
+    else toast.error("You have to install MetaMask!");
 };
 
 export { getWeb3, web3 };

@@ -64,7 +64,9 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     path="/"
                     render={() => (
                         <>
-                            <GameSelect />
+                            {address && bnbPrice && web3 && (
+                                <GameSelect address={address} currentPrize={bnbPrice} web3={web3} />
+                            )}
                             {/* <Main
                                 currentPrizeAmount={totalBnb}
                                 dispatch={dispatch}

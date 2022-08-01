@@ -9,7 +9,7 @@ import ButtonWaiting from "../../../4.lotto/shared/btn.waiting";
 interface RoundModalProps {
     changeRoundValues: Function;
     formValues: GetRoundApiModel;
-    handleModalClose: Function;
+    handleModalClose: () => void;
     handleModalSubmit: Function;
     isUpdate?: boolean;
     isWaiting: boolean;
@@ -27,8 +27,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
     showModal,
     title,
 }) => {
-    const { endTime, bonusBnbAmount, bnbAddedFromLastRound, ticketPrice, pools } =
-        formValues;
+    const { endTime, bonusBnbAmount, bnbAddedFromLastRound, ticketPrice, pools } = formValues;
     if (!pools || pools.length === 0) return <></>;
     return (
         <Modal
@@ -90,11 +89,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                     </Form.Label>
                     {isUpdate ? (
                         <Col sm="10">
-                            <Form.Control
-                                disabled
-                                value={bnbAddedFromLastRound}
-                                type="number"
-                            />
+                            <Form.Control disabled value={bnbAddedFromLastRound} type="number" />
                         </Col>
                     ) : (
                         <>
@@ -122,8 +117,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                                                 if (res && res.data && res.data.result) {
                                                     changeRoundValues({
                                                         ...formValues,
-                                                        bnbAddedFromLastRound:
-                                                            res.data.result,
+                                                        bnbAddedFromLastRound: res.data.result,
                                                     });
                                                 }
                                             })
@@ -170,9 +164,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 0)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 0));
                             }}
                         />
                     </Col>
@@ -186,9 +178,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 1)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 1));
                             }}
                         />
                     </Col>
@@ -202,9 +192,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 2)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 2));
                             }}
                         />
                     </Col>
@@ -221,9 +209,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 3)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 3));
                             }}
                         />
                     </Col>
@@ -237,9 +223,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 4)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 4));
                             }}
                         />
                     </Col>
@@ -253,9 +237,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 5)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 5));
                             }}
                         />
                     </Col>
@@ -271,9 +253,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                             min={0}
                             placeholder="%"
                             onChange={(e) => {
-                                changeRoundValues(
-                                    generatePool(formValues, e.target.value, 6)
-                                );
+                                changeRoundValues(generatePool(formValues, e.target.value, 6));
                             }}
                         />
                     </Col>
@@ -283,11 +263,7 @@ const RoundModal: FunctionComponent<RoundModalProps> = ({
                 <Button variant="secondary" onClick={() => handleModalClose()}>
                     Close
                 </Button>
-                <Button
-                    variant="primary"
-                    disabled={isWaiting}
-                    onClick={() => handleModalSubmit(formValues)}
-                >
+                <Button variant="primary" disabled={isWaiting} onClick={() => handleModalSubmit(formValues)}>
                     {isWaiting ? <ButtonWaiting /> : "submit"}
                 </Button>
             </Modal.Footer>

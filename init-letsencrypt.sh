@@ -1,11 +1,11 @@
 #!/bin/bash
 
-if ! [ -x "$(command -v DOCKER_HOST="ssh://root@198.252.104.7" docker-compose)" ]; then
+if ! [ -x "$(command -v DOCKER_HOST="ssh://root@185.182.105.237" docker-compose)" ]; then
   echo 'Error: docker-compose is not installed.' >&2
   exit 1
 fi
 
-domains=(lotto360.io www.lotto360.io)
+domains=(lotto360.io www.lotto360.io trade-signal.net www.trade-signal.net)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="dead4game@gmail.com" # Adding a valid address is strongly recommended
@@ -22,8 +22,8 @@ echo "### Creating dummy certificate for $domains ..."
 path="/etc/letsencrypt/live/$domains"
 mkdir -p "$data_path/conf/live/$domains"
 # if throw nofile exist error make /etc/letsencrypt/live/$domains folders in container
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose run --rm --entrypoint "mkdir -p $path" certbot
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose run --rm --entrypoint "\
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose run --rm --entrypoint "mkdir -p $path" certbot
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
@@ -32,11 +32,11 @@ echo
 
 
 echo "### Starting nginx ..."
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose up --force-recreate -d nginx
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose up --force-recreate -d nginx
 echo
 
 echo "### Deleting dummy certificate for $domains ..."
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose run --rm --entrypoint "\
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/live/$domains && \
   rm -Rf /etc/letsencrypt/archive/$domains && \
   rm -Rf /etc/letsencrypt/renewal/$domains.conf" certbot
@@ -58,7 +58,7 @@ esac
 # Enable staging mode if needed
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose run --rm --entrypoint "\
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \
@@ -69,4 +69,5 @@ DOCKER_HOST="ssh://root@198.252.104.7" docker-compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-DOCKER_HOST="ssh://root@198.252.104.7" docker-compose exec nginx nginx -s reload
+DOCKER_HOST="ssh://root@185.182.105.237" docker-compose exec nginx nginx -s reload
+rm -rf data
