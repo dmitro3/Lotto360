@@ -1,0 +1,73 @@
+.btn-purchase {
+    transition: all 0.5s ease;
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    font-size: 1rem;
+    border: 0;
+    padding: 0 25px;
+    height: 50px;
+    cursor: pointer;
+    outline: none;
+    width: 100%;
+    border-radius: var(--border-radius-small);
+    background-color: var(--color-1);
+    margin-right: -1px;
+}
+
+.btn-purchase:hover {
+    color: #222;
+    background-color: var(--color-3);
+}
+
+.table-striped > tbody > tr:nth-of-type(2n + 1) > * {
+    background-color: var(--background-color-2);
+    --bs-table-accent-bg: var(--background-color-2);
+}
+
+.table > :not(caption) > * > * {
+    background-color: var(--body-background);
+}
+
+.border-color-1 {
+    border-color: var(--color-1) !important;
+}
+
+.tooltip {
+    z-index: 999999 !important;
+}
+
+.num_color {
+    color: var(--color-1);
+    display: inline !important;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-right: 5px;
+}
+
+.color_access {
+    color: var(--color-1);
+}
+
+.setting_section {
+    /* height: 150px; */
+    transition: 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+.setting_section.close {
+    height: 0;
+}
+
+.btn_access_color {
+    background-color: var(--color-1) !important;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.btn_access_color:hover {
+    background-color: var(--color-3) !important;
+}
+
+.pointer {
+    cursor: pointer;
+}

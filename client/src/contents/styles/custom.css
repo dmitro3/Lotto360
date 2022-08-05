@@ -22,6 +22,12 @@
 .input-group > .form-control,
 .input-group > .form-select {
     border-radius: 2rem !important;
+    color: #000;
+}
+
+.input-group > .form-control:focus,
+.input-group > .form-select:focus {
+    color: #000;
 }
 
 .input-group-text {

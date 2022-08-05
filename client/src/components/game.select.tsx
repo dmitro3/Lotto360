@@ -70,7 +70,7 @@ const GameSelect: FunctionComponent<GameSelectProps> = ({ address, currentPrize,
                 <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
                     <h4 className="text-black">Try your luck free to win {currentPrize}$</h4>
                     <button
-                        className="btn btn-sm btn-primary mt-3"
+                        className="btn btn-lg btn-primary mt-3"
                         disabled={loading || unixNow - lastParticipation < 24 * 60 * 60}
                         onClick={() => feelLucky()}
                     >

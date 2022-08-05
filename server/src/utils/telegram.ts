@@ -27,4 +27,21 @@ export const Telegram = {
             console.error(err);
         }
     },
+
+    sendMessageTrade: async (balance: string, users: number) => {
+        bot.telegram
+            .sendMessage(CHAT_ID, `*Contract balance: ${balance} \nUsers: ${users}*`.replace(/\./g, "\\."), {
+                parse_mode: "MarkdownV2",
+            })
+            .then((res) => console.info("messageId:", res.message_id))
+            .catch((err) => console.error(err));
+    },
+    announceWinner: async (users: number) => {
+        bot.telegram
+            .sendMessage(CHAT_ID, `✅ *Winners: ${users}*`.replace(/\./g, "\\."), {
+                parse_mode: "MarkdownV2",
+            })
+            .then((res) => console.info("messageId:", res.message_id))
+            .catch((err) => console.error(err));
+    },
 };
