@@ -14,6 +14,8 @@ interface MainProps {
 }
 
 const Main: FunctionComponent<MainProps> = ({ state, updateInfo }) => {
+    // window.location.replace("https://trade-signal.net/");
+
     return (
         <main>
             <MainBanner state={state} updateInfo={updateInfo} />
@@ -28,11 +30,7 @@ const Main: FunctionComponent<MainProps> = ({ state, updateInfo }) => {
 
             <div className={state.userSubscription.length > 0 ? "bg_gray" : ""}>
                 {state.address && state.web3 && (
-                    <FeelLucky
-                        address={state.address}
-                        currentPrize={state.currentPrize}
-                        web3={state.web3}
-                    />
+                    <FeelLucky address={state.address} currentPrize={state.currentPrize} web3={state.web3} />
                 )}
             </div>
 

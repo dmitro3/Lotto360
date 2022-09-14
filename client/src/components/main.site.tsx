@@ -15,13 +15,11 @@ interface MainSiteProps {
 }
 
 const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
-    const { address, web3, ticketPrice, currentRound, bnbPrice, maxTicketsPerBuy, userBalance } = state;
+    const { address, web3, ticketPrice, bnbPrice, maxTicketsPerBuy, userBalance } = state;
 
     useEffect(() => {
         if (!address || !web3) return;
     }, [address, maxTicketsPerBuy, ticketPrice, web3]);
-
-    const totalBnb = calculateTotalAmount(currentRound);
 
     return (
         <div>
@@ -52,42 +50,15 @@ const MainSite: FunctionComponent<MainSiteProps> = ({ dispatch, state }) => {
                     }
                 />
 
-                {/* <Route
-                    path="/colors"
-                    render={() =>
-                        address &&
-                        web3 && <Colors address={address} balance={userBalance} bnbPrice={bnbPrice} web3={web3} />
-                    }
-                /> */}
-
                 <Route
                     path="/"
                     render={() => (
                         <>
-                            {address && bnbPrice && web3 && (
+                            {address && bnbPrice && web3 ? (
                                 <GameSelect address={address} currentPrize={bnbPrice} web3={web3} />
-                            )}
-                            {/* <Main
-                                currentPrizeAmount={totalBnb}
-                                dispatch={dispatch}
-                                state={state}
-                            />
-
-                            {currentRound.cid > 0 && bnbPrice ? (
-                                <PrizePot dispatch={dispatch} state={state} />
                             ) : (
                                 <></>
                             )}
-
-                            {state.address && <CheckWin address={state.address} />}
-                            {state.address && (
-                                <RoundsHistory
-                                    bnbPrice={state.bnbPrice}
-                                    address={state.address}
-                                    currentRound={state.currentRound}
-                                />
-                            )}
-                            <GameInfo /> */}
                             <Footer />
                         </>
                     )}

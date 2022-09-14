@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import { BounceLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import logo from "../contents/images/main-logo.png";
+import logo from "../contents/images/logohead.png";
 import { tradeContract } from "../provider/contracts";
 
 interface GameSelectProps {
@@ -42,10 +42,10 @@ const GameSelect: FunctionComponent<GameSelectProps> = ({ address, currentPrize,
     };
 
     return (
-        <div className="min-height bg5">
+        <div className="min-height bg5 main-min-hight">
             <div className="container pt-5 d-flex justify-content-center align-items-center flex-column">
                 <img src={logo} alt="lotto360" className="main-logo" />
-                <h3 className="fw-bold my-4">Choose a game to play</h3>
+                <h3 className="fw-bold my-4 text-black">Choose a game to play</h3>
                 <div className="d-flex justify-content-center align-items-center flex-wrap">
                     <NavLink to="/dice" className={linkClass}>
                         <div>
@@ -67,8 +67,8 @@ const GameSelect: FunctionComponent<GameSelectProps> = ({ address, currentPrize,
                     </NavLink>
                 </div>
 
-                <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
-                    <h4 className="text-black">Try your luck free to win {currentPrize}$</h4>
+                <div className="mt-5 mb-4 d-flex justify-content-center align-items-center flex-column">
+                    <h4 className="text-black">Try your luck free to win {currentPrize * 33}$</h4>
                     <button
                         className="btn btn-lg btn-primary mt-3"
                         disabled={loading || unixNow - lastParticipation < 24 * 60 * 60}
@@ -76,6 +76,13 @@ const GameSelect: FunctionComponent<GameSelectProps> = ({ address, currentPrize,
                     >
                         {getButtonText(unixNow, lastParticipation, loading)}
                     </button>
+                </div>
+
+                <div className="mt-5 d-flex justify-content-center align-items-center flex-column">
+                    <h4 className="text-black">Or join our Premium Telegram Crypto Trade Signal channel</h4>
+                    <NavLink to="/index">
+                        <button className="btn btn-lg btn-primary mt-3">More info</button>
+                    </NavLink>
                 </div>
             </div>
         </div>

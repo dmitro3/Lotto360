@@ -3,6 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import "rsuite/dist/rsuite.min.css";
 import App from "./App";
 import "./contents/plugins/fontawesome6/css/all.min.css";
 import "./contents/styles/bootstrap.min.css";

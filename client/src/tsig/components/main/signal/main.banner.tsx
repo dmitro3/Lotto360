@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import axios from "axios";
-import { load } from "cheerio";
 import { FunctionComponent, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { BounceLoader } from "react-spinners";
 import { toast } from "react-toastify";
 import Web3 from "web3";
-import { signalContractAddress } from "../../../config/config";
 import logo from "../../../content/img/logohead.png";
 import { chainMethods } from "../../../provider/chain.methods";
 import { StateModel } from "../../../reducer/reducer";
@@ -23,23 +21,25 @@ const MainBanner: FunctionComponent<MainBannerProps> = ({ state, updateInfo }) =
     const [loading, setLoading] = useState(false);
     const [txNumbers, setTxNumbers] = useState(143);
     const queryStrings = new URLSearchParams(window.location.search).get("ref");
+    const history = useHistory();
 
     useEffect(() => {
         const refParam = queryStrings;
         setRefferrer(refParam ? refParam : "");
 
-        const url = `https://bscscan.com/address/${signalContractAddress}`;
-        axios
-            .get(url)
-            .then((response) => {
-                const $ = load(response.data);
-                const txNumbers = $("#transactions>.mb-3>.mb-2>a").text();
-                const number = Number(txNumbers);
-                setTxNumbers(number);
-            })
-            .catch((err) => {
-                console.error("terk", err);
-            });
+        // const url = `https://bscscan.com/address/${signalContractAddress}`;
+        // axios
+        //     .get(url)
+        //     .then((response) => {
+        //         const $ = load(response.data);
+        //         const txNumbers = $("#transactions>.mb-3>.mb-2>a").text();
+        //         const number = Number(txNumbers);
+        //         setTxNumbers(number);
+        //     })
+        //     .catch((err) => {
+        //         setTxNumbers(540);
+        //         console.info("terk", err);
+        //     });
     }, []);
 
     const { address, referrerShare, subscriptionFee, totalUsers, userBalance, web3 } = state;
@@ -141,6 +141,13 @@ const MainBanner: FunctionComponent<MainBannerProps> = ({ state, updateInfo }) =
                                             <h4 className="mt-3 text-warning">
                                                 Total subscriptions: {Number(totalUsers) + Number(txNumbers)}
                                             </h4>
+
+                                            <button
+                                                className="btn btn-purchase mt-3"
+                                                onClick={() => (window.location.href = "https://lotto360.io")}
+                                            >
+                                                Play lottory game
+                                            </button>
                                         </li>
                                     </ul>
                                 </div>

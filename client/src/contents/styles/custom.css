@@ -71,3 +71,8 @@
 .nav-link:hover {
     background-image: linear-gradient(135deg, #69ff97 10%, #00e4ff 100%);
 }
+
+.main-min-hight {
+    min-height: calc(100vh - 332px) !important;
+    padding-bottom: 10px;
+}
